@@ -1,0 +1,83 @@
+@extends('layoutslogin.default')
+
+@section('content')
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h3 class="text-center mt-0 m-b-15">
+            @if ($crudOrganizationData->count() > 0)
+                @if($crudOrganizationData[0]->orgLogo == "")
+                    @php ($orgLogoName = "bible-cross-logo1.png")
+                @else
+                    @php ($orgLogoName = $crudOrganizationData[0]->orgLogo)
+                @endif
+
+                <a href="" class="logo logo-admin"><img src="{{ URL::asset('assets/uploads/organizations/'.$crudOrganizationData[0]->orgId.'/org_logo/'.$orgLogoName)}}" alt="" height="55" class="logo-large"></a>
+            @else
+                <a href="" class="logo logo-admin"><img src="{{ URL::asset('assets/theme/images/bible-cross-logo1.png')}}" alt="" height="55" class="logo-large"></a>
+            @endif
+        </h3>
+
+        <h4 class="text-muted text-center font-18"><b>Sign In</b></h4>
+
+        <div class="p-3">
+            {{Form::open(array('url' => url('webapp/login'), 'class'=>'form', 'id'=>'login_form','name'=>'login_form'))}}
+                        @csrf
+            <form class="form-horizontal m-t-20" action="index.html">
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus placeholder="Username">
+
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
+
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Remember me</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center row m-t-20">
+                    <div class="col-12">
+                        <button class="btn btn-info btn-block waves-effect waves-light" type="submit">Log In</button>
+                    </div>
+                </div>
+
+                <div class="form-group m-t-10 mb-0 row">
+                    <div class="col-sm-7 m-t-20">
+                        <a href="#" class="text-muted"><i class="mdi mdi-lock    "></i> Forgot your password?</a>
+                    </div>
+                    <div class="col-sm-5 m-t-20">
+                         <a href="{{URL::asset('register')}}" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a> 
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@endsection
