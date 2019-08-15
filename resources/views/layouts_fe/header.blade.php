@@ -22,6 +22,15 @@
     <link rel="stylesheet" href="{{ URL::asset('assets/fe/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/fe/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('assets/fe/css/style.css') }}">
+    
+    <script src="{{ URL:: asset('assets/fe/js/jquery.min.js')}}"></script>
+    <script>
+        var siteUrl = '<?php echo url('/'); ?>';
+    </script>
+    
+    <!-- Jquery Validation Js-->        
+    <script src="{{ URL:: asset('js/jquery_validation/jquery.validate.min.js')}}"></script>
+    <script src="{{ URL:: asset('js/jquery_validation/additional-methods.min.js')}}"></script>
   </head>
   <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
       
@@ -40,8 +49,8 @@
               <li class="nav-item"><a href="#about-section" class="nav-link"><span>About</span></a></li>
               <li class="nav-item"><a href="#testimony-section" class="nav-link"><span>Testimony</span></a></li>
               <li class="nav-item"><a href="#contact-section" class="nav-link"><span>Contact</span></a></li>
-              <li class="nav-item"><a target="_blank" href="{{ URL::asset('login')}}" class="nav-link"><span>Login/SignUp</span></a></li>
-              
+              <li class="nav-item"><a href="#sign-up" class="nav-link"><span>SignUp</span></a></li>
+              <!-- {{ URL::asset('webapp/signup')}} -->
             </ul>
           </div>
         </div>

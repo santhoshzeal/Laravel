@@ -34,12 +34,12 @@
                         {!! Form::open(array('id'=>'organizationCreateForm','name'=>'organizationCreateForm','method' => 'post', 'url' => url('org_register'), 'class' => 'form-horizontal m-t-20')) !!}
                         @csrf
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label >Your Church or Organization Name</label>
                                 <div class="col-sm-12">
                                     <input id="orgName" type="text" class="form-control @error('orgName') is-invalid @enderror" name="orgName" value="{{ old('orgName') }}"    autofocus required >
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label >Your Name</label>
                                 <div class="col-sm-12">
@@ -52,12 +52,12 @@
                                     <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"    autofocus required >
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label >Username for login</label>
                                 <div class="col-sm-12">
                                     <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}"    autofocus required >
                                 </div>
-                            </div>
+                            </div> -->
                             
                             <div class="form-group">
                                 <label >Choose a Password</label>
@@ -71,12 +71,12 @@
                                     <input class="form-control" name="confirm_password" id="confirm_password" type="password" value="" >
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label >Timezone</label>
                                 <div class="col-sm-12">
                                     {!! $dateTimezone !!}
                                 </div>
-                            </div>
+                            </div> -->
 
                         
 

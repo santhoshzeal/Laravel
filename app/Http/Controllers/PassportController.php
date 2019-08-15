@@ -88,7 +88,7 @@ class PassportController extends Controller {
         
         $data['title'] = $this->browserTitle . " - Login";
         $credentials = [
-            'username' => $request->username,
+            'email' => $request->email,
             'password' => $request->password
         ];//dd($credentials);
         //admin@admin.com
@@ -119,7 +119,7 @@ class PassportController extends Controller {
             }
         } else {
             if ($request->segment(1) == "webapp") {
-                $errors = new MessageBag(['username' => ['Username and/or password invalid.']]);
+                $errors = new MessageBag(['email' => ['Email and/or password invalid.']]);
                 return Redirect::back()->withErrors($errors)->withInput(Input::except('password'));
             } else {
                 return response()->json(['result_code' => 2,'failure' => 'UnAuthorised Access'], 401);
@@ -136,9 +136,9 @@ class PassportController extends Controller {
             $validator = Validator::make($request->all(), [
                         'orgName' => 'required',
                         'first_name' => 'required',
-                        'email' => 'required|email|unique:users',
-                        'username' => 'required',
-                        'password' => 'required'
+                        'email' => 'required|email',
+                        'password' => 'required',
+                        'orgDomain' => 'required',
             ]);
             if ($validator->fails()) {
                 
@@ -231,23 +231,27 @@ class PassportController extends Controller {
                 
                 
             }else{
-                return redirect()->route('register')->with('failure', $e->getMessage());
+                //return redirect()->route('register')->with('failure', $e->getMessage());
+                return response()->json(['result_code' => 0,'failure' => $e->getMessage()], 200);
             }
             
             
             DB::commit();
             
+            return response()->json(['result_code' => 1, 'message' => 'Account has been created'], 200);
             return redirect()->back()->with('message', 'Account has been created');
             
             
         }catch (\Illuminate\Database\QueryException $e) {
             DB::rollback();            
+            return response()->json(['result_code' => 0,'failure' => $e->getMessage()], 200);
             return Redirect::back()->withErrors( $e->getMessage());
             
             
         // something went wrong with the transaction, rollback
         }  catch (\Exception $e) {
             DB::rollback();
+            return response()->json(['result_code' => 0,'failure' => $e->getMessage()], 200);
             return Redirect::back()->withErrors( $e->getMessage());
             
             
@@ -282,5 +286,22 @@ class PassportController extends Controller {
         return response()->json(['status' => 'Logout'], 200);
         
     }
+
+    /**
+     * @Function name : checkOrganizationDomain
+     * @Purpose : Check org domain exist
+     * @Added by : Sathish    
+     * @Added Date : Nov 07, 2018
+     */
+    
+   public function checkOrganizationDomain(Request $request)
+   {
+       $whereArrayAT = array('orgDomain' => $request->orgDomain);
+       $selectFromOrganization = Organization::selectFromOrganization($whereArrayAT)->get()->count();
+       if($selectFromOrganization > 0){
+           return "found";
+       }
+       return "notfound";
+   }
 
 }

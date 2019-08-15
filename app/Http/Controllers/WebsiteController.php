@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Config;
+use Camroncade\Timezone\Facades\Timezone;
+
 class WebsiteController extends Controller
 {
    
@@ -15,7 +17,11 @@ class WebsiteController extends Controller
     public function index()
     {
         $data['title'] = $this->browserTitle . "";
-        
+        $data['dateTimezone'] = Timezone::selectForm(
+        '', 
+        'Select Timezone', 
+        ['class' => 'form-control', 'name' => 'orgTimeZone', 'id' => 'orgTimeZone']
+        );        
         return view('fe.index',$data);
     }
     /**
@@ -135,5 +141,27 @@ class WebsiteController extends Controller
     public function reportCheckin(Request $request) {        
         $data['title'] = $this->browserTitle . " - Report Checkin";        
         return view('checkin.report',$data);
+    }
+
+    /**
+     * @Function name : signup
+     * @Purpose : signup
+     * @Added by : Sathish
+     * @Added Date : Jun 12, 2019
+     */
+    public function signup(Request $request) {
+        
+        $data['title'] = $this->browserTitle . " - Create Account";
+        //$data['dateTimezone'] = Timezone::selectForm();
+        $data['dateTimezone'] = Timezone::selectForm(
+        '', 
+        'Select Timezone', 
+        ['class' => 'form-control', 'name' => 'orgTimeZone', 'id' => 'orgTimeZone']
+        );
+    
+        
+        return view('fe.signup', $data);
+        
+        
     }
 }

@@ -297,7 +297,7 @@
         </div>
     </section>
 
-    <section class="ftco-section">
+    <section class="ftco-section" style="display: none;">
         <div class="container">
             <div class="row justify-content-center pb-5">
           <div class="col-md-6 heading-section text-center ftco-animate">
@@ -482,7 +482,7 @@
       </div>
     </section>
 
-    <section class="ftco-section bg-light" id="blog-section">
+    <section class="ftco-section bg-light" id="blog-section" style="display:none;">
       <div class="container">
         <div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 heading-section text-center ftco-animate">
@@ -649,4 +649,92 @@
         </div>
       </div>
     </section>
+
+    <section class="ftco-section sign-up ftco-no-pb" id="sign-up">
+      <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+            <span class="subheading">Register</span>
+            <h2 class="mb-4">Set Up Your Account</h2>
+            <!-- <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p> -->
+          </div>
+        </div> 
+        <div class="row no-gutters block-9">
+          <div class="col-md-6 order-md-last d-flex">
+            @if ($errors->any())
+            <div class="error">
+                <ul style="list-style: none;padding: 0">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+                </ul>
+            </div>
+            @endif
+            
+            
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+            
+            {!! Form::open(array('id'=>'organizationCreateForm','name'=>'organizationCreateForm','method' => 'post', 'url' => url('org_register'), 'class' => 'bg-light p-5 signup-form')) !!}
+            @csrf
+              <div class="form-group">
+                <input id="orgName" type="text" class="form-control @error('orgName') is-invalid @enderror" name="orgName" value="{{ old('orgName') }}" placeholder="Organization/Church Name"    autofocus required >
+              </div>
+              <div class="form-group">
+                <input id="orgDomain" type="text" class="form-control @error('orgDomain') is-invalid @enderror" name="orgDomain" value="{{ old('orgDomain') }}" placeholder="Organization/Church Sub Domain Name"    autofocus required >
+              </div>
+              <div class="form-group">
+                <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ old('first_name') }}"    autofocus required placeholder="Name">
+              </div>
+              <div class="form-group">
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"    autofocus required placeholder="Email">
+              </div>
+              <div class="form-group">
+                <input class="form-control" name="password" id="password" type="password" value="" placeholder="Password" required>
+              </div>
+              <div class="form-group">
+              <input class="form-control" name="confirm_password" id="confirm_password" type="password" value="" placeholder="Confirm Password" required>
+              </div>
+
+              <div class="form-group">
+                    {!! $dateTimezone !!}
+                
+                </div>
+
+            
+
+                <div class="form-group">
+                    <div class="col-12">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label font-weight-normal" for="customCheck1">I accept <a href="#" class="text-muted">Terms and Conditions</a></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center m-t-20">
+                    <div class="col-12">
+                        <button class="btn btn-info btn-block waves-effect waves-light" id="btnCreateOrg" type="button">Register</button>
+                    </div>
+                </div>
+
+<!--              <div class="form-group">
+                <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
+              </div>-->
+            </form>
+          
+          </div>
+
+          <div class="col-md-6 d-flex">
+            <div  class="bg-white">.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<script src="{{ URL:: asset('js/custom/org_register.js')}}"></script>
+
 @endsection
