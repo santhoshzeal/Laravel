@@ -46,9 +46,15 @@
                                 <!-- text-align: right;float: right; -->
 
                             </div><!-- end col -->
-
+                            <?php
+                                $edit_profile_url = "member/management";
+                                $member_id = request()->route()->parameters['personal_id'];
+                                if($member_id){
+                                    $edit_profile_url = $edit_profile_url ."/". $member_id;
+                                }
+                            ?>
                             <div class="col-md-6 col-lg-6 col-xl-7">
-                                <h3>{{$selectUserMasterDetail->name_prefix}} {{$selectUserMasterDetail->first_name}} <?php echo ($selectUserMasterDetail->given_name==''?'': '('.$selectUserMasterDetail->given_name.')' );?> <?php echo ($selectUserMasterDetail->nick_name==''?'': '"'. $selectUserMasterDetail->nick_name .'"');?> {{$selectUserMasterDetail->middle_name}}  {{$selectUserMasterDetail->last_name}} <button href="#" style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</button>    </h3>
+                                <h3>{{$member_id}}{{$selectUserMasterDetail->name_prefix}} {{$selectUserMasterDetail->first_name}} <?php echo ($selectUserMasterDetail->given_name==''?'': '('.$selectUserMasterDetail->given_name.')' );?> <?php echo ($selectUserMasterDetail->nick_name==''?'': '"'. $selectUserMasterDetail->nick_name .'"');?> {{$selectUserMasterDetail->middle_name}}  {{$selectUserMasterDetail->last_name}} <a href={{$edit_profile_url}} style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a>    </h3>
 
 
                             </div><!-- end col -->

@@ -74,6 +74,10 @@ Route::get('get_usermaster_data', 'UserController@getUserData');
 
 Route::post('store', 'UserController@userMasterStore');
 
+// Members Directory
+Route::get('people/member/management/{personal_id?}', 'MemberController@createOrEdit');
+Route::post('people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
+
 //Role
 Route::get('role_management', 'RoleController@index');
 Route::get('role_create', 'RoleController@create');
