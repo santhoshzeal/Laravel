@@ -1,6 +1,11 @@
 @extends('layouts.default')
 
 @section('content')
+@if(session()->has('message'))
+    <div class="alert alert-success" role="alert">
+        {{ session()->get('message') }}
+    </div>
+@endif
 <!-- Page-Title -->
 <div class="row">
     <div class="col-sm-12">
@@ -11,7 +16,7 @@
                 </ol>
             </div>
             <!--<h4 class="page-title">Member Directory</h4>-->
-            <a href="{{URL::asset('people/member_create')}}" type="button" class="btn btn-primary waves-effect waves-light"><i class="fa fa-plus"></i>Add Member</a>
+            <a href="{{URL::asset('people/member/management')}}" type="button" class="btn btn-primary waves-effect waves-light"><i class="fa fa-plus"></i>Add Member</a>
         </div>
     </div>
 </div>
