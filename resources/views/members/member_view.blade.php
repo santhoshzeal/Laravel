@@ -30,14 +30,11 @@
                             <div class="col-md-4 col-lg-4 col-xl-2">
                                 <?php
                                 $profile_pic_image= url('/assets/uploads/organizations/avatar.png');
-                                if($selectUserMasterDetail->profile_pic != null){
-                                    $profile_pic_image_json = json_decode(unserialize($selectUserMasterDetail->profile_pic));
+                                if(isSet($user['profile_pic'])){
+                                    $profile_pic_image_json = json_decode(unserialize($user->profile_pic));
                                     $profile_pic_image = $profile_pic_image_json->download_path.$profile_pic_image_json->uploaded_file_name;
                                 }
                                 ?>
- 
-
-
                                 <div id="upload-demo-i" class="d-flex mr-3 rounded-circle">
                                 <img class="d-flex mr-3 rounded-circle" src="{{$profile_pic_image}}" alt="Generic placeholder image" height="128">
 
@@ -47,16 +44,14 @@
 
                             </div><!-- end col -->
                             <?php
-                                $edit_profile_url = "member/management";
+                                $edit_profile_url = "/people/member/management";
                                 $member_id = request()->route()->parameters['personal_id'];
                                 if($member_id){
                                     $edit_profile_url = $edit_profile_url ."/". $member_id;
                                 }
                             ?>
                             <div class="col-md-6 col-lg-6 col-xl-7">
-                                <h3>{{$member_id}}{{$selectUserMasterDetail->name_prefix}} {{$selectUserMasterDetail->first_name}} <?php echo ($selectUserMasterDetail->given_name==''?'': '('.$selectUserMasterDetail->given_name.')' );?> <?php echo ($selectUserMasterDetail->nick_name==''?'': '"'. $selectUserMasterDetail->nick_name .'"');?> {{$selectUserMasterDetail->middle_name}}  {{$selectUserMasterDetail->last_name}} <a href={{$edit_profile_url}} style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a>    </h3>
-
-
+                                <h3>{{$user->name_prefix}} {{$user->first_name}} <?php echo ($user->given_name==''?'': '('.$user->given_name.')' );?> <?php echo ($user->nick_name==''?'': '"'. $user->nick_name .'"');?> {{$user->middle_name}}  {{$user->last_name}} <a href={{$edit_profile_url}} style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a></h3>
                             </div><!-- end col -->
 
                             <div class="col-md-2 col-lg-2 col-xl-3">
@@ -72,12 +67,7 @@
                                         <a class="dropdown-item" href="#">Something else here</a>
                                     </div>
                                 </div>
-
-
                             </div><!-- end col -->
-
-
-
                         </div>
                     </div>
                 </div>
@@ -105,18 +95,17 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="col-6">
-                            {{$selectUserMasterDetail->gender}}
-                            <br/>{{$selectUserMasterDetail->age}} years old ({{$selectUserMasterDetail->dob_format}})
-                            <br/>{{$selectUserMasterDetail->life_stage}}
+                            {{$user->gender}}
+                            <br/>{{$user->age}} years old ({{$user->dob_format}})
+                            <br/>{{$user->life_stage}}
                         </div>
                         <div class="col-6">
-                            <i class="fa fa-envelope"></i>&nbsp;{{$selectUserMasterDetail->email}}
+                            <i class="fa fa-envelope"></i>&nbsp;{{$user->email}}
                             <br/>
-                            <i class="fa fa-phone"></i>&nbsp;{{$selectUserMasterDetail->mobile_no}}
+                            <i class="fa fa-phone"></i>&nbsp;{{$user->mobile_no}}
                             <br/>
-                            <i class="fa fa-address-card"></i>&nbsp;{{$selectUserMasterDetail->address}}
+                            <i class="fa fa-address-card"></i>&nbsp;{{$user->address}}
                             <br/>
-
                         </div>
                     </div>
                 </div>
@@ -131,19 +120,19 @@
                             <div class="card-header">
                                 School
                             </div>
-                            <i class="fa fa-apple"></i>&nbsp;{{$selectUserMasterDetail->grade_name_format}} Grade ({{$selectUserMasterDetail->school_name_format}})
+                            <i class="fa fa-apple"></i>&nbsp;{{$user->grade_name_format}} Grade ({{$user->school_name_format}})
                         </div>
                         <div class="col-6">
                             <div class="card-header">
                                 Social Profiles
                             </div>
-                            <i class="fa fa-facebook"></i>&nbsp;{{$selectUserMasterDetail->social_profile}}
+                            <i class="fa fa-facebook"></i>&nbsp;{{$user->social_profile}}
                             <br/>
-                            <i class="fa fa-twitter"></i>&nbsp;{{$selectUserMasterDetail->social_profile}}
+                            <i class="fa fa-twitter"></i>&nbsp;{{$user->social_profile}}
                             <br/>
-                            <i class="fa fa-linkedin"></i>&nbsp;{{$selectUserMasterDetail->social_profile}}
+                            <i class="fa fa-linkedin"></i>&nbsp;{{$user->social_profile}}
                             <br/>
-                            <i class="fa fa-instagram"></i>&nbsp;{{$selectUserMasterDetail->social_profile}}
+                            <i class="fa fa-instagram"></i>&nbsp;{{$user->social_profile}}
                             <br/>
 
                         </div>
@@ -153,11 +142,17 @@
         </div>
     </div>
 
-    <div class="col-lg-3">
-
-        @include('members.member_house_hold')
-        
-        
+    <div class="col-lg-3" id="house-hold-block">
+        <div class="card">
+            <div class="card-header">
+                Featured
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
     </div>
 </div>
 <!-- end row -->
@@ -177,6 +172,10 @@
 
 
 <script type="text/javascript">
+var houseHolds = [];
+var urlPath = location.pathname.split('/');
+var personal_id = urlPath[urlPath.length-1];
+console.log(urlPath);
 $uploadCrop = $('#upload-demo').croppie({
     enableExif: true,
     viewport: {
@@ -224,7 +223,26 @@ $('.upload-result').on('click', function (ev) {
     });
 });
 
+function getHouseHolds(){
+    fetch('./api/people/member/households/'+ personal_id);
+        .then(
+            function(response) {
+            if (response.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +
+                response.status);
+                return;
+            }
 
+            // Examine the text in the response
+            response.json().then(function(data) {
+                console.log(data);
+            });
+            }
+        )
+        .catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
+}
 </script>
 
 @endsection

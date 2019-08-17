@@ -172,7 +172,7 @@ class UserController extends Controller {
         foreach ($selectUserMasterDetail as $selectUserMasterDetailData) {
             $row = array();
 
-            $profile_edit_link = url("/") . '/people/' . $selectUserMasterDetailData->personal_id;
+            $profile_edit_link = url("/") . '/people/member/' . $selectUserMasterDetailData->personal_id;
 
             //$row[] = $selectUserMasterDetailData->user_id;
             $profile_pic_image = url('/assets/uploads/organizations/avatar.png');
