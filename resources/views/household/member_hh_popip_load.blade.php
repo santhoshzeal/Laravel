@@ -2,7 +2,7 @@
 <div class="modal-content">
             <div class="modal-header bg-secondary">
                 
-                <h5 class="modal-title mt-0" id="myModalLabel">{{$selectUserMasterDetail->householdName}}</h5>
+                <h5 class="modal-title mt-0" id="myModalLabel">{{$user->householdName}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
@@ -55,7 +55,7 @@
 
                 @else
                     <p>
-                        <span>{{$selectUserMasterDetail->first_name}} has not been added to a household yet. </span><br/>
+                        <span>{{$user->first_name}} has not been added to a household yet. </span><br/>
                         <a href="">Add one now</a>
                     </p>
                 @endif
