@@ -90,11 +90,49 @@ class MemberController extends Controller
                 Session::flash('message', 'Member profile has been created successfully');
             }
            
-            return redirect('people/member_directory');
+            return redirect('people/member/'.$user->personal_id);
         } else {
             return Redirect::back()
                             ->withInput($request->except('password'))
                             ->withErrors($validator);
         }
     }
+
+    public function viewMember($personal_id){
+        $orgId = $this->userSessionData['umOrgId'];
+        $user = User::where('orgId', $orgId)->where("personal_id", $personal_id)->first();
+        $fullAdr = explode("///",$user['address']);
+        $user['address'] = $fullAdr[0];
+        $user['address'] .= isset($fullAdr[1])? $fullAdr[1]:',';
+        $user['address'] .= isset($fullAdr[2])? $fullAdr[2]:',';
+        $user['address'] .= isset($fullAdr[3])? $fullAdr[3]:'-';
+        $user['address'] .= isset($fullAdr[4])? $fullAdr[4]:'';
+        // Getting Master loook data
+        $keys = ["school_name", "name_prefix", "name_suffix", "marital_status"];
+        $lookUpKeys = [];
+        foreach($keys as $key){
+            if($user[$key]){
+                $lookUpKeys[] = $user[$key];
+            }
+        }
+        if($user["grade_id"]){
+            $lookUpKeys[] = $user["grade_id"];
+        }
+
+        $lookUpData = Lookup::whereIn('mldId', $lookUpKeys)->select('mldKey', 'mldValue')->get();
+        $keys[] = 'grade_name';
+        foreach($lookUpData as $lookupRow){
+            foreach($keys as $key){
+                if($lookupRow['mldKey'] == $key){
+                    $user[$key] = $lookupRow['mldValue'];
+                }
+            }
+        }
+        $data['title'] = $this->browserTitle . " - Member View";
+        
+        $data['user'] = $user;
+
+        return view('members.member_view', $data);
+    }
+
 }

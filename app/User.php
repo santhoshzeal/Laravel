@@ -74,4 +74,8 @@ class User extends Authenticatable {
     public function AauthAcessToken(){
         return $this->hasMany('\App\OauthAccessToken');
     }
+
+    public function householdDetail(){
+        return $this->belongsTo('App\HouseholdDetail', "personal_id");
+    }
 }
