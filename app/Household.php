@@ -10,14 +10,13 @@ class Household extends Model
         * The table associated with the model
     */
     protected $table = "households";
-    protected $primaryKey = 'hhId';
 
     protected $fillable = [
-        'hhId', 'orgId', 'hhPrimaryUserId', 'hhdName', 'created_at', 'updated_at', 'deletedBy', 'deleted_at'
+        'id', 'orgId', 'hhPrimaryUserId', 'name', 'created_at', 'updated_at', 'deletedBy', 'deleted_at'
     ];
 
-    public function householdList()
+    public function users()
     {
-        return $this->hasMany('App\HouseholdDetail', 'hhId', 'hhId');
+        return $this->belongsToMany('App\User')->withPivot('isPrimary');
     }
 }

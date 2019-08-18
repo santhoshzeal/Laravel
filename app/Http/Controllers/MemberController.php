@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Redirect;
 use App\Lookup;
 use App\User;
+use App\Household;
+use App\HouseholdDetail;
 
 
 class MemberController extends Controller
@@ -111,11 +113,11 @@ class MemberController extends Controller
         $keys = ["school_name", "name_prefix", "name_suffix", "marital_status"];
         $lookUpKeys = [];
         foreach($keys as $key){
-            if($user[$key]){
+            if(isSet($user[$key])){
                 $lookUpKeys[] = $user[$key];
             }
         }
-        if($user["grade_id"]){
+        if(isSet($user["grade_id"])){
             $lookUpKeys[] = $user["grade_id"];
         }
 
@@ -133,6 +135,30 @@ class MemberController extends Controller
         $data['user'] = $user;
 
         return view('members.member_view', $data);
+    }
+
+    public function getHouseholderList($personal_id){
+        $mainUser = User::where('personal_id', $personal_id)->first();
+        $households = [];
+        $i = 0;
+        foreach($mainUser->households as $hh){
+            $households[$i]['id'] = $hh->id;
+            $households[$i]['name'] = $hh->name;
+            $j = 0;
+            foreach($hh->users as $huser){
+                $user = [];
+                $user['id'] = $huser->id;
+                $user['first_name'] = $huser->first_name;
+                $user['middle_name'] = $huser->middle_name;
+                $user['last_name'] = $huser->last_name;
+                $user['email'] = $huser->email;
+                $user['mobile_no'] = $huser->mobile_no;
+                $user['isPrimary'] = $huser->pivot->isPrimary;
+                $households[$i]['users'][] = $user;
+            }
+             $i++;
+        }
+        return $households;
     }
 
 }

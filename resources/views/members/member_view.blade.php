@@ -142,17 +142,8 @@
         </div>
     </div>
 
-    <div class="col-lg-3" id="house-hold-block">
-        <div class="card">
-            <div class="card-header">
-                Featured
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
+    <div class="col-lg-3" id="household-blocks">
+        
     </div>
 </div>
 <!-- end row -->
@@ -172,77 +163,138 @@
 
 
 <script type="text/javascript">
-var houseHolds = [];
-var urlPath = location.pathname.split('/');
-var personal_id = urlPath[urlPath.length-1];
-console.log(urlPath);
-$uploadCrop = $('#upload-demo').croppie({
-    enableExif: true,
-    viewport: {
-        width: 128,
-        height: 128,
-        type: 'circle'
-    },
-    boundary: {
-        width: 300,
-        height: 300
-    }
-});
+    var houseHolds = [];
+    var urlPath = location.pathname.split('/');
+    var personal_id = urlPath[urlPath.length-1];
+    var user = <?php echo json_encode($user) ?>;
+    getHouseHolds();
+    $uploadCrop = $('#upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+            width: 128,
+            height: 128,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
 
 
-$('#upload').on('change', function () { 
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        $uploadCrop.croppie('bind', {
-            url: e.target.result
-        }).then(function(){
-            console.log('jQuery bind complete');
-        });
-        
-    }
-    reader.readAsDataURL(this.files[0]);
-});
+    $('#upload').on('change', function () { 
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $uploadCrop.croppie('bind', {
+                url: e.target.result
+            }).then(function(){
+                console.log('jQuery bind complete');
+            });
+            
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
 
 
-$('.upload-result').on('click', function (ev) {
-    $uploadCrop.croppie('result', {
-        type: 'canvas',
-        size: 'viewport'
-    }).then(function (resp) {
+    $('.upload-result').on('click', function (ev) {
+        $uploadCrop.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function (resp) {
 
 
-        $.ajax({
-            url: siteUrl+'/user_profile_file_upload',
-            type: "POST",
-            data: {"image":resp},
-            success: function (data) {
-                html = '<img src="' + resp + '" />';
-                $("#upload-demo-i").html(html);
-            }
+            $.ajax({
+                url: siteUrl+'/user_profile_file_upload',
+                type: "POST",
+                data: {"image":resp},
+                success: function (data) {
+                    html = '<img src="' + resp + '" />';
+                    $("#upload-demo-i").html(html);
+                }
+            });
         });
     });
-});
 
-function getHouseHolds(){
-    fetch('./api/people/member/households/'+ personal_id);
-        .then(
-            function(response) {
-            if (response.status !== 200) {
-                console.log('Looks like there was a problem. Status Code: ' +
-                response.status);
-                return;
-            }
+    function getHouseHolds(){
+        fetch('/api/people/member/households/'+ personal_id)
+            .then(
+                function(response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                    response.status);
+                    return;
+                }
 
-            // Examine the text in the response
-            response.json().then(function(data) {
-                console.log(data);
+                // Examine the text in the response
+                response.json().then(function(data) {
+                    updateHouseholdBlocks(data);
+                });
+                }
+            )
+            .catch(function(err) {
+                console.log('Fetch Error :-S', err);
             });
-            }
-        )
-        .catch(function(err) {
-            console.log('Fetch Error :-S', err);
+    }
+
+    function updateHouseholdBlocks(data){
+        let el ='';
+        if(data.length){
+            el = updateHouseholdBlock(data);
+            console.log("Ready to display household List");
+        }else {
+            el = getEmptyHouseholdBlock();
+        }
+        $("#household-blocks").append(el)
+    }
+
+    function openHouseholdModal(){
+        console.log("Ready to open householdModal");
+    }
+
+    function getEmptyHouseholdBlock(){
+        let card = `<div class="card">
+            <div class="card-header" id="household-block-header">
+               <h6> Household  <span class="float-right" onClick="openHouseholdModal()"><i class="fa fa-edit"></i></span></h6>
+            </div>
+            <div class="card-body text-center">
+                <p><strong>${user.first_name} </strong> has not been added to a household yet.</p>
+                <a onClick="openHouseholdModal()" class="btn btn-primary">Add one now</a>
+            </div>
+        </div>`;
+        return card;
+    }
+    function updateHouseholdBlock(data){
+        console.log(JSON.stringify(data));
+
+        let cards = "";
+        data.forEach(function(item, index){
+            let userEls = "";
+            item.users.forEach(function(userItem, index){
+                console.log(`Item: ${JSON.stringify(userItem)}`);
+                userEls+= `<p id="${'user-block'+userItem.id}"><i class="fa fa-user"></i> 
+                    <a href="${user.id === userItem.id? '#' : '/people/member/'+ personal_id}" >
+                        ${userItem.first_name} 
+                        ${userItem.middle_name ?', ' +userItem.middle_name : ''}
+                        ${userItem.last_name ?', ' +userItem.last_name : ''}
+                    </a>
+                    ${userItem.isPrimary === 1? '<i class="fa fa-star></i>' : '' } 
+                </p><br/>`;
+            })
+            cards += `<div class="card">
+                        <div class="card-header" id="household-block-header">
+                        <h6> ${item.name}  <span class="float-right" onClick="openHouseholdModalWithId(${item.id})"><i class="fa fa-edit"></i></span></h6>
+                        </div>
+                        <div class="card-body">
+                            ${userEls}
+                        </div>
+                    </div>`;
         });
-}
+        console.log(cards)
+        return cards;
+    }
+    function openHouseholdModalWithId(household_id){
+        console.log(household_id);
+    }
 </script>
 
 @endsection

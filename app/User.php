@@ -75,7 +75,8 @@ class User extends Authenticatable {
         return $this->hasMany('\App\OauthAccessToken');
     }
 
-    public function householdDetail(){
-        return $this->belongsTo('App\HouseholdDetail', "personal_id");
+    public function households(){
+        return $this->belongsToMany('App\Household')->withPivot('isPrimary');
+        // return $this->belongsToMany('App\Household', 'household_details', 'household_id', 'personal_id')->withPivot('isPrimary');
     }
 }

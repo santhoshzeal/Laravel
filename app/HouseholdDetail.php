@@ -9,11 +9,10 @@ class HouseholdDetail extends Model
     /** 
         * The table associated with the model
     */
-    protected $table = "household-details";
-    protected $primaryKey = 'hhdId';
+    protected $table = "household_details";
 
     protected $fillable = [
-        'hhdId', 'hhId', 'hhdUserId', 'hhIsPrimary', 'createdBy', 'created_at', 'updated_at', 'deletedBy', 'deleted_at'
+        'id', 'household_id', 'personal_id', 'isPrimary', 'createdBy', 'created_at', 'updated_at', 'deletedBy', 'deleted_at'
     ];
 
     public function household(){
