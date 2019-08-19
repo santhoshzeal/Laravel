@@ -1,4 +1,4 @@
-<div id="hhModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" data-backdrop="static" aria-hidden="true">
+<div id="hhModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" data-backdrop="static">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" id="hhModalTitle"></div>
@@ -11,18 +11,23 @@
   </div>
 </div>
 <script>
-function getHouseHolds(){
-        fetch('/api/people/member/households/'+ personal_id)
+    var houseHolds = [];
+    var urlPath = location.pathname.split('/');
+    var personal_id = urlPath[urlPath.length-1];
+    var user = <?php echo json_encode($user) ?>;
+
+    getHouseHolds();
+
+    async function getHouseHolds(){
+        let apiPath = '/api/people/member/households/'+ personal_id;
+        fetch(apiPath)
             .then(
                 function(response) {
                 if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' +
-                    response.status);
-                    return;
+                    throw new Error("failure with error code"+response.status)
                 }
-
-                // Examine the text in the response
                 response.json().then(function(data) {
+                    houseHolds = data;
                     updateHouseholdBlocks(data);
                 });
                 }
@@ -137,11 +142,42 @@ function getHouseHolds(){
         let content_title = `<div class="input-group-prepend">
                                 <p>Whose HouseHold would you like ${user.first_name} to Join?</p>
                             </div>`;
-        let content_input = `<input type="text" class="input-lg" style="width:100%; padding:5px" placeholder="Search for someone...">`;
-        let content_data = [];
-        content_data.push(content_title);
-        content_data.push(content_input);
+        let content_input = `<input type="text" class="input-lg" style="width:100%; padding:5px" id="searchHhusers" value="" oninput"getNonHhUsers()" placeholder="Search for someone...">`;
+        let search_users = `<div id="search-users-list" class="list-group"></div>`
+        let create_new_user = `<div id='create-user' class="d-none">
+                                <a href="/people/member/management" class="btn btn-primary d-none">Create New User <i class="fa fa-user"></i></a>
+                            </div>`;
+        let content_data = [content_title, content_input, search_users, create_new_user];
+        // content_data.push(content_title);
+        // content_data.push(content_input);
+        // content_data.push(search_users);
+        // content_data.push(create_new_user);
         content.append(content_data);
         $("#hhModalBody").html([content]);
+    }
+
+    function getNonHhUsers(){
+        let searchStr = $("#getNonHhUsers").value;
+
+        if(searchStr.length >3){
+            console.log("Ready to hit api with value:", searchStr)
+        }
+    }
+
+    function fetchDataApi(url, method=null, queryData=null){
+        fetch(url)
+            .then(
+                function(response) {
+                if (response.status !== 200) {
+                    throw new Error("failure with error code"+response.status)
+                }
+                response.json().then(function(data) {
+                    return data;
+                });
+                }
+            )
+            .catch(function(err) {
+                console.log('Fetch Error :-S', err);
+            });
     }
 </script>

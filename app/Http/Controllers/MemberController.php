@@ -104,10 +104,10 @@ class MemberController extends Controller
         $user = User::where('orgId', $orgId)->where("personal_id", $personal_id)->first();
         $fullAdr = explode("///",$user['address']);
         $user['address'] = $fullAdr[0];
-        $user['address'] .= isset($fullAdr[1])? $fullAdr[1]:',';
-        $user['address'] .= isset($fullAdr[2])? $fullAdr[2]:',';
-        $user['address'] .= isset($fullAdr[3])? $fullAdr[3]:'-';
-        $user['address'] .= isset($fullAdr[4])? $fullAdr[4]:'';
+        $user['address'] .= isset($fullAdr[1])? ','. $fullAdr[1]:'';
+        $user['address'] .= isset($fullAdr[2])? ','. $fullAdr[2]:'';
+        $user['address'] .= isset($fullAdr[3])? ','. $fullAdr[3]:'';
+        $user['address'] .= isset($fullAdr[4])? '-'. $fullAdr[4]:'';
         // Getting Master loook data
         $keys = ["school_name", "name_prefix", "name_suffix", "marital_status"];
         $lookUpKeys = [];
@@ -154,6 +154,13 @@ class MemberController extends Controller
                 $user['email'] = $huser->email;
                 $user['mobile_no'] = $huser->mobile_no;
                 $user['isPrimary'] = $huser->pivot->isPrimary;
+                $fullAdr = explode("///",$huser['address']);
+                $user['address'] = $fullAdr[0];
+                $user['address'] .= isset($fullAdr[1])? ','. $fullAdr[1]:'';
+                $user['address'] .= isset($fullAdr[2])? ','. $fullAdr[2]:'';
+                $user['address'] .= isset($fullAdr[3])? ','. $fullAdr[3]:'';
+                $user['address'] .= isset($fullAdr[4])? '-'. $fullAdr[4]:'';
+                $fullAdr = explode("///",$user['address']);
                 $households[$i]['users'][] = $user;
             }
              $i++;

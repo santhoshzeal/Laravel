@@ -163,11 +163,6 @@
 
 
 <script type="text/javascript">
-    var houseHolds = [];
-    var urlPath = location.pathname.split('/');
-    var personal_id = urlPath[urlPath.length-1];
-    var user = <?php echo json_encode($user) ?>;
-    getHouseHolds();
     $uploadCrop = $('#upload-demo').croppie({
         enableExif: true,
         viewport: {
