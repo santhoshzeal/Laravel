@@ -159,7 +159,7 @@
 
 
 @include('popup.modal_popup_member')
-
+@include('popup.household')
 
 
 <script type="text/javascript">
@@ -214,87 +214,6 @@
             });
         });
     });
-
-    function getHouseHolds(){
-        fetch('/api/people/member/households/'+ personal_id)
-            .then(
-                function(response) {
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' +
-                    response.status);
-                    return;
-                }
-
-                // Examine the text in the response
-                response.json().then(function(data) {
-                    updateHouseholdBlocks(data);
-                });
-                }
-            )
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-            });
-    }
-
-    function updateHouseholdBlocks(data){
-        let el ='';
-        if(data.length){
-            el = updateHouseholdBlock(data);
-            console.log("Ready to display household List");
-        }else {
-            el = getEmptyHouseholdBlock();
-        }
-        $("#household-blocks").append(el)
-    }
-
-    function openHouseholdModal(){
-        console.log("Ready to open householdModal");
-    }
-
-    function getEmptyHouseholdBlock(){
-        let card = `<div class="card">
-            <div class="card-header" id="household-block-header">
-               <h6> Household  <span class="float-right" onClick="openHouseholdModal()"><i class="fa fa-edit"></i></span></h6>
-            </div>
-            <div class="card-body text-center">
-                <p><strong>${user.first_name} </strong> has not been added to a household yet.</p>
-                <a onClick="openHouseholdModal()" class="btn btn-primary">Add one now</a>
-            </div>
-        </div>`;
-        return card;
-    }
-    function updateHouseholdBlock(data){
-        console.log(JSON.stringify(data));
-
-        let cards = "";
-        data.forEach(function(item, index){
-            let userEls = "";
-            item.users.forEach(function(userItem, index){
-                console.log(`Item: ${JSON.stringify(userItem)}`);
-                userEls+= `<p id="${'user-block'+userItem.id}"><i class="fa fa-user"></i> 
-                    <a href="${user.id === userItem.id? '#' : '/people/member/'+ personal_id}" >
-                        ${userItem.first_name} 
-                        ${userItem.middle_name ?', ' +userItem.middle_name : ''}
-                        ${userItem.last_name ?', ' +userItem.last_name : ''}
-                    </a>
-                    ${userItem.isPrimary === 1? '<i class="fa fa-star></i>' : '' } 
-                </p><br/>`;
-            })
-            cards += `<div class="card">
-                        <div class="card-header" id="household-block-header">
-                        <h6> ${item.name}  <span class="float-right" onClick="openHouseholdModalWithId(${item.id})"><i class="fa fa-edit"></i></span></h6>
-                        </div>
-                        <div class="card-body">
-                            ${userEls}
-                        </div>
-                    </div>`;
-        });
-        console.log(cards)
-        return cards;
-    }
-    function openHouseholdModalWithId(household_id){
-        console.log(household_id);
-    }
 </script>
 
 @endsection

@@ -16,7 +16,6 @@ use App\HouseholdDetail;
 
 class MemberController extends Controller
 {
-   
     public function __construct()
     {
         $this->middleware('auth');
@@ -151,6 +150,7 @@ class MemberController extends Controller
                 $user['first_name'] = $huser->first_name;
                 $user['middle_name'] = $huser->middle_name;
                 $user['last_name'] = $huser->last_name;
+                $user['personal_id'] = $huser->personal_id;
                 $user['email'] = $huser->email;
                 $user['mobile_no'] = $huser->mobile_no;
                 $user['isPrimary'] = $huser->pivot->isPrimary;
@@ -160,5 +160,4 @@ class MemberController extends Controller
         }
         return $households;
     }
-
 }
