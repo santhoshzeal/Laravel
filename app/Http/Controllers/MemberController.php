@@ -77,7 +77,7 @@ class MemberController extends Controller
             $user['address'] = $request->street_address."///".$request->apt_address."///".$request->city_address."///".$request->state_address."///".$request->zip_address;
             $user['householdName'] = $request->first_name."'s household";
 
-            $keys= ['name_prefix', 'first_name', 'last_name', 'name_suffix', 'given_name', 'nick_name',
+            $keys= ['name_prefix', 'first_name','middle_name', 'last_name', 'name_suffix', 'given_name', 'nick_name',
                      'email', 'mobile_no', 'life_stage', 'gender', 'dob', 'marital_status', 'doa', 'school_name', 
                      'grade_id', 'medical_note', 'social_profile'
                 ];
@@ -154,6 +154,7 @@ class MemberController extends Controller
                 $user['email'] = $huser->email;
                 $user['mobile_no'] = $huser->mobile_no;
                 $user['isPrimary'] = $huser->pivot->isPrimary;
+                $this->extractAddress($user, $huser);
                 $fullAdr = explode("///",$huser['address']);
                 $user['address'] = $fullAdr[0];
                 $user['address'] .= isset($fullAdr[1])? ','. $fullAdr[1]:'';
@@ -166,5 +167,32 @@ class MemberController extends Controller
              $i++;
         }
         return $households;
+    }
+
+    public function getHhUserSearch(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $orgId = $this->userSessionData['umOrgId'];
+        $users = User::where('orgId', $orgId)
+                    ->where("id", '!=', $payload['id'])
+                    ->where('first_name', 'LIKE', '%' . $payload['searchStr'] . "%")
+                    ->orWhere("middle_name", 'LIKE', "%" . $payload['searchStr'] . "%")
+                    ->orWhere("last_name", "LIKE", "%" . $payload['searchStr'] . "%")
+                    ->select('first_name', 'middle_name', "last_name","mobile_no", 'email', 'personal_id', 'profile_pic', 'address')
+                    ->get();
+        foreach($users as $user){
+            $this->extractAddress($user, $user);
+        }
+        
+        return $users; 
+    }
+
+    public function extractAddress($duser, $suser){
+        $fullAdr = explode("///",$suser['address']);
+        $duser['address'] = $fullAdr[0];
+        $duser['address'] .= $fullAdr[1] === null? ', '. $fullAdr[1]:'';
+        $duser['address'] .= $fullAdr[2] === null? ', '. $fullAdr[2]:'';
+        $duser['address'] .= $fullAdr[3] === null? ', '. $fullAdr[3]:'';
+        $duser['address'] .= $fullAdr[4] === null? ' - '. $fullAdr[4]:'';
+        $duser['address1'] = $suser['address'];
     }
 }

@@ -11,30 +11,21 @@
   </div>
 </div>
 <script>
-    var houseHolds = [];
-    var urlPath = location.pathname.split('/');
-    var personal_id = urlPath[urlPath.length-1];
-    var user = <?php echo json_encode($user) ?>;
+    let houseHolds = [];
+    let selectedUser = {};
+    let searchedUserList = [];
+    let urlPath = location.pathname.split('/');
+    let personal_id = urlPath[urlPath.length-1];
+    let user = <?php echo json_encode($user) ?>;
 
     getHouseHolds();
 
-    async function getHouseHolds(){
+    function getHouseHolds(){
         let apiPath = '/api/people/member/households/'+ personal_id;
-        fetch(apiPath)
-            .then(
-                function(response) {
-                if (response.status !== 200) {
-                    throw new Error("failure with error code"+response.status)
-                }
-                response.json().then(function(data) {
-                    houseHolds = data;
-                    updateHouseholdBlocks(data);
-                });
-                }
-            )
-            .catch(function(err) {
-                console.log('Fetch Error :-S', err);
-            });
+        let apiProps = {url: apiPath, method:'get', queryData:null}
+        fetchDataApi(apiProps, function(data){
+            updateHouseholdBlocks(data);
+        })
     }
 
     function updateHouseholdBlocks(data){
@@ -133,51 +124,116 @@
     }
 
     function readySearchHhForEmpty(){
-        let modalTitle = `<h5 class="modal-title">${(user.first_name)? user.first_name: 'Your'}'s Households</h5> `;
-        $("#hhModalTitle").html(modalTitle);
+        let modalTitle = `<h5 class="modal-title">${(user.first_name)? user.first_name: 'Your'}'s Households</h5>`;
         let footer_content = `<button type="button" class="btn btn-secondary" onClick="closeEmptyModal()">Close</button>`
-        $('#hhModalFooter').html(footer_content);
         let contentValues = { class:"input-group"}
         let content = $('<div>', contentValues);
         let content_title = `<div class="input-group-prepend">
                                 <p>Whose HouseHold would you like ${user.first_name} to Join?</p>
                             </div>`;
-        let content_input = `<input type="text" class="input-lg" style="width:100%; padding:5px" id="searchHhusers" value="" oninput"getNonHhUsers()" placeholder="Search for someone...">`;
-        let search_users = `<div id="search-users-list" class="list-group"></div>`
+        let content_input = `<input type="text" class="input-lg" style="width:100%; padding:5px" id="searchStr" value="" onInput="getNonHhUsers()" placeholder="Search for someone...">`;
+        let search_users = `<div id="search-users-list" class="list-group .vh-overflow-80 " style="width:100%"></div>`
         let create_new_user = `<div id='create-user' class="d-none">
                                 <a href="/people/member/management" class="btn btn-primary d-none">Create New User <i class="fa fa-user"></i></a>
                             </div>`;
         let content_data = [content_title, content_input, search_users, create_new_user];
-        // content_data.push(content_title);
-        // content_data.push(content_input);
-        // content_data.push(search_users);
-        // content_data.push(create_new_user);
         content.append(content_data);
+
+        $("#hhModalTitle").html(modalTitle);
         $("#hhModalBody").html([content]);
+        $('#hhModalFooter').html(footer_content);
     }
 
     function getNonHhUsers(){
-        let searchStr = $("#getNonHhUsers").value;
-
-        if(searchStr.length >3){
-            console.log("Ready to hit api with value:", searchStr)
+        let searchStr = $("#searchStr").val();
+        searchedUserList = [];
+        if(searchStr.length > 3){
+            let apiPath = '/api/people/member/households/get-users-search';
+            let apiProps = {url: apiPath, method:'post', queryData:{searchStr, id: user.id}}
+            fetchDataApi(apiProps, function(data){
+                searchedUserList = data;
+                updateSearchUsrList(data);
+            })
+        }else {
+            $("#search-users-list").html("<div></div>");
         }
     }
 
-    function fetchDataApi(url, method=null, queryData=null){
-        fetch(url)
-            .then(
+    function updateSearchUsrList(data){
+        $("#hhModalBody").removeClass("text-center");
+         let records = [];
+        if(data.length > 0){
+            data.forEach(function(item, index){
+                let userName = extractFullName(item); 
+                let block = `<div class="list-group-item list-group-item-action hover-focus"
+                                 onClick="pickedUserFromSearchList(${index})">
+                                <h6 class="no-margin">${userName}</h6>
+                                <p class="text-muted no-padding no-margin">
+                                    ${item.mobile_no? item.mobile_no: "No Mobile Number"}
+                                </p>
+                                <p class="text-muted no-padding no-margin">${item.email}</p>
+                                <p class="text-muted no-padding no-margin">${item.address}</p>
+                            </div>`;
+                records.push(block);
+            })
+        }else {
+            let noRecord = `<p>No records found</p>`;
+            records.push(noRecord);
+        }
+        let createUserBtn = `<a href="/people/member/management" type="button" class="btn btn-secondary btn-lg btn-block">
+                             <i class="fa fa-user"></i> Create A New Person</a>`
+        records.push(createUserBtn);
+        $("#search-users-list").html(records);
+    }
+
+    function pickedUserFromSearchList(index){
+        selectedUser = searchedUserList[index];
+        $("#hhModalBody").addClass("text-center");
+        let sFullName = extractFullName(selectedUser);
+        let uFullName = extractFullName(user);
+        let modalTitle = `<h5 class="modal-title">Join a Household of ${sFullName}</h5> `;
+        
+        let isReadyToCreateHh = `<a href="#" onClick="crateHousehold()"><i class="fa fa-plus" aria-hidden="true"></i> Create a new houlsehold with ${sFullName} with ${uFullName} as members</a>`;
+        let footer_content = `<button type="button" class="btn btn-secondary" onClick="closeEmptyModal()">Close</button>`
+        
+        $("#hhModalTitle").html(modalTitle);
+        $("#hhModalBody").html(isReadyToCreateHh);
+        $('#hhModalFooter').html(footer_content);
+    }
+
+    function crateHousehold(){
+        console.log("Ready to create a household with selected User", selectedUser.first_name);
+        $("#hhModalBody").html("<h5>Under progress...</h5>");
+    }
+    function fetchDataApi(props, callback){
+        let payload = {};
+        if(props.method == 'post'){
+            payload = {
+                method: props.method,
+                body: props.method === 'post' ? JSON.stringify(props.queryData) : ''
+            }
+        }
+        fetch(props.url, payload).then(
                 function(response) {
                 if (response.status !== 200) {
                     throw new Error("failure with error code"+response.status)
                 }
                 response.json().then(function(data) {
-                    return data;
+                    return callback(data);
                 });
                 }
             )
             .catch(function(err) {
                 console.log('Fetch Error :-S', err);
             });
+    }
+
+    // Extracting User Name by marging all name fields
+    function extractFullName(item){
+        let fullName = '';
+        fullName += item.first_name ? item.first_name : '';
+        fullName += item.middle_name ? " " + item.middle_name : "";
+        fullName += item.last_name ? " " + item.last_name : ''; 
+        return fullName;
     }
 </script>

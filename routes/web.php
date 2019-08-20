@@ -79,12 +79,13 @@ Route::get('get_usermaster_data', 'UserController@getUserData');
 Route::post('store', 'UserController@userMasterStore');
 
 // Members Directory
-Route::get('people/member/management/{personal_id?}', 'MemberController@createOrEdit');
-Route::post('people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
-Route::get('people/member/{personal_id}', 'MemberController@viewMember');
+Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
+Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
+Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
 
 // Households Api's List
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');
+Route::post('/api/people/member/households/get-users-search', 'MemberController@getHhUserSearch');
 
 //Role
 Route::get('role_management', 'RoleController@index');

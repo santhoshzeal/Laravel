@@ -39,6 +39,7 @@
 
         <!--------Crop -->
 
+        <link href="{{ URL::asset('css/main.css') }}" rel="stylesheet" type="text/css" />
     </head>
 
     <body>
