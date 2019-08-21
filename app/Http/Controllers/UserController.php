@@ -216,7 +216,7 @@ class UserController extends Controller {
         $data = array();
 
         $data = $request->image;
-
+        $user_id=$request->user_id;
 
         list($type, $data) = explode(';', $data);
         list(, $data) = explode(',', $data);
@@ -239,7 +239,7 @@ class UserController extends Controller {
         $jsonformat = serialize(json_encode($upload_data));
 
         $update_details = array("profile_pic" => $jsonformat);
-        $whereUMUpdateArray = array('users.id' => $this->userSessionData['umId']);
+        $whereUMUpdateArray = array('users.id' => $user_id);
 
         UserMaster::crudUserMaster($whereUMUpdateArray, null, null, null, null, $update_details, null, null);
         return "done";
