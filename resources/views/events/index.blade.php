@@ -81,10 +81,44 @@
         
             <script>
             
+             $(document).ready(function() { 
+                // bind 'myForm' and provide a simple callback function 
+                $('#create_event_form').ajaxForm(function() { 
+                    alert("Thank you for your comment!"); 
+                }); 
+            }); 
+                
+            
             function createEventDialog(){
                  BootstrapDialog.show({
-            message: $('<div></div>').load(siteUrl+"/events/create_page")
-        });
+                    title:"Create Events",
+                    size:"size-wide",
+                    message: $('<div></div>').load(siteUrl+"/events/create_page"),
+                    buttons: [
+                        {
+                            label: 'Create',
+                            cssClass: 'btn-primary',
+                            action: function(dialogRef){
+                                submitCreateEvent();
+                            }
+                        }, 
+                        {
+                            label: 'Cancel',
+                            action: function(dialogRef){
+                                dialogRef.close();
+                            }
+                        }
+                    ]
+                });
+            }
+            
+            function submitCreateEvent(){
+                
+                $('#create_event_form').ajaxForm(function(data) { 
+                    alert(data); 
+                });
+                
+                $("#create_event_form").submit();
             }
                     </script>
         

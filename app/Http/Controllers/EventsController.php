@@ -28,17 +28,7 @@ class EventsController extends Controller
     }
     
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $data['title'] = $this->browserTitle . " - Role Create";
-        $data['permissions'] = Permission::all();//Get all permissions
-        return view('roles.create', $data);
-    }
+   
     /**
      * Store a newly created resource in storage.
      *
@@ -47,6 +37,9 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
+        echo json_encode($request->all());
+        exit();
+        
         $this->validate($request, [
             'name'=>'required|unique:roles|max:10',
             'permissions' =>'required',

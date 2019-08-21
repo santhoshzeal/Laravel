@@ -107,6 +107,7 @@ Route::get('checkin/report', 'CheckinController@reportCheckin');
 //events
 Route::get('events', 'EventsController@index');
 Route::get('events/create_page', 'EventsController@createPage');
+Route::post('events/store', 'EventsController@store')->name('events.store');
 
 //Front end website
 Route::get('/', 'WebsiteController@index');
