@@ -145,23 +145,8 @@ class MemberController extends Controller
             $households[$i]['name'] = $hh->name;
             $j = 0;
             foreach($hh->users as $huser){
-                $user = [];
-                $user['id'] = $huser->id;
-                $user['first_name'] = $huser->first_name;
-                $user['middle_name'] = $huser->middle_name;
-                $user['last_name'] = $huser->last_name;
-                $user['personal_id'] = $huser->personal_id;
-                $user['email'] = $huser->email;
-                $user['mobile_no'] = $huser->mobile_no;
-                $user['isPrimary'] = $huser->pivot->isPrimary;
-                $this->extractAddress($user, $huser);
-                $fullAdr = explode("///",$huser['address']);
-                $user['address'] = $fullAdr[0];
-                $user['address'] .= isset($fullAdr[1])? ','. $fullAdr[1]:'';
-                $user['address'] .= isset($fullAdr[2])? ','. $fullAdr[2]:'';
-                $user['address'] .= isset($fullAdr[3])? ','. $fullAdr[3]:'';
-                $user['address'] .= isset($fullAdr[4])? '-'. $fullAdr[4]:'';
-                $fullAdr = explode("///",$user['address']);
+                $user = $this->extreactHhUrserFields($huser);
+                $user['address'] = $this->extractAddress($huser);
                 $households[$i]['users'][] = $user;
             }
              $i++;
@@ -177,22 +162,60 @@ class MemberController extends Controller
                     ->where('first_name', 'LIKE', '%' . $payload['searchStr'] . "%")
                     ->orWhere("middle_name", 'LIKE', "%" . $payload['searchStr'] . "%")
                     ->orWhere("last_name", "LIKE", "%" . $payload['searchStr'] . "%")
-                    ->select('first_name', 'middle_name', "last_name","mobile_no", 'email', 'personal_id', 'profile_pic', 'address')
+                    ->select('id','first_name', 'middle_name', "last_name","mobile_no", 'email', 'personal_id', 'profile_pic', 'address')
                     ->get();
         foreach($users as $user){
-            $this->extractAddress($user, $user);
+            $user["address"] = $this->extractAddress($user);
         }
         
         return $users; 
     }
 
-    public function extractAddress($duser, $suser){
+    public function createNewHousehold(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $orgId = $this->userSessionData['umOrgId'];
+
+        $newHousehold = Household::create([
+                            'name' => $payload['hhName'],
+                            'orgId' => $orgId,
+                            'hhPrimaryUserId' => $payload['primary_user']
+                        ]);
+
+        $newHousehold->users()->attach([
+            $payload['primary_user'] => ['isPrimary' => 1],
+            $payload['user'] => ['isPrimary' => 2]
+        ]);
+
+        $newHh['id'] = $newHousehold->id;
+        $newHh['name'] = $newHousehold->name;
+        foreach($newHousehold->users as $huser){
+            $user = $this->extreactHhUrserFields($huser);
+            $user["address"] = $this->extractAddress($huser);
+            $newHh['users'][] = $user;
+        }
+
+        return $newHh;
+    }
+
+    public function extractAddress($suser){
         $fullAdr = explode("///",$suser['address']);
-        $duser['address'] = $fullAdr[0];
-        $duser['address'] .= $fullAdr[1] === null? ', '. $fullAdr[1]:'';
-        $duser['address'] .= $fullAdr[2] === null? ', '. $fullAdr[2]:'';
-        $duser['address'] .= $fullAdr[3] === null? ', '. $fullAdr[3]:'';
-        $duser['address'] .= $fullAdr[4] === null? ' - '. $fullAdr[4]:'';
-        $duser['address1'] = $suser['address'];
+        $address = $fullAdr[0];
+        $address .= isset($fullAdr[1]) && strlen($fullAdr[1]) > 0 ? ', '. $fullAdr[1] : '';
+        $address .= isset($fullAdr[2]) && strlen($fullAdr[2]) > 0 ? ', '. $fullAdr[2] : '';
+        $address .= isset($fullAdr[3]) && strlen($fullAdr[3]) > 0 ? ', '. $fullAdr[3] : '';
+        $address .= isset($fullAdr[4]) && strlen($fullAdr[4]) > 0 ? ' - '. $fullAdr[4] : '';
+        return $address;
+    }
+
+    public function extreactHhUrserFields($sUser){
+        $user['id'] = $sUser->id;
+        $user['first_name'] = $sUser->first_name;
+        $user['middle_name'] = $sUser->middle_name;
+        $user['last_name'] = $sUser->last_name;
+        $user['personal_id'] = $sUser->personal_id;
+        $user['email'] = $sUser->email;
+        $user['mobile_no'] = $sUser->mobile_no;
+        $user['isPrimary'] = $sUser->pivot->isPrimary;
+        return $user;
     }
 }

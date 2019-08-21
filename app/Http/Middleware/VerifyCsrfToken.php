@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        "/api/people/member/households/get-users-search"
+        "/api/people/member/households/get-users-search",
+        "/api/people/member/households/create-new"
     ];
 }
