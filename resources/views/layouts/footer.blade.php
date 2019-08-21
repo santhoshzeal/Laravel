@@ -50,6 +50,9 @@
         <!-- Datatable init js -->
         <script src="{{ URL:: asset('assets/theme/pages/datatables.init.js')}}"></script>
         
+        <script src="{{ URL:: asset('assets/bootstrap3-dialog/bootstrap-dialog.js')}}"></script>
+        <script src="{{ URL:: asset('assets/formJs/jquery.form.js')}}"></script>
+        
         <!-- Parsley js -->
 <!--        <script type="text/javascript" src="{{ URL:: asset('assets/theme/plugins/parsleyjs/parsley.min.js')}}"></script>
         
@@ -64,6 +67,7 @@
          <script src="{{ URL:: asset('assets/theme/js/app.js')}}"></script>
          
          <script type="text/javascript">
+             var siteUrl = '<?php echo url('/'); ?>';
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

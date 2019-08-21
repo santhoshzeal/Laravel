@@ -102,6 +102,10 @@ Route::get('checkin/report', 'CheckinController@reportCheckin');
 //Auth::routes();
 
 
+//events
+Route::get('events', 'EventsController@index');
+Route::get('events/create_page', 'EventsController@createPage');
+
 //Front end website
 Route::get('/', 'WebsiteController@index');
 
