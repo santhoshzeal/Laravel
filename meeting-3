@@ -1,0 +1,10 @@
+1. email as login
+2. create email as open , same email id for diff churches
+3. add sub domain name in main church register page
+4. new register page for for that church
+5. new welcome page in main site for signup with 
+6. While creating member send welcome email login usermail and password
+7. Add person with with role and password and welcome email in add person and member register
+8. Primary email and sec email ,,,  home and mobile phone
+9. Fixed roles and they can change only role names
+10. Login user by sub domain name and same email can be used for diff churches but we can differentiate it by subdomain name and email
