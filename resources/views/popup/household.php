@@ -16,6 +16,7 @@
     let searchedUserList = [];
     let selectedHh = [];
     let isAddHhBtnPresent = false;
+    let isSelectedHhModal = false;
     let urlPath = location.pathname.split('/');
     let personal_id = urlPath[urlPath.length-1];
     let user = <?php echo json_encode($user) ?>;
@@ -132,7 +133,7 @@
         let modal_footer = `<button type="button" class="btn btn-outline-danger" onClick="removeHousehold()">Remove Household</button>
                             <button type="button" class="btn btn-light" onClick="closeModal()">Close</button>
                             <button type="button" class="btn btn-success" onClick="saveSectedhh()">Save</button>`
-
+        isSelectedHhModal = true;
         updateModalContent(modal_title, modal_body, modal_footer, false);
     }
 
@@ -140,6 +141,7 @@
     ** Listing Households and create new Household blocks in Modal 
     */
     function updateModalWithHhList(){
+        isSelectedHhModal = false;
         selectedHh = [];
         /** Check already Households present or not
         * if present listting houlsehold with respective users and search bar for create New Hh
@@ -156,6 +158,7 @@
     ** update content with No Households in Modal
     */
     function modalContentWithEmptyHh(){
+        isSelectedHhModal = false;
         let modal_title = `<h5 class="modal-title"><span>${(user.first_name)? user.first_name: 'Your'}'s Households</span><h5>`;
         let modal_body = `<h5>No HouseHold</h5>
                             <p>${user.first_name? user.first_name: 'Your'}'s profile has not added to a household yet.</p>
@@ -169,6 +172,7 @@
     ** Listing all households with relative users and Create new household block 
     */
     function newHhWithHhList(){
+        isSelectedHhModal = false;
         let modal_title = `<h5 class="modal-title">${(user.first_name)? user.first_name: 'Your'}'s Households</h5>`;
         let modal_body = getHhListBlockForModalBody();
         let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`
@@ -180,6 +184,7 @@
     ** Create New Hh with Hh List in Modal
     */
     function newHhWithoutHhlist(){
+        isSelectedHhModal = false;
         let modal_title = `<h5 class="modal-title">${(user.first_name)? user.first_name: 'Your'}'s Households</h5>`;
         let modal_body = $('<div>', { class:"input-group"});
         let search_usr_title = getSearchUserTitle();
@@ -191,58 +196,30 @@
 
         updateModalContent(modal_title, modal_body, modal_footer, false);
     }
-    
-    function updateSearchUsrList(){
-        $("#hhModalBody").removeClass("text-center");
-         let records = [];
-        if(searchedUserList.length > 0){
-            searchedUserList.forEach(function(item, index){
-                let userName = extractFullName(item); 
-                let block = `<div class="list-group-item list-group-item-action hover-focus"
-                                 onClick="pickedUserFromSearchList(${index})">
-                                <h6 class="no-margin">${userName}</h6>
-                                <p class="text-muted no-padding no-margin">
-                                    ${item.mobile_no? item.mobile_no: "No Mobile Number"}
-                                </p>
-                                <p class="text-muted no-padding no-margin">${item.email}</p>
-                                <p class="text-muted no-padding no-margin">${item.address}</p>
-                            </div>`;
-                records.push(block);
-            })
-        }else {
-            let noRecord = `<p>No records found</p>`;
-            records.push(noRecord);
-        }
-        let createUserBtn = `<a href="/people/member/management" type="button" class="btn btn-secondary btn-lg btn-block">
-                             <i class="fa fa-user"></i> Create A New Person</a>`
-        records.push(createUserBtn);
-        $("#search-users-list").html(records);
-    }
 
     function pickedUserFromSearchList(index){
+        if(isSelectedHhModal){
+            let searchStr = $("#searchStr").val()
+            let selectedUsr = searchedUserList[index];
+            selectedUsr.isPrimary = 2;
+            selectedHh.users.push(selectedUsr);
+            searchedUserList.splice(index, 1);
+            generateSelectedHhContent();
+            updateSearchUsrList();
+            hideHhListSearchBtn();
+            $("#searchStr").val(searchStr);
+            return ;
+        };
         selectedUser = searchedUserList[index];
         $("#hhModalBody").addClass("text-center");
         let sFullName = extractFullName(selectedUser);
         let uFullName = extractFullName(user);
-        let modalTitle = `<h5 class="modal-title">Join a Household of ${sFullName}</h5> `;
+        let modal_title = `<h5 class="modal-title">Join a Household of ${sFullName}</h5> `;
         
-        let isReadyToCreateHh = `<a href="#" onClick="crateHousehold()"><i class="fa fa-plus" aria-hidden="true"></i> Create a new houlsehold with ${sFullName} with ${uFullName} as members</a>`;
-        let footer_content = `<button type="button" class="btn btn-secondary" onClick="closeEmptyModal()">Close</button>`
+        let modal_body = `<a href="#" onClick="crateHousehold()"><i class="fa fa-plus" aria-hidden="true"></i> Create a new houlsehold with ${sFullName} with ${uFullName} as members</a>`;
+        let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeEmptyModal()">Close</button>`
         
-        $("#hhModalTitle").html(modalTitle);
-        $("#hhModalBody").html(isReadyToCreateHh);
-        $('#hhModalFooter').html(footer_content);
-    }
-
-    function crateHousehold(){
-        let queryData = filterNewHhDetails();
-        let apiPath = '/api/people/member/households/create-new';
-        let apiProps = {url: apiPath, method:'post', queryData}
-        fetchDataApi(apiProps, function(data){
-            houseHolds.push(data);
-            selectedHh = data;
-            updateModalWithSelectedHh();
-        })
+        updateModalContent(modal_title, modal_body, modal_footer, false);
     }
 
     function hideHhUserSettingBlock(appendIds){
@@ -459,9 +436,42 @@
         // body_content.concat()
 
         body_content.push(searchBlock)
+        if(isSelectedHhModal){
+            $("#hhModalBody").html(body_content);
+            return ;
+        }
         return body_content;
     }
 
+    /**
+    ** Listing user search records
+     */
+    function updateSearchUsrList(){
+        $("#hhModalBody").removeClass("text-center");
+         let records = [];
+        if(searchedUserList.length > 0){
+            searchedUserList.forEach(function(item, index){
+                let userName = extractFullName(item); 
+                let block = `<div class="list-group-item list-group-item-action hover-focus"
+                                 onClick="pickedUserFromSearchList(${index})">
+                                <h6 class="no-margin">${userName}</h6>
+                                <p class="text-muted no-padding no-margin">
+                                    ${item.mobile_no? item.mobile_no: "No Mobile Number"}
+                                </p>
+                                <p class="text-muted no-padding no-margin">${item.email}</p>
+                                <p class="text-muted no-padding no-margin">${item.address}</p>
+                            </div>`;
+                records.push(block);
+            })
+        }else {
+            let noRecord = `<p>No records found</p>`;
+            records.push(noRecord);
+        }
+        let createUserBtn = `<a href="/people/member/management" type="button" class="btn btn-secondary btn-lg btn-block">
+                             <i class="fa fa-user"></i> Create A New Person</a>`
+        records.push(createUserBtn);
+        $("#search-users-list").html(records);
+    }
     /**
     ** SUPPORTED FUNCTIONS
     */
@@ -478,12 +488,22 @@
     // Get Search Users list for search query from API
     function getSearchResults(){
         let searchStr = $("#searchStr").val();
+        let exceptIds = null
+        if(isSelectedHhModal){
+            exceptIds = selectedHh.users.map(function(item){
+                return item.id;
+            })
+        }else {
+            exceptIds = [user.id];
+        }
         searchedUserList = [];
         if(searchStr.length > 3){
             let apiPath = '/api/people/member/households/get-users-search';
-            let apiProps = {url: apiPath, method:'post', queryData:{searchStr, id: user.id}}
+            let apiProps = {url: apiPath, method:'post', queryData:{searchStr, exceptIds}}
             fetchDataApi(apiProps, function(data){
-                searchedUserList = data;
+                searchedUserList = data.filter(function(item){
+                                    return !exceptIds.includes(item.id);
+                                });
                 updateSearchUsrList();
             })
         }else {
@@ -506,6 +526,19 @@
         })
     }
 
+    // Creating new household
+    function crateHousehold(){
+        let queryData = filterNewHhDetails();
+        let apiPath = '/api/people/member/households/create-new';
+        let apiProps = {url: apiPath, method:'post', queryData}
+        fetchDataApi(apiProps, function(data){
+            houseHolds.push(data);
+            selectedHh = data;
+            updateModalWithSelectedHh();
+        })
+    }
+
+    // Save or Update the Househould
     function saveSectedhh(){
         selectedHh.name = selectedHh.name.length < 2? "household" : selectedHh.name;
         if(selectedHh.users.length > 0){

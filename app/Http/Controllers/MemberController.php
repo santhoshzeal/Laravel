@@ -157,8 +157,9 @@ class MemberController extends Controller
     public function getHhUserSearch(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $orgId = $this->userSessionData['umOrgId'];
-        $users = User::where('orgId', $orgId)
-                    ->where("id", '!=', $payload['id'])
+        // dd($payload['exceptIds']);
+        $users = User::whereNotIn("id", $payload['exceptIds'])
+                    ->where('orgId', $orgId)
                     ->where('first_name', 'LIKE', '%' . $payload['searchStr'] . "%")
                     ->orWhere("middle_name", 'LIKE', "%" . $payload['searchStr'] . "%")
                     ->orWhere("last_name", "LIKE", "%" . $payload['searchStr'] . "%")
