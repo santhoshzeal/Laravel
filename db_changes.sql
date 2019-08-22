@@ -155,6 +155,7 @@ CREATE TABLE `comm_templates` (
 -- Dumping data for table `comm_templates`
 --
 
+<<<<<<< HEAD
 INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 'Welcome ', 'Welcome email', 'Welcome email sub', 'Welcome email sub body', 0, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:01:47', NULL, NULL),
 (2, 'Welcome ', 'Welcome email', 'Welcome email sub', 'Welcome email sub body', 1, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:01:52', NULL, NULL),
@@ -1964,3 +1965,21 @@ ALTER TABLE `role_has_permissions`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+=======
+INSERT INTO `comm_templates` (`id`, `ctTag`, `ctName`, `ctSubject`, `ctBody`, `orgId`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 0, NULL, '2019-08-22 16:01:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(2, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 0, NULL, '2019-08-22 16:01:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(3, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 0, NULL, '2019-08-22 16:01:35', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(4, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-22 10:31:18', NULL, '2019-08-22 16:02:10', NULL, NULL),
+(5, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, '2019-08-22 10:31:18', NULL, '2019-08-22 16:02:12', NULL, NULL),
+(6, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 1, NULL, '2019-08-22 10:31:35', NULL, '2019-08-22 16:02:13', NULL, NULL);
+
+
+ALTER TABLE `events` CHANGE `eventCheckin` `eventCheckin` TIME NULL DEFAULT NULL ,
+CHANGE `eventStartCheckin` `eventStartCheckin` TIME NULL DEFAULT NULL ,
+CHANGE `eventEndCheckin` `eventEndCheckin` TIME NULL DEFAULT NULL ;
+
+ALTER TABLE `events` ADD `eventDesc` TEXT NULL DEFAULT NULL AFTER `eventFreq` ;
+
+ALTER TABLE `checkins` ADD `user_id` BIGINT( 20 ) NULL DEFAULT NULL AFTER `eventId` ;
+>>>>>>> 4d0f9014c55ae6f033d33c4656506cc1c9734a54
