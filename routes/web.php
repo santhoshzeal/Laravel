@@ -87,6 +87,8 @@ Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');
 Route::post('/api/people/member/households/get-users-search', 'MemberController@getHhUserSearch');
 Route::post("/api/people/member/households/create-new", 'MemberController@createNewHousehold');
+Route::post("/api/people/member/households/remove-household", 'MemberController@removeHousehold');
+Route::post("/api/people/member/households/update-household", 'MemberController@updateHousehold');
 
 //Role
 Route::get('role_management', 'RoleController@index');

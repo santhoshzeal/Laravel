@@ -5,11 +5,15 @@
     margin: 0 !important;
 }
 .hover-focus:hover {
-    background-color: rgb(230, 224, 238);
-    color: white;
+    /* background-color: rgb(230, 224, 238);
+    color: white; */
+    font-weight: 150;
     cursor: pointer;
 }
 .vh-overflow-80 {
     height: 80vh;
     overflow-y: auto;
+}
+.font-size-8 {
+    font-size: 0.8em;
 }

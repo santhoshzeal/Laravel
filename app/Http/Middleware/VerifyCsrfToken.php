@@ -20,6 +20,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         "/api/people/member/households/get-users-search",
-        "/api/people/member/households/create-new"
+        "/api/people/member/households/create-new",
+        "/api/people/member/households/remove-household",
+        "/api/people/member/households/update-household"
     ];
 }

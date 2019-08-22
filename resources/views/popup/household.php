@@ -15,11 +15,16 @@
     let selectedUser = {};
     let searchedUserList = [];
     let selectedHh = [];
+    let isAddHhBtnPresent = false;
     let urlPath = location.pathname.split('/');
     let personal_id = urlPath[urlPath.length-1];
     let user = <?php echo json_encode($user) ?>;
 
     getHouseHolds();
+
+    /**
+    ** ----------------------- TEMPLATE RELATIVE HOUSEHOLD BLOCKS --------------- 
+    */
 
     /**
     ** Initial Update Household block content in template
@@ -67,11 +72,10 @@
 
             item.users.forEach(function(userItem, index){
                 let primaryContent = userItem.isPrimary === 1? '<i class="fa fa-star></i>' : '';
+                let fullName = extractFullName(userItem)
                 userEl= `<p id="${'user-block'+userItem.id}"><i class="fa fa-user"></i> 
                     <a href="${personal_id === userItem.personal_id? '#' : '/people/member/'+ userItem.personal_id}" >
-                        ${userItem.first_name} 
-                        ${userItem.middle_name ? ' ' +userItem.middle_name : ''}
-                        ${userItem.last_name ? ' ' +userItem.last_name : ''}
+                        ${fullName}
                     </a>
                     ${primaryContent} 
                 </p>`;
@@ -85,10 +89,15 @@
         $("#household-blocks").html(cards);
     }
 
+    
+    /**
+    ** ----------------------- MODAL RELATIVE HOUSEHOLD BLOCKS --------------- 
+    */
     /**
     ** Opening Household Modal
     */
     function openHouseholdModal(){
+        searchedUserList=[];
         generateModalContent();
         $("#hhModal").modal("show");
     }
@@ -101,9 +110,45 @@
             selectedHh = houseHolds[0]
             updateModalWithSelectedHh();
         }else if(houseHolds.length > 1){
+            isAddHhBtnPresent = true;
             updateModalWithHhList();
         }else{
             modalContentWithEmptyHh()
+        }
+    }
+
+    /**
+    ** Updating Selected Household content in Modal with create New Hh button
+    */
+    function updateModalWithSelectedHh(hhIndex = -1){
+        if(hhIndex >= 0){
+            selectedHh = houseHolds[hhIndex];
+        }
+        let modal_title = `<h5 class="modal-title">${selectedHh.name}</h5>
+                            <button type="button" class="btn btn-primary pull-right font-size-8" onClick="updateModalWithHhList()">
+                                Other Households
+                            </button>`;
+        let modal_body = generateSelectedHhContent();
+        let modal_footer = `<button type="button" class="btn btn-outline-danger" onClick="removeHousehold()">Remove Household</button>
+                            <button type="button" class="btn btn-light" onClick="closeModal()">Close</button>
+                            <button type="button" class="btn btn-success" onClick="saveSectedhh()">Save</button>`
+
+        updateModalContent(modal_title, modal_body, modal_footer, false);
+    }
+
+    /**
+    ** Listing Households and create new Household blocks in Modal 
+    */
+    function updateModalWithHhList(){
+        selectedHh = [];
+        /** Check already Households present or not
+        * if present listting houlsehold with respective users and search bar for create New Hh
+        * else simple text with search bar for cheate new Hh
+        **/
+        if(houseHolds.length > 0){
+            newHhWithHhList();
+        }else {
+            newHhWithoutHhlist();
         }
     }
 
@@ -114,59 +159,44 @@
         let modal_title = `<h5 class="modal-title"><span>${(user.first_name)? user.first_name: 'Your'}'s Households</span><h5>`;
         let modal_body = `<h5>No HouseHold</h5>
                             <p>${user.first_name? user.first_name: 'Your'}'s profile has not added to a household yet.</p>
-                            <button type="button" class="btn btn-primary" onClick="newHhSearchUser()">add a household</button>`
+                            <button type="button" class="btn btn-primary" onClick="updateModalWithHhList()">add a household</button>`
         let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`;
         
         updateModalContent(modal_title, modal_body, modal_footer, true);
     }
 
     /**
-    ** Updating Selected Household content in Modal 
+    ** Listing all households with relative users and Create new household block 
     */
-    function updateModalWithSelectedHh(){
-        let modal_title = `<h5 class="modal-title">${selectedHh.name}</h5>
-                            <button type="button" class="btn btn-primary pull-right" style="font-size:.5em">
-                                Other Households
-                            </button>`;
-        let modal_body = generateSelectedHhContent();
-        let modal_footer = `<button type="button" class="btn btn-outline-danger">Remove Household</button>
-                            <button type="button" class="btn btn-light" onClick="closeModal()">Close</button>
-                            <button type="button" class="btn btn-success">Save</button>`
-
+    function newHhWithHhList(){
+        let modal_title = `<h5 class="modal-title">${(user.first_name)? user.first_name: 'Your'}'s Households</h5>`;
+        let modal_body = getHhListBlockForModalBody();
+        let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`
+        
         updateModalContent(modal_title, modal_body, modal_footer, false);
     }
 
     /**
-    ** Search Users to create new Household 
+    ** Create New Hh with Hh List in Modal
     */
-    function newHhSearchUser(){
-        selectedHh = [];
+    function newHhWithoutHhlist(){
         let modal_title = `<h5 class="modal-title">${(user.first_name)? user.first_name: 'Your'}'s Households</h5>`;
         let modal_body = $('<div>', { class:"input-group"});
-        let content_title = `<div class="input-group-prepend">
-                                <p>Whose HouseHold would you like ${user.first_name} to Join?</p>
-                            </div>`;
+        let search_usr_title = getSearchUserTitle();
         let searchBlockEls = getSearchBlock();
-        let content_block = [content_title];
+        let content_block = [search_usr_title];
         let content_data = content_block.concat(searchBlockEls);
         modal_body.append(content_data);
         let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`
 
         updateModalContent(modal_title, modal_body, modal_footer, false);
     }
-
-    function updateModalWithHhList(){
-        let modal_title = `<h5 class="modal-title">Households</h5>`;
-        let modal_body = '<h3>Under Progress..</h3>';
-        let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`
-        
-        updateModalContent(modal_title, modal_body, modal_footer, false);
-    }
-    function updateSearchUsrList(data){
+    
+    function updateSearchUsrList(){
         $("#hhModalBody").removeClass("text-center");
          let records = [];
-        if(data.length > 0){
-            data.forEach(function(item, index){
+        if(searchedUserList.length > 0){
+            searchedUserList.forEach(function(item, index){
                 let userName = extractFullName(item); 
                 let block = `<div class="list-group-item list-group-item-action hover-focus"
                                  onClick="pickedUserFromSearchList(${index})">
@@ -213,12 +243,6 @@
             selectedHh = data;
             updateModalWithSelectedHh();
         })
-        $("#hhModalBody").html("<h5>Under progress...</h5>");
-    }
-
-    // Listing Househols with relative users in Modal
-    function updateModalHhList(){
-        console.log(JSON.stringify(houseHolds))
     }
 
     function hideHhUserSettingBlock(appendIds){
@@ -243,8 +267,9 @@
         updateModalWithSelectedHh();
     }
 
-    function removeHhUser(user, userIndex){
-        let userName = extractFullName(user);
+    function removeHhUser(userIndex){
+        let hhUser = selectedHh.users[userIndex]
+        let userName = extractFullName(hhUser);
         let confirmed = confirm("Are You sure you'd like to remove " + userName);
         if(confirmed){
             selectedHh.users.splice(userIndex, 1);
@@ -307,6 +332,16 @@
     }
 
     /**
+    * Search user block title to create a new Hh 
+    */
+    function getSearchUserTitle(){
+        let searchUserTitle = `<div class="input-group-prepend">
+                                    <p>Whose HouseHold would you like ${user.first_name} to Join?</p>
+                                </div>`;
+        return searchUserTitle;
+    }
+
+    /**
     ** Updating content in modal
     */
     function updateModalContent(header, body, footer, isContentCenter=false){
@@ -329,42 +364,118 @@
     }
 
     /**
-    **
+    ** Editing Household Name
     */
+    function updateHhName(){
+        selectedHh.name = $("#hhInputName").val();
+    }
+
+    /**
+    ** ------------------------ MODAL CONTENT SUPPORTED FUNCTION --------------
+    */
+
+    // generating Modal body for Household List
+    function getHhListBlockForModalBody(){
+        let modal_content = getHhListForModal();
+        let searchBlock = $("<div>", { class: "list-group d-none", id:"showSearchBlock" });
+        let toggleBtn = `<p id="hhListSearchBtn">
+                            <button class="btn btn-primary" onClick="hideHhListSearchBtn()" type="button">
+                                add a household
+                            </button>
+                        </p>`;
+        let search_usr_title = getSearchUserTitle();
+        let searchBlockEls = getSearchBlock();
+        searchBlock.append(search_usr_title);
+        searchBlock.append(searchBlockEls);
+        
+        let modal_body = [modal_content, toggleBtn, searchBlock];
+        return modal_body;
+    }
+    
+    // Household List Modal content
+    function getHhListForModal(){
+        let hhRecords = $("<div>", { class: "list-group" });
+        houseHolds.forEach(function(item, index){
+            let hhUsrImagesBlock = $("<div>");
+            let hhUsrImages = "";
+            item.users.forEach(function(usr){
+                let usrName = extractFullName(usr);
+                let image = null;
+                if(usr.profile_pic){
+                    image = `<img src="${usr.profile_pic}" height="42" width="42" style="margin:10px;" title="${usrName}" class="rounded-circle">`;
+                } else {
+                    image = `<span title="${usrName}" style="font-size:42px; margin:10px;"><i class="fa fa-user"></i></span>`
+                }
+                hhUsrImages += image;
+            });
+            hhUsrImagesBlock.append(hhUsrImages)
+            let block = `<div class="list-group-item">
+                            <h6 class="hover-focus" onClick="updateModalWithSelectedHh(${index})">${item.name}</h6>
+                            <div id="hhUserImagesBlk"></div>${hhUsrImages}
+                        </div>`;
+            $("#hhUserImagesBlk").append(hhUsrImages);
+            hhRecords.append(block);
+        })
+        return hhRecords;
+    }
+
+    // generating Selected Household Content
     function generateSelectedHhContent(){
         let editHhName = `<div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Household :</span>
                             </div>
-                            <input class="form-control" value="${selectedHh.name}" />
+                            <input class="form-control" id="hhInputName" value="${selectedHh.name}" onInput="updateHhName()" />
                         </div>`;
         
         let body_content = [editHhName];
         selectedHh.users.forEach(function(item, index){
             let userName = extractFullName(item); 
-            let primaryBadge = item.isPrimary === 1 ? `<button class="btn btn-primary btn-sm pull-right" style="font-size:.5em">PRIMARY</button>`: '';
-            let primaryBtn = item.isPrimary !== 1 ? `<button type="button" class="btn btn-sm btn-outline-success" onClick="changePrimary(${item.id})">Make Primary</button>`: '';
+            let primaryBadge = item.isPrimary === 1 ? `<span class="badge badge-pill badge-primary" onClick="changePrimary(${item.id})">Primary</span>`: '';
+            let primaryBtn = item.isPrimary !== 1 ? `<button type="button" class="btn btn-sm btn-outline-success font-size-8" onClick="changePrimary(${item.id})" >Make Primary</button>`: '';
             let block = `<div class="list-group-item">
-                            <h6 class="no-margin">${userName} ${primaryBadge}</h6>
-                            <p class="text-muted no-padding no-margin">${item.email}
-                            <span id=${'hhUserSetting'+selectedHh.id+'-'+item.id} class="pull-right" onClick="showHhUserSettingBlock(${selectedHh.id+'-'+item.id})"><i class="fa fa-cog"></i></span>
-                            </p>
-                            <div id=${'hhUserSettingBlock'+selectedHh.id+'-'+item.id} class="bg-secondary d-none">
-                                <button type="button" class="btn btn-sm btn-outline-danger" onClick="removeHhUser(${item},${index})">Remove</button>
+                            <h6 class="no-margin">${userName} ${primaryBadge} 
+                            <button id="${'hhUserSetting'+item.id}" class="pull-right" onClick="showHhUserSettingBlock('${item.id}')"><i class="fa fa-cog"></i></button>
+                            </h6>
+                            <p class="text-muted no-padding no-margin">${item.email}</p>
+                            <div id="${'hhUserSettingBlock'+item.id}" class="bg-light d-none" style="margin-top:12px;">
+                                <button type="button" class="btn btn-sm btn-outline-danger font-size-8" onClick="removeHhUser(${index})">Remove</button>
                                 ${primaryBtn}
-                                <button type="button" class="btn btn-sm btn-outline-secondary rounded pull-right" onClick="hideHhUserSettingBlock(${selectedHh.id+'-'+item.id})"><i class="fa fa-cog"></i>close</button>  
+                                <button type="button" class="btn-sm rounded pull-right font-size-8" onClick="hideHhUserSettingBlock('${item.id}')"><i class="fa fa-cog"></i> close</button>  
                             </div>
                         </div>`;
             body_content.push(block);
         });
+        let searchBlock = $("<div>", { class: "list-group d-none", id:"showSearchBlock" });
+        let toggleBtn = `<p id="hhListSearchBtn">
+                            <button class="btn btn-primary" onClick="hideHhListSearchBtn()" type="button">
+                                add a User
+                            </button>
+                        </p>`;
+        let searchBlockEls = getSearchBlock();
+        body_content.push(toggleBtn)
+        searchBlock.html(searchBlockEls);
+        
+        // body_content.concat()
+
+        body_content.push(searchBlock)
         return body_content;
+    }
+
+    /**
+    ** SUPPORTED FUNCTIONS
+    */
+
+    function hideHhListSearchBtn(){
+        $("#hhListSearchBtn").addClass('d-none');
+        $("#showSearchBlock").removeClass('d-none');
     }
 
     /** 
     ** ------------------ API RELATIVE FUNCTIONS AND API CALL -----------------
     **/ 
     
-    // Get Search Users list from API
+    // Get Search Users list for search query from API
     function getSearchResults(){
         let searchStr = $("#searchStr").val();
         searchedUserList = [];
@@ -373,13 +484,54 @@
             let apiProps = {url: apiPath, method:'post', queryData:{searchStr, id: user.id}}
             fetchDataApi(apiProps, function(data){
                 searchedUserList = data;
-                updateSearchUsrList(data);
+                updateSearchUsrList();
             })
         }else {
             $("#search-users-list").html("<div></div>");
         }
     }
 
+    // Remove Household and closing Modal
+    function removeHousehold(){
+        let apiPath = '/api/people/member/households/remove-household';
+        let apiProps = {url: apiPath, method:'post', queryData:{hhId: selectedHh.id}};
+        let hhIndex = houseHolds.findIndex(function(item, index){
+            return item.id === selectedHh.id;
+        });
+        houseHolds.splice(hhIndex, 1);
+        selectedHh = [];
+        closeModal();
+        fetchDataApi(apiProps, function(data){
+            console.log(data);
+        })
+    }
+
+    function saveSectedhh(){
+        selectedHh.name = selectedHh.name.length < 2? "household" : selectedHh.name;
+        if(selectedHh.users.length > 0){
+            let isUserPresent = selectedHh.users.find(function(item, index){
+                                    return item.id === user.id;
+                                });
+            if(isUserPresent){
+                let hhIndex = houseHolds.findIndex(function(item, index){
+                                return item.id === selectedHh.id;
+                            });
+                houseHolds.splice(hhIndex, 1, selectedHh);
+                let apiPath = '/api/people/member/households/update-household';
+                let queryData = {household: selectedHh};
+                let apiProps = {url: apiPath, method:'post', queryData};
+                closeModal();
+                fetchDataApi(apiProps, function(data){
+                    console.log(data);
+                })
+            } else {
+                removeHousehold();
+                return;
+            }
+        }else {
+            removeHousehold();
+        }
+    }
     // Calling Restfull Api's
     function fetchDataApi(props, callback){
         let payload = {};

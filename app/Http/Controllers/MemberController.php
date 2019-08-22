@@ -197,6 +197,39 @@ class MemberController extends Controller
         return $newHh;
     }
 
+    public function removeHousehold(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $orgId = $this->userSessionData['umOrgId'];
+
+        $household = Household::where('orgId', $orgId)->where('id', $payload["hhId"])->first();
+        $household->users()->detach();
+        $household->delete();
+        $data = ["msg"=>"Househose has been successfully removed from db"];
+        return $data;
+    }
+
+    public function updateHousehold(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $orgId = $this->userSessionData['umOrgId'];
+        $payloadData = $payload["household"];
+
+        $household = Household::where('orgId', $orgId)->where('id', $payloadData["id"])->first();
+        $household->users()->detach();
+        $household->name = $payloadData["name"];
+        $household->save();
+
+        $attachUsers = [];
+
+        foreach($payloadData["users"] as $user){
+            // dd($user);
+            $attachUsers[$user["id"]] = ['isPrimary' => $user["isPrimary"]];
+        }
+        $household->users()->attach($attachUsers);
+
+        $data = ["msg"=>"Househose has been updated successfully from db"];
+        return $data;
+    }
+
     public function extractAddress($suser){
         $fullAdr = explode("///",$suser['address']);
         $address = $fullAdr[0];
@@ -215,6 +248,7 @@ class MemberController extends Controller
         $user['personal_id'] = $sUser->personal_id;
         $user['email'] = $sUser->email;
         $user['mobile_no'] = $sUser->mobile_no;
+        $user['profile_pic'] = $sUser->profile_pic;
         $user['isPrimary'] = $sUser->pivot->isPrimary;
         return $user;
     }
