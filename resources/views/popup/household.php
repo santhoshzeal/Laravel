@@ -30,7 +30,7 @@
     ** Initial Update Household block content in template
     */
     function getHouseHolds(){
-        let apiPath = '/api/people/member/households/'+ personal_id;
+        let apiPath = siteUrl+'/api/people/member/households/'+ personal_id;
         let apiProps = {url: apiPath, method:'get', queryData:null}
         fetchDataApi(apiProps, function(data){
             houseHolds = data;
@@ -236,7 +236,7 @@
 
     function crateHousehold(){
         let queryData = filterNewHhDetails();
-        let apiPath = '/api/people/member/households/create-new';
+        let apiPath = siteUrl+'/api/people/member/households/create-new';
         let apiProps = {url: apiPath, method:'post', queryData}
         fetchDataApi(apiProps, function(data){
             houseHolds.push(data);
@@ -480,7 +480,7 @@
         let searchStr = $("#searchStr").val();
         searchedUserList = [];
         if(searchStr.length > 3){
-            let apiPath = '/api/people/member/households/get-users-search';
+            let apiPath = siteUrl+'/api/people/member/households/get-users-search';
             let apiProps = {url: apiPath, method:'post', queryData:{searchStr, id: user.id}}
             fetchDataApi(apiProps, function(data){
                 searchedUserList = data;
@@ -493,7 +493,7 @@
 
     // Remove Household and closing Modal
     function removeHousehold(){
-        let apiPath = '/api/people/member/households/remove-household';
+        let apiPath = siteUrl+'/api/people/member/households/remove-household';
         let apiProps = {url: apiPath, method:'post', queryData:{hhId: selectedHh.id}};
         let hhIndex = houseHolds.findIndex(function(item, index){
             return item.id === selectedHh.id;
@@ -517,7 +517,7 @@
                                 return item.id === selectedHh.id;
                             });
                 houseHolds.splice(hhIndex, 1, selectedHh);
-                let apiPath = '/api/people/member/households/update-household';
+                let apiPath = siteUrl+'/api/people/member/households/update-household';
                 let queryData = {household: selectedHh};
                 let apiProps = {url: apiPath, method:'post', queryData};
                 closeModal();
