@@ -223,6 +223,7 @@
                                 </ul>
                             </li>
                             <li @if($url_segment_one == "communication") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('communication')}}"> Communication</a></li>
+                            <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('events')}}"> Events</a></li>
 
                               
 

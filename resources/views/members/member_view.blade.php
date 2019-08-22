@@ -28,9 +28,10 @@
                         <div class="row">
 
                             <div class="col-md-4 col-lg-4 col-xl-2">
+                                <input type="hidden" name="hidden_user_id" id="hidden_user_id" value="{{$user['id']}}">
                                 <?php
                                 $profile_pic_image= url('/assets/uploads/organizations/avatar.png');
-                                if(isSet($user['profile_pic'])){
+                                if(isset($user['profile_pic'])){
                                     $profile_pic_image_json = json_decode(unserialize($user->profile_pic));
                                     $profile_pic_image = $profile_pic_image_json->download_path.$profile_pic_image_json->uploaded_file_name;
                                 }
@@ -201,7 +202,7 @@
             $.ajax({
                 url: siteUrl+'/user_profile_file_upload',
                 type: "POST",
-                data: {"image":resp},
+                data: {"image":resp,"user_id":$("#hidden_user_id").val()},
                 success: function (data) {
                     html = '<img src="' + resp + '" />';
                     $("#upload-demo-i").html(html);
