@@ -45,7 +45,7 @@
 
                             </div><!-- end col -->
                             <?php
-                                $edit_profile_url = "/people/member/management";
+                                $edit_profile_url = URL::asset("/people/member/management");
                                 $member_id = request()->route()->parameters['personal_id'];
                                 if($member_id){
                                     $edit_profile_url = $edit_profile_url ."/". $member_id;

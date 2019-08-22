@@ -38,6 +38,7 @@ class PassportController extends Controller {
         } else {
             $this->org_domain = \Request::segment(3);
         }
+        //dd("URL : ".url('/login').'/'.$this->org_domain);
         //dd($this->org_domain);
         //$this->crudOrganizationData = array();
         $whereArray = array('orgDomain' => $this->org_domain);
@@ -232,26 +233,27 @@ class PassportController extends Controller {
                 
             }else{
                 //return redirect()->route('register')->with('failure', $e->getMessage());
-                return response()->json(['result_code' => 0,'failure' => $e->getMessage()], 200);
+                return response()->json(['result_code' => 0,'message' => $e->getMessage()], 200);
             }
             
-            
+            $urlHere = url('/login').'/'.$request->orgDomain;
             DB::commit();
-            
-            return response()->json(['result_code' => 1, 'message' => 'Account has been created'], 200);
+            $logindetails = "Login URL : <a href='".$urlHere."'>".$urlHere."</a>";
+            //, 'logindetails' => $logindetails
+            return response()->json(['result_code' => 1, 'message' => 'Account has been created', 'logindetails' => $logindetails], 200);
             return redirect()->back()->with('message', 'Account has been created');
             
             
         }catch (\Illuminate\Database\QueryException $e) {
             DB::rollback();            
-            return response()->json(['result_code' => 0,'failure' => $e->getMessage()], 200);
+            return response()->json(['result_code' => 0,'message' => $e->getMessage()], 200);
             return Redirect::back()->withErrors( $e->getMessage());
             
             
         // something went wrong with the transaction, rollback
         }  catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['result_code' => 0,'failure' => $e->getMessage()], 200);
+            return response()->json(['result_code' => 0,'message' => $e->getMessage()], 200);
             return Redirect::back()->withErrors( $e->getMessage());
             
             

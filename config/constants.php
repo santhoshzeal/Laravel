@@ -27,7 +27,7 @@ return [
         'ORG_LOGO_DEFAULT_FILE_NAME'=>"bible-cross-logo1.png"
     ],
     'FILE_DOWNLOAD_PATH' =>[
-        // 'PROFILE_PIC_DOWNLOAD_PATH' => url('assets/uploads/organizations'),    
+         'PROFILE_PIC_DOWNLOAD_PATH' => url('assets/uploads/organizations'),    
     ],
     
     

@@ -652,7 +652,7 @@
 
     <section class="ftco-section sign-up ftco-no-pb" id="sign-up">
       <div class="container">
-        <div class="row justify-content-center mb-5 pb-3">
+        <div class="row justify-content-center "> <!--mb-5 pb-3-->
           <div class="col-md-7 heading-section text-center ftco-animate">
             <span class="subheading">Register</span>
             <h2 class="mb-4">Set Up Your Account</h2>
@@ -661,7 +661,7 @@
         </div> 
         <div class="row no-gutters block-9">
           <div class="col-md-6 order-md-last d-flex">
-            @if ($errors->any())
+           <!--  @if ($errors->any())
             <div class="error">
                 <ul style="list-style: none;padding: 0">
                 @foreach ($errors->all() as $error)
@@ -669,14 +669,14 @@
                 @endforeach
                 </ul>
             </div>
-            @endif
+            @endif -->
             
-            
+            <!-- 
             @if(session()->has('message'))
                 <div class="alert alert-success">
                     {{ session()->get('message') }}
                 </div>
-            @endif
+            @endif -->
             
             {!! Form::open(array('id'=>'organizationCreateForm','name'=>'organizationCreateForm','method' => 'post', 'url' => url('org_register'), 'class' => 'bg-light p-5 signup-form')) !!}
             @csrf
@@ -728,8 +728,8 @@
           
           </div>
 
-          <div class="col-md-6 d-flex">
-            <div  class="bg-white">.</div>
+          <div class="col-md-6 d-flex organizationLoginDetails">
+            <div  class="bg-white">&nbsp;<div id="organizationLoginDetails"></div></div>
           </div>
         </div>
       </div>
