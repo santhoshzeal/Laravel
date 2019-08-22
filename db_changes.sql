@@ -78,3 +78,12 @@ INSERT INTO `comm_templates` (`id`, `ctTag`, `ctName`, `ctSubject`, `ctBody`, `o
 (4, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-22 10:31:18', NULL, '2019-08-22 16:02:10', NULL, NULL),
 (5, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, '2019-08-22 10:31:18', NULL, '2019-08-22 16:02:12', NULL, NULL),
 (6, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 1, NULL, '2019-08-22 10:31:35', NULL, '2019-08-22 16:02:13', NULL, NULL);
+
+
+ALTER TABLE `events` CHANGE `eventCheckin` `eventCheckin` TIME NULL DEFAULT NULL ,
+CHANGE `eventStartCheckin` `eventStartCheckin` TIME NULL DEFAULT NULL ,
+CHANGE `eventEndCheckin` `eventEndCheckin` TIME NULL DEFAULT NULL ;
+
+ALTER TABLE `events` ADD `eventDesc` TEXT NULL DEFAULT NULL AFTER `eventFreq` ;
+
+ALTER TABLE `checkins` ADD `user_id` BIGINT( 20 ) NULL DEFAULT NULL AFTER `eventId` ;
