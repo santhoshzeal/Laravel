@@ -20,6 +20,20 @@ $(document).ready(function () {
             email: {
                 required: true,
                 email:true
+            },
+            password: {
+                required: true,
+                minlength : 5
+
+            },
+            confirm_password: {
+                required: true,
+                minlength : 5,
+                equalTo : "#password"
+            },
+            orgTimeZone: {
+                required: true
+
             }
         },
         messages: {
@@ -35,6 +49,12 @@ $(document).ready(function () {
             email: {
                 required: "Please enter email",
                 email: "Please enter valid email"
+            },
+            password: {
+                required: "Please enter password"
+            },
+            confirm_password: {
+                required: "Please enter confirm_password"
             },
         }
     });
@@ -80,14 +100,28 @@ $("#btnCreateOrg").click(function () {
             async: true,
             type: "POST",
             data: formData,
-            dataType: "html",
+            dataType: "json",
             contentType: false,
             cache: false,
             processData: false,
             success: function (data)
             {
-                alert(data);
-                console.log(data);
+                
+                if(data.result_code === 1){
+                    alert(data.message);
+                    $("#organizationLoginDetails").html(data.logindetails);
+                    //$('#organizationLoginDetails').focus();
+                    // var scrollPos =  $(".organizationLoginDetails").offset().top;
+                    //$(window).scrollTop(scrollPos);
+
+
+                    $("#organizationCreateForm").trigger("reset");
+                }else{
+                    alert(data.message);
+                    return false;
+                }
+                
+                //console.log(data);
 //                
 //                $('#modal-account_head').modal('hide');
 //                if (data == "updated") {
