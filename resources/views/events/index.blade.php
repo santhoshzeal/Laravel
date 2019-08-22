@@ -44,27 +44,19 @@
                                 </div>
                                 <br>
                                 <!-- -->
-                                <table id="datatable" class="table table-bordered">
+                                <table id="eventsTable" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>PHOTO</th>
                                         <th>Name</th>
-                                        <th>Event</th>
-                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
 
 
                                     <tbody>
-                                    <tr>
-                                        <td><img src="{{ URL::asset('assets/uploads/profile/1images.jpg')}}" alt="" height="30" class="logo-large"></td>
-                                        <td>Regular @8.00 A.M</td>
-                                        <td>In At 3/10 @10:00AM</td>
-                                        <td>In At 3/10 @10:00AM</td>
-                                        
-                                    </tr>
-                                         
-                                    
                                     
                                     </tbody>
                                 </table>
@@ -82,15 +74,42 @@
             <script>
             
              $(document).ready(function() { 
-                // bind 'myForm' and provide a simple callback function 
-                $('#create_event_form').ajaxForm(function() { 
-                    alert("Thank you for your comment!"); 
-                }); 
+               
+                
+                eventsTable = $('#eventsTable').DataTable({
+                        "serverSide": true,
+                        "destroy": true,
+                        "autoWidth": false,
+                        "searching": true,
+                        "aaSorting": [[ 1, "desc" ]],
+                        "columnDefs": [
+                            {
+                                "targets": 0,
+                                "searchable": false,
+                                "visible" : true
+                                }
+                            ],
+                        "ajax": {
+                            type: "POST",
+                            data: {},
+                            url: siteUrl + '/events/list',
+                        }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
+                        columns: [
+                            {data: 'eventName', name: 'eventName'},
+                            {data: 'eventCreatedDate', name: 'eventCreatedDate'},
+                             {data: 'eventStartCheckin', name: 'eventStartCheckin'},
+                              {data: 'eventEndCheckin', name: 'eventEndCheckin'},
+                            {data: 'action', name: 'action', orderable: false, searchable: false},
+                        ]
+                    });
+                
+                
+                
             }); 
                 
             
             function createEventDialog(){
-                 BootstrapDialog.show({
+                 CreateEventsDlg = BootstrapDialog.show({
                     title:"Create Events",
                     size:"size-wide",
                     message: $('<div></div>').load(siteUrl+"/events/create_page"),
@@ -115,7 +134,11 @@
             function submitCreateEvent(){
                 
                 $('#create_event_form').ajaxForm(function(data) { 
-                    alert(data); 
+                   $("#create_event_form_status").html(data.message);
+                   setTimeout(function(){
+                       CreateEventsDlg.close();
+                        eventsTable.draw(false);
+                    },2000);
                 });
                 
                 $("#create_event_form").submit();

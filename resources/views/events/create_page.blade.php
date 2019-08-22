@@ -1,5 +1,7 @@
 <form method="post" action="{{ route('events.store') }}" name="create_event_form" id="create_event_form">
-<div class="row">
+ <div id="create_event_form_status"></div>
+    <div class="row">
+   
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
@@ -8,6 +10,24 @@
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Title Event</label>
                                     <div class="col-sm-9">
                                         <input class="form-control" type="text" value="" id="eventName" name="eventName">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Start Time:
+                                                <select id="eventStartCheckin" name="eventStartCheckin" class="form-control">
+                                                    <?php for($i = 1; $i <= 24; $i++): ?>
+                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>"><?= date("h.iA", strtotime("$i:00")); ?></option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                End Time:
+                                                <select id="eventEndCheckin" name="eventEndCheckin" class="form-control">
+                                                    <?php for($i = 1; $i <= 24; $i++): ?>
+                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>"><?= date("h.iA", strtotime("$i:00")); ?></option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -21,7 +41,7 @@
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea name="eventDescription" id="eventDescription" class="form-control" />
+                                        <textarea name="eventDesc" id="eventDesc" class="form-control" />
                                     </div>
                                 </div>
                                 
@@ -70,17 +90,14 @@
                                 
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Booked For</label>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-9">
                                         <select id="eventBookedFor" name="eventBookedFor" class="form-control">
                                             <option value="room1">Room 1</option>
                                             <option value="room2">Room 2</option>
                                         </select>
                                         
                                     </div>
-                                    <div class="col-sm-3">
-                                        <button class="btn btn-primary">add person</button>
-                                        
-                                    </div>
+                                   
                                 </div>
                                 
                                  <div class="form-group row">

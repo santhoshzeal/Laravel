@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Config;
+use App\Models\Events;
+use Illuminate\Http\Response;
+use DataTables;
 class EventsController extends Controller
 {
    
@@ -37,23 +40,35 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        echo json_encode($request->all());
-        exit();
+        Events::create($request->all());
         
-        $this->validate($request, [
-            'name'=>'required|unique:roles|max:10',
-            'permissions' =>'required',
-            ]
-        );
-        $role = new Role();
-        $role->name = $request->name;
-        $role->save();
-        if($request->permissions <> ''){
-            $role->permissions()->attach($request->permissions);
-        }
-        return redirect()->route('roles.index')->with('success','Roles added successfully');
+       return response()->json(
+               [
+                   'success' => '1',
+                   "message" => '<div class="alert alert-success">
+                                    <strong>Saved!</strong> 
+                                  </div>'
+               ]
+               );
+
     }
    
+    public function listEvents(Request $request)
+    {
+        $events = Events::listEvents();
+        
+        return DataTables::of($events)
+                    
+                    ->addColumn('action', function($row){
+   
+                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+    }
+    
      public function edit($id) {
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
