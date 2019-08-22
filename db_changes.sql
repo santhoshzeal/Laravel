@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS `comm_detail` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
- 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `comm_master`
 --
@@ -41,12 +43,8 @@ CREATE TABLE IF NOT EXISTS `comm_master` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `comm_master`
---
- 
 -- --------------------------------------------------------
 
 --
@@ -67,5 +65,16 @@ CREATE TABLE IF NOT EXISTS `comm_templates` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
- 
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `comm_templates`
+--
+
+INSERT INTO `comm_templates` (`id`, `ctTag`, `ctName`, `ctSubject`, `ctBody`, `orgId`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 0, NULL, '2019-08-22 16:01:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(2, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 0, NULL, '2019-08-22 16:01:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(3, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 0, NULL, '2019-08-22 16:01:35', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(4, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-22 10:31:18', NULL, '2019-08-22 16:02:10', NULL, NULL),
+(5, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, '2019-08-22 10:31:18', NULL, '2019-08-22 16:02:12', NULL, NULL),
+(6, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 1, NULL, '2019-08-22 10:31:35', NULL, '2019-08-22 16:02:13', NULL, NULL);
