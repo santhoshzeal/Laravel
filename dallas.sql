@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1ubuntu0.1
--- http://www.phpmyadmin.net
+-- version 4.8.1
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Aug 22, 2019 at 07:48 AM
--- Server version: 5.6.33-0ubuntu0.14.04.1
--- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
+-- Host: 127.0.0.1
+-- Generation Time: Aug 23, 2019 at 04:19 AM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.1.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `dallas`
@@ -26,8 +28,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `apps`
 --
 
-CREATE TABLE IF NOT EXISTS `apps` (
-  `appId` int(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `apps` (
+  `appId` int(20) NOT NULL,
   `appName` varchar(250) DEFAULT NULL,
   `appPath` varchar(255) DEFAULT NULL,
   `appStatus` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Inactive',
@@ -36,9 +38,8 @@ CREATE TABLE IF NOT EXISTS `apps` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`appId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `apps`
@@ -60,9 +61,10 @@ INSERT INTO `apps` (`appId`, `appName`, `appPath`, `appStatus`, `createdBy`, `cr
 -- Table structure for table `checkins`
 --
 
-CREATE TABLE IF NOT EXISTS `checkins` (
-  `chId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `checkins` (
+  `chId` bigint(20) NOT NULL,
   `eventId` bigint(20) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `chINDateTime` timestamp NULL DEFAULT NULL,
   `chOUTDateTime` timestamp NULL DEFAULT NULL,
   `chKind` int(11) DEFAULT NULL COMMENT 'user type with ''Regular'',''Guest'',''Volunteer''',
@@ -71,69 +73,65 @@ CREATE TABLE IF NOT EXISTS `checkins` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`chId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comm_detail`
+-- Table structure for table `comm_details`
 --
 
-CREATE TABLE IF NOT EXISTS `comm_detail` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `comm_details` (
+  `id` bigint(20) NOT NULL,
   `comm_master_id` bigint(20) NOT NULL,
-  `cdToUserId` bigint(20) NOT NULL,
-  `cdMsgReceivedDatetime` datetime DEFAULT NULL,
-  `cdReadStatus` varchar(255) NOT NULL DEFAULT 'UNREAD' COMMENT 'Read status:READ,UNREAD',
-  `cdDeleteStatus` varchar(255) NOT NULL DEFAULT 'UNDELETED' COMMENT 'Message status:DELETED,UNDELETED',
+  `to_user_id` bigint(20) NOT NULL,
+  `read_status` varchar(255) NOT NULL DEFAULT 'UNREAD' COMMENT 'Read status:READ,UNREAD',
+  `delete_status` varchar(255) NOT NULL DEFAULT 'UNDELETED' COMMENT 'Message status:DELETED,UNDELETED',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `comm_detail`
+-- Dumping data for table `comm_details`
 --
 
-INSERT INTO `comm_detail` (`id`, `comm_master_id`, `cdToUserId`, `cdMsgReceivedDatetime`, `cdReadStatus`, `cdDeleteStatus`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 10, NULL, 'UNREAD', 'UNDELETED', NULL, '2019-08-21 15:55:20', NULL, '0000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `comm_details` (`id`, `comm_master_id`, `to_user_id`, `read_status`, `delete_status`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 10, 'UNREAD', 'UNDELETED', NULL, '2019-08-21 15:55:20', NULL, '0000-00-00 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comm_master`
+-- Table structure for table `comm_masters`
 --
 
-CREATE TABLE IF NOT EXISTS `comm_master` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `comm_templates_id` bigint(20) NOT NULL,
-  `orgId` bigint(20) NOT NULL,
-  `cmType` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Email,2=Notification',
-  `cmSubject` varchar(255) DEFAULT NULL,
-  `cmBody` text,
-  `cmFromUserId` bigint(20) DEFAULT NULL COMMENT 'From UserId',
-  `cmMsgSentDatetime` datetime DEFAULT NULL,
+CREATE TABLE `comm_masters` (
+  `id` bigint(20) NOT NULL,
+  `comm_template_id` bigint(20) NOT NULL,
+  `org_id` bigint(20) NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Email,2=Notification',
+  `tag` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `body` text,
+  `from_user_id` bigint(20) DEFAULT NULL COMMENT 'From UserId',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `comm_master`
+-- Dumping data for table `comm_masters`
 --
 
-INSERT INTO `comm_master` (`id`, `comm_templates_id`, `orgId`, `cmType`, `cmSubject`, `cmBody`, `cmFromUserId`, `cmMsgSentDatetime`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 0, 0, 1, 'Welcome email sub', 'Welcome email body', 1, NULL, NULL, '2019-08-21 15:53:31', NULL, '2019-08-21 16:01:59', NULL, NULL);
+INSERT INTO `comm_masters` (`id`, `comm_template_id`, `org_id`, `type`, `tag`, `subject`, `body`, `from_user_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 0, 0, 1, NULL, 'Welcome email sub', 'Welcome email body', 1, NULL, '2019-08-21 15:53:31', NULL, '2019-08-21 16:01:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -141,27 +139,26 @@ INSERT INTO `comm_master` (`id`, `comm_templates_id`, `orgId`, `cmType`, `cmSubj
 -- Table structure for table `comm_templates`
 --
 
-CREATE TABLE IF NOT EXISTS `comm_templates` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ctTag` varchar(255) DEFAULT NULL,
-  `ctName` varchar(255) DEFAULT NULL,
-  `ctSubject` text,
-  `ctBody` text,
-  `orgId` bigint(20) DEFAULT NULL,
+CREATE TABLE `comm_templates` (
+  `id` bigint(20) NOT NULL,
+  `tag` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `subject` text,
+  `body` text,
+  `org_id` bigint(20) DEFAULT NULL,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `comm_templates`
 --
 
-INSERT INTO `comm_templates` (`id`, `ctTag`, `ctName`, `ctSubject`, `ctBody`, `orgId`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 'Welcome ', 'Welcome email', 'Welcome email sub', 'Welcome email sub body', 0, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:01:47', NULL, NULL),
 (2, 'Welcome ', 'Welcome email', 'Welcome email sub', 'Welcome email sub body', 1, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:01:52', NULL, NULL),
 (3, 'Event1', 'Event1 name', 'Event1 sub ~name~\r\n\r\n\r\nThanksn\r\n\r\n~Admin EMail~\r\n~Admin Name~', 'Event1 body', 1, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:04:52', NULL, NULL);
@@ -172,23 +169,23 @@ INSERT INTO `comm_templates` (`id`, `ctTag`, `ctName`, `ctSubject`, `ctBody`, `o
 -- Table structure for table `events`
 --
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `eventId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `events` (
+  `eventId` bigint(20) NOT NULL,
   `eventName` varchar(250) DEFAULT NULL,
   `eventFreq` varchar(250) DEFAULT NULL COMMENT 'Daily,Weekly,None',
+  `eventDesc` text,
   `eventCreatedDate` date DEFAULT NULL,
-  `eventCheckin` datetime DEFAULT NULL,
-  `eventStartCheckin` datetime DEFAULT NULL,
-  `eventEndCheckin` datetime DEFAULT NULL,
+  `eventCheckin` time DEFAULT NULL,
+  `eventStartCheckin` time DEFAULT NULL,
+  `eventEndCheckin` time DEFAULT NULL,
   `eventLocation` text,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -196,8 +193,8 @@ CREATE TABLE IF NOT EXISTS `events` (
 -- Table structure for table `households`
 --
 
-CREATE TABLE IF NOT EXISTS `households` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `households` (
+  `id` bigint(20) NOT NULL,
   `orgId` bigint(20) NOT NULL,
   `hhPrimaryUserId` bigint(20) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -206,9 +203,8 @@ CREATE TABLE IF NOT EXISTS `households` (
   `updatedBy` text,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `households`
@@ -216,37 +212,9 @@ CREATE TABLE IF NOT EXISTS `households` (
 
 INSERT INTO `households` (`id`, `orgId`, `hhPrimaryUserId`, `name`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (2, 2, 10, 'My Family', 'lokesh', '2019-08-17 23:00:00', NULL, '2019-08-17 23:00:00', NULL, NULL),
-(4, 2, 4, 'Lokesh''s Family', NULL, '2019-08-18 02:00:12', NULL, '2019-08-18 02:00:41', NULL, NULL),
+(4, 2, 4, 'Lokesh\'s Family', NULL, '2019-08-18 02:00:12', NULL, '2019-08-18 02:00:41', NULL, NULL),
 (5, 1, 3, 'gtgtgt name Household', NULL, '2019-08-21 10:15:24', NULL, '2019-08-21 10:15:24', NULL, NULL),
 (6, 1, 3, 'gtgtgt name Household', NULL, '2019-08-21 18:41:42', NULL, '2019-08-21 18:41:42', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `household_details`
---
-
-CREATE TABLE IF NOT EXISTS `household_details` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `household_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `isPrimary` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Primary,2=Normal User',
-  `createdBy` bigint(20) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedBy` text,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `household_details`
---
-
-INSERT INTO `household_details` (`id`, `household_id`, `user_id`, `isPrimary`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 2, 4, 1, 3, '2019-08-17 23:46:47', 'Lokesh', '2019-08-18 01:06:50', NULL, '2019-08-17 23:00:00'),
-(3, 2, 11, 2, 3, '2019-08-17 23:47:46', 'Lokesh', '2019-08-18 01:09:52', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -254,8 +222,8 @@ INSERT INTO `household_details` (`id`, `household_id`, `user_id`, `isPrimary`, `
 -- Table structure for table `household_user`
 --
 
-CREATE TABLE IF NOT EXISTS `household_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `household_user` (
+  `id` int(11) NOT NULL,
   `household_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `isPrimary` tinyint(2) NOT NULL DEFAULT '2',
@@ -264,9 +232,8 @@ CREATE TABLE IF NOT EXISTS `household_user` (
   `deletedBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `household_user`
@@ -286,8 +253,8 @@ INSERT INTO `household_user` (`id`, `household_id`, `user_id`, `isPrimary`, `cre
 -- Table structure for table `master_lookup_data`
 --
 
-CREATE TABLE IF NOT EXISTS `master_lookup_data` (
-  `mldId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_lookup_data` (
+  `mldId` bigint(20) NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `mldKey` varchar(150) DEFAULT NULL,
   `mldValue` varchar(200) DEFAULT NULL,
@@ -298,9 +265,8 @@ CREATE TABLE IF NOT EXISTS `master_lookup_data` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`mldId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=646 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `master_lookup_data`
@@ -924,12 +890,11 @@ INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldTy
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=14 ;
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -952,12 +917,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `model_has_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `model_has_permissions` (
-  `permission_id` int(10) unsigned NOT NULL,
+CREATE TABLE `model_has_permissions` (
+  `permission_id` int(10) UNSIGNED NOT NULL,
   `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
-  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`)
+  `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -966,12 +929,10 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
 -- Table structure for table `model_has_roles`
 --
 
-CREATE TABLE IF NOT EXISTS `model_has_roles` (
-  `role_id` int(10) unsigned NOT NULL,
+CREATE TABLE `model_has_roles` (
+  `role_id` int(10) UNSIGNED NOT NULL,
   `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
-  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`)
+  `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -980,47 +941,47 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\User', 2),
-(5, 'App\\User', 2),
 (2, 'App\\User', 3),
 (2, 'App\\User', 4),
-(8, 'App\\User', 4),
 (2, 'App\\User', 5),
 (2, 'App\\User', 6),
-(11, 'App\\User', 6),
 (2, 'App\\User', 7),
 (2, 'App\\User', 12),
-(14, 'App\\User', 12),
 (2, 'App\\User', 13),
-(17, 'App\\User', 13),
 (2, 'App\\User', 16),
-(26, 'App\\User', 16),
 (2, 'App\\User', 17),
-(29, 'App\\User', 17),
 (2, 'App\\User', 18),
-(32, 'App\\User', 18),
 (2, 'App\\User', 19),
-(35, 'App\\User', 19),
 (2, 'App\\User', 20),
-(38, 'App\\User', 20),
 (2, 'App\\User', 21),
-(41, 'App\\User', 21),
 (2, 'App\\User', 22),
-(44, 'App\\User', 22),
 (2, 'App\\User', 23),
-(47, 'App\\User', 23),
 (2, 'App\\User', 24),
-(50, 'App\\User', 24),
 (2, 'App\\User', 25),
-(53, 'App\\User', 25),
 (2, 'App\\User', 26),
-(56, 'App\\User', 26),
 (2, 'App\\User', 27),
-(59, 'App\\User', 27),
 (2, 'App\\User', 28),
-(62, 'App\\User', 28),
 (2, 'App\\User', 29),
-(65, 'App\\User', 29),
 (2, 'App\\User', 30),
+(5, 'App\\User', 2),
+(8, 'App\\User', 4),
+(11, 'App\\User', 6),
+(14, 'App\\User', 12),
+(17, 'App\\User', 13),
+(26, 'App\\User', 16),
+(29, 'App\\User', 17),
+(32, 'App\\User', 18),
+(35, 'App\\User', 19),
+(38, 'App\\User', 20),
+(41, 'App\\User', 21),
+(44, 'App\\User', 22),
+(47, 'App\\User', 23),
+(50, 'App\\User', 24),
+(53, 'App\\User', 25),
+(56, 'App\\User', 26),
+(59, 'App\\User', 27),
+(62, 'App\\User', 28),
+(65, 'App\\User', 29),
 (68, 'App\\User', 30);
 
 -- --------------------------------------------------------
@@ -1029,18 +990,16 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- Table structure for table `oauth_access_tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
+CREATE TABLE `oauth_access_tokens` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `client_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_access_tokens_user_id_index` (`user_id`)
+  `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1114,6 +1073,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('e4c9348b64a9a9830946ca63e1f28194adfa46e95eba6ea67476f254f6552b108ee437a4fae6d247', 87, 1, 'dollar', '[]', 0, '2019-07-22 23:25:50', '2019-07-22 23:25:50', '2020-07-23 04:55:50'),
 ('e75da22da958377c6f65d3cc7cf4114fe52e1fc9d1bf9a2ce83839653248e9ef721f63cf66944d84', 102, 1, 'dollar', '[]', 0, '2019-08-01 05:36:49', '2019-08-01 05:36:49', '2020-08-01 11:06:49'),
 ('e928db91b7e977eb82798a814620e88f26a12e6fabb250dd20635be624c860e12b09996a4e623d81', 102, 1, 'dollar', '[]', 0, '2019-07-30 21:07:17', '2019-07-30 21:07:17', '2020-07-31 02:37:17'),
+('ecc2ffbb1db07dc56f43b0c57aaf2a90f136475b7727a42df88605efabe586e8b0a1eea7dad63bc7', 2, 1, 'dollar', '[]', 0, '2019-08-22 20:47:56', '2019-08-22 20:47:56', '2020-08-23 02:17:56'),
 ('ef9763080456367398a41f2c96b021695bcf0431474633faabbd80c994ffccbc720d1d89b4142b53', 6, 1, 'dollar', '[]', 0, '2019-08-01 21:39:23', '2019-08-01 21:39:23', '2020-08-02 03:09:23'),
 ('f9acd31cd5e915ce5b198de1177029c663b37be6e96530cabc30ccab9fa24bb9f44dc5f8ba75fa9a', 102, 1, 'dollar', '[]', 0, '2019-07-28 07:37:33', '2019-07-28 07:37:33', '2020-07-28 13:07:33');
 
@@ -1123,14 +1083,13 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 -- Table structure for table `oauth_auth_codes`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
+CREATE TABLE `oauth_auth_codes` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
-  `client_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
   `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1139,8 +1098,8 @@ CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
 -- Table structure for table `oauth_clients`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_clients` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1149,10 +1108,8 @@ CREATE TABLE IF NOT EXISTS `oauth_clients` (
   `password_client` tinyint(1) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_clients_user_id_index` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=3 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `oauth_clients`
@@ -1168,14 +1125,12 @@ INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `per
 -- Table structure for table `oauth_personal_access_clients`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_personal_access_clients` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(10) unsigned NOT NULL,
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_personal_access_clients_client_id_index` (`client_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=2 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `oauth_personal_access_clients`
@@ -1190,13 +1145,11 @@ INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `u
 -- Table structure for table `oauth_refresh_tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
+CREATE TABLE `oauth_refresh_tokens` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `revoked` tinyint(1) NOT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`)
+  `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1205,8 +1158,8 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
 -- Table structure for table `organization`
 --
 
-CREATE TABLE IF NOT EXISTS `organization` (
-  `orgId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `organization` (
+  `orgId` bigint(20) NOT NULL,
   `orgName` varchar(255) NOT NULL,
   `orgAddress` text,
   `orgAptUnitBox` text,
@@ -1229,9 +1182,8 @@ CREATE TABLE IF NOT EXISTS `organization` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `organization`
@@ -1265,11 +1217,10 @@ INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE IF NOT EXISTS `password_resets` (
+CREATE TABLE `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1278,15 +1229,14 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `permissions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `permissions` (
+  `id` int(10) UNSIGNED NOT NULL,
   `orgId` bigint(20) NOT NULL DEFAULT '0',
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=159 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permissions`
@@ -1426,16 +1376,15 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 -- Table structure for table `roles`
 --
 
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `roles` (
+  `id` int(10) UNSIGNED NOT NULL,
   `orgId` bigint(20) DEFAULT '0',
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role_tag` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=71 ;
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `roles`
@@ -1513,11 +1462,9 @@ INSERT INTO `roles` (`id`, `orgId`, `name`, `guard_name`, `role_tag`, `created_a
 -- Table structure for table `role_has_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `role_has_permissions` (
-  `permission_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`permission_id`,`role_id`),
-  KEY `role_has_permissions_role_id_foreign` (`role_id`)
+CREATE TABLE `role_has_permissions` (
+  `permission_id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1526,165 +1473,165 @@ CREATE TABLE IF NOT EXISTS `role_has_permissions` (
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (7, 5),
+(7, 6),
+(7, 7),
 (8, 5),
 (9, 5),
 (10, 5),
 (11, 5),
 (12, 5),
-(7, 6),
-(7, 7),
 (14, 8),
+(14, 9),
+(14, 10),
 (15, 8),
 (16, 8),
 (17, 8),
 (18, 8),
 (19, 8),
-(14, 9),
-(14, 10),
 (20, 11),
+(20, 12),
+(20, 13),
 (21, 11),
 (22, 11),
 (23, 11),
 (24, 11),
 (25, 11),
-(20, 12),
-(20, 13),
 (26, 14),
+(26, 15),
+(26, 16),
 (27, 14),
 (28, 14),
 (29, 14),
 (30, 14),
 (31, 14),
-(26, 15),
-(26, 16),
 (33, 17),
+(33, 18),
+(33, 19),
 (34, 17),
 (35, 17),
 (36, 17),
 (37, 17),
 (38, 17),
-(33, 18),
-(33, 19),
 (54, 26),
+(54, 27),
+(54, 28),
 (55, 26),
 (56, 26),
 (57, 26),
 (58, 26),
 (59, 26),
-(54, 27),
-(54, 28),
 (61, 29),
+(61, 30),
+(61, 31),
 (62, 29),
 (63, 29),
 (64, 29),
 (65, 29),
 (66, 29),
-(61, 30),
-(61, 31),
 (68, 32),
+(68, 33),
+(68, 34),
 (69, 32),
 (70, 32),
 (71, 32),
 (72, 32),
 (73, 32),
-(68, 33),
-(68, 34),
 (75, 35),
+(75, 36),
+(75, 37),
 (76, 35),
 (77, 35),
 (78, 35),
 (79, 35),
 (80, 35),
-(75, 36),
-(75, 37),
 (82, 38),
+(82, 39),
+(82, 40),
 (83, 38),
 (84, 38),
 (85, 38),
 (86, 38),
 (87, 38),
-(82, 39),
-(82, 40),
 (89, 41),
+(89, 42),
+(89, 43),
 (90, 41),
 (91, 41),
 (92, 41),
 (93, 41),
 (94, 41),
-(89, 42),
-(89, 43),
 (96, 44),
+(96, 45),
+(96, 46),
 (97, 44),
 (98, 44),
 (99, 44),
 (100, 44),
 (101, 44),
-(96, 45),
-(96, 46),
 (103, 47),
+(103, 48),
+(103, 49),
 (104, 47),
 (105, 47),
 (106, 47),
 (107, 47),
 (108, 47),
-(103, 48),
-(103, 49),
 (110, 50),
+(110, 51),
+(110, 52),
 (111, 50),
 (112, 50),
 (113, 50),
 (114, 50),
 (115, 50),
-(110, 51),
-(110, 52),
 (117, 53),
+(117, 54),
+(117, 55),
 (118, 53),
 (119, 53),
 (120, 53),
 (121, 53),
 (122, 53),
-(117, 54),
-(117, 55),
 (124, 56),
+(124, 57),
+(124, 58),
 (125, 56),
 (126, 56),
 (127, 56),
 (128, 56),
 (129, 56),
-(124, 57),
-(124, 58),
 (131, 59),
+(131, 60),
+(131, 61),
 (132, 59),
 (133, 59),
 (134, 59),
 (135, 59),
 (136, 59),
-(131, 60),
-(131, 61),
 (138, 62),
+(138, 63),
+(138, 64),
 (139, 62),
 (140, 62),
 (141, 62),
 (142, 62),
 (143, 62),
-(138, 63),
-(138, 64),
 (145, 65),
+(145, 66),
+(145, 67),
 (146, 65),
 (147, 65),
 (148, 65),
 (149, 65),
 (150, 65),
-(145, 66),
-(145, 67),
 (152, 68),
+(152, 69),
+(152, 70),
 (153, 68),
 (154, 68),
 (155, 68),
 (156, 68),
-(157, 68),
-(152, 69),
-(152, 70);
+(157, 68);
 
 -- --------------------------------------------------------
 
@@ -1692,8 +1639,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `householdName` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `personal_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1727,9 +1674,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=31 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -1737,32 +1683,281 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, NULL, 'Admin', '0000000001', 'Admin', 'Admin', 'Admin', NULL, NULL, NULL, '', NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 1, 'stpaul my name''s household', '0000000002', NULL, NULL, 'stpaul my name', NULL, NULL, NULL, 'stpaul@gmail.com', 'stpaul', NULL, '$2y$10$TT/yxAXlArEmU6dszc75/u5YcuLc.itz4kwBUNO6crWld0jh9oiBC', NULL, 'stpab7bx', NULL, 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1566400720.png","original_filename":"1566400720.png","upload_file_extension":"png","file_size":0}";', NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-01 21:47:29', '2019-08-21 09:48:40', NULL, NULL),
-(3, 1, 'gtgtgt name''s household', '0000000003', '32', NULL, 'gtgtgt name', NULL, 'asdsad', NULL, 'stpaul33@aacom', NULL, NULL, '$2y$10$Kd.dM5RyO8uDs0At.EnMAupq2Dlz0iP/3YTQ0L.8CvnGZkTaeZoNa', NULL, 'gtgtshqp', '41', 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1566401203.png","original_filename":"1566401203.png","upload_file_extension":"png","file_size":0}";', NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', ',,, - ', NULL, NULL, '2019-08-01 21:48:59', '2019-08-21 09:56:43', NULL, NULL),
-(4, 2, 'Lokesh''s household', '0000000004', NULL, NULL, 'Lokesh', NULL, NULL, NULL, 'lmlokesh43@gmail.com', 'LokeshLM', NULL, '$2y$10$tbt50pKh..jg2KfcZLlC4uV4WJPQ132.u56bKX3uIlpjt97llrEJS', NULL, 'Lokelryw', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-09 18:12:04', '2019-08-09 18:12:04', NULL, NULL),
-(5, 2, 'fsdafsdaf''s household', '0000000005', '67', 'dsfsdfdsf', 'fsdafsdaf', NULL, NULL, NULL, 'fdsffdsds@fdasfds.com', NULL, NULL, '$2y$10$bSq2uOsNb6KAhvvimvUEAO64gJ9eNS1NPPPQn4vT3VDepd87CQsDO', NULL, 'fsdamiqv', '72', NULL, NULL, NULL, '61', 87, 'Adult', '9035371392', NULL, 'Male', NULL, '78', 'LM Lokesh C/O Radhakrishna Nair, next to City Beech, Ferry Road, Bolar,,Mangalore, - 575001', NULL, NULL, '2019-08-14 19:56:57', '2019-08-14 19:56:57', NULL, NULL),
-(6, 3, 'Anjali Lokesh''s household', '0000000006', NULL, NULL, 'Anjali Lokesh', NULL, NULL, NULL, 'anjali@gmail.com', 'Anjali', NULL, '$2y$10$enR5tUUi.2vl5DaWgdA3L.dfbDKUYFRFOgcvqZl7PgCzlx7hMTo6O', NULL, 'Anja438u', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-14 20:23:24', '2019-08-14 20:23:24', NULL, NULL),
-(7, 3, 'anjaliL''s household', '0000000007', '95', NULL, 'anjaliL', NULL, NULL, NULL, 'anjali123@gmail.com', NULL, NULL, '$2y$10$oVb/oj4AtI7W/nD4XxOm2uC.snlMAG3S0P8rpAl2PAs3Xag2BSlT2', NULL, 'anja014l', '101', NULL, NULL, NULL, '90', 116, 'Adult', NULL, NULL, 'Male', NULL, '107', ',,, - ', NULL, NULL, '2019-08-14 20:25:23', '2019-08-14 20:25:23', NULL, NULL),
-(8, 3, 'dsfdsaf''s household', '0000000008', '96', NULL, 'dsfdsaf', NULL, NULL, NULL, 'fsadfadsfdsa@gmail.com', NULL, NULL, '$2y$10$4Zyd56DaFsxJyVydvC6ANee2fmWhwGTzvhAMD/qfJoGtWSHnY7wRm', NULL, 'dsfdjw1x', '101', NULL, NULL, NULL, '90', 116, 'Adult', NULL, NULL, 'Male', NULL, '107', '////////////', NULL, NULL, '2019-08-14 23:23:57', '2019-08-14 23:23:57', NULL, NULL),
-(10, 3, '''s household', '0000000009', '96', 'dsfsdfdsf', NULL, NULL, NULL, NULL, 'fdsffdsdsddd@fdasfds.comf', NULL, NULL, '$2y$10$XSeACkWUxCzs./7Mo0JHfuq03l9hzQ5dbhu.MGD/QzmGs1nH9ZnWu', NULL, 'zozu', '101', NULL, NULL, NULL, '90', 116, 'Adult', '9035371392', NULL, 'Male', NULL, '107', 'LM Lokesh C/O Radhakrishna Nair, next to City Beech, Ferry Road, Bolar///dfasdsafdsafds///Mangalore///dsafdsafdsafsdaf///575001', NULL, NULL, '2019-08-15 00:20:21', '2019-08-15 00:20:21', NULL, NULL),
-(11, 2, 'fsdafsdaf''s household', '0000000010', '66', 'dsfsdfdsf', 'fsdafsdaf', NULL, NULL, NULL, 'fdsffdsds@facebook.com', NULL, NULL, '$2y$10$H7La9hDhhQzRlyhS2QBBrOTyE5rE4AbWnSfSMuAdgk9/N1vkXJCoy', NULL, 'fsdaxfqv', '72', NULL, NULL, NULL, '61', 87, 'Adult', '9035371392', NULL, 'Male', NULL, '78', 'LM Lokesh C/O Radhakrishna Nair, next to City Beech, Ferry Road, Bolar,,Mangalore, - 575001////////////', NULL, NULL, '2019-08-15 08:36:26', '2019-08-15 09:14:46', NULL, NULL),
-(12, 4, 'jhonschurch''s household', '0000000012', NULL, NULL, 'jhonschurch', NULL, NULL, NULL, 'jhonschurch@jhonschurch.com', NULL, NULL, '$2y$10$mTjJUFL6WMbL8OxbR89DQeYXqMRf8S.OhGPPPqXarxO2OPnakCNH2', NULL, 'jhoncshs', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 18:51:51', '2019-08-21 18:51:51', NULL, NULL),
-(13, 5, 'Rolf''s household', '0000000013', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$55BoNrVO5oTP2jUSYOxxeuCOSPQIflsKthoWQ5Puh.2T8SsgwrvY.', NULL, 'Rolfdcn5', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:13:58', '2019-08-21 20:13:58', NULL, NULL),
-(16, 8, 'Rolf''s household', '0000000014', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$NQNz2oMjBELzu32U.Z6MB.gI0lD0ECqFoxjjiyysG1ubcmhSEWL.W', NULL, 'Rolfr3h6', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:15:46', '2019-08-21 20:15:46', NULL, NULL),
-(17, 9, 'Rolf''s household', '0000000017', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$uQvEK1fEA.pCJTu3/Dm3qOdWoXNCqS25hg.B4UV.MsYc3ilYkP2o.', NULL, 'Rolffje9', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:18:07', '2019-08-21 20:18:07', NULL, NULL),
-(18, 10, 'Rolf''s household', '0000000018', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$qLhbbD/oXCaZ3Nh/sQoFgOL5F/6brqqYlwIxR7Hi8jQEs5y6KgvJq', NULL, 'Rolfhqzg', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:18:48', '2019-08-21 20:18:48', NULL, NULL),
-(19, 11, 'asdad''s household', '0000000019', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asd@asda.om', NULL, NULL, '$2y$10$iYwMnIti5K0WVlTfJrYxoebibguBVdkqZOxU/gAdxNO5tnLGajnly', NULL, 'asdar2ho', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:19:26', '2019-08-21 20:19:26', NULL, NULL),
-(20, 12, 'asdad''s household', '0000000020', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asd@asda.om', NULL, NULL, '$2y$10$sdMxYZKJ8r7tLibhR1yqW.Gq77K8cfkFlFrlNtJGqhdltq1asI1e6', NULL, 'asdalox9', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:19:35', '2019-08-21 20:19:35', NULL, NULL),
-(21, 13, 'asdad''s household', '0000000021', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asd@asda.om', NULL, NULL, '$2y$10$F7fsvkPyuiQqsUGvh5i1DuGx4aj2u.fchFGQ1NAnOHvLkLpcDeLZm', NULL, 'asdaxunw', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:20:13', '2019-08-21 20:20:13', NULL, NULL),
-(22, 14, 'asdas''s household', '0000000022', NULL, NULL, 'asdas', NULL, NULL, NULL, 'asdsadas@asda.com', NULL, NULL, '$2y$10$UxUj2zJg6oVHU1//uoFIxeMtt5bJHqrDw5ogc3GplRnOlnHmA48Zm', NULL, 'asdaoxit', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:20:57', '2019-08-21 20:20:57', NULL, NULL),
-(23, 15, 'asdas''s household', '0000000023', NULL, NULL, 'asdas', NULL, NULL, NULL, 'asdsadas@asda.com', NULL, NULL, '$2y$10$B3FOg7OqPoJWKGghEsZwT.Wpo77HynqbCPWhHWpQJBhEaNR/YpS9i', NULL, 'asdabdnf', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:21:18', '2019-08-21 20:21:18', NULL, NULL),
-(24, 16, 'asdad''s household', '0000000024', NULL, NULL, 'asdad', NULL, NULL, NULL, 'admin@admin.com', NULL, NULL, '$2y$10$r7mHKoSMyjKtnXTlt/gJpudLuKvpw.N3fjVBu3GElMbjPC/K3YvVm', NULL, 'asdafayk', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:21:37', '2019-08-21 20:21:37', NULL, NULL),
-(25, 17, 'asd''s household', '0000000025', NULL, NULL, 'asd', NULL, NULL, NULL, 'admin@admin.com', NULL, NULL, '$2y$10$dBQQ7KIx82tyEdj0ocTtBOYjdxem7SVD.7iDmYBQHBLOy7jdkNqlq', NULL, 'asdlyqa', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:23:00', '2019-08-21 20:23:00', NULL, NULL),
-(26, 18, 'asdsad''s household', '0000000026', NULL, NULL, 'asdsad', NULL, NULL, NULL, 'asd@asda.com', NULL, NULL, '$2y$10$.pJQIPJd3mZcElZ6Hiu3I.6TC3OBHYA62XBdigfOfUUS/44r27SBu', NULL, 'asdsbgss', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:36:05', '2019-08-21 20:36:05', NULL, NULL),
-(27, 19, 'afasf''s household', '0000000027', NULL, NULL, 'afasf', NULL, NULL, NULL, 'asf@asda.com', NULL, NULL, '$2y$10$EIX8buYeTpgoDN2sO/8DT.QVIJUhCEOGcET0bEsKtJMIFBc4ms5E.', NULL, 'afasgnki', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:40:59', '2019-08-21 20:40:59', NULL, NULL),
-(28, 20, 'sdfsfs''s household', '0000000028', NULL, NULL, 'sdfsfs', NULL, NULL, NULL, 'sdf@asda.com', NULL, NULL, '$2y$10$qaSbJwu9ZQQZ31kIbTyCXOYnfE5i10z4japd1G8jkUrbXaPAStenS', NULL, 'sdfshvft', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:42:15', '2019-08-21 20:42:15', NULL, NULL),
-(29, 21, 'asdasd''s household', '0000000029', NULL, NULL, 'asdasd', NULL, NULL, NULL, 'asdsa@asda.com', NULL, NULL, '$2y$10$rf9ihg3CWnxHoMKd9fXUku5wfRirbbxOkjCU7z/eV957yzDd0B9Ri', NULL, 'asdapd8g', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:43:12', '2019-08-21 20:43:12', NULL, NULL),
-(30, 22, 'asdad''s household', '0000000030', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asdad@asda.com', NULL, NULL, '$2y$10$Ct1bRJza3zHKQrZc9bMjH.YimUsyoTamTZ8pWE3As8Rc12hG7tlzS', NULL, 'asdabiha', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:44:15', '2019-08-21 20:44:15', NULL, NULL);
+(2, 1, 'stpaul my name\'s household', '0000000002', NULL, NULL, 'stpaul my name', NULL, NULL, NULL, 'stpaul@gmail.com', 'stpaul', NULL, '$2y$10$TT/yxAXlArEmU6dszc75/u5YcuLc.itz4kwBUNO6crWld0jh9oiBC', NULL, 'stpab7bx', NULL, 's:316:\"{\"uploaded_path\":\"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/\",\"download_path\":\"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/\",\"uploaded_file_name\":\"1566400720.png\",\"original_filename\":\"1566400720.png\",\"upload_file_extension\":\"png\",\"file_size\":0}\";', NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-01 21:47:29', '2019-08-21 09:48:40', NULL, NULL),
+(3, 1, 'gtgtgt name\'s household', '0000000003', '32', NULL, 'gtgtgt name', NULL, 'asdsad', NULL, 'stpaul33@aacom', NULL, NULL, '$2y$10$Kd.dM5RyO8uDs0At.EnMAupq2Dlz0iP/3YTQ0L.8CvnGZkTaeZoNa', NULL, 'gtgtshqp', '41', 's:316:\"{\"uploaded_path\":\"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/\",\"download_path\":\"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/\",\"uploaded_file_name\":\"1566401203.png\",\"original_filename\":\"1566401203.png\",\"upload_file_extension\":\"png\",\"file_size\":0}\";', NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', ',,, - ', NULL, NULL, '2019-08-01 21:48:59', '2019-08-21 09:56:43', NULL, NULL),
+(4, 2, 'Lokesh\'s household', '0000000004', NULL, NULL, 'Lokesh', NULL, NULL, NULL, 'lmlokesh43@gmail.com', 'LokeshLM', NULL, '$2y$10$tbt50pKh..jg2KfcZLlC4uV4WJPQ132.u56bKX3uIlpjt97llrEJS', NULL, 'Lokelryw', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-09 18:12:04', '2019-08-09 18:12:04', NULL, NULL),
+(5, 2, 'fsdafsdaf\'s household', '0000000005', '67', 'dsfsdfdsf', 'fsdafsdaf', NULL, NULL, NULL, 'fdsffdsds@fdasfds.com', NULL, NULL, '$2y$10$bSq2uOsNb6KAhvvimvUEAO64gJ9eNS1NPPPQn4vT3VDepd87CQsDO', NULL, 'fsdamiqv', '72', NULL, NULL, NULL, '61', 87, 'Adult', '9035371392', NULL, 'Male', NULL, '78', 'LM Lokesh C/O Radhakrishna Nair, next to City Beech, Ferry Road, Bolar,,Mangalore, - 575001', NULL, NULL, '2019-08-14 19:56:57', '2019-08-14 19:56:57', NULL, NULL),
+(6, 3, 'Anjali Lokesh\'s household', '0000000006', NULL, NULL, 'Anjali Lokesh', NULL, NULL, NULL, 'anjali@gmail.com', 'Anjali', NULL, '$2y$10$enR5tUUi.2vl5DaWgdA3L.dfbDKUYFRFOgcvqZl7PgCzlx7hMTo6O', NULL, 'Anja438u', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-14 20:23:24', '2019-08-14 20:23:24', NULL, NULL),
+(7, 3, 'anjaliL\'s household', '0000000007', '95', NULL, 'anjaliL', NULL, NULL, NULL, 'anjali123@gmail.com', NULL, NULL, '$2y$10$oVb/oj4AtI7W/nD4XxOm2uC.snlMAG3S0P8rpAl2PAs3Xag2BSlT2', NULL, 'anja014l', '101', NULL, NULL, NULL, '90', 116, 'Adult', NULL, NULL, 'Male', NULL, '107', ',,, - ', NULL, NULL, '2019-08-14 20:25:23', '2019-08-14 20:25:23', NULL, NULL),
+(8, 3, 'dsfdsaf\'s household', '0000000008', '96', NULL, 'dsfdsaf', NULL, NULL, NULL, 'fsadfadsfdsa@gmail.com', NULL, NULL, '$2y$10$4Zyd56DaFsxJyVydvC6ANee2fmWhwGTzvhAMD/qfJoGtWSHnY7wRm', NULL, 'dsfdjw1x', '101', NULL, NULL, NULL, '90', 116, 'Adult', NULL, NULL, 'Male', NULL, '107', '////////////', NULL, NULL, '2019-08-14 23:23:57', '2019-08-14 23:23:57', NULL, NULL),
+(10, 3, '\'s household', '0000000009', '96', 'dsfsdfdsf', NULL, NULL, NULL, NULL, 'fdsffdsdsddd@fdasfds.comf', NULL, NULL, '$2y$10$XSeACkWUxCzs./7Mo0JHfuq03l9hzQ5dbhu.MGD/QzmGs1nH9ZnWu', NULL, 'zozu', '101', NULL, NULL, NULL, '90', 116, 'Adult', '9035371392', NULL, 'Male', NULL, '107', 'LM Lokesh C/O Radhakrishna Nair, next to City Beech, Ferry Road, Bolar///dfasdsafdsafds///Mangalore///dsafdsafdsafsdaf///575001', NULL, NULL, '2019-08-15 00:20:21', '2019-08-15 00:20:21', NULL, NULL),
+(11, 2, 'fsdafsdaf\'s household', '0000000010', '66', 'dsfsdfdsf', 'fsdafsdaf', NULL, NULL, NULL, 'fdsffdsds@facebook.com', NULL, NULL, '$2y$10$H7La9hDhhQzRlyhS2QBBrOTyE5rE4AbWnSfSMuAdgk9/N1vkXJCoy', NULL, 'fsdaxfqv', '72', NULL, NULL, NULL, '61', 87, 'Adult', '9035371392', NULL, 'Male', NULL, '78', 'LM Lokesh C/O Radhakrishna Nair, next to City Beech, Ferry Road, Bolar,,Mangalore, - 575001////////////', NULL, NULL, '2019-08-15 08:36:26', '2019-08-15 09:14:46', NULL, NULL),
+(12, 4, 'jhonschurch\'s household', '0000000012', NULL, NULL, 'jhonschurch', NULL, NULL, NULL, 'jhonschurch@jhonschurch.com', NULL, NULL, '$2y$10$mTjJUFL6WMbL8OxbR89DQeYXqMRf8S.OhGPPPqXarxO2OPnakCNH2', NULL, 'jhoncshs', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 18:51:51', '2019-08-21 18:51:51', NULL, NULL),
+(13, 5, 'Rolf\'s household', '0000000013', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$55BoNrVO5oTP2jUSYOxxeuCOSPQIflsKthoWQ5Puh.2T8SsgwrvY.', NULL, 'Rolfdcn5', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:13:58', '2019-08-21 20:13:58', NULL, NULL),
+(16, 8, 'Rolf\'s household', '0000000014', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$NQNz2oMjBELzu32U.Z6MB.gI0lD0ECqFoxjjiyysG1ubcmhSEWL.W', NULL, 'Rolfr3h6', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:15:46', '2019-08-21 20:15:46', NULL, NULL),
+(17, 9, 'Rolf\'s household', '0000000017', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$uQvEK1fEA.pCJTu3/Dm3qOdWoXNCqS25hg.B4UV.MsYc3ilYkP2o.', NULL, 'Rolffje9', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:18:07', '2019-08-21 20:18:07', NULL, NULL),
+(18, 10, 'Rolf\'s household', '0000000018', NULL, NULL, 'Rolf', NULL, NULL, NULL, 'rolf@gmail.com', NULL, NULL, '$2y$10$qLhbbD/oXCaZ3Nh/sQoFgOL5F/6brqqYlwIxR7Hi8jQEs5y6KgvJq', NULL, 'Rolfhqzg', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:18:48', '2019-08-21 20:18:48', NULL, NULL),
+(19, 11, 'asdad\'s household', '0000000019', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asd@asda.om', NULL, NULL, '$2y$10$iYwMnIti5K0WVlTfJrYxoebibguBVdkqZOxU/gAdxNO5tnLGajnly', NULL, 'asdar2ho', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:19:26', '2019-08-21 20:19:26', NULL, NULL),
+(20, 12, 'asdad\'s household', '0000000020', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asd@asda.om', NULL, NULL, '$2y$10$sdMxYZKJ8r7tLibhR1yqW.Gq77K8cfkFlFrlNtJGqhdltq1asI1e6', NULL, 'asdalox9', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:19:35', '2019-08-21 20:19:35', NULL, NULL),
+(21, 13, 'asdad\'s household', '0000000021', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asd@asda.om', NULL, NULL, '$2y$10$F7fsvkPyuiQqsUGvh5i1DuGx4aj2u.fchFGQ1NAnOHvLkLpcDeLZm', NULL, 'asdaxunw', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:20:13', '2019-08-21 20:20:13', NULL, NULL),
+(22, 14, 'asdas\'s household', '0000000022', NULL, NULL, 'asdas', NULL, NULL, NULL, 'asdsadas@asda.com', NULL, NULL, '$2y$10$UxUj2zJg6oVHU1//uoFIxeMtt5bJHqrDw5ogc3GplRnOlnHmA48Zm', NULL, 'asdaoxit', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:20:57', '2019-08-21 20:20:57', NULL, NULL),
+(23, 15, 'asdas\'s household', '0000000023', NULL, NULL, 'asdas', NULL, NULL, NULL, 'asdsadas@asda.com', NULL, NULL, '$2y$10$B3FOg7OqPoJWKGghEsZwT.Wpo77HynqbCPWhHWpQJBhEaNR/YpS9i', NULL, 'asdabdnf', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:21:18', '2019-08-21 20:21:18', NULL, NULL),
+(24, 16, 'asdad\'s household', '0000000024', NULL, NULL, 'asdad', NULL, NULL, NULL, 'admin@admin.com', NULL, NULL, '$2y$10$r7mHKoSMyjKtnXTlt/gJpudLuKvpw.N3fjVBu3GElMbjPC/K3YvVm', NULL, 'asdafayk', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:21:37', '2019-08-21 20:21:37', NULL, NULL),
+(25, 17, 'asd\'s household', '0000000025', NULL, NULL, 'asd', NULL, NULL, NULL, 'admin@admin.com', NULL, NULL, '$2y$10$dBQQ7KIx82tyEdj0ocTtBOYjdxem7SVD.7iDmYBQHBLOy7jdkNqlq', NULL, 'asdlyqa', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:23:00', '2019-08-21 20:23:00', NULL, NULL),
+(26, 18, 'asdsad\'s household', '0000000026', NULL, NULL, 'asdsad', NULL, NULL, NULL, 'asd@asda.com', NULL, NULL, '$2y$10$.pJQIPJd3mZcElZ6Hiu3I.6TC3OBHYA62XBdigfOfUUS/44r27SBu', NULL, 'asdsbgss', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:36:05', '2019-08-21 20:36:05', NULL, NULL),
+(27, 19, 'afasf\'s household', '0000000027', NULL, NULL, 'afasf', NULL, NULL, NULL, 'asf@asda.com', NULL, NULL, '$2y$10$EIX8buYeTpgoDN2sO/8DT.QVIJUhCEOGcET0bEsKtJMIFBc4ms5E.', NULL, 'afasgnki', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:40:59', '2019-08-21 20:40:59', NULL, NULL),
+(28, 20, 'sdfsfs\'s household', '0000000028', NULL, NULL, 'sdfsfs', NULL, NULL, NULL, 'sdf@asda.com', NULL, NULL, '$2y$10$qaSbJwu9ZQQZ31kIbTyCXOYnfE5i10z4japd1G8jkUrbXaPAStenS', NULL, 'sdfshvft', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:42:15', '2019-08-21 20:42:15', NULL, NULL),
+(29, 21, 'asdasd\'s household', '0000000029', NULL, NULL, 'asdasd', NULL, NULL, NULL, 'asdsa@asda.com', NULL, NULL, '$2y$10$rf9ihg3CWnxHoMKd9fXUku5wfRirbbxOkjCU7z/eV957yzDd0B9Ri', NULL, 'asdapd8g', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:43:12', '2019-08-21 20:43:12', NULL, NULL),
+(30, 22, 'asdad\'s household', '0000000030', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asdad@asda.com', NULL, NULL, '$2y$10$Ct1bRJza3zHKQrZc9bMjH.YimUsyoTamTZ8pWE3As8Rc12hG7tlzS', NULL, 'asdabiha', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:44:15', '2019-08-21 20:44:15', NULL, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `apps`
+--
+ALTER TABLE `apps`
+  ADD PRIMARY KEY (`appId`);
+
+--
+-- Indexes for table `checkins`
+--
+ALTER TABLE `checkins`
+  ADD PRIMARY KEY (`chId`);
+
+--
+-- Indexes for table `comm_details`
+--
+ALTER TABLE `comm_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comm_masters`
+--
+ALTER TABLE `comm_masters`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comm_templates`
+--
+ALTER TABLE `comm_templates`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`eventId`);
+
+--
+-- Indexes for table `households`
+--
+ALTER TABLE `households`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `household_user`
+--
+ALTER TABLE `household_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `master_lookup_data`
+--
+ALTER TABLE `master_lookup_data`
+  ADD PRIMARY KEY (`mldId`);
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
+
+--
+-- Indexes for table `organization`
+--
+ALTER TABLE `organization`
+  ADD PRIMARY KEY (`orgId`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `apps`
+--
+ALTER TABLE `apps`
+  MODIFY `appId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `checkins`
+--
+ALTER TABLE `checkins`
+  MODIFY `chId` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `comm_details`
+--
+ALTER TABLE `comm_details`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `comm_masters`
+--
+ALTER TABLE `comm_masters`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `comm_templates`
+--
+ALTER TABLE `comm_templates`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `eventId` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `households`
+--
+ALTER TABLE `households`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `household_user`
+--
+ALTER TABLE `household_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `master_lookup_data`
+--
+ALTER TABLE `master_lookup_data`
+  MODIFY `mldId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=646;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `organization`
+--
+ALTER TABLE `organization`
+  MODIFY `orgId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
@@ -1786,6 +1981,7 @@ ALTER TABLE `model_has_roles`
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

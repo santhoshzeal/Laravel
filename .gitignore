@@ -3,6 +3,7 @@
 /public/storage
 composer.lock
 /vendor
+/nbproject
 .env
 .phpunit.result.cache
 Homestead.json
