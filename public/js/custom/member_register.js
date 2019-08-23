@@ -1,25 +1,23 @@
+
 $(document).ready(function () {
 
 
     chkValidateStatus = "";
-    chkValidateStatus = $("#organizationCreateForm").validate({
+    chkValidateStatus = $("#memberCreateForm").validate({
         //ignore:[],// false,
         ignore: false,
         errorClass: "error",
         rules: {
-            orgName: {
+            orgId: {
                 required: true                
-            },
-            orgDomain: {
-                required: true,
-                uniqueOrgDomain:true
             },
             first_name: {
                 required: true
             },
             email: {
                 required: true,
-                email:true
+                email:true,
+                uniqueEmailPerOrganization:true
             },
             password: {
                 required: true,
@@ -30,18 +28,11 @@ $(document).ready(function () {
                 required: true,
                 minlength : 5,
                 equalTo : "#password"
-            },
-            orgTimeZone: {
-                required: true
-
             }
         },
         messages: {
-            orgName: {
-                required: "Please enter oraganization name"
-            },
-            orgDomain: {
-                required: "Please enter oraganization domain name"
+            orgId: {
+                required: "Oraganization name is missing"
             },
             first_name: {
                 required: "Please enter name"
@@ -63,18 +54,19 @@ $(document).ready(function () {
  
 
 //DUPLICATE BRANCH CODE WITH SAME ACCOUNT HEAD TYPE VALIDATION
-    $.validator.addMethod("uniqueOrgDomain", function(ahSiteId, element) {
+    $.validator.addMethod("uniqueEmailPerOrganization", function(ahSiteId, element) {
         //alert('ss');
         var mydata1 = null;
-        var orgDomain = $.trim($('#orgDomain').val());
+        var orgId = $.trim($('#orgId').val());
+        var email = $.trim($('#email').val());
         
-        var dataString = 'orgDomain='+orgDomain;
+        var dataString = 'orgId='+orgId+'&email='+email;
         //alert(dataString);
         $.ajax({
             type: "POST",
             async: false,
             data: dataString,
-            url: siteUrl+'/check_unique_org_domain',
+            url: siteUrl+'/check_unique_email_per_org',
             success: function(data){
                 //alert(data);
                 if (data == "found"){
@@ -83,64 +75,20 @@ $(document).ready(function () {
             }
         });
         return (mydata1 != "found");
-    }, 'This Domain Name is already exist');
+    }, 'This Email is already exist for this organization');
     
-$("#btnCreateOrg").click(function () {
+$("#btnCreateMember").click(function () {
 
-    var formObj = $('#organizationCreateForm');
+    var formObj = $('#memberCreateForm');
     var formData = new FormData(formObj[0]);
 
-    $("#organizationCreateForm").valid();
+    $("#memberCreateForm").valid();
 
     var errorNumbers = chkValidateStatus.numberOfInvalids();
 
     if (errorNumbers == 0) {
-        $.ajax({
-            url: siteUrl + '/org_register',
-            async: true,
-            type: "POST",
-            data: formData,
-            dataType: "json",
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (data)
-            {
-                
-                if(data.result_code === 1){
-                    alert(data.message);
-                    $("#organizationLoginDetails").html(data.logindetails);
-                    //$('#organizationLoginDetails').focus();
-                    // var scrollPos =  $(".organizationLoginDetails").offset().top;
-                    //$(window).scrollTop(scrollPos);
+               $("#memberCreateForm").submit();
 
-
-                    $("#organizationCreateForm").trigger("reset");
-                }else{
-                    alert(data.message);
-                    return false;
-                }
-                
-                //console.log(data);
-//                
-//                $('#modal-account_head').modal('hide');
-//                if (data == "updated") {
-//                    alert("Account Head Updated");
-//                    //location.reload();
-//                    load_account_heads_datatable();
-//
-//                }else if (data == "inserted") {
-//                    alert("Account Head Added");
-//                    //location.reload();
-//                    load_account_heads_datatable();
-//
-//                } else {
-//                    alert("Error in Updation");
-//                    return false;
-//                }
-            }
-
-        });
 
     } else {
 
@@ -148,7 +96,7 @@ $("#btnCreateOrg").click(function () {
 });
 
 //form submission
-$('#organizationCreateForm').submit(function (e) {
+$('#memberCreateForm').submit(function (e) {
     var errorNumbers = chkValidateStatus.numberOfInvalids();
     if (errorNumbers == 0) {
         return true;

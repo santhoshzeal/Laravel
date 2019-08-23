@@ -1,6 +1,6 @@
         </div>
         <!-- jQuery  -->
-        <script src="{{ URL:: asset('assets/theme/js/jquery.min.js')}}"></script>
+        
         <script src="{{ URL:: asset('assets/theme/js/popper.min.js')}}"></script>
         <script src="{{ URL:: asset('assets/theme/js/bootstrap.min.js')}}"></script>
         <script src="{{ URL:: asset('assets/theme/js/modernizr.min.js')}}"></script>

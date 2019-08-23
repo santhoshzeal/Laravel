@@ -9,12 +9,12 @@
         <h3 class="text-center mt-0 m-b-15">
             @if ($crudOrganizationData->count() > 0)
                 @if($crudOrganizationData[0]->orgLogo == "")
-                    @php ($orgLogoName = "bible-cross-logo1.png")
+                    @php ($orgLogoName = 'assets/uploads/organizations/bible-cross-logo1.png')
                 @else
-                    @php ($orgLogoName = $crudOrganizationData[0]->orgLogo)
+                    @php ($orgLogoName = 'assets/uploads/organizations/'.$crudOrganizationData[0]->orgId.'/org_logo/'.$crudOrganizationData[0]->orgLogo)
                 @endif
 
-                <a href="" class="logo logo-admin"><img src="{{ URL::asset('assets/uploads/organizations/'.$crudOrganizationData[0]->orgId.'/org_logo/'.$orgLogoName)}}" alt="" height="55" class="logo-large"></a>
+                <a href="" class="logo logo-admin"><img src="{{ URL::asset($orgLogoName)}}" alt="" height="55" class="logo-large"></a>
             @else
                 <a href="" class="logo logo-admin"><img src="{{ URL::asset('assets/theme/images/bible-cross-logo1.png')}}" alt="" height="55" class="logo-large"></a>
             @endif
@@ -71,7 +71,7 @@
                         <a href="#" class="text-muted"><i class="mdi mdi-lock    "></i> Forgot your password?</a>
                     </div>
                     <div class="col-sm-5 m-t-20">
-                         <a href="{{URL::asset('register')}}" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a> 
+                         <a href="{{URL::asset('register').'/'.$crudOrganizationData[0]->orgDomain}}" class="text-muted"><i class="mdi mdi-account-circle"></i> Create an account</a> 
                     </div>
                 </div>
             </form>

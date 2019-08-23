@@ -138,7 +138,7 @@
                                     <a class="dropdown-item" href="#"><span class="badge badge-success pull-right m-t-5">5</span><i class="dripicons-gear text-muted"></i> Settings</a>
                                     <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted"></i> Lock screen</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{URL::asset('webapp/logout')}}"><i class="dripicons-exit text-muted"></i> Logout</a>
+                                    <a class="dropdown-item" href="{{URL::asset('webapp/logout').'/'.$crudOrganization[0]->orgDomain}}"><i class="dripicons-exit text-muted"></i> Logout</a>
                                 </div>
                             </li>
                             <li class="menu-item list-inline-item">

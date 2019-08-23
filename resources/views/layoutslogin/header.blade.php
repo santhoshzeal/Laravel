@@ -17,6 +17,11 @@
         <link href="{{ URL::asset('assets/theme/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ URL::asset('assets/theme/css/style.css') }}" rel="stylesheet" type="text/css" />
         
+        <script src="{{ URL:: asset('assets/theme/js/jquery.min.js')}}"></script>
+        
+        <!-- Jquery Validation Js-->        
+        <script src="{{ URL:: asset('js/jquery_validation/jquery.validate.min.js')}}"></script>
+        <script src="{{ URL:: asset('js/jquery_validation/additional-methods.min.js')}}"></script>
         
         <script>
             var siteUrl = '<?php echo url('/'); ?>';

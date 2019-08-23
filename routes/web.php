@@ -27,17 +27,20 @@ Route::get('api/login', function () {
 
 
 Route::post('org_register', 'PassportController@organizationRegister');
+Route::post('member_register', 'PassportController@memberRegister');
 
 Route::post('check_unique_org_domain', 'PassportController@checkOrganizationDomain');
+Route::post('check_unique_email_per_org', 'PassportController@checkUniqueEmailPerOrganization');
+
 
 Route::group( ['middleware' => ['get_org_detail']], function() {
 
     Route::get('login', 'PassportController@login_page');
     Route::get('login/{org_domain}', 'PassportController@login_page');
-    
+    Route::get('register/{org_domain}', 'PassportController@register');
 });
 
-Route::get('register', 'PassportController@register');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('logout', 'PassportController@logout');
@@ -48,7 +51,7 @@ Route::get('logout', 'PassportController@logout');
 
 Route::post('webapp/login', 'PassportController@login');
 
-Route::get('webapp/logout', 'PassportController@logout');
+Route::get('webapp/logout/{orgDomain}', 'PassportController@logout');
 
 Route::get('webapp/signup', 'WebsiteController@signup');
 

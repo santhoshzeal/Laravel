@@ -12,7 +12,7 @@ use App\Lookup;
 use App\User;
 use App\Household;
 use App\HouseholdDetail;
-
+use DB;
 
 class MemberController extends Controller
 {
@@ -85,6 +85,11 @@ class MemberController extends Controller
                 $user[$key] = $request[$key];
             }
             $user->save();
+            
+            $rolesAdminData = DB::table('roles')->where('orgId',$this->userSessionData['umOrgId'])->where('role_tag','member')->get();
+            //insert into model_has_roles with admin role
+            DB::table('model_has_roles')->insert(array('role_id'=>$rolesAdminData[0]->id,'model_type'=>'App\User','model_id'=>$user->id));
+            
             if($personal_id){
                 Session::flash('message', 'Member profile has been updated successfully');
             } else {

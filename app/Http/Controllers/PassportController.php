@@ -26,6 +26,7 @@ use App\Models\Roles;
 use Camroncade\Timezone\Facades\Timezone;
 
 use App\Models\UserMaster;
+use App\Models\CommTemplate;
 class PassportController extends Controller {
 
     
@@ -72,7 +73,7 @@ class PassportController extends Controller {
         'Select Timezone', 
         ['class' => 'form-control', 'name' => 'orgTimeZone', 'id' => 'orgTimeZone']
         );
-    
+        $data['crudOrganizationData'] = $this->crudOrganizationData;
         
         return view('auth.register', $data);
         
@@ -230,6 +231,14 @@ class PassportController extends Controller {
                 }
                 
                 
+                //Insert into communication templates table
+                $selectTemplaes = CommTemplate::where('org_id',0)
+                  ->select(array(DB::raw("'$insertOrganization->orgId'"),'tag', 'name','subject','body'));
+                
+                
+                DB::table('comm_templates')->insertUsing(['org_id','tag', 'name','subject','body'], $selectTemplaes);
+                //////
+                
                 
             }else{
                 //return redirect()->route('register')->with('failure', $e->getMessage());
@@ -278,7 +287,7 @@ class PassportController extends Controller {
         if ($request->segment(1) == "webapp") {
             Auth::logout();
             Session::flush();
-            return redirect('/login');
+            return redirect('/login/'.$request->segment(3));
         } else {
             if (Auth::check()) {
                 Auth::user()->AauthAcessToken()->delete();
@@ -288,7 +297,7 @@ class PassportController extends Controller {
         return response()->json(['status' => 'Logout'], 200);
         
     }
-
+    
     /**
      * @Function name : checkOrganizationDomain
      * @Purpose : Check org domain exist
@@ -306,4 +315,83 @@ class PassportController extends Controller {
        return "notfound";
    }
 
+   /**
+     * @Function name : checkUniqueEmailPerOrganization
+     * @Purpose : Check org per email exist
+     * @Added by : Sathish    
+     * @Added Date : Nov 07, 2018
+     */
+    
+   public function checkUniqueEmailPerOrganization(Request $request)
+   {
+       $whereArrayAT = array('orgId' => $request->orgId,'email' => $request->email);
+       $selectFromUserMaster = UserMaster::selectFromUserMaster($whereArrayAT)->get()->count();
+       if($selectFromUserMaster > 0){
+           return "found";
+       }
+       return "notfound";
+   }
+   
+   /**
+     * @Function name : memberRegister
+     * @Purpose : memberRegister
+     * @Added by : Sathish    
+     * @Added Date : Nov 07, 2018
+     */
+    
+   public function memberRegister(Request $request)
+   {
+       DB::beginTransaction();
+
+        try {
+            
+            $validator = Validator::make($request->all(), [
+                        'first_name' => 'required',
+                        'email' => 'required|email',
+                        'password' => 'required'
+            ]);
+            if ($validator->fails()) {
+                
+                return Redirect::back()->withErrors($validator->errors())->withInput(Input::except('password'));
+            }
+            $randomString = strtolower(str_random(4));
+            
+            $rolesAdminData = DB::table('roles')->where('orgId',$request->orgId)->where('role_tag','member')->get();
+            
+            
+            
+            $userFormData = $request->except('confirm_password');
+            $userFormData['orgId'] = $request->orgId;
+            $userFormData['referal_code'] = substr($request->first_name, 0, 4) . $randomString;
+            $lastUserId = UserMaster::orderBy('id','DESC')->first();
+            $newPersonal_id = str_pad($lastUserId->id + 1, 10, "0", STR_PAD_LEFT);
+
+            $userFormData['personal_id'] = $newPersonal_id;
+            $userFormData['householdName'] = $request->first_name."'s household";
+
+            $insertUser = User::create($userFormData);
+            
+            //insert into model_has_roles with admin role
+            DB::table('model_has_roles')->insert(array('role_id'=>$rolesAdminData[0]->id,'model_type'=>'App\User','model_id'=>$insertUser->id));
+            
+            DB::commit();
+            return redirect()->back()->with('message', 'Account has been created');
+            
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();            
+            //return response()->json(['result_code' => 0,'message' => $e->getMessage()], 200);
+            return Redirect::back()->withErrors( $e->getMessage());
+            
+            
+        // something went wrong with the transaction, rollback
+        }  catch (\Exception $e) {
+            DB::rollback();
+            //return response()->json(['result_code' => 0,'message' => $e->getMessage()], 200);
+            return Redirect::back()->withErrors( $e->getMessage());
+            
+            
+        }
+   }
+   
 }

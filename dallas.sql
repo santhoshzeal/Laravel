@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 23, 2019 at 04:19 AM
+-- Generation Time: Aug 23, 2019 at 07:33 AM
 -- Server version: 10.1.33-MariaDB
 -- PHP Version: 7.1.18
 
@@ -149,7 +149,7 @@ CREATE TABLE `comm_templates` (
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -159,9 +159,15 @@ CREATE TABLE `comm_templates` (
 --
 
 INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 'Welcome ', 'Welcome email', 'Welcome email sub', 'Welcome email sub body', 0, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:01:47', NULL, NULL),
-(2, 'Welcome ', 'Welcome email', 'Welcome email sub', 'Welcome email sub body', 1, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:01:52', NULL, NULL),
-(3, 'Event1', 'Event1 name', 'Event1 sub ~name~\r\n\r\n\r\nThanksn\r\n\r\n~Admin EMail~\r\n~Admin Name~', 'Event1 body', 1, NULL, '2019-08-21 15:50:11', NULL, '2019-08-21 16:04:52', NULL, NULL);
+(1, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 0, NULL, '2019-08-22 10:31:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(2, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 0, NULL, '2019-08-22 10:31:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(3, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 0, NULL, '2019-08-22 10:31:35', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(4, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-22 05:01:18', NULL, '2019-08-22 10:32:10', NULL, NULL),
+(5, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, '2019-08-22 05:01:18', NULL, '2019-08-22 10:32:12', NULL, NULL),
+(6, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 1, NULL, '2019-08-22 05:01:35', NULL, '2019-08-22 10:32:13', NULL, NULL),
+(7, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 25, NULL, '2019-08-23 03:33:56', NULL, NULL, NULL, NULL),
+(8, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 25, NULL, '2019-08-23 03:33:56', NULL, NULL, NULL, NULL),
+(9, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 25, NULL, '2019-08-23 03:33:56', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -882,7 +888,36 @@ INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldTy
 (640, 22, 'grade_name', 'K', 'A', 4, NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL),
 (641, 22, 'grade_name', '1st', 'A', 4, NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL),
 (642, 22, 'grade_name', '2nd', 'A', 1, NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL),
-(643, 22, 'grade_name', '3rd', 'A', 4, NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL);
+(643, 22, 'grade_name', '3rd', 'A', 4, NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL),
+(708, 25, 'school_name', 'High School', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(709, 25, 'school_name', 'Middle School', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(710, 25, 'name_prefix', 'Mr.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(711, 25, 'name_prefix', 'Mrs.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(712, 25, 'name_prefix', 'Ms.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(713, 25, 'name_prefix', 'Miss', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(714, 25, 'name_prefix', 'Dr.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(715, 25, 'name_prefix', 'Rev.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(716, 25, 'name_suffix', 'Jr.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(717, 25, 'name_suffix', 'Sr.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(718, 25, 'name_suffix', 'Ph.D.', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(719, 25, 'name_suffix', 'II', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(720, 25, 'name_suffix', 'III', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(721, 25, 'membership_inactive_reason', 'Moved', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(722, 25, 'membership_inactive_reason', 'New Church', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(723, 25, 'membership_inactive_reason', 'Deceased', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(724, 25, 'marital_status', 'Single', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(725, 25, 'marital_status', 'Married', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(726, 25, 'marital_status', 'Widowed', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(727, 25, 'membership_status', 'Member', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(728, 25, 'membership_status', 'Regular Attender', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(729, 25, 'membership_status', 'Visitor', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(730, 25, 'membership_status', 'Participant', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(731, 25, 'membership_status', 'In Progress', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(732, 25, 'grade_name', 'Pre-K', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(733, 25, 'grade_name', 'K', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(734, 25, 'grade_name', '1st', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(735, 25, 'grade_name', '2nd', 'A', 1, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(736, 25, 'grade_name', '3rd', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -963,7 +998,11 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\User', 28),
 (2, 'App\\User', 29),
 (2, 'App\\User', 30),
+(2, 'App\\User', 33),
 (5, 'App\\User', 2),
+(6, 'App\\User', 36),
+(6, 'App\\User', 37),
+(6, 'App\\User', 38),
 (8, 'App\\User', 4),
 (11, 'App\\User', 6),
 (14, 'App\\User', 12),
@@ -982,7 +1021,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (59, 'App\\User', 27),
 (62, 'App\\User', 28),
 (65, 'App\\User', 29),
-(68, 'App\\User', 30);
+(68, 'App\\User', 30),
+(77, 'App\\User', 33);
 
 -- --------------------------------------------------------
 
@@ -1016,12 +1056,14 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('21a4f8e567513b729d9d1ea891cf9a3ade6f2dae425aecc3c6ce078a6924219192e818744d6ffad2', 87, 1, 'dollar', '[]', 0, '2019-07-08 17:29:30', '2019-07-08 17:29:30', '2020-07-09 04:29:30'),
 ('28fa779f44500257026b3967c06a29f3d9b77b1396540e7515d685136f0dd718599ad367780b9182', 2, 1, 'dollar', '[]', 0, '2019-08-01 21:22:44', '2019-08-01 21:22:44', '2020-08-02 02:52:44'),
 ('2b44aafbc783793e88cd81950d72ee920c1a315e6f4328211cb64a9d3bb59aa626e278bde20254b0', 2, 1, 'dollar', '[]', 0, '2019-08-18 07:26:10', '2019-08-18 07:26:10', '2020-08-18 12:56:10'),
+('2e3941abdf7bdfb09bc8017b05074b7eb560ea1bbe274012be2efaad55af7f1179145549b9e3d09a', 2, 1, 'dollar', '[]', 0, '2019-08-22 21:21:17', '2019-08-22 21:21:17', '2020-08-23 02:51:17'),
 ('3373c749ea3f080d8b0e991764d478f639c9ed983294fd22f419cfa94cdf6628bcf9b8406d947825', 4, 1, 'dollar', '[]', 0, '2019-08-17 22:39:36', '2019-08-17 22:39:36', '2020-08-17 23:39:36'),
 ('36bdd74e89292be6eef5b0cb8e38a0b58bc494fffe1c51ecad0ba24827d66f243bd0892b5db52a53', 87, 1, 'dollar', '[]', 0, '2019-07-21 08:17:55', '2019-07-21 08:17:55', '2020-07-21 13:47:55'),
 ('391a907e599a8b11088852ad6c0be3deabf032751a058b5da2cb04f29f2c01dc3bf3f49918d758e0', 88, 1, 'dollar', '[]', 0, '2019-07-07 21:00:48', '2019-07-07 21:00:48', '2020-07-08 08:00:48'),
 ('3f23ab8d6c51854fdb06e7981ba08f6eb3241d321a959f1857a170288212c1215817d7a40e030c80', 87, 1, 'dollar', '[]', 0, '2019-07-01 23:41:27', '2019-07-01 23:41:27', '2020-07-02 10:41:27'),
 ('40e3575c22b590681120f70958255bcf95063a1611aa85990f0c87f4b977420226c57a7c18726775', 2, 1, 'dollar', '[]', 0, '2019-08-21 09:38:47', '2019-08-21 09:38:47', '2020-08-21 15:08:47'),
 ('42a786050bd91e192ca1721a193b6294abc464bb1f0bf42a3b60c5099b5227690e0025409052b898', 87, 1, 'dollar', '[]', 0, '2019-07-22 04:01:33', '2019-07-22 04:01:33', '2020-07-22 09:31:33'),
+('47fe9c2e1aac8691f746a79742c4766442b7dd348ada59461c8c6e629816cfb18d114a23604a21ce', 2, 1, 'dollar', '[]', 0, '2019-08-22 21:35:57', '2019-08-22 21:35:57', '2020-08-23 03:05:57'),
 ('49401a0a8d493fa62bdb0881c1fe0d82e445354821ed119480ca4c4a4bd311e0011658154204e13b', 87, 1, 'dollar', '[]', 0, '2019-06-13 00:50:54', '2019-06-13 00:50:54', '2020-06-13 11:50:54'),
 ('4a4f73cf742d950d40f02cb345a7e52bc8848060bd1194996bb0441761892ecc0a1224693aefeed3', 102, 1, 'dollar', '[]', 0, '2019-07-28 18:31:22', '2019-07-28 18:31:22', '2020-07-29 00:01:22'),
 ('4e5c7e01b4551619228ed240b4fd87f28f44dac1bb447bf595e6ca9486c8f2b8eb66601e0c5b145d', 87, 1, 'dollar', '[]', 0, '2019-07-04 22:43:42', '2019-07-04 22:43:42', '2020-07-05 09:43:42'),
@@ -1032,6 +1074,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('5b8ab60bff6488ebaab4917be0a87189c2a451f466701567f670faaf1c648289bad5baa8494203c8', 102, 1, 'dollar', '[]', 0, '2019-07-31 00:20:46', '2019-07-31 00:20:46', '2020-07-31 05:50:46'),
 ('5bd6580802d106c50cb87d25d41e329c5768d669fc2bae1ab262043fcd93ce714a6f1c3c90147641', 102, 1, 'dollar', '[]', 0, '2019-07-26 09:49:17', '2019-07-26 09:49:17', '2020-07-26 15:19:17'),
 ('5fe26d13456319d038cc74a52038d556ba848b5faa6fd7d0c5aaae14cc1ff3336ab10d3f1d79b4e3', 4, 1, 'dollar', '[]', 0, '2019-08-15 11:43:11', '2019-08-15 11:43:11', '2020-08-15 12:43:11'),
+('6ff6aa54858ce95647cfb48a57425113dd058734540ce81fbfc244fffdfaccafbf4a2cb08911275a', 2, 1, 'dollar', '[]', 0, '2019-08-22 21:42:57', '2019-08-22 21:42:57', '2020-08-23 03:12:57'),
 ('76c1f6e3c9944286fc173374eab66726ab02befd97c46858e087fe6fc7b35a390d9cde864657e4bf', 4, 1, 'dollar', '[]', 0, '2019-08-18 10:08:40', '2019-08-18 10:08:40', '2020-08-18 11:08:40'),
 ('7a8ed7f6784155e6f79aafd98622bd4701dc405dfc7aaea06e4ae2f390ffc556e5a216404ead66c2', 102, 1, 'dollar', '[]', 0, '2019-07-30 06:19:21', '2019-07-30 06:19:21', '2020-07-30 11:49:21'),
 ('7cd0affdc7cf0d59cfbe6f349e92c8373f43cf6029b92ffcf14bd2346025320bffb2c1d0cc67b42b', 87, 1, 'dollar', '[]', 0, '2019-07-19 05:16:31', '2019-07-19 05:16:31', '2020-07-19 10:46:31'),
@@ -1054,9 +1097,11 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('aa2bdab72420d3ff29b1d3fcf3b9686c3a84c49878bf7923b32f8f8dece66ba27a40d32e58841eea', 4, 1, 'dollar', '[]', 0, '2019-08-15 16:09:40', '2019-08-15 16:09:40', '2020-08-15 17:09:40'),
 ('aaebcf0c802dd1e25fb95000b199418ac631b5139dfe3a592c317b16644f8788afaaca1551496c9c', 87, 1, 'dollar', '[]', 0, '2019-07-19 21:37:53', '2019-07-19 21:37:53', '2020-07-20 03:07:53'),
 ('b6e2732b2d8e641029c0bc214a57a3c2397651e46926f9c2a4b8cd950f0e0d8fb85ebe29e7c5398a', 97, 1, 'dollar', '[]', 0, '2019-07-26 05:12:32', '2019-07-26 05:12:32', '2020-07-26 10:42:32'),
+('bdaa379b26ac53248e5b00bb6699667416a03b0132b54a580567e1179e8c140d9022fcac22bb554f', 33, 1, 'dollar', '[]', 0, '2019-08-22 22:04:09', '2019-08-22 22:04:09', '2020-08-23 03:34:09'),
 ('c384427a07f1c5a5692c68440822bb7812e3d73bac242deee2bb74a423481144a3590e31fd67d512', 2, 1, 'dollar', '[]', 0, '2019-08-18 07:49:57', '2019-08-18 07:49:57', '2020-08-18 13:19:57'),
 ('c5a1f10286c5cf1f2f491168f52dc87be1fda2f3209b3c870ccc995af5488efa0a9a64ad5223be4b', 87, 1, 'dollar', '[]', 0, '2019-07-20 06:02:52', '2019-07-20 06:02:52', '2020-07-20 11:32:52'),
 ('c74dee57928433395de16ae5b3c31fafd226b40ed47504a80e6420bc18977a259fe4ad16cb06a37b', 87, 1, 'dollar', '[]', 0, '2019-07-21 10:18:06', '2019-07-21 10:18:06', '2020-07-21 15:48:06'),
+('c7d8fd65b20ad6c0c2c662826343c973f7650cc900bca66be7485b361512e86492e4216aae959012', 2, 1, 'dollar', '[]', 0, '2019-08-22 23:03:39', '2019-08-22 23:03:39', '2020-08-23 04:33:39'),
 ('c8b7cffc21183dade88db801fa144c0bf9b537ce9cdd24b3039199be1bf2acaa92adbfd1646e3dbe', 87, 1, 'dollar', '[]', 0, '2019-07-21 10:17:40', '2019-07-21 10:17:40', '2020-07-21 15:47:40'),
 ('cbc85c023bed7682d964f90aac54f6a323e113d3c671366632cc3a4067149f76a0469a75e70c571d', 87, 1, 'dollar', '[]', 0, '2019-07-17 23:26:19', '2019-07-17 23:26:19', '2020-07-18 04:56:19'),
 ('cce2dd49c4c06218a7f6b74c60526b2468ce4b24d2def7ef12db4ce3fcc42d8a20e104161e8cd297', 102, 1, 'dollar', '[]', 0, '2019-07-30 06:33:24', '2019-07-30 06:33:24', '2020-07-30 12:03:24'),
@@ -1067,6 +1112,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('d8de316ee12b5c67e3b75f8cb2fb6557d808a589ab5ba38e2f77887635f1cbd104d33cd845268738', 4, 1, 'dollar', '[]', 0, '2019-08-13 21:26:53', '2019-08-13 21:26:53', '2020-08-13 22:26:53'),
 ('d9a1e66bc3175e5bc39164cfde20bc1e3e3c033cd29f1a56582a19e5298c72e6405fd390f3c888ea', 109, 1, 'dollar', '[]', 0, '2019-08-01 20:40:14', '2019-08-01 20:40:14', '2020-08-02 02:10:14'),
 ('da42a4b6ea2d457cee636c5d9f4c90fd249a65f8a98540a6f6718c3f7c00c4adbded23fd41473ae2', 2, 1, 'dollar', '[]', 0, '2019-08-01 21:12:19', '2019-08-01 21:12:19', '2020-08-02 02:42:19'),
+('db218860fdb0b3d6352c147e1a9be0eccfb216f6de25563d200826240f9b7078744e91a6ea7ea17a', 2, 1, 'dollar', '[]', 0, '2019-08-22 21:39:34', '2019-08-22 21:39:34', '2020-08-23 03:09:34'),
 ('dc3aa91d30153caaaa19ee77aa2f081f76c50b1d232cefe4fb99e0fc0ad7467bd143d773c9579cae', 87, 1, 'dollar', '[]', 0, '2019-07-22 05:01:45', '2019-07-22 05:01:45', '2020-07-22 10:31:45'),
 ('df9e400ec2ff66aad5cdeb79459ed5fb2bbce5fca4ebabd4200e942d3dbaf58ef2b09110bf51f72e', 87, 1, 'dollar', '[]', 0, '2019-07-03 23:19:12', '2019-07-03 23:19:12', '2020-07-04 10:19:12'),
 ('e445857b4c00fb415c105d0cb97210c5f779bbd1218dcae6bf04364b56f855aaad385a26362399ff', 2, 1, 'dollar', '[]', 0, '2019-08-21 18:37:14', '2019-08-21 18:37:14', '2020-08-22 00:07:14'),
@@ -1075,7 +1121,8 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('e928db91b7e977eb82798a814620e88f26a12e6fabb250dd20635be624c860e12b09996a4e623d81', 102, 1, 'dollar', '[]', 0, '2019-07-30 21:07:17', '2019-07-30 21:07:17', '2020-07-31 02:37:17'),
 ('ecc2ffbb1db07dc56f43b0c57aaf2a90f136475b7727a42df88605efabe586e8b0a1eea7dad63bc7', 2, 1, 'dollar', '[]', 0, '2019-08-22 20:47:56', '2019-08-22 20:47:56', '2020-08-23 02:17:56'),
 ('ef9763080456367398a41f2c96b021695bcf0431474633faabbd80c994ffccbc720d1d89b4142b53', 6, 1, 'dollar', '[]', 0, '2019-08-01 21:39:23', '2019-08-01 21:39:23', '2020-08-02 03:09:23'),
-('f9acd31cd5e915ce5b198de1177029c663b37be6e96530cabc30ccab9fa24bb9f44dc5f8ba75fa9a', 102, 1, 'dollar', '[]', 0, '2019-07-28 07:37:33', '2019-07-28 07:37:33', '2020-07-28 13:07:33');
+('f9acd31cd5e915ce5b198de1177029c663b37be6e96530cabc30ccab9fa24bb9f44dc5f8ba75fa9a', 102, 1, 'dollar', '[]', 0, '2019-07-28 07:37:33', '2019-07-28 07:37:33', '2020-07-28 13:07:33'),
+('fa22837c07da897185f640585abee46a1a8026742fc820c45536a0b87905a79a32bed27fded4ce5a', 38, 1, 'dollar', '[]', 0, '2019-08-23 00:02:31', '2019-08-23 00:02:31', '2020-08-23 05:32:31');
 
 -- --------------------------------------------------------
 
@@ -1190,7 +1237,7 @@ CREATE TABLE `organization` (
 --
 
 INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `orgCity`, `orgState`, `orgPincode`, `orgPhone`, `orgLogo`, `orgTimeZone`, `orgTimeCountry`, `orgTimeFormat`, `orgDateFormat`, `orgCurrency`, `orgEmail`, `orgWebsite`, `orgTaxIdNo`, `orgDomain`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 'stpaul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pacific/Samoa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-01 21:47:28', NULL, '2019-08-01 21:47:28', NULL, NULL),
+(1, 'stpaul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pacific/Samoa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stpaul', NULL, '2019-08-01 21:47:28', NULL, '2019-08-23 02:51:04', NULL, NULL),
 (2, 'Testing', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Asia/Calcutta', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-09 18:12:04', NULL, '2019-08-09 18:12:04', NULL, NULL),
 (3, 'Anjali', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Asia/Calcutta', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-14 20:23:23', NULL, '2019-08-14 20:23:23', NULL, NULL),
 (4, 'St Jhons', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'America/Monterrey', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'jhonschurch', NULL, '2019-08-21 18:51:51', NULL, '2019-08-21 18:51:51', NULL, NULL),
@@ -1209,7 +1256,8 @@ INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `
 (19, 'aasa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'faf', NULL, '2019-08-21 20:40:59', NULL, '2019-08-21 20:40:59', NULL, NULL),
 (20, 'frsfd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'fsdfsd', NULL, '2019-08-21 20:42:14', NULL, '2019-08-21 20:42:14', NULL, NULL),
 (21, 'asdasd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'asda', NULL, '2019-08-21 20:43:12', NULL, '2019-08-21 20:43:12', NULL, NULL),
-(22, 'asdadsa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'dadada', NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL);
+(22, 'asdadsa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'dadada', NULL, '2019-08-21 20:44:15', NULL, '2019-08-21 20:44:15', NULL, NULL),
+(25, 'jaijag org name', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pacific/Samoa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'jaijag', NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1368,7 +1416,13 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 (154, 22, 'Scheduling', 'web', NULL, NULL),
 (155, 22, 'Event management', 'web', NULL, NULL),
 (156, 22, 'Small Group', 'web', NULL, NULL),
-(157, 22, 'Accounting', 'web', NULL, NULL);
+(157, 22, 'Accounting', 'web', NULL, NULL),
+(173, 25, 'Nextgen Checkin', 'web', NULL, NULL),
+(174, 25, 'Member Directory', 'web', NULL, NULL),
+(175, 25, 'Scheduling', 'web', NULL, NULL),
+(176, 25, 'Event management', 'web', NULL, NULL),
+(177, 25, 'Small Group', 'web', NULL, NULL),
+(178, 25, 'Accounting', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1454,7 +1508,10 @@ INSERT INTO `roles` (`id`, `orgId`, `name`, `guard_name`, `role_tag`, `created_a
 (67, 21, 'Volunteer', 'web', 'volunteer', '2019-08-22 02:13:12', NULL),
 (68, 22, 'Admin', 'web', 'admin', '2019-08-22 02:14:15', NULL),
 (69, 22, 'Member', 'web', 'member', '2019-08-22 02:14:15', NULL),
-(70, 22, 'Volunteer', 'web', 'volunteer', '2019-08-22 02:14:15', NULL);
+(70, 22, 'Volunteer', 'web', 'volunteer', '2019-08-22 02:14:15', NULL),
+(77, 25, 'Admin', 'web', 'admin', '2019-08-23 03:33:55', NULL),
+(78, 25, 'Member', 'web', 'member', '2019-08-23 03:33:55', NULL),
+(79, 25, 'Volunteer', 'web', 'volunteer', '2019-08-23 03:33:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -1631,7 +1688,15 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (154, 68),
 (155, 68),
 (156, 68),
-(157, 68);
+(157, 68),
+(173, 77),
+(173, 78),
+(173, 79),
+(174, 77),
+(175, 77),
+(176, 77),
+(177, 77),
+(178, 77);
 
 -- --------------------------------------------------------
 
@@ -1708,7 +1773,13 @@ INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix
 (27, 19, 'afasf\'s household', '0000000027', NULL, NULL, 'afasf', NULL, NULL, NULL, 'asf@asda.com', NULL, NULL, '$2y$10$EIX8buYeTpgoDN2sO/8DT.QVIJUhCEOGcET0bEsKtJMIFBc4ms5E.', NULL, 'afasgnki', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:40:59', '2019-08-21 20:40:59', NULL, NULL),
 (28, 20, 'sdfsfs\'s household', '0000000028', NULL, NULL, 'sdfsfs', NULL, NULL, NULL, 'sdf@asda.com', NULL, NULL, '$2y$10$qaSbJwu9ZQQZ31kIbTyCXOYnfE5i10z4japd1G8jkUrbXaPAStenS', NULL, 'sdfshvft', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:42:15', '2019-08-21 20:42:15', NULL, NULL),
 (29, 21, 'asdasd\'s household', '0000000029', NULL, NULL, 'asdasd', NULL, NULL, NULL, 'asdsa@asda.com', NULL, NULL, '$2y$10$rf9ihg3CWnxHoMKd9fXUku5wfRirbbxOkjCU7z/eV957yzDd0B9Ri', NULL, 'asdapd8g', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:43:12', '2019-08-21 20:43:12', NULL, NULL),
-(30, 22, 'asdad\'s household', '0000000030', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asdad@asda.com', NULL, NULL, '$2y$10$Ct1bRJza3zHKQrZc9bMjH.YimUsyoTamTZ8pWE3As8Rc12hG7tlzS', NULL, 'asdabiha', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:44:15', '2019-08-21 20:44:15', NULL, NULL);
+(30, 22, 'asdad\'s household', '0000000030', NULL, NULL, 'asdad', NULL, NULL, NULL, 'asdad@asda.com', NULL, NULL, '$2y$10$Ct1bRJza3zHKQrZc9bMjH.YimUsyoTamTZ8pWE3As8Rc12hG7tlzS', NULL, 'asdabiha', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-21 20:44:15', '2019-08-21 20:44:15', NULL, NULL),
+(33, 25, 'jaijag jeeth\'s household', '0000000031', NULL, NULL, 'jaijag jeeth', NULL, NULL, NULL, 'jaijag@jaijag.com', NULL, NULL, '$2y$10$afOVd8/HWzUiW/uArsbutuzujkX04yVyFXghr7qI5M2kOfALu4YXu', NULL, 'jaijejvr', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-22 22:03:55', '2019-08-22 22:03:55', NULL, NULL),
+(34, 1, 'maaran\'s household', '0000000029', '36', 'maar', 'maaran', 'n', 's', 'aan', 'maarn@gnail.com', NULL, NULL, '$2y$10$wcZW4QZqoJxINb8g7C.Oce298E1qwYKmqNZMXg7HEYAjIHEjxXLYa', NULL, 'maarhml2', '41', NULL, NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-22 23:04:08', '2019-08-22 23:04:08', NULL, NULL),
+(35, 1, 'vijay\'s household', '0000000030', '36', 'vij', 'vijay', 'k', 'n', 'ay', 'vij@adsa.com', NULL, NULL, '$2y$10$SpFQm94HVRsVAGhLNLe6WuNoE/tBvl/r0XWyeQJKmHe/Pk3ojtO1G', NULL, 'vijaysif', '41', NULL, NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-22 23:10:12', '2019-08-22 23:10:12', NULL, NULL),
+(36, 1, 'vijay\'s household', '0000000031', '36', 'vij', 'vijay', 'k', 'n', 'ay', 'vij@adsa.com', NULL, NULL, '$2y$10$KALnyExrNjJ1jCfLdh87nuD1VUVMh6pdjeU9snXCzpml.BCx9Z1n.', NULL, 'vijawmuw', '41', NULL, NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-22 23:10:30', '2019-08-22 23:10:30', NULL, NULL),
+(37, 1, 'sdasada\'s household', '0000000037', NULL, NULL, 'sdasada', NULL, NULL, NULL, 'asdadas@example.com', NULL, NULL, '$2y$10$8MKxG05lFqKbpxnng2jve.sE7iUImlihCEzyOKTv1/ksUnR0bswhi', NULL, 'sdasuzar', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-22 23:35:00', '2019-08-22 23:35:00', NULL, NULL),
+(38, 1, 'tum\'s household', '0000000038', NULL, NULL, 'tum', NULL, NULL, NULL, 'tum@example.com', NULL, NULL, '$2y$10$memSPRwdkT3T0x7fg.0YdOhTAY/f40wMbXGrbu0samrb9oiXi5XTm', NULL, 'tumqc0r', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-23 00:01:43', '2019-08-23 00:01:43', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -1891,7 +1962,7 @@ ALTER TABLE `comm_masters`
 -- AUTO_INCREMENT for table `comm_templates`
 --
 ALTER TABLE `comm_templates`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -1915,7 +1986,7 @@ ALTER TABLE `household_user`
 -- AUTO_INCREMENT for table `master_lookup_data`
 --
 ALTER TABLE `master_lookup_data`
-  MODIFY `mldId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=646;
+  MODIFY `mldId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=739;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1939,25 +2010,25 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `organization`
 --
 ALTER TABLE `organization`
-  MODIFY `orgId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `orgId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- Constraints for dumped tables

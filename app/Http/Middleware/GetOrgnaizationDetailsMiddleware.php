@@ -18,8 +18,11 @@ class GetOrgnaizationDetailsMiddleware {
                 if ($crudOrganization->count() > 0) {
                     return $next($request);
                 } else {
-                    abort(404, 'Organization Not Found');
+                    abort(404, \Request::segment(2). ' - Organization Not Found');
                 }
+            }
+            if(\Request::segment(2) == null || \Request::segment(2) == ""){
+                abort(404, " Organization Doesn't Exist");
             }
             //abort(403, 'Organization Name Missing');
             return $next($request);
