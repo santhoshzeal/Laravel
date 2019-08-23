@@ -77,6 +77,10 @@ class User extends Authenticatable {
 
     public function households(){
         return $this->belongsToMany('App\Household')->withPivot('isPrimary');
-        // return $this->belongsToMany('App\Household', 'household_details', 'household_id', 'personal_id')->withPivot('isPrimary');
+    }
+
+    public function communications(){
+        return $this->belongsToMany('App\Models\CommMaster', 'comm_details', 'to_user_id', 'comm_master_id')
+                    ->withPivot('read_status', 'delete_status', 'created_at');
     }
 }

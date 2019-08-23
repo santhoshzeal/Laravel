@@ -217,7 +217,7 @@
         let modal_title = `<h5 class="modal-title">Join a Household of ${sFullName}</h5> `;
         
         let modal_body = `<a href="#" onClick="crateHousehold()"><i class="fa fa-plus" aria-hidden="true"></i> Create a new houlsehold with ${sFullName} with ${uFullName} as members</a>`;
-        let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeEmptyModal()">Close</button>`
+        let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`
         
         updateModalContent(modal_title, modal_body, modal_footer, false);
     }

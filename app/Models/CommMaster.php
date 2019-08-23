@@ -12,7 +12,12 @@ class CommMaster extends Model
     protected $table = "comm_masters";
     
     protected $fillable = [
-        'id', '	comm_template_id', 'org_id', 'type', 'tag', 'subject', 'body', 'from_user_id', 
+        'id', 'comm_template_id', 'org_id', 'type', 'tag', 'subject', 'body', 'from_user_id', 
         'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'
     ];
+
+    public function users(){
+        return $this->belongsToMany('App\Models\CommMaster', 'comm_details', 'comm_master_id', 'to_user_id')
+                    ->withPivot('read_status', 'delete_status', 'created_at');
+    }
 }

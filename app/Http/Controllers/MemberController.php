@@ -12,6 +12,7 @@ use App\Lookup;
 use App\User;
 use App\Household;
 use App\HouseholdDetail;
+use App\Helpers\CommunicationHelper;
 use DB;
 
 class MemberController extends Controller
@@ -93,6 +94,8 @@ class MemberController extends Controller
             if($personal_id){
                 Session::flash('message', 'Member profile has been updated successfully');
             } else {
+                $userIds = [$user->id];
+                $this->generateCommunication('welcome', 1, $userIds);
                 Session::flash('message', 'Member profile has been created successfully');
             }
            
@@ -186,7 +189,9 @@ class MemberController extends Controller
                             'orgId' => $orgId,
                             'hhPrimaryUserId' => $payload['primary_user']
                         ]);
-
+        
+        // Generating Comm for household_added with relative users
+        $this->generateCommunication('household_added', 2, [$payload['primary_user'], $payload['user']]);
         $newHousehold->users()->attach([
             $payload['primary_user'] => ['isPrimary' => 1],
             $payload['user'] => ['isPrimary' => 2]
@@ -220,16 +225,28 @@ class MemberController extends Controller
         $payloadData = $payload["household"];
 
         $household = Household::where('orgId', $orgId)->where('id', $payloadData["id"])->first();
+        $existingUsers = $household->users;
         $household->users()->detach();
         $household->name = $payloadData["name"];
         $household->save();
 
-        $attachUsers = [];
+        $existingUserIds = [];
+        foreach($existingUsers as $euser){
+            $existingUserIds[] = $euser['id'];
+        }
 
+        $attachUsers = [];
+        $userIds = [];
         foreach($payloadData["users"] as $user){
-            // dd($user);
+            if(!in_array($user["id"], $existingUserIds)){
+                $userIds[] = $user["id"];
+            }
             $attachUsers[$user["id"]] = ['isPrimary' => $user["isPrimary"]];
         }
+
+        // Generating Comm for household_added with relative users
+        $this->generateCommunication('household_added', 2, $userIds);
+
         $household->users()->attach($attachUsers);
 
         $data = ["msg"=>"Househose has been updated successfully from db"];
@@ -257,5 +274,13 @@ class MemberController extends Controller
         $user['profile_pic'] = $sUser->profile_pic;
         $user['isPrimary'] = $sUser->pivot->isPrimary;
         return $user;
+    }
+
+    public function generateCommunication($tag, $type, $userIds){
+        $orgId = $this->userSessionData['umOrgId'];
+        $createdUserId = $this->userSessionData['umId'];
+        if(count($userIds) > 0){
+            CommunicationHelper::generateCommunications($tag, $orgId, $type, $createdUserId, $userIds);
+        }
     }
 }

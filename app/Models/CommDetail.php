@@ -16,7 +16,7 @@ class CommDetail extends Model
      * delete_status => default->UNDELETED, enum -> ['DELETED', 'UNDELETED']
      */
     protected $fillable = [
-        'id', '	comm_master_id', 'to_user_id', 'read_status', 'delete_status', 
+        'id', 'comm_master_id', 'to_user_id', 'read_status', 'delete_status', 
         'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'
     ];
 }
