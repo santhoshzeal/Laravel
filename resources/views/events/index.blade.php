@@ -112,7 +112,7 @@
                  CreateEventsDlg = BootstrapDialog.show({
                     title:"Create Events",
                     size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/events/create_page"),
+                    message: $('<div></div>').load(siteUrl+"/user/create_page"),
                     buttons: [
                         {
                             label: 'Create',

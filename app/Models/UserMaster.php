@@ -221,4 +221,11 @@ class UserMaster extends Model  {
         $query->groupBy('users.id'); 
         return $query;
     }
+	
+	
+	 public static function getUserListForAutocomplete($search) {
+		 /*$user = self::select('id', 'first_name', 'last_name')
+				 ->whereLike()
+				 ->get();*/
+	 }
 }
