@@ -52,6 +52,7 @@
         
         <script src="{{ URL:: asset('assets/bootstrap3-dialog/bootstrap-dialog.js')}}"></script>
         <script src="{{ URL:: asset('assets/formJs/jquery.form.js')}}"></script>
+		<script src="{{ URL:: asset('assets/EasyAutocomplete/jquery.easy-autocomplete.min.js')}}"></script>
         
         <!-- Parsley js -->
 <!--        <script type="text/javascript" src="{{ URL:: asset('assets/theme/plugins/parsleyjs/parsley.min.js')}}"></script>

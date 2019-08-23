@@ -33,27 +33,25 @@
             <div class="col-lg-9">
                         <div class="card m-b-30">
                             <div class="card-body">
+							
+							@if(isset($eventDetails))
+                                <div class="row">
+                                    <div class="col-md-6">{{$eventDetails->eventName}}</div>
+                                    <div class="col-md-6">{{$eventDetails->eventCreatedDate}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">Check In: {{$eventDetails->eventStartCheckin}}</div>
+                                    <div class="col-md-6">Check Out: {{$eventDetails->eventEndCheckin}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                         <input type="text" id="checkInUser" />   
+                                    </div>
+                                    <div class="col-md-8">
 
-                                <h4 class="mt-0 header-title">Event List</h4>
-                                <p class="text-muted m-b-30 font-14 d-inline-block text-truncate w-100">.</p>
-
-                                <ul class="list-inline widget-chart m-t-20 m-b-15 text-center">
-                                    <li>
-                                        <h4 class=""><span style="background-color: red;">&nbsp;&nbsp;</span></h4>
-                                        <p class="text-muted">Regular</p>
-                                    </li>
-                                    <li>
-                                        <h4 class=""><span style="background-color: green;">&nbsp;&nbsp;</span></h4>
-                                        <p class="text-muted">Guest</p>
-                                    </li>
-                                    <li>
-                                        <h4 class=""><span style="background-color: blue;">&nbsp;&nbsp;</span></h4>
-                                        <p class="text-muted">Volunteer</p>
-                                    </li>
-                                </ul>
-
-                                <canvas id="bar" height="300"></canvas>
-
+                                    </div>
+                                </div>
+							@endif	
                             </div>
                         </div>
                     </div> <!-- end col -->    
@@ -62,6 +60,52 @@
                 
                 
             </div> <!-- end row -->
+			
+			<script>
+				$( function() {
+					   var options = {
+
+					  url: function(phrase) {
+						return siteUrl+"/people/list"
+					  },
+
+					  getValue: function(element) {
+						return element.name;
+					  },
+
+					  ajaxSettings: {
+						dataType: "json",
+						method: "POST",
+						data: {
+						  dataType: "json"
+						}
+					  },
+					  
+					  list: {
+						onClickEvent: function() {
+							
+							var userId = $("#checkInUser").getSelectedItemData().userId;
+							checkIn(userId);
+						}	
+					},
+					  
+					  preparePostData: function(data) {
+						data.phrase = $("#checkInUser").val();
+						return data;
+					  },
+
+					  requestDelay: 400
+					};
+
+					$("#checkInUser").easyAutocomplete(options);
+
+  } );
+  
+  
+  function checkIn(userId){
+	  alert(userId);
+  }
+			</script
         
         
 @endsection

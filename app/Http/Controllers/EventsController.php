@@ -43,13 +43,13 @@ class EventsController extends Controller
         Events::create($request->all());
         
        return response()->json(
-               [
-                   'success' => '1',
-                   "message" => '<div class="alert alert-success">
-                                    <strong>Saved!</strong> 
-                                  </div>'
-               ]
-               );
+							   [
+								   'success' => '1',
+								   "message" => '<div class="alert alert-success">
+													<strong>Saved!</strong> 
+												  </div>'
+							   ]
+						);
 
     }
    
@@ -61,7 +61,7 @@ class EventsController extends Controller
                     
                     ->addColumn('action', function($row){
    
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+                           $btn = '<a href="'.url('/').'/checkin/'.$row->eventId.'" class="edit btn btn-primary btn-sm">View</a>';
      
                             return $btn;
                     })

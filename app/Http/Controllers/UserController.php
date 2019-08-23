@@ -17,6 +17,7 @@ use App\Helpers\CustomHelperFunctions;
 use Redirect;
 use App\Models\Households;
 use App\Models\HouseholdDetails;
+use Illuminate\Http\Response;
 
 class UserController extends Controller {
 
@@ -299,5 +300,13 @@ class UserController extends Controller {
         }
         return redirect('people/member_directory');
     }
+	
+	public function getUsersList(Request $request) {
+		$users = array(["name"=>"ananth","userId"=>1]);
+		
+		return response()->json(
+							   $users
+						);
+	}
 
 }

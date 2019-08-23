@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Config;
+use App\Models\Events;
 class CheckinController extends Controller
 {
    
@@ -13,9 +14,14 @@ class CheckinController extends Controller
         $this->middleware('auth');
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
     }
-    public function index()
+    public function index($eventId=0)
     {
         $data['title'] = $this->browserTitle . " - Checkin Management";
+		
+		if($eventId > 0) {
+			$eventDetails = Events::getEventsDetails($eventId);
+			$data['eventDetails'] = $eventDetails;
+		}
         
         return view('checkin.index',$data);
     }

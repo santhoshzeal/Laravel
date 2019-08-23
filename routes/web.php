@@ -101,11 +101,14 @@ Route::get('role_create', 'RoleController@create');
 Route::get('communication', 'CommunicationController@index');
 
 //checkin
+Route::get('checkin/{eventId}', 'CheckinController@index');
 Route::get('checkin', 'CheckinController@index');
 Route::get('checkin/adult', 'CheckinController@adultCheckin');
 Route::get('checkin/child', 'CheckinController@childCheckin');
 Route::get('checkin/notification', 'CheckinController@notificationCheckin');
 Route::get('checkin/report', 'CheckinController@reportCheckin');
+
+Route::post('people/list', 'UserController@getUsersList');
 //Auth::routes();
 
 

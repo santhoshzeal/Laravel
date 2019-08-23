@@ -50,8 +50,16 @@ class Events extends Model  {
    
     public static function listEvents(){
         $result =  self::select('eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation')
-                    ->orderBy("created_at","desc")
-                    ->get();
+                    ->orderBy("created_at","desc");
+                   
+        return $result;
+    }
+	
+	public static function getEventsDetails($eventId){
+        $result =  self::select('eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation')
+                    ->where("eventId",$eventId)
+					->first();
+                   
         return $result;
     }
    
