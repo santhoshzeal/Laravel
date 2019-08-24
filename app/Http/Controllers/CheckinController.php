@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use DB;
 use Config;
 use App\Models\Events;
+use App\Models\Checkins;
+use DataTables;
+use Auth;
 class CheckinController extends Controller
 {
    
@@ -25,6 +28,87 @@ class CheckinController extends Controller
         
         return view('checkin.index',$data);
     }
+    
+    
+    public function logCheckin(Request $request) {
+        
+        $insertData = array(
+            "eventId"=>$request->eventId,
+            "user_id"=>$request->userId,
+            "chINDateTime"=>date("Y-m-d h:i:s"),
+            "chKind"=>1,
+            "createdBy"=> Auth::id()
+        );
+        
+        Checkins::create($insertData);
+        //print_r($request->all());
+    }
+    
+     public function logCheckout(Request $request) {
+        
+        $updatetData = array(
+            "chOUTDateTime"=>date("Y-m-d h:i:s"),
+            "updatedBy"=> Auth::id()
+        );
+        
+        Checkins::where("chId",$request->chId)->update($updatetData);
+        //print_r($request->all());
+    }
+    
+     public function checkInList(Request $request) {
+         
+         $data = array(
+             "eventId"=>$request->eventId,
+             "searchText" =>$request->search['value']
+         );
+         $events = Checkins::listCheckins($data);
+        
+        return DataTables::of($events)
+                    
+                    ->addColumn('checkInUser', function($events){
+                        
+                        $userImg = url('assets/uploads/profile').'/user.jpg';
+                        
+                        $profilePic = $events->profile_pic;
+                        
+                        
+                           $btn = '<div class="row checkin-user">
+
+                                 
+                                    <div class=" col-md-1 image-container">
+                                      <img src="'.$userImg.'" class="checkin-user-img" style="height:50px; " />
+                                    </div>
+
+                                    <div class=" col-md-8 ">  
+
+                                      <div class="checkin-user-name">'.$events->first_name."".$events->last_name.'</div>
+                                       <div class="checkin-user-details"> '.$events->chKind.'
+                                       <span>@'.date('h:i A', strtotime($events->chINDateTime)).'</span>
+                                        </div>
+                                    </div>';
+                                    if($events->chOUTDateTime == "" ||  $events->chOUTDateTime =="NULL"){
+                                        
+                                        $btn.=' <div class="col-md-3">  
+                                                    <button class="btn" onclick="checkOutUser('.$events->chId.','.$events->eventId.','.$events->user_id.')">Check Out</button>
+                                                </div>';
+                                    }
+                                    else {
+                                        $btn.=' <div class="col-md-3 ">  
+                                                    <span>@'.date('h:i A', strtotime($events->chOUTDateTime)).'</span>
+                                                </div>';
+                                    }
+                                   
+                                    
+                                    $btn.= '</div>
+                                    
+                       </div>';
+     
+                            return $btn;
+                    })
+                    ->rawColumns(['checkInUser'])
+                    ->make(true);
+     }
+    
     /**
      * Show the form for creating a new resource.
      *

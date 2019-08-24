@@ -224,8 +224,13 @@ class UserMaster extends Model  {
 	
 	
 	 public static function getUserListForAutocomplete($search) {
-		 /*$user = self::select('id', 'first_name', 'last_name')
-				 ->whereLike()
-				 ->get();*/
+		 $user = self::select('id', 'first_name', 'last_name')
+                                    ->where(function($query)use($search) {
+                                           /** @var $query Illuminate\Database\Query\Builder  */
+                                           return $query->where('first_name', 'LIKE', '%'.$search.'%')
+                                               ->orWhere('last_name', 'LIKE', '%'.$search.'%');
+                                       })
+				 ->get();
+                 return  $user;                     
 	 }
 }

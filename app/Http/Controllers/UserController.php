@@ -302,7 +302,13 @@ class UserController extends Controller {
     }
 	
 	public function getUsersList(Request $request) {
-		$users = array(["name"=>"ananth","userId"=>1]);
+            $search = $request->phrase;
+            $usersList = UserMaster::getUserListForAutocomplete($search); //'id', 'first_name', 'last_name'
+            $users = array();
+            foreach ($usersList as $user) {
+                $users[] = array("name"=>$user->first_name." ".$user->last_name,"userId"=>$user->id);
+            }
+		
 		
 		return response()->json(
 							   $users

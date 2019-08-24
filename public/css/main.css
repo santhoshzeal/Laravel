@@ -17,3 +17,16 @@
 .font-size-8 {
     font-size: 0.8em;
 }
+.checkin-user-name {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.checkin-user-details {
+    font-size: 14px;
+}
+.checkin-user-details span {
+    padding-left: 15px;
+}
+#checkinsTable thead {
+    display: none;
+}
