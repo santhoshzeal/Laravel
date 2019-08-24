@@ -52,7 +52,7 @@
                                 }
                             ?>
                             <div class="col-md-6 col-lg-6 col-xl-7">
-                                <h3>{{$user->name_prefix}} {{$user->first_name}} <?php echo ($user->given_name==''?'': '('.$user->given_name.')' );?> <?php echo ($user->nick_name==''?'': '"'. $user->nick_name .'"');?> {{$user->middle_name}}  {{$user->last_name}} <a href={{$edit_profile_url}} style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a></h3>
+                                <h3>{{$user->name_prefix}} {{$user->full_name}} <?php echo ($user->given_name==''?'': '('.$user->given_name.')' );?> <?php echo ($user->nick_name==''?'': '"'. $user->nick_name .'"');?> <a href={{$edit_profile_url}} style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a></h3>
                             </div><!-- end col -->
 
                             <div class="col-md-2 col-lg-2 col-xl-3">
@@ -97,7 +97,9 @@
                     <div class="row">
                         <div class="col-6">
                             {{$user->gender}}
-                            <br/>{{$user->age}} years old ({{$user->dob_format}})
+                            @if(isset($user->age) && isset($user->dob_format))
+                                <br/>{{$user->age}} years old ({{$user->dob_format}})
+                            @endif
                             <br/>{{$user->life_stage}}
                         </div>
                         <div class="col-6">

@@ -85,6 +85,7 @@ class MemberController extends Controller
             foreach($keys as $key){
                 $user[$key] = $request[$key];
             }
+            $user['full_name'] = $this->extractFullName($user);
             $user->save();
             
             // $rolesAdminData = DB::table('roles')->where('orgId',$this->userSessionData['umOrgId'])->where('role_tag','member')->get();
@@ -112,10 +113,10 @@ class MemberController extends Controller
         $user = User::where('orgId', $orgId)->where("personal_id", $personal_id)->first();
         $fullAdr = explode("///",$user['address']);
         $user['address'] = $fullAdr[0];
-        $user['address'] .= isset($fullAdr[1])? ','. $fullAdr[1]:'';
-        $user['address'] .= isset($fullAdr[2])? ','. $fullAdr[2]:'';
-        $user['address'] .= isset($fullAdr[3])? ','. $fullAdr[3]:'';
-        $user['address'] .= isset($fullAdr[4])? '-'. $fullAdr[4]:'';
+        $user['address'] .= isSet($fullAdr[1]) && strlen($fullAdr[1]) >0? ','. $fullAdr[1]:'';
+        $user['address'] .= isSet($fullAdr[2]) && strlen($fullAdr[2]) >0? ','. $fullAdr[2]:'';
+        $user['address'] .= isSet($fullAdr[3]) && strlen($fullAdr[3]) >0? ','. $fullAdr[3]:'';
+        $user['address'] .= isSet($fullAdr[4]) && strlen($fullAdr[4]) >0? '-'. $fullAdr[4]:'';
         // Getting Master loook data
         $keys = ["school_name", "name_prefix", "name_suffix", "marital_status"];
         $lookUpKeys = [];
@@ -168,10 +169,10 @@ class MemberController extends Controller
         // dd($payload['exceptIds']);
         $users = User::whereNotIn("id", $payload['exceptIds'])
                     ->where('orgId', $orgId)
-                    ->where('first_name', 'LIKE', '%' . $payload['searchStr'] . "%")
-                    ->orWhere("middle_name", 'LIKE', "%" . $payload['searchStr'] . "%")
-                    ->orWhere("last_name", "LIKE", "%" . $payload['searchStr'] . "%")
-                    ->select('id','first_name', 'middle_name', "last_name","mobile_no", 'email', 'personal_id', 'profile_pic', 'address')
+                    ->where('full_name', 'LIKE', "%" . $payload['searchStr'] . "%")
+                    ->orWhere("email", $payload['searchStr'])
+                    ->orWhere("mobile_no",$payload['searchStr'])
+                    ->select('id', "full_name","mobile_no", 'email', 'personal_id', 'profile_pic', 'address')
                     ->get();
         foreach($users as $user){
             $user["address"] = $this->extractAddress($user);
@@ -265,6 +266,7 @@ class MemberController extends Controller
 
     public function extreactHhUrserFields($sUser){
         $user['id'] = $sUser->id;
+        $user['full_name'] = $sUser->full_name;
         $user['first_name'] = $sUser->first_name;
         $user['middle_name'] = $sUser->middle_name;
         $user['last_name'] = $sUser->last_name;
@@ -282,5 +284,12 @@ class MemberController extends Controller
         if(count($userIds) > 0){
             CommunicationHelper::generateCommunications($tag, $orgId, $type, $createdUserId, $userIds);
         }
+    }
+
+    public function extractFullName($user){
+        $full_name = isset($user["first_name"]) ? $user["first_name"] : '';
+        $full_name .= isset($user["middle_name"]) ? ' '. $user["middle_name"] : '';
+        $full_name .= isset($user["last_name"]) ? ' '. $user["last_name"] : '';
+        return $full_name;
     }
 }

@@ -73,10 +73,9 @@
 
             item.users.forEach(function(userItem, index){
                 let primaryContent = userItem.isPrimary === 1? '<i class="fa fa-star></i>' : '';
-                let fullName = extractFullName(userItem)
                 userEl= `<p id="${'user-block'+userItem.id}"><i class="fa fa-user"></i> 
                     <a href="${personal_id === userItem.personal_id? '#' : '/people/member/'+ userItem.personal_id}" >
-                        ${fullName}
+                        ${userItem.full_name}
                     </a>
                     ${primaryContent} 
                 </p>`;
@@ -212,11 +211,9 @@
         };
         selectedUser = searchedUserList[index];
         $("#hhModalBody").addClass("text-center");
-        let sFullName = extractFullName(selectedUser);
-        let uFullName = extractFullName(user);
-        let modal_title = `<h5 class="modal-title">Join a Household of ${sFullName}</h5> `;
+        let modal_title = `<h5 class="modal-title">Join a Household of ${selectedUser.full_name}</h5> `;
         
-        let modal_body = `<a href="#" onClick="crateHousehold()"><i class="fa fa-plus" aria-hidden="true"></i> Create a new houlsehold with ${sFullName} with ${uFullName} as members</a>`;
+        let modal_body = `<a href="#" onClick="crateHousehold()"><i class="fa fa-plus" aria-hidden="true"></i> Create a new houlsehold with ${selectedUser.full_name} with ${user.full_name} as members</a>`;
         let modal_footer = `<button type="button" class="btn btn-secondary" onClick="closeModal()">Close</button>`
         
         updateModalContent(modal_title, modal_body, modal_footer, false);
@@ -246,32 +243,18 @@
 
     function removeHhUser(userIndex){
         let hhUser = selectedHh.users[userIndex]
-        let userName = extractFullName(hhUser);
-        let confirmed = confirm("Are You sure you'd like to remove " + userName);
+        let confirmed = confirm("Are You sure you'd like to remove " + hhUser.full_name);
         if(confirmed){
             selectedHh.users.splice(userIndex, 1);
             updateModalWithSelectedHh();
         }
     }
 
-    // Extracting User Name by marging all name fields
-    function extractFullName(item){
-        let fullName = '';
-        fullName += item.first_name ? item.first_name : '';
-        fullName += item.middle_name ? " " + item.middle_name : "";
-        fullName += item.last_name ? " " + item.last_name : ''; 
-        return fullName;
-    }
-
     // Filter Data to createa New Household with selected User as member
     function filterNewHhDetails(){
         let newHhName = "";
-        if(user.middle_name){
-            newHhName = user.first_name + ' Household';
-        }else if(user.first_name){
-            newHhName = user.first_name + ' Household';
-        }else if(user.last_name){
-            newHhName = user.last_name + ' Household';
+        if(user.full_name){
+            newHhName = user.full_name + ' Household';
         }else {
             newHhName = "Yours Household";
         }
@@ -376,12 +359,11 @@
             let hhUsrImagesBlock = $("<div>");
             let hhUsrImages = "";
             item.users.forEach(function(usr){
-                let usrName = extractFullName(usr);
                 let image = null;
                 if(usr.profile_pic){
                     image = `<img src="${usr.profile_pic}" height="42" width="42" style="margin:10px;" title="${usrName}" class="rounded-circle">`;
                 } else {
-                    image = `<span title="${usrName}" style="font-size:42px; margin:10px;"><i class="fa fa-user"></i></span>`
+                    image = `<span title="${usr.full_name}" style="font-size:42px; margin:10px;"><i class="fa fa-user"></i></span>`
                 }
                 hhUsrImages += image;
             });
@@ -407,11 +389,10 @@
         
         let body_content = [editHhName];
         selectedHh.users.forEach(function(item, index){
-            let userName = extractFullName(item); 
             let primaryBadge = item.isPrimary === 1 ? `<span class="badge badge-pill badge-primary" onClick="changePrimary(${item.id})">Primary</span>`: '';
             let primaryBtn = item.isPrimary !== 1 ? `<button type="button" class="btn btn-sm btn-outline-success font-size-8" onClick="changePrimary(${item.id})" >Make Primary</button>`: '';
             let block = `<div class="list-group-item">
-                            <h6 class="no-margin">${userName} ${primaryBadge} 
+                            <h6 class="no-margin">${item.full_name} ${primaryBadge} 
                             <button id="${'hhUserSetting'+item.id}" class="pull-right" onClick="showHhUserSettingBlock('${item.id}')"><i class="fa fa-cog"></i></button>
                             </h6>
                             <p class="text-muted no-padding no-margin">${item.email}</p>
@@ -451,10 +432,9 @@
          let records = [];
         if(searchedUserList.length > 0){
             searchedUserList.forEach(function(item, index){
-                let userName = extractFullName(item); 
                 let block = `<div class="list-group-item list-group-item-action hover-focus"
                                  onClick="pickedUserFromSearchList(${index})">
-                                <h6 class="no-margin">${userName}</h6>
+                                <h6 class="no-margin">${item.full_name}</h6>
                                 <p class="text-muted no-padding no-margin">
                                     ${item.mobile_no? item.mobile_no: "No Mobile Number"}
                                 </p>

@@ -20,6 +20,13 @@ class CommunicationController extends Controller
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->userSessionData = Session::get('userSessionData');
     }
+
+    public function getUserCommunications($personal_id){
+        $data['title'] = $this->browserTitle . " - Communication Management";
+        $data['user'] = User::where('personal_id', $personal_id)->first();
+        return view('members.communication.index', $data);
+    }
+
     public function index()
     {
         $data['title'] = $this->browserTitle . " - Communication Management";

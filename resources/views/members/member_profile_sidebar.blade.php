@@ -5,7 +5,7 @@
                 <a class="nav-link active" href="{{ URL::asset('/people/member/'.$user->personal_id)}}"><i class="fa fa-pencil fa-lg"></i>&nbsp;Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ URL::asset('people/'.$user->personal_id.'/messages')}}"><i class="fa fa-commenting fa-lg"></i>&nbsp;Communication</a>
+                <a class="nav-link" href="{{ URL::asset('/people/member/'.$user->personal_id.'/messages')}}"><i class="fa fa-commenting fa-lg"></i>&nbsp;Communication</a>
             </li>
             
         </ul>

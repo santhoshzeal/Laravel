@@ -21,7 +21,12 @@ class User extends Authenticatable {
      * @var array
      */
     protected $fillable = [
-           'id', 'orgId', 'householdName', 'personal_id', 'name_prefix', 'given_name', 'first_name', 'last_name', 'middle_name', 'nick_name', 'email', 'username', 'email_verified_at', 'password', 'remember_token', 'referal_code', 'name_suffix', 'profile_pic', 'dob', 'doa', 'school_name', 'grade_id', 'life_stage', 'mobile_no', 'home_phone_no', 'gender', 'social_profile', 'marital_status', 'address', 'medical_note', 'congregration_status', 'created_at', 'updated_at', 'deletedBy', 'deleted_at'
+           'id', 'orgId', 'householdName', 'personal_id', 'name_prefix', 'given_name', 'first_name', 
+           'last_name', 'middle_name', 'nick_name', 'full_name', 'email', 'username', 
+           'email_verified_at', 'password', 'remember_token', 'referal_code', 'name_suffix', 
+           'profile_pic', 'dob', 'doa', 'school_name', 'grade_id', 'life_stage', 'mobile_no', 
+           'home_phone_no', 'gender', 'social_profile', 'marital_status', 'address', 'medical_note', 
+           'congregration_status', 'created_at', 'updated_at', 'deletedBy', 'deleted_at'
     ];
 
     /**
