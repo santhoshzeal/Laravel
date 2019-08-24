@@ -109,6 +109,9 @@ Route::get('checkin/notification', 'CheckinController@notificationCheckin');
 Route::get('checkin/report', 'CheckinController@reportCheckin');
 
 Route::post('people/list', 'UserController@getUsersList');
+Route::post('checkin/log-checkin', 'CheckinController@logCheckin');
+Route::post('checkin/log-checkout', 'CheckinController@logCheckout');
+Route::post('checkin/list', 'CheckinController@checkInList');
 //Auth::routes();
 
 

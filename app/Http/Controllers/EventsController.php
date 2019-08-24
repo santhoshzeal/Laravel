@@ -8,6 +8,7 @@ use Config;
 use App\Models\Events;
 use Illuminate\Http\Response;
 use DataTables;
+use Auth;
 class EventsController extends Controller
 {
    
@@ -40,15 +41,17 @@ class EventsController extends Controller
      */
     public function store(Request $request)
     {
-        Events::create($request->all());
+        $insertData = $request->all();
+        $insertData['createdBy']= Auth::id();
+        Events::create($insertData);
         
        return response()->json(
-							   [
-								   'success' => '1',
-								   "message" => '<div class="alert alert-success">
-													<strong>Saved!</strong> 
-												  </div>'
-							   ]
+                    [
+                            'success' => '1',
+                            "message" => '<div class="alert alert-success">
+                                                                 <strong>Saved!</strong> 
+                                                           </div>'
+                    ]
 						);
 
     }
@@ -61,7 +64,7 @@ class EventsController extends Controller
                     
                     ->addColumn('action', function($row){
    
-                           $btn = '<a href="'.url('/').'/checkin/'.$row->eventId.'" class="edit btn btn-primary btn-sm">View</a>';
+                           $btn = '<a href="'.url('/').'/checkin/'.$row->eventId.'" class="edit btn btn-primary btn-sm">Show</a>';
      
                             return $btn;
                     })

@@ -35,23 +35,41 @@
                             <div class="card-body">
 							
 							@if(isset($eventDetails))
-                                <div class="row">
-                                    <div class="col-md-6">{{$eventDetails->eventName}}</div>
-                                    <div class="col-md-6">{{$eventDetails->eventCreatedDate}}</div>
+                                                        
+                                <div class="card m-b-30 card-body">
+                                    <div class="col-md-12">{{$eventDetails->eventName}}</div>
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-12">{{date("M d, Y",strtotime($eventDetails->eventCreatedDate))}}</div>
                                 </div>
+                               
                                 <div class="row">
-                                    <div class="col-md-6">Check In: {{$eventDetails->eventStartCheckin}}</div>
-                                    <div class="col-md-6">Check Out: {{$eventDetails->eventEndCheckin}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-8">
-                                         <input type="text" id="checkInUser" />   
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="checkInUser" autocomplete="new-password" />   
+                                        <input type="hidden" class="form-control" id="selectedCheckInUser" />   
                                     </div>
-                                    <div class="col-md-8">
+                                     <div class="col-md-4">
+                                         <button class="btn btn-primary" onclick="checkIn({{$eventDetails->eventId}})"  >Add Check-in</button>   
+                                         <input type="hidden" id="eventId" value="{{$eventDetails->eventId}}" />
+                                     </div>
+                                   
+                                </div>
+				@endif	
+                                <br/>                   
+                                    <div class="row">
+                                         <div class="col-md-12">
+                                                <table id="checkinsTable" class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>&nbsp;</th>
+                                                           
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
+                                                    </tbody>
+                                                </table>    
+                                         </div>
                                     </div>
-                                </div>
-							@endif	
                             </div>
                         </div>
                     </div> <!-- end col -->    
@@ -85,8 +103,11 @@
 						onClickEvent: function() {
 							
 							var userId = $("#checkInUser").getSelectedItemData().userId;
-							checkIn(userId);
-						}	
+                                                       
+                                                        $("#selectedCheckInUser").val(userId);
+							//checkIn(userId);
+						},
+                                               
 					},
 					  
 					  preparePostData: function(data) {
@@ -98,14 +119,66 @@
 					};
 
 					$("#checkInUser").easyAutocomplete(options);
+                                        
+                                        
+                                        //datatable
+                                        var eventId = $("#eventId").val();
+                                        checkinsTable = $('#checkinsTable').DataTable({
+                                            "serverSide": true,
+                                            "destroy": true,
+                                            "autoWidth": false,
+                                            "searching": true,
+                                            //"aaSorting": [[ 1, "desc" ]],
+                                            "columnDefs": [
+                                                {
+                                                    "targets": 0,
+                                                    "searchable": false,
+                                                    "visible" : true
+                                                    }
+                                                ],
+                                            "ajax": {
+                                                type: "POST",
+                                                data: {eventId:eventId},
+                                                url: siteUrl + '/checkin/list',
+                                            }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
+                                            columns: [
+                                                {data: 'checkInUser', name: ''},
+                                                
+                                                //{data: 'action', name: 'action', orderable: false, searchable: false},
+                                            ]
+                                        });
 
   } );
   
   
-  function checkIn(userId){
-	  alert(userId);
+  function checkIn(eventId){
+      var userId = $("#selectedCheckInUser").val();
+      
+      $.ajax({
+        type: "POST",
+        url: siteUrl+"/checkin/log-checkin",
+        data: {eventId:eventId,userId:userId},
+        cache: false,
+        success: function(data){
+           checkinsTable.draw(false);
+        }
+      });
+							
+	 
   }
-			</script
+  
+  function checkOutUser(chId,eventId,userId){
+      $.ajax({
+        type: "POST",
+        url: siteUrl+"/checkin/log-checkout",
+        data: {eventId:eventId,userId:userId,chId:chId},
+        cache: false,
+        success: function(data){
+           checkinsTable.draw(false);
+        }
+      });
+  }
+			</script>
         
         
 @endsection
