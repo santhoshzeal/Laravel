@@ -498,7 +498,7 @@
         }
         searchedUserList = [];
         if(searchStr.length > 3){
-            let apiPath = '/api/people/member/households/get-users-search';
+            let apiPath = siteUrl+'/api/people/member/households/get-users-search';
             let apiProps = {url: apiPath, method:'post', queryData:{searchStr, exceptIds}}
             fetchDataApi(apiProps, function(data){
                 searchedUserList = data.filter(function(item){
@@ -529,7 +529,7 @@
     // Creating new household
     function crateHousehold(){
         let queryData = filterNewHhDetails();
-        let apiPath = '/api/people/member/households/create-new';
+        let apiPath = siteUrl+'/api/people/member/households/create-new';
         let apiProps = {url: apiPath, method:'post', queryData}
         fetchDataApi(apiProps, function(data){
             houseHolds.push(data);
