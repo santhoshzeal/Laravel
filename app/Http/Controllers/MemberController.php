@@ -55,6 +55,9 @@ class MemberController extends Controller
         foreach($keys1 as $key){
             $data[$key] = $lookupData[$key];
         }
+
+        $data['rolesData'] = DB::table('roles')->where('orgId',$this->userSessionData['umOrgId'])->where('role_tag','!=','admin')->get();
+
         return view('members.member_create', $data);
     }
 
@@ -87,6 +90,17 @@ class MemberController extends Controller
             }
             $user['full_name'] = $this->extractFullName($user);
             $user->save();
+
+            $rolesAdminData = DB::table('roles')->where('orgId',$this->userSessionData['umOrgId'])->where('role_tag','member')->get();
+
+            $roles = $request->input('roles') ? $request->input('roles') : [$rolesAdminData[0]->id];
+            if($personal_id){
+                $user->syncRoles($roles);    
+            }else{
+                $user->assignRole($roles);
+            }
+            
+            
             
             // $rolesAdminData = DB::table('roles')->where('orgId',$this->userSessionData['umOrgId'])->where('role_tag','member')->get();
             // //insert into model_has_roles with admin role

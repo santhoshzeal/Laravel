@@ -186,6 +186,15 @@
         <label>Social profile</label>
         <input type="text" class="form-control" name="social_profile" id="social_profile" placeholder="Social profile" value="{{ old('social_profile', isset($user) ? $user->social_profile : '') }}"> 
     </div>
+    <div class="col-sm-3 col-lg-3 col-md-3 divcols" >
+        <label>Role</label>
+        <select class="form-control" name="roles" id="roles">
+            @foreach($rolesData as $value)
+            <option {{ (isset($user) && $user->roles()->pluck('role_id')[0]==$value->id)?'selected':''}} value="{{$value->id}}">{{$value->name}}</option>
+            @endforeach
+        </select>
+        
+    </div>
     
     <div class="col-sm-12 col-lg-12 col-md-12 divcols" >
         <div class="form-group">
