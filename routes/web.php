@@ -98,7 +98,8 @@ Route::get('role_management', 'RoleController@index');
 Route::get('role_create', 'RoleController@create');
 
 //communication
-Route::get('/people/member/{personal_id}/messages', 'CommunicationController@getUserCommunications');
+Route::get('/people/member/{personal_id}/messages', 'CommunicationController@userCommunicationsIndex');
+Route::get('/api/people/member/{personal_id}/get_messages', 'CommunicationController@getUserCommunications');
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');

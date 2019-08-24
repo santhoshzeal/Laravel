@@ -10,6 +10,9 @@ use App\Models\UserMaster;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Middleware;
+use DataTables;
+use App\User;
+use App\Lookup;
 
 class CommunicationController extends Controller
 {
@@ -21,10 +24,43 @@ class CommunicationController extends Controller
         $this->userSessionData = Session::get('userSessionData');
     }
 
-    public function getUserCommunications($personal_id){
+    public function userCommunicationsIndex($personal_id){
         $data['title'] = $this->browserTitle . " - Communication Management";
-        $data['user'] = User::where('personal_id', $personal_id)->first();
+        $user = User::where('personal_id', $personal_id)->first();
+        $lookup = Lookup::where('mldId', $user['name_prefix'])->select('mldValue')->first();
+        $user['name_prefix'] = $lookup->mldValue;
+        $data['user'] = $user;
+        $data['isCommPage'] = true; 
         return view('members.communication.index', $data);
+    }
+
+    public function getUserCommunications($personal_id){
+        $result = array();
+        // $user = User::where('personal_id', $personal_id)->with(['communications' => function($query){
+        //                         $query->orderBy('subject', 'desc')->select("tag", "subject", "body", 'from_user_id')
+        //                                 ->with(["createdUser" => function($query1){
+        //                                     $query1->select("id", "full_name");
+        //                                 }]);
+        //                     }])->select("id", "orgId")->first();
+
+        $user = User::where('personal_id', $personal_id)->first();
+
+        $slNo = 1;
+        foreach ($user->communications as $comm) {
+            $row = array();
+            $row[] = $slNo;
+            $row[] = $comm->tag;
+            $row[] = $comm->subject;
+            $row[] = $comm->body;
+            // $row[] = $comm->pivot["read_status"];
+            // $row[] = $comm->pivot["delete_status"];
+            $row[] = $comm->createdUser["full_name"];
+            $row[] = \Carbon\Carbon::parse($comm->pivot["created_at"])->format('d-m-Y h:i');
+            $result[] = $row;
+            $slNo += 1;
+        }
+
+        return Datatables::of($result)->escapeColumns(['user_id'])->make(true);
     }
 
     public function index()

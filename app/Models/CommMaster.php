@@ -17,7 +17,11 @@ class CommMaster extends Model
     ];
 
     public function users(){
-        return $this->belongsToMany('App\Models\CommMaster', 'comm_details', 'comm_master_id', 'to_user_id')
+        return $this->belongsToMany('App\User', 'comm_details', 'comm_master_id', 'to_user_id')
                     ->withPivot('read_status', 'delete_status', 'created_at');
+    }
+
+    public function createdUser(){
+        return $this->belongsTo('App\User', 'from_user_id');
     }
 }

@@ -88,4 +88,8 @@ class User extends Authenticatable {
         return $this->belongsToMany('App\Models\CommMaster', 'comm_details', 'to_user_id', 'comm_master_id')
                     ->withPivot('read_status', 'delete_status', 'created_at');
     }
+
+    public function createdCommunications(){
+        return $this->belongsTo('App\Models\CommMaster');
+    }
 }
