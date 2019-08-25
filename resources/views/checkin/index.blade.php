@@ -36,7 +36,7 @@
 							
 							@if(isset($eventDetails))
                                                         
-                                <div class="card m-b-30 card-body">
+                                <div class="card m-b-30 card-body event-details">
                                     <div class="col-md-12">{{$eventDetails->eventName}}</div>
                                     <div class="col-md-12">&nbsp;</div>
                                     <div class="col-md-12">{{date("M d, Y",strtotime($eventDetails->eventCreatedDate))}}</div>

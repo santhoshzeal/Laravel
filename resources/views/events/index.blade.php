@@ -110,12 +110,12 @@
             
             function createEventDialog(){
                  CreateEventsDlg = BootstrapDialog.show({
-                    title:"Create Events",
+                    title:"Create Event",
                     size:"size-wide",
                     message: $('<div></div>').load(siteUrl+"/events/create_page"),
                     buttons: [
                         {
-                            label: 'Create',
+                            label: 'Submit',
                             cssClass: 'btn-primary',
                             action: function(dialogRef){
                                 submitCreateEvent();
@@ -142,6 +142,29 @@
                 });
                 
                 $("#create_event_form").submit();
+            }
+            
+            function editEvents(eventId){
+                CreateEventsDlg = BootstrapDialog.show({
+                    title:"Update Event",
+                    size:"size-wide",
+                    message: $('<div></div>').load(siteUrl+"/events/edit/"+eventId),
+                    buttons: [
+                        {
+                            label: 'Submit',
+                            cssClass: 'btn-primary',
+                            action: function(){
+                                submitCreateEvent();
+                            }
+                        }, 
+                        {
+                            label: 'Cancel',
+                            action: function(dialogRef){
+                                dialogRef.close();
+                            }
+                        }
+                    ]
+                });
             }
                     </script>
         

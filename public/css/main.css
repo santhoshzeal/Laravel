@@ -46,3 +46,7 @@ td {
 .dataTables_filter, .dataTables_filter input, .dataTables_info, .pagination, .pagination li{
     font-size: 12px;
 }
+
+.event-details {
+    background-color: #0f9cf32b;
+}

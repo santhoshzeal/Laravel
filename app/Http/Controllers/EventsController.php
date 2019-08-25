@@ -20,7 +20,7 @@ class EventsController extends Controller
     public function index()
     {
         $data['title'] = $this->browserTitle . " - Event Management";
-        
+       
         return view('events.index',$data);
     }
     
@@ -42,9 +42,24 @@ class EventsController extends Controller
     public function store(Request $request)
     {
         $insertData = $request->all();
-        $insertData['createdBy']= Auth::id();
-        Events::create($insertData);
         
+        $eventId = $request->eventId;
+        
+        //validation rules
+        
+        $insertData = $request->except(['eventId','_token','eventChildCare','eventBuildingBlock','eventBookedFor','eventRoom','eventSuggestedResources','eventNotification']);
+        
+        if($eventId > 0) { //update
+            $insertData['updatedBy']= Auth::id();
+            
+            Events::where("eventId",$eventId)->update($insertData);
+        }
+        else { //insert
+            $insertData['createdBy']= Auth::id();
+           
+            Events::create($insertData);
+        }
+       
        return response()->json(
                     [
                             'success' => '1',
@@ -63,8 +78,8 @@ class EventsController extends Controller
         return DataTables::of($events)
                     
                     ->addColumn('action', function($row){
-   
-                           $btn = '<a href="'.url('/').'/checkin/'.$row->eventId.'" class="edit btn btn-primary btn-sm">Show</a>';
+                            $btn = '<a onclick="editEvents('.$row->eventId.')"  class="edit btn btn-primary btn-sm ">Edit</a>';
+                           $btn.= '&nbsp;&nbsp;<a href="'.url('/').'/checkin/'.$row->eventId.'" class="edit btn btn-primary btn-sm">Show</a>';
      
                             return $btn;
                     })
@@ -73,9 +88,11 @@ class EventsController extends Controller
     }
     
      public function edit($id) {
-        $role = Role::findOrFail($id);
-        $permissions = Permission::all();
-        return view('roles.edit', compact('role', 'permissions'));
+        $data['title'] = $this->browserTitle . " - Create Event";
+        $event = Events::findOrFail($id);
+       
+        $data['event'] = $event;
+        return view('events.create_page',$data);
     }
     /**
      * Update the specified resource in storage.
