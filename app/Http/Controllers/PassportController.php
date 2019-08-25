@@ -204,11 +204,16 @@ class PassportController extends Controller {
                 $userFormData = $request->except('orgName','orgTimeZone','confirm_password');
                 $userFormData['orgId'] = $insertOrganization->orgId;
                 $userFormData['referal_code'] = substr($request->first_name, 0, 4) . $randomString;
-                $lastUserId = UserMaster::orderBy('id','DESC')->first();
-                $newPersonal_id = str_pad($lastUserId->id + 1, 10, "0", STR_PAD_LEFT);
+                $lastUserMasterDet = UserMaster::orderBy('id','DESC')->get();
+                $lastUserId=0;
+                if($lastUserMasterDet->count() > 0){
+                    $lastUserId = $lastUserMasterDet->first()->id;
+                }
+                $newPersonal_id = str_pad($lastUserId + 1, 10, "0", STR_PAD_LEFT);
                 
                 $userFormData['personal_id'] = $newPersonal_id;
                 $userFormData['householdName'] = $request->first_name."'s household";
+                $userFormData['full_name'] = $request->first_name;
             
                 $insertUser = User::create($userFormData);
                 

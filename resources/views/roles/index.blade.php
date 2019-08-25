@@ -11,7 +11,7 @@
                             </ol>
                         </div>
                         <!--<h4 class="page-title">Roles Management</h4>-->
-                        <a href="{{URL::asset('role_create')}}" type="button" class="btn btn-primary waves-effect waves-light"><i class="fa fa-plus"></i>Add Role</a>
+                        <!-- <a href="{{URL::asset('role_create')}}" type="button" class="btn btn-primary waves-effect waves-light"><i class="fa fa-plus"></i>Add Role</a> -->
                     </div>
                 </div>
             </div>
@@ -39,10 +39,11 @@
                                         <td>{{ $role->name }}</td>
                                         <td>{{ str_replace(array('[',']','"'),'', $role->permissions()->pluck('name')) }}</td>
                                         <td>
-                                        <a href="{{ URL::to('roles/'.$role->id.'/edit') }}" class="btn btn-warning pull-left">Edit</a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id] ]) !!}
-                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                        {!! Form::close() !!}
+                                        <a href="{{ URL::to('roles/'.$role->id.'/edit') }}" ><i class="fa fa-edit"></i> Edit</a>
+                                        <!-- {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id] ]) !!}
+                                        <i class="fa fa-trash"></i>
+                                        {!! Form::submit('Delete', ['class' => '']) !!}
+                                        {!! Form::close() !!} -->
                                         </td>
                                     </tr>
                                     @endforeach

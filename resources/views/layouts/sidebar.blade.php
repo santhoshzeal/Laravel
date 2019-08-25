@@ -210,7 +210,7 @@
                                 </ul>
                             </li>
 
-                            <li class="has-submenu">
+                            <!-- <li class="has-submenu">
                                 <a href="#"><i class="ti-crown"></i>Nextgen Check-in</a>
                                 <ul class="submenu">
                                     <li @if($url_segment_one == "checkin") class='active' @else @endif><a href="{{URL::asset('checkin')}}"> Nextgen Check-in</a></li>
@@ -221,9 +221,9 @@
                                      
                                     
                                 </ul>
-                            </li>
-                            <li @if($url_segment_one == "communication") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('communication')}}"> Communication</a></li>
-                            <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('events')}}"> Events</a></li>
+                            </li> -->
+                            <!-- <li @if($url_segment_one == "communication") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('communication')}}"> Communication</a></li> -->
+                            <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('events')}}"> <i class="ti-crown"></i> Events</a></li>
 
                               
 

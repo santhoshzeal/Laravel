@@ -39,7 +39,10 @@
                             @endforeach
                             <br>
                             {{ Form::submit('Update', array('class' => 'btn btn-primary')) }}
+                            <a href="{{URL::asset('role_management')}}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Go Back
                             {{ Form::close() }}
+
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -182,7 +182,7 @@ class UserMaster extends Model  {
             DB::raw('(select mldValue from master_lookup_data where master_lookup_data.mldKey="name_suffix" and master_lookup_data.orgId=users.orgId and master_lookup_data.mldId=users.name_suffix)  AS name_suffix_format'),
             DB::raw('(select mldValue from master_lookup_data where master_lookup_data.mldKey="name_prefix" and master_lookup_data.orgId=users.orgId and master_lookup_data.mldId=users.name_prefix)  AS name_prefix_format'),
             DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'),'life_stage','mobile_no',
-            'gender','marital_status','address','medical_note','social_profile');
+            'gender','marital_status','address','medical_note','social_profile','full_name');
         
         $query->leftJoin('model_has_roles', function($join) {
             $join->on("model_has_roles.model_id", "=", "users.id");

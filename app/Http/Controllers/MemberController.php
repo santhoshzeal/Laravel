@@ -14,7 +14,7 @@ use App\Household;
 use App\HouseholdDetail;
 use App\Helpers\CommunicationHelper;
 use DB;
-
+use App\Models\UserMaster;
 class MemberController extends Controller
 {
     public function __construct()
@@ -125,6 +125,8 @@ class MemberController extends Controller
     public function viewMember($personal_id){
         $orgId = $this->userSessionData['umOrgId'];
         $user = User::where('orgId', $orgId)->where("personal_id", $personal_id)->first();
+        $whereArray = array("personal_id"=> $personal_id);
+        //$user = UserMaster::selectUserMasterDetail($whereArray,null,null,null,null,null)->get()[0];
         $fullAdr = explode("///",$user['address']);
         $user['address'] = $fullAdr[0];
         $user['address'] .= isSet($fullAdr[1]) && strlen($fullAdr[1]) >0? ','. $fullAdr[1]:'';
@@ -181,9 +183,9 @@ class MemberController extends Controller
         $payload = json_decode(request()->getContent(), true);
         $orgId = $this->userSessionData['umOrgId'];
         // dd($payload['exceptIds']);
-        $users = User::whereNotIn("id", $payload['exceptIds'])
-                    ->where('orgId', $orgId)
-                    ->where('full_name', 'LIKE', "%" . $payload['searchStr'] . "%")
+        //whereNotIn("id", $payload['exceptIds'])
+        $users = User::where('orgId', $orgId)
+                    ->where('first_name', 'LIKE', "%" . $payload['searchStr'] . "%")
                     ->orWhere("email", $payload['searchStr'])
                     ->orWhere("mobile_no",$payload['searchStr'])
                     ->select('id', "full_name","mobile_no", 'email', 'personal_id', 'profile_pic', 'address')

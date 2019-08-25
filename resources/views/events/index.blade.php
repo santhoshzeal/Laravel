@@ -22,8 +22,8 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="button-items">
-                                    <a href="{{URL::asset('events/room')}}" class="btn btn-primary btn-lg btn-block">Room Availability</a>
-                                    <a href="{{URL::asset('events/notification')}}" class="btn btn-primary btn-lg btn-block">Notification</a>
+                                    <a href="{{URL::asset('events')}}" class="btn btn-primary btn-lg btn-block">Room Availability</a>
+                                    <a href="{{URL::asset('events')}}" class="btn btn-primary btn-lg btn-block">Notification</a>
                                     </div>
                             </div>
                         </div>
