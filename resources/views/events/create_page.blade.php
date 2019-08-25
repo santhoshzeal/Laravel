@@ -1,7 +1,7 @@
 <form method="post" action="{{ route('events.store') }}" name="create_event_form" id="create_event_form">
  <div id="create_event_form_status"></div>
     <div class="row">
-   
+        
                     <div class="col-12">
                         <div class="card m-b-30">
                             <div class="card-body">
@@ -9,13 +9,14 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Title Event</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="text" value="" id="eventName" name="eventName">
+                                        <input class="form-control" type="text" id="eventName" name="eventName" value="{{ isset($event)?$event->eventName:'' }}">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                Start Time:
+                                                Start Time: 
                                                 <select id="eventStartCheckin" name="eventStartCheckin" class="form-control">
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
-                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>"><?= date("h.iA", strtotime("$i:00")); ?></option>
+                                                    <?php $selected= isset($event)?($event->eventStartCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
+                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
                                                     <?php endfor; ?>
                                                 </select>
                                             </div>
@@ -23,7 +24,8 @@
                                                 End Time:
                                                 <select id="eventEndCheckin" name="eventEndCheckin" class="form-control">
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
-                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>"><?= date("h.iA", strtotime("$i:00")); ?></option>
+                                                    <?php $selected= isset($event)?($event->eventEndCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
+                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
                                                     <?php endfor; ?>
                                                 </select>
                                             </div>
@@ -34,24 +36,24 @@
                                  <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Date</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="date" value="" id="eventCreatedDate" name="eventCreatedDate" >
+                                        <input class="form-control" type="date" value="{{ isset($event)?$event->eventCreatedDate:'' }}" id="eventCreatedDate" name="eventCreatedDate" >
                                     </div>
                                 </div>
                                 
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea name="eventDesc" id="eventDesc" class="form-control" />
+                                        <textarea name="eventDesc" id="eventDesc" class="form-control">{{ isset($event)?$event->eventDesc:'' }}</textarea>
                                     </div>
                                 </div>
                                 
                                  <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Occurence</label>
                                     <div class="col-sm-9">
-                                        <select id="eventFreq" name="eventFreq" class="form-control">
-                                            <option value="Daily">Daily</option>
-                                            <option value="Weekly">Weekly</option>
-                                            <option value="None">None</option>
+                                        <select id="eventFreq" name="eventFreq" class="form-control" value="{{ isset($event)?$event->eventFreq:'' }}">
+                                            <option value="Daily" <?= isset($event)?($event->eventFreq=='Daily')?'selected':'':'' ?>>Daily</option>
+                                            <option value="Weekly" <?= isset($event)?($event->eventFreq=='Weekly')?'selected':'':'' ?>>Weekly</option>
+                                            <option value="None" <?= isset($event)?($event->eventFreq=='None')?'selected':'':'' ?>>None</option>
                                         </select>
                                         
                                     </div>
@@ -68,9 +70,9 @@
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                     <div class="col-sm-9">
                                         <select id="eventLocation" name="eventLocation" class="form-control">
-                                            <option value="Daily">Daily</option>
-                                            <option value="Weekly">Weekly</option>
-                                            <option value="None">None</option>
+                                            <option value="locaion1" <?= isset($event)?($event->eventFreq=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
+                                            <option value="locaion2" <?= isset($event)?($event->eventFreq=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
+                                            <option value="locaion3" <?= isset($event)?($event->eventFreq=='locaion3')?'selected':'':'' ?>>Locaion 3</option>
                                         </select>
                                         
                                     </div>
@@ -142,5 +144,5 @@
                         </div>
                     </div> <!-- end col -->
                 </div>
-    
+ <input type="hidden" name="eventId" value="{{ isset($event)?$event->eventId:'' }}" />
 </form>
