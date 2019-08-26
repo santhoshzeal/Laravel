@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Config;
-use App\Models\UserMaster;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +12,8 @@ use Illuminate\Support\Facades\Middleware;
 use DataTables;
 use App\User;
 use App\Lookup;
+use App\Models\UserMaster;
+use App\Models\CommMaster;
 
 class CommunicationController extends Controller
 {
@@ -49,18 +50,28 @@ class CommunicationController extends Controller
         foreach ($user->communications as $comm) {
             $row = array();
             $row[] = $slNo;
-            $row[] = $comm->tag;
+            $row[] = $comm->name;
             $row[] = $comm->subject;
-            $row[] = $comm->body;
+            // $row[] = $comm->body;
             // $row[] = $comm->pivot["read_status"];
             // $row[] = $comm->pivot["delete_status"];
             $row[] = $comm->createdUser["full_name"];
             $row[] = \Carbon\Carbon::parse($comm->pivot["created_at"])->format('d-m-Y h:i');
+            $row[] = "<button class='btn btn-outline-primary btn-xs' style='padding:0 5px;' onClick='openModalWithCommData(". $comm->id . ")'><i class='fa fa-eye'></i></button>"; 
             $result[] = $row;
             $slNo += 1;
         }
 
         return Datatables::of($result)->escapeColumns(['user_id'])->make(true);
+    }
+
+    public function getUserCommunication($personal_id, $master_id){
+        $communication = CommMaster::where('id', $master_id)->with(["createdUser" => function($query){
+                                        $query->select("id", "full_name", "email", "mobile_no");
+                                    }])
+                                    ->select("id", "type", "tag", "name", "subject", "body", "from_user_id")
+                                    ->first();
+        return $communication;
     }
 
     public function index()

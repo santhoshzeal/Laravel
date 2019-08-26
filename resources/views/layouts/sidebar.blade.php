@@ -225,7 +225,12 @@
                             <!-- <li @if($url_segment_one == "communication") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('communication')}}"> Communication</a></li> -->
                             <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('events')}}"> <i class="ti-crown"></i> Events</a></li>
 
-                              
+                            <li class="has-submenu">
+                                <a href="#"><i class="ti-settings"></i>Settings</a>
+                                <ul class="submenu">
+                                    <li @if($url_segment_one == "checkin") class='active' @else @endif><a href="{{URL::asset('/settings/communication')}}"> Communication</a></li>   
+                                </ul>
+                            </li>
 
                         </ul>
                         <!-- End navigation menu -->
