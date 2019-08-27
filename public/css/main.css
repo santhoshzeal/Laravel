@@ -50,3 +50,7 @@ td {
 .event-details {
     background-color: #0f9cf32b;
 }
+
+#eventDateSearch {
+    margin-left: 10px;
+}

@@ -52,11 +52,13 @@ class EventsController extends Controller
         if($eventId > 0) { //update
             $insertData['updatedBy']= Auth::id();
             
+            
             Events::where("eventId",$eventId)->update($insertData);
         }
         else { //insert
             $insertData['createdBy']= Auth::id();
-           
+            $insertData['orgId']= Auth::user()->orgId;
+            
             Events::create($insertData);
         }
        
@@ -73,7 +75,7 @@ class EventsController extends Controller
    
     public function listEvents(Request $request)
     {
-        $events = Events::listEvents();
+        $events = Events::listEvents($request->search['value']);
         
         return DataTables::of($events)
                     
