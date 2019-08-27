@@ -100,6 +100,12 @@ Route::get('role_create', 'RoleController@create');
 //communication
 Route::get('/people/member/{personal_id}/messages', 'CommunicationController@userCommunicationsIndex');
 Route::get('/api/people/member/{personal_id}/get_messages', 'CommunicationController@getUserCommunications');
+Route::get('/api/people/member/{personal_id}/get_messages/{master_id}', 'CommunicationController@getUserCommunication');
+
+// Settings => Communication
+Route::get("/settings/communication", 'Settings\CommunicationController@getList');
+Route::get("/settings/communication/getOrgTemplates/{template_id?}", 'Settings\CommunicationController@getOrgTemplates');
+Route::post("/settings/communication/getOrgTemplates", 'Settings\CommunicationController@updateOrgTemplate');
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');

@@ -12,3 +12,6 @@ ALTER TABLE `checkins` CHANGE `chKind` `chKind` ENUM('Regular','Guest','Voluntee
 
 ALTER TABLE `events` ADD `eventShowTime` TIME NULL DEFAULT NULL AFTER `eventCheckin` ;
 ALTER TABLE `events` ADD `orgId` BIGINT( 20 ) NULL DEFAULT NULL AFTER `eventId` ;
+
+/*25 Aug 2019 Lokesh*/
+ALTER TABLE `comm_masters` ADD `name` TEXT NULL DEFAULT NULL AFTER `tag`;

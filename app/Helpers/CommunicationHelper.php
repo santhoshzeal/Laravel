@@ -26,6 +26,7 @@ class CommunicationHelper {
                         'org_id' => $orgId,
                         'type' => $type,
                         'tag' => $template->tag,
+                        'name' => $template->name,
                         'subject' => $template->subject,
                         'body' => $template->body,
                         'from_user_id' => $createdUserId

@@ -37,23 +37,33 @@
                 Personal Information
             </div>
             <div class="card-body">
-
                 <div class="col-12">
                     <div class="row">
                         <div class="col-6">
-                            {{$user->gender}}
+                            @if($user->gender)
+                                <i class="fa fa-user"></i>{{$user->gender}}<br/>
+                            @endif 
                             @if(isset($user->age) && isset($user->dob_format))
-                                <br/>{{$user->age}} years old ({{$user->dob_format}})
+                                {{$user->age}} years old ({{$user->dob_format}})<br/>
                             @endif
-                            <br/>{{$user->life_stage}}
+                            @if($user->life_stage)
+                                {{$user->life_stage}}<br/>
+                            @endif
+                            @if($user->medical_note)
+                                <i class="fa fa-heartbeat"></i> {{$user->medical_note}}
+                            @endif
+
                         </div>
                         <div class="col-6">
-                            <i class="fa fa-envelope"></i>&nbsp;{{$user->email}}
-                            <br/>
-                            <i class="fa fa-phone"></i>&nbsp;{{$user->mobile_no}}
-                            <br/>
-                            <i class="fa fa-address-card"></i>&nbsp;{{$user->address}}
-                            <br/>
+                            @if($user->email)
+                                <i class="fa fa-envelope"></i>&nbsp;{{$user->email}}<br/>
+                            @endif
+                            @if($user->mobile_no)
+                                <i class="fa fa-phone"></i>&nbsp;{{$user->mobile_no}}<br/>
+                            @endif
+                            @if($user->address)
+                                <i class="fa fa-address-card"></i>&nbsp;{{$user->address}}<br/>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -74,15 +84,14 @@
                             <div class="card-header">
                                 Social Profiles
                             </div>
-                            <i class="fa fa-facebook"></i>&nbsp;{{$user->social_profile}}
-                            <br/>
-                            <i class="fa fa-twitter"></i>&nbsp;{{$user->social_profile}}
-                            <br/>
-                            <i class="fa fa-linkedin"></i>&nbsp;{{$user->social_profile}}
-                            <br/>
-                            <i class="fa fa-instagram"></i>&nbsp;{{$user->social_profile}}
-                            <br/>
-
+                            @if($user->social_profile)
+                            <i class="fa fa-facebook"></i>&nbsp;{{$user->social_profile}}<br/>
+                            <i class="fa fa-twitter"></i>&nbsp;{{$user->social_profile}}<br/>
+                            <i class="fa fa-linkedin"></i>&nbsp;{{$user->social_profile}}<br/>
+                            <i class="fa fa-instagram"></i>&nbsp;{{$user->social_profile}}<br/>
+                            @else 
+                                <h6 class="text-secondary">No Social Profiles</h6>
+                            @endif
                         </div>
                     </div>
                 </div>
