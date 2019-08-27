@@ -33,7 +33,7 @@
                                                 Show Time:
                                                 <select id="eventShowTime" name="eventShowTime" class="form-control">
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
-                                                    <?php $selected= isset($event)?($event->eventEndCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
+                                                    <?php $selected= isset($event)?($event->eventShowTime==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
                                                     <?php endfor; ?>
                                                 </select>
