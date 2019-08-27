@@ -107,6 +107,10 @@ Route::get("/settings/communication", 'Settings\CommunicationController@getList'
 Route::get("/settings/communication/getOrgTemplates/{template_id?}", 'Settings\CommunicationController@getOrgTemplates');
 Route::post("/settings/communication/getOrgTemplates", 'Settings\CommunicationController@updateOrgTemplate');
 
+// Settings => Forms
+Route::get("/settings/forms", "Settings\FormController@formIndex");
+Route::get("/settings/forms/manage/{form_id?}", "Settings\FormController@createOrEdit");
+
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');
 Route::get('checkin', 'CheckinController@index');

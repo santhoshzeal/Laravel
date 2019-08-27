@@ -50,3 +50,11 @@ td {
 .event-details {
     background-color: #0f9cf32b;
 }
+
+.form-settings-fields{
+    min-width:40%;
+    border:1px solid #d6d8daba;
+    padding:10px;
+    float:left;
+    margin-left:10px;
+}
