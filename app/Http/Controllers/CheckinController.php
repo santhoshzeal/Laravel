@@ -83,8 +83,13 @@ class CheckinController extends Controller
 
                                       <div class="checkin-user-name">'.$events->first_name."".$events->last_name.'</div>
                                        <div class="checkin-user-details"> '.$events->chKind.'
-                                       <span>@'.date('h:i A', strtotime($events->chINDateTime)).'</span>
-                                        </div>
+                                       <span>@'.date('h:i A', strtotime($events->chINDateTime)).''.$events->life_stage.'</span>';
+                                           
+                                        if($events->life_stage=="Child"){
+                                            $btn.='<span><a href="#"  onlick="printCard('.$events->eventId.','.$events->user_id.')">Print</a></span>';
+                                        }
+                           
+                                         $btn.='</div>
                                     </div>';
                                     if($events->chOUTDateTime == "" ||  $events->chOUTDateTime =="NULL"){
                                         

@@ -178,6 +178,18 @@
         }
       });
   }
+  
+  function printCard(eventId,userId) {
+      $.ajax({
+        type: "POST",
+        url: siteUrl+"/checkin/get-child-profile",
+        data: {eventId:eventId,userId:userId},
+        cache: false,
+        success: function(data){
+           checkinsTable.draw(false);
+        }
+      });
+  }
 			</script>
         
         
