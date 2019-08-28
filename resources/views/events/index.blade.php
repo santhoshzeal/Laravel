@@ -39,7 +39,7 @@
                                 <div class="button-items">
                                     <button type="button" onclick="createEventDialog()" class="btn btn-primary waves-effect waves-light">Create Event</button>
 
-                                   
+                                    <input class="form-control col-md-6" type="hidden" value=""  id="eventDateSearch1" />
  
                                 </div>
                                 <br>
@@ -100,13 +100,29 @@
                              {data: 'eventStartCheckin', name: 'eventStartCheckin'},
                               {data: 'eventEndCheckin', name: 'eventEndCheckin'},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
-                        ]
+                        ],
+                        "initComplete": function(settings, json) {
+                           $("#eventsTable_filter").append('<button class="btn small btn-primary" id="eventDateSearch"  >Event Date</button>');
+                          initDatePicker();
+                        }
                     });
-                
-                
-                
+               
+              // $("#eventDateSearch").
             }); 
                 
+                function initDatePicker(){
+                      $('#eventDateSearch').datepicker({
+                     "format":"dd/mm/yyyy"
+                 });
+                $('#eventDateSearch').datepicker()
+                .on("changeDate", function(e) {
+                     $('#eventDateSearch').datepicker('hide');
+                    //console.log(e);
+            var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
+                    // `e` here contains the extra attributes
+            eventsTable.search(date).draw(false);
+                });
+                }
             
             function createEventDialog(){
                  CreateEventsDlg = BootstrapDialog.show({
