@@ -62,5 +62,17 @@ class Checkins extends Model {
         }      
         return $chekins;
     }
+    
+    public static function getChildProfileDetails($eventId,$userId,$checkinId) {
+        $result = self::select('checkins.eventId', 'events.eventName','users.first_name','users.middle_name','users.last_name',"users.mobile_no","users.profile_pic")
+                ->join("events","events.eventId","=","checkins.eventId")
+                ->join("users","users.id","=","checkins.user_id")
+                ->where("checkins.eventId", $eventId)
+                ->where("checkins.user_id", $userId)
+                ->where("checkins.chId", $checkinId)
+                ->first();
+
+        return $result;
+    }
 
 }

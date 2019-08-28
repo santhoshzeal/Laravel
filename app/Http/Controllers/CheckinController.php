@@ -70,7 +70,10 @@ class CheckinController extends Controller
                         $userImg = url('assets/uploads/profile').'/user.jpg';
                         
                         $profilePic = $events->profile_pic;
-                        
+                        if($profilePic != null){
+                            $hh_pic_image_json = json_decode(unserialize($profilePic));
+                            $userImg = $hh_pic_image_json->download_path.$hh_pic_image_json->uploaded_file_name;
+                        }
                         
                            $btn = '<div class="row checkin-user">
 
@@ -83,10 +86,10 @@ class CheckinController extends Controller
 
                                       <div class="checkin-user-name">'.$events->first_name."".$events->last_name.'</div>
                                        <div class="checkin-user-details"> '.$events->chKind.'
-                                       <span>@'.date('h:i A', strtotime($events->chINDateTime)).''.$events->life_stage.'</span>';
+                                       <span>@'.date('h:i A', strtotime($events->chINDateTime)).'</span>';
                                            
                                         if($events->life_stage=="Child"){
-                                            $btn.='<span><a href="#"  onlick="printCard('.$events->eventId.','.$events->user_id.')">Print</a></span>';
+                                            $btn.='<span><a   href="javascript:printCard('.$events->eventId.','.$events->user_id.','.$events->chId.')">Print</a></span>';
                                         }
                            
                                          $btn.='</div>
@@ -114,67 +117,37 @@ class CheckinController extends Controller
                     ->make(true);
      }
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $data['title'] = $this->browserTitle . " - Role Create";
-        $data['permissions'] = Permission::all();//Get all permissions
-        return view('roles.create', $data);
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name'=>'required|unique:roles|max:10',
-            'permissions' =>'required',
-            ]
-        );
-        $role = new Role();
-        $role->name = $request->name;
-        $role->save();
-        if($request->permissions <> ''){
-            $role->permissions()->attach($request->permissions);
-        }
-        return redirect()->route('roles.index')->with('success','Roles added successfully');
-    }
-   
-     public function edit($id) {
-        $role = Role::findOrFail($id);
-        $permissions = Permission::all();
-        return view('roles.edit', compact('role', 'permissions'));
-    }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request,$id)
-    {
-        $role = Role::findOrFail($id);//Get role with the given id
-    //Validate name and permission fields
-        $this->validate($request, [
-            'name'=>'required|max:10|unique:roles,name,'.$id,
-            'permissions' =>'required',
-        ]);
-        $input = $request->except(['permissions']);
-        $role->fill($input)->save();
-        if($request->permissions <> ''){
-            $role->permissions()->sync($request->permissions);
-        }
-        return redirect()->route('roles.index')->with('success','Roles updated successfully');
-    }
-    /**
+     
+     public function getChildProfile(Request $request){
+         print_r("sdsd"); exit();
+         /*$eventId = $request->eventId;
+         $userId = $request->userId;
+         $checkinId = $request->checkinId;
+         if($eventId > 0 && $userId > 0 ) {
+			$profileDetails = Checkins::getChildProfileDetails($eventId,$userId,$checkinId);
+                        
+                        $userImg = url('assets/uploads/profile').'/user.jpg';
+                        
+                        $profilePic = $profileDetails->profile_pic;
+                        if($profilePic != null){
+                            $hh_pic_image_json = json_decode(unserialize($profilePic));
+                            $userImg = $hh_pic_image_json->download_path.$hh_pic_image_json->uploaded_file_name;
+                            
+                        }
+                        $profileDetails->user_image= $userImg;
+                       
+			$data['profileDetails'] = $profileDetails;
+                        
+                         //return view('checkin.child_profile_print',$data);
+		}*/
+        
+       
+     }
+
+
+
+
+     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Role  $role

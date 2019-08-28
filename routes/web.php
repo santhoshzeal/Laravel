@@ -123,7 +123,7 @@ Route::post('people/list', 'UserController@getUsersList');
 Route::post('checkin/log-checkin', 'CheckinController@logCheckin');
 Route::post('checkin/log-checkout', 'CheckinController@logCheckout');
 Route::post('checkin/list', 'CheckinController@checkInList');
-Route::post('checkin/get-child-profile', 'CheckinController@checkInList');
+Route::get('checkin/get-child-profile', 'CheckinController@getChildProfile');
 
 //Auth::routes();
 
