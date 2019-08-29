@@ -33,3 +33,6 @@
 .table > thead > tr > th { 
     font-weight: bold; 
 }
+.child-img {
+    max-width: 150px
+}

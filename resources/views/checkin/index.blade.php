@@ -81,6 +81,8 @@
 			
 			<script>
 				$( function() {
+                                    style = '<link href="{{ URL::asset("assets/theme/plugins/datatables/dataTables.bootstrap4.min.css")}}" rel="stylesheet" type="text/css" media="all" />';
+                                   
 					   var options = {
 
 					  url: function(phrase) {
@@ -193,12 +195,38 @@
       profileCardDlg = BootstrapDialog.show({
                     title:"Profile",
                     //size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/checkin/get-child-profile?eventId="+eventId+"&userId="+userId+"&checkinId="+checkinId),
+                    message: $('<div></div>').load(siteUrl+"/checkins/printChildProfile?eventId="+eventId+"&userId="+userId+"&checkinId="+checkinId),
                     buttons: [
                         {
                             label: 'Print',
                             cssClass: 'btn-primary',
                             action: function(dialogRef){
+                                
+                                 /*var mywindow = window.open('', 'invoice-box', 'height=1000,width=1000');
+                                 mywindow.document.write('<html><head><title>invoice-box</title>');
+                                mywindow.document.write(style);
+                                mywindow.document.write('</head><body >');
+                                mywindow.document.write(document.getElementById('profileBlockPrint').innerHTML);
+                                mywindow.document.write('</body></html>');
+                                setTimeout(function () {
+                                mywindow.print();
+                                mywindow.close();
+                                }, 1000)
+                                return true;*/
+                                
+                                console.log(style);
+                               
+                                var divToPrint=document.getElementById('profileBlockPrint');
+
+                                var newWin=window.open('','Print-Window');
+
+                                newWin.document.open();
+
+                                newWin.document.write('<html><head><title>print</title><link href="http://localhost/dallas/public/assets/theme/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" media="all" /></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+                                newWin.document.close();
+
+                                setTimeout(function(){newWin.close();},10)
                                 //submitCreateEvent();
                             }
                         }, 

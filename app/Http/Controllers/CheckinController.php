@@ -119,8 +119,8 @@ class CheckinController extends Controller
     
      
      public function getChildProfile(Request $request){
-         print_r("sdsd"); exit();
-         /*$eventId = $request->eventId;
+         //print_r("sdsd"); exit();
+         $eventId = $request->eventId;
          $userId = $request->userId;
          $checkinId = $request->checkinId;
          if($eventId > 0 && $userId > 0 ) {
@@ -135,11 +135,12 @@ class CheckinController extends Controller
                             
                         }
                         $profileDetails->user_image= $userImg;
+                        $profileDetails->full_name= $profileDetails->first_name."".$profileDetails->last_name;
                        
 			$data['profileDetails'] = $profileDetails;
                         
-                         //return view('checkin.child_profile_print',$data);
-		}*/
+                         return view('checkin.child_profile_print',$data);
+		}
         
        
      }

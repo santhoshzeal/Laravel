@@ -113,7 +113,7 @@ Route::get("/settings/forms/manage/{form_id?}", "Settings\FormController@createO
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');
-Route::get('checkin', 'CheckinController@index');
+//Route::get('checkin', 'CheckinController@index');
 Route::get('checkin/adult', 'CheckinController@adultCheckin');
 Route::get('checkin/child', 'CheckinController@childCheckin');
 Route::get('checkin/notification', 'CheckinController@notificationCheckin');
@@ -123,7 +123,7 @@ Route::post('people/list', 'UserController@getUsersList');
 Route::post('checkin/log-checkin', 'CheckinController@logCheckin');
 Route::post('checkin/log-checkout', 'CheckinController@logCheckout');
 Route::post('checkin/list', 'CheckinController@checkInList');
-Route::get('checkin/get-child-profile', 'CheckinController@getChildProfile');
+Route::get('checkins/printChildProfile', 'CheckinController@getChildProfile');
 
 //Auth::routes();
 
