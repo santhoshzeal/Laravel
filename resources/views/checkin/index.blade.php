@@ -178,6 +178,40 @@
         }
       });
   }
+  
+  function printCard(eventId,userId,checkinId) {
+      /*$.ajax({
+        type: "POST",
+        url: siteUrl+"/checkin/get-child-profile",
+        data: {eventId:eventId,userId:userId,checkinId:checkinId},
+        cache: false,
+        success: function(data){
+           //checkinsTable.draw(false);
+        }
+      });*/
+      
+      profileCardDlg = BootstrapDialog.show({
+                    title:"Profile",
+                    //size:"size-wide",
+                    message: $('<div></div>').load(siteUrl+"/checkin/get-child-profile?eventId="+eventId+"&userId="+userId+"&checkinId="+checkinId),
+                    buttons: [
+                        {
+                            label: 'Print',
+                            cssClass: 'btn-primary',
+                            action: function(dialogRef){
+                                //submitCreateEvent();
+                            }
+                        }, 
+                        {
+                            label: 'Cancel',
+                            action: function(dialogRef){
+                                dialogRef.close();
+                            }
+                        }
+                    ]
+                });
+                
+  }
 			</script>
         
         

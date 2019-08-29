@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use DateTime;
+use Auth;
 
-class Events extends Model  {
-
-
+class Events extends Model {
 
     /**
      * The database table used by the model.
@@ -16,6 +16,7 @@ class Events extends Model  {
      * @var string
      */
     use SoftDeletes;
+
     protected $table = 'events';
     protected $primaryKey = 'eventId';
 
@@ -24,7 +25,7 @@ class Events extends Model  {
      *
      * @var array
      */
-    protected $fillable = [ 'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation','createdBy','created_at','updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
+    protected $fillable = ['eventId', 'orgId', 'eventName', 'eventDesc', 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventShowTime', 'eventStartCheckin', 'eventEndCheckin', 'eventLocation', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -47,20 +48,43 @@ class Events extends Model  {
      */
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-   
-    public static function listEvents(){
-        $result =  self::select('eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation')
-                    ->orderBy("created_at","desc");
-                   
+    public static function listEvents($search) {
+        $result = self::select('eventId', 'eventName', 'eventDesc', 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin', 'eventLocation')
+        /* ->orderBy("created_at","desc") */;
+        if ($search != "") {
+            $result->where(function($query)use($search) {
+
+                if (static::validateDate($search)) {
+
+                    //echo date("Y:m:d",strtotime($search));
+                    return $query->whereDate('eventCreatedDate', date("Y:m:d", strtotime($search)));
+                } else {
+
+                    return $query->where('eventName', 'LIKE', "%$search%")
+                                    ->orWhere('eventDesc', 'LIKE', "%$search%");
+                }
+                //echo date("d m y",(int)$search);
+            });
+        }
+        $result->where('orgId', '=', Auth::user()->orgId);
+
         return $result;
     }
-	
-	public static function getEventsDetails($eventId){
-        $result =  self::select('eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation')
-                    ->where("eventId",$eventId)
-					->first();
-                   
+
+    public static function getEventsDetails($eventId) {
+        $result = self::select('eventId', 'eventName', 'eventDesc', 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin', 'eventLocation')
+                ->where("eventId", $eventId)
+                ->first();
+
         return $result;
     }
-   
+    
+    
+    
+
+    private static function validateDate($date, $format = 'Y-m-d') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) === $date;
+    }
+
 }

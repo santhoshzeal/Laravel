@@ -228,7 +228,12 @@
                             <li class="has-submenu">
                                 <a href="#"><i class="ti-settings"></i>Settings</a>
                                 <ul class="submenu">
-                                    <li @if($url_segment_one == "checkin") class='active' @else @endif><a href="{{URL::asset('/settings/communication')}}"> Communication</a></li>   
+                                    <li @if($url_segment_one == "checkin") class='active' @else @endif>
+                                        <a href="{{URL::asset('/settings/communication')}}">Communication</a>
+                                    </li>
+                                    <li @if($url_segment_one == "checkin") class='active' @else @endif>
+                                        <a href="{{URL::asset('/settings/forms')}}">Forms</a>
+                                    </li>   
                                 </ul>
                             </li>
 

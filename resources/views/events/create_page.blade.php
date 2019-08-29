@@ -11,7 +11,7 @@
                                     <div class="col-sm-9">
                                         <input class="form-control" type="text" id="eventName" name="eventName" value="{{ isset($event)?$event->eventName:'' }}">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 Start Time: 
                                                 <select id="eventStartCheckin" name="eventStartCheckin" class="form-control">
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
@@ -20,11 +20,20 @@
                                                     <?php endfor; ?>
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 End Time:
                                                 <select id="eventEndCheckin" name="eventEndCheckin" class="form-control">
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventEndCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
+                                                        <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
+                                                    <?php endfor; ?>
+                                                </select>
+                                            </div>
+                                             <div class="col-md-4">
+                                                Show Time:
+                                                <select id="eventShowTime" name="eventShowTime" class="form-control">
+                                                    <?php for($i = 1; $i <= 24; $i++): ?>
+                                                    <?php $selected= isset($event)?($event->eventShowTime==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
                                                     <?php endfor; ?>
                                                 </select>

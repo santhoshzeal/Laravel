@@ -49,7 +49,7 @@ class Checkins extends Model {
     public static function listCheckins($search = array()) {
         $eventId = $search['eventId'];
         $searchText = $search['searchText'];
-        $chekins = self::select('chId','eventId','checkins.user_id','chINDateTime','chOUTDateTime','chKind','users.first_name', 'users.last_name',"users.profile_pic")
+        $chekins = self::select('chId','eventId','checkins.user_id','chINDateTime','chOUTDateTime','chKind','users.first_name', 'users.last_name',"users.profile_pic","users.life_stage")
                 ->where("eventId", "=", $eventId)
                 ->join("users","users.id","=","checkins.user_id")
                 ->orderBy("checkins.created_at","desc");
@@ -61,6 +61,18 @@ class Checkins extends Model {
                                        });
         }      
         return $chekins;
+    }
+    
+    public static function getChildProfileDetails($eventId,$userId,$checkinId) {
+        $result = self::select('checkins.eventId', 'events.eventName','users.first_name','users.middle_name','users.last_name',"users.mobile_no","users.profile_pic")
+                ->join("events","events.eventId","=","checkins.eventId")
+                ->join("users","users.id","=","checkins.user_id")
+                ->where("checkins.eventId", $eventId)
+                ->where("checkins.user_id", $userId)
+                ->where("checkins.chId", $checkinId)
+                ->first();
+
+        return $result;
     }
 
 }
