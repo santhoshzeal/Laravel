@@ -32,15 +32,30 @@
                         <div class="card m-b-30">
                             <div class="card-body">
 
-                                <h4 class="mt-0 header-title">Events Details</h4>
+                                <h4 class="mt-0 header-title">Events</h4>
                                 
 
                                 <!-- -->
-                                <div class="button-items">
+                                <div class="row">
+                                <div class="button-items col-md-6">
                                     <button type="button" onclick="createEventDialog()" class="btn btn-primary waves-effect waves-light">Create Event</button>
 
-                                    <input class="form-control col-md-6" type="hidden" value=""  id="eventDateSearch1" />
+                                    
+                                    
  
+                                </div>
+                                <div class="button-items col-md-6">
+                                    
+                                    <div class="input-group">
+                                        <input class="form-control col-md-6" type="text" value=""  id="eventDateSearch" />
+                                        <span class="input-group-btn">
+                                             <button type="button" onclick="loadDatatable()" class="btn btn-primary waves-effect waves-light">Search</button>
+                                        </span>
+                                     </div>
+                                    
+                                    
+ 
+                                </div>
                                 </div>
                                 <br>
                                 <!-- -->
@@ -74,9 +89,17 @@
             <script>
             
              $(document).ready(function() { 
-               
+                initDatePicker();
+                loadDatatable();
                 
-                eventsTable = $('#eventsTable').DataTable({
+                
+               
+              // $("#eventDateSearch").
+            }); 
+                
+                function loadDatatable(){
+                    var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
+                    eventsTable = $('#eventsTable').DataTable({
                         "serverSide": true,
                         "destroy": true,
                         "autoWidth": false,
@@ -91,7 +114,7 @@
                             ],
                         "ajax": {
                             type: "POST",
-                            data: {},
+                            data: {date:date},
                             url: siteUrl + '/events/list',
                         }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
                         columns: [
@@ -102,14 +125,11 @@
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "initComplete": function(settings, json) {
-                           $("#eventsTable_filter").append('<button class="btn small btn-primary" id="eventDateSearch"  >Event Date</button>');
-                          initDatePicker();
+                          // $("#eventsTable_filter").append('<button class="btn small btn-primary" id="eventDateSearch"  >Event Date</button>');
+                         
                         }
                     });
-               
-              // $("#eventDateSearch").
-            }); 
-                
+                }
                 function initDatePicker(){
                       $('#eventDateSearch').datepicker({
                      "format":"dd/mm/yyyy"
@@ -120,7 +140,7 @@
                     //console.log(e);
             var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
                     // `e` here contains the extra attributes
-            eventsTable.search(date).draw(false);
+            //eventsTable.search(date).draw(false);
                 });
                 }
             

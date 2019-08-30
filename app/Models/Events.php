@@ -48,23 +48,25 @@ class Events extends Model {
      */
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    public static function listEvents($search) {
+    public static function listEvents($search, $date) {
         $result = self::select('eventId', 'eventName', 'eventDesc', 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin', 'eventLocation')
         /* ->orderBy("created_at","desc") */;
         if ($search != "") {
             $result->where(function($query)use($search) {
 
-                if (static::validateDate($search)) {
 
-                    //echo date("Y:m:d",strtotime($search));
-                    return $query->whereDate('eventCreatedDate', date("Y:m:d", strtotime($search)));
-                } else {
 
-                    return $query->where('eventName', 'LIKE', "%$search%")
-                                    ->orWhere('eventDesc', 'LIKE', "%$search%");
-                }
+                return $query->where('eventName', 'LIKE', "%$search%")
+                                ->orWhere('eventDesc', 'LIKE', "%$search%");
+
                 //echo date("d m y",(int)$search);
             });
+        }
+
+        if ($date != "") {
+
+            //echo date("Y:m:d",strtotime($search));
+            $result->whereDate('eventCreatedDate', date("Y:m:d", strtotime($date)));
         }
         $result->where('orgId', '=', Auth::user()->orgId);
 
@@ -78,9 +80,6 @@ class Events extends Model {
 
         return $result;
     }
-    
-    
-    
 
     private static function validateDate($date, $format = 'Y-m-d') {
         $d = DateTime::createFromFormat($format, $date);

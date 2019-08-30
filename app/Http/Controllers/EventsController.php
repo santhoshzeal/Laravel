@@ -75,7 +75,7 @@ class EventsController extends Controller
    
     public function listEvents(Request $request)
     {
-        $events = Events::listEvents($request->search['value']);
+        $events = Events::listEvents($request->search['value'],$request->date);
         
         return DataTables::of($events)
                     

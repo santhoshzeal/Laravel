@@ -81,7 +81,8 @@
 			
 			<script>
 				$( function() {
-                                    style = '<link href="{{ URL::asset("assets/theme/plugins/datatables/dataTables.bootstrap4.min.css")}}" rel="stylesheet" type="text/css" media="all" />';
+                                    
+                                   
                                    
 					   var options = {
 
@@ -202,19 +203,7 @@
                             cssClass: 'btn-primary',
                             action: function(dialogRef){
                                 
-                                 /*var mywindow = window.open('', 'invoice-box', 'height=1000,width=1000');
-                                 mywindow.document.write('<html><head><title>invoice-box</title>');
-                                mywindow.document.write(style);
-                                mywindow.document.write('</head><body >');
-                                mywindow.document.write(document.getElementById('profileBlockPrint').innerHTML);
-                                mywindow.document.write('</body></html>');
-                                setTimeout(function () {
-                                mywindow.print();
-                                mywindow.close();
-                                }, 1000)
-                                return true;*/
-                                
-                                console.log(style);
+                                 
                                
                                 var divToPrint=document.getElementById('profileBlockPrint');
 
@@ -222,7 +211,7 @@
 
                                 newWin.document.open();
 
-                                newWin.document.write('<html><head><title>print</title><link href="http://localhost/dallas/public/assets/theme/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" media="all" /></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+                                newWin.document.write('<html><head><title>print</title></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
 
                                 newWin.document.close();
 

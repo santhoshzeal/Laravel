@@ -127,7 +127,8 @@ class CheckinController extends Controller
 			$profileDetails = Checkins::getChildProfileDetails($eventId,$userId,$checkinId);
                         
                         $userImg = url('assets/uploads/profile').'/user.jpg';
-                        
+                        $qr_code = url('assets/theme/images').'/qrcode.png';
+                                
                         $profilePic = $profileDetails->profile_pic;
                         if($profilePic != null){
                             $hh_pic_image_json = json_decode(unserialize($profilePic));
@@ -135,6 +136,7 @@ class CheckinController extends Controller
                             
                         }
                         $profileDetails->user_image= $userImg;
+                        $profileDetails->qr_code= $qr_code;
                         $profileDetails->full_name= $profileDetails->first_name."".$profileDetails->last_name;
                        
 			$data['profileDetails'] = $profileDetails;
