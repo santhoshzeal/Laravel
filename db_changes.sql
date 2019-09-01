@@ -72,3 +72,8 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+--added by ananth
+ALTER TABLE `resources` ADD `orgId` INT(11) NOT NULL AFTER `id`;
+ALTER TABLE `rooms` ADD `orgId` INT(11) NOT NULL AFTER `id`
