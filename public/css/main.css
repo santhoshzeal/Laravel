@@ -36,3 +36,8 @@
 .child-img {
     max-width: 150px
 }
+.easy-autocomplete li.disabled {
+    pointer-events: none;
+    color: gray;
+    cursor: not-allowed;
+}

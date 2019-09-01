@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
-
+use Auth;
 class UserMaster extends Model  {
 
 
@@ -223,14 +223,18 @@ class UserMaster extends Model  {
     }
 	
 	
-	 public static function getUserListForAutocomplete($search) {
-		 $user = self::select('id', 'first_name', 'last_name')
-                                    ->where(function($query)use($search) {
-                                           /** @var $query Illuminate\Database\Query\Builder  */
-                                           return $query->where('first_name', 'LIKE', '%'.$search.'%')
-                                               ->orWhere('last_name', 'LIKE', '%'.$search.'%');
-                                       })
-				 ->get();
-                 return  $user;                     
-	 }
+    public static function getUserListForAutocomplete($search, $eventId = "") {
+        $user = self::select('id', 'first_name', 'last_name')
+                ->addSelect("checkins.chId")
+                ->leftJoin("checkins", "checkins.user_id", '=', "users.id")
+                ->where(function($query)use($search) {
+                    /** @var $query Illuminate\Database\Query\Builder  */
+                    return $query->where('first_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                })
+                 ->where('orgId', '=', Auth::user()->orgId)
+                ->get();
+        return $user;
+    }
+
 }

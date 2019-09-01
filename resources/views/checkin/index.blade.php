@@ -22,8 +22,8 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="button-items">
-                                    <a href="{{URL::asset('checkin/adult')}}" class="btn btn-primary btn-lg btn-block">Adult Checkin</a>
-                                    <a href="{{URL::asset('checkin/child')}}" class="btn btn-primary btn-lg btn-block">Child Checkin</a>
+                                    <a style="display: none" href="{{URL::asset('checkin/adult')}}" class="btn btn-primary btn-lg btn-block">Adult Checkin</a>
+                                    <a style="display: none" href="{{URL::asset('checkin/child')}}" class="btn btn-primary btn-lg btn-block">Child Checkin</a>
                                     <a href="{{URL::asset('checkin/notification')}}" class="btn btn-primary btn-lg btn-block">Notification</a>
                                     <a href="{{URL::asset('checkin/report')}}" class="btn btn-primary btn-sm btn-block">Report</a>
                                 </div>
@@ -81,9 +81,9 @@
 			
 			<script>
 				$( function() {
-                                    
+                                    var eventId = <?= $eventDetails->eventId ?>;
                                    
-                                   
+                                   console.log(eventId);
 					   var options = {
 
 					  url: function(phrase) {
@@ -98,7 +98,8 @@
 						dataType: "json",
 						method: "POST",
 						data: {
-						  dataType: "json"
+						  dataType: "json",
+                                                  eventId:eventId
 						}
 					  },
 					  
@@ -110,8 +111,17 @@
                                                         $("#selectedCheckInUser").val(userId);
 							//checkIn(userId);
 						},
+                                                onLoadEvent:function(){
+                                                    $('*[data-user-disabled="true"]').closest("li").addClass("disabled");
+                                                }
                                                
 					},
+                                        template: {
+                                            type: "custom",
+                                            method: function(value, item) {
+                                                    return "<span data-user-disabled='" + item.disabled + "'></span>" + value;
+                                            }
+                                    },
 					  
 					  preparePostData: function(data) {
 						data.phrase = $("#checkInUser").val();

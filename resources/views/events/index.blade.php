@@ -202,6 +202,34 @@
                     ]
                 });
             }
+            
+            function validateTime(elm){
+                
+                //$(".create-time option").attr("disabled",false);
+                
+                if(elm.id=="eventStartCheckin"){
+                    var index = $("#eventStartCheckin option:selected").index();
+                    $("#eventEndCheckin option").eq(0).prop('selected', true);
+                    $("#eventShowTime option").eq(0).prop('selected', true);
+                    
+                    $("#eventEndCheckin option").attr("disabled",false);
+                    $("#eventShowTime option").attr("disabled",false);
+                    
+                    $("#eventEndCheckin option:lt("+(index+1)+")").attr('disabled',true);
+                    $("#eventShowTime option:gt("+(index-1)+")").attr('disabled',true);
+                }
+                if(elm.id=="eventEndCheckin"){
+                    var index = $("#eventEndCheckin option:selected").index();
+                    
+                    $("#eventShowTime option").eq(0).prop('selected', true);
+                    
+                     $("#eventShowTime option").attr("disabled",false);
+                    $("#eventShowTime option:gt("+(index-1)+")").attr('disabled',true);
+                }
+                if(elm.id=="eventShowTime"){
+                    
+                }
+            }
                     </script>
         
 @endsection

@@ -13,7 +13,8 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 Start Time: 
-                                                <select id="eventStartCheckin" name="eventStartCheckin" class="form-control">
+                                                <select id="eventStartCheckin" name="eventStartCheckin" class="form-control create-time" onchange="validateTime(this)">
+                                                    <option> -- Select -- </option>
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventStartCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
@@ -22,7 +23,8 @@
                                             </div>
                                             <div class="col-md-4">
                                                 End Time:
-                                                <select id="eventEndCheckin" name="eventEndCheckin" class="form-control">
+                                                <select id="eventEndCheckin" name="eventEndCheckin" class="form-control create-time" onchange="validateTime(this)">
+                                                    <option> -- Select -- </option>
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventEndCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
@@ -31,7 +33,8 @@
                                             </div>
                                              <div class="col-md-4">
                                                 Show Time:
-                                                <select id="eventShowTime" name="eventShowTime" class="form-control">
+                                                <select id="eventShowTime" name="eventShowTime" class="form-control create-time" onchange="validateTime(this)">
+                                                    <option> -- Select -- </option>
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventShowTime==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
