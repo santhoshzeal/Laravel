@@ -44,11 +44,11 @@
                                     
  
                                 </div>
-                                <div class="button-items col-md-6">
+                                <div class=" col-md-6 ">
                                     
                                     <div class="input-group">
-                                        <input class="form-control col-md-6" type="text" value=""  id="eventDateSearch" />
-                                        <span class="input-group-btn">
+                                        <input class="form-control col-md-6 " type="search"   value=""  id="eventDateSearch" autocomplete="off" />
+                                        <span class="input-group-btn" style="padding-left: 10px;">
                                              <button type="button" onclick="loadDatatable()" class="btn btn-primary waves-effect waves-light">Search</button>
                                         </span>
                                      </div>
@@ -99,6 +99,10 @@
                 
                 function loadDatatable(){
                     var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
+                    if($('#eventDateSearch').val()==""){
+                        date = "";
+                    }
+                    
                     eventsTable = $('#eventsTable').DataTable({
                         "serverSide": true,
                         "destroy": true,
@@ -177,7 +181,8 @@
                     },2000);
                 });
                 
-                $("#create_event_form").submit();
+                //$("#create_event_form").submit();
+                $("#formSubmitBtn").click();
             }
             
             function editEvents(eventId){
@@ -216,7 +221,7 @@
                     $("#eventShowTime option").attr("disabled",false);
                     
                     $("#eventEndCheckin option:lt("+(index+1)+")").attr('disabled',true);
-                    $("#eventShowTime option:gt("+(index-1)+")").attr('disabled',true);
+                    $("#eventShowTime option:gt("+(index-2)+")").attr('disabled',true);
                 }
                 if(elm.id=="eventEndCheckin"){
                     var index = $("#eventEndCheckin option:selected").index();

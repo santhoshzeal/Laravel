@@ -77,3 +77,6 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 --added by ananth
 ALTER TABLE `resources` ADD `orgId` INT(11) NOT NULL AFTER `id`;
 ALTER TABLE `rooms` ADD `orgId` INT(11) NOT NULL AFTER `id`
+
+--added by ananth
+INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldType`, `mldOption`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, '0', 'resource_category', 'Electronic', 'A', '4', NULL, '2019-08-23 03:33:55', NULL, '2019-08-23 03:33:55', NULL, NULL);

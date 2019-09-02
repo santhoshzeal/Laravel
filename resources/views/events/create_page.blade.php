@@ -9,12 +9,12 @@
                                 <div class="form-group row">
                                     <label for="example-text-input" class="col-sm-3 col-form-label">Title Event</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="text" id="eventName" name="eventName" value="{{ isset($event)?$event->eventName:'' }}">
+                                        <input class="form-control" required="" type="text" id="eventName" name="eventName" value="{{ isset($event)?$event->eventName:'' }}">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 Start Time: 
-                                                <select id="eventStartCheckin" name="eventStartCheckin" class="form-control create-time" onchange="validateTime(this)">
-                                                    <option> -- Select -- </option>
+                                                <select required="" id="eventStartCheckin" name="eventStartCheckin" class="form-control create-time" onchange="validateTime(this)">
+                                                    <option value=""> -- Select -- </option>
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventStartCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
@@ -23,8 +23,8 @@
                                             </div>
                                             <div class="col-md-4">
                                                 End Time:
-                                                <select id="eventEndCheckin" name="eventEndCheckin" class="form-control create-time" onchange="validateTime(this)">
-                                                    <option> -- Select -- </option>
+                                                <select id="eventEndCheckin" required="" name="eventEndCheckin" class="form-control create-time" onchange="validateTime(this)">
+                                                    <option value=""> -- Select -- </option>
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventEndCheckin==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
@@ -33,8 +33,8 @@
                                             </div>
                                              <div class="col-md-4">
                                                 Show Time:
-                                                <select id="eventShowTime" name="eventShowTime" class="form-control create-time" onchange="validateTime(this)">
-                                                    <option> -- Select -- </option>
+                                                <select id="eventShowTime" required="" name="eventShowTime" class="form-control create-time" onchange="validateTime(this)">
+                                                    <option value=""> -- Select -- </option>
                                                     <?php for($i = 1; $i <= 24; $i++): ?>
                                                     <?php $selected= isset($event)?($event->eventShowTime==date("H:i:s", strtotime("$i:00:00")))?'selected':'':''; ?>
                                                         <option value="<?= date("H:i", strtotime("$i:00")) ?>" {{$selected}}><?= date("h.iA", strtotime("$i:00")); ?></option>
@@ -48,7 +48,7 @@
                                  <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Date</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="date" value="{{ isset($event)?$event->eventCreatedDate:'' }}" id="eventCreatedDate" name="eventCreatedDate" >
+                                        <input required="" class="form-control" type="date" value="{{ isset($event)?$event->eventCreatedDate:'' }}" id="eventCreatedDate" name="eventCreatedDate" >
                                     </div>
                                 </div>
                                 
@@ -62,7 +62,7 @@
                                  <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Occurence</label>
                                     <div class="col-sm-9">
-                                        <select id="eventFreq" name="eventFreq" class="form-control" value="{{ isset($event)?$event->eventFreq:'' }}">
+                                        <select id="eventFreq" name="eventFreq" class="form-control" required="" value="{{ isset($event)?$event->eventFreq:'' }}">
                                             <option value="Daily" <?= isset($event)?($event->eventFreq=='Daily')?'selected':'':'' ?>>Daily</option>
                                             <option value="Weekly" <?= isset($event)?($event->eventFreq=='Weekly')?'selected':'':'' ?>>Weekly</option>
                                             <option value="None" <?= isset($event)?($event->eventFreq=='None')?'selected':'':'' ?>>None</option>
@@ -81,7 +81,8 @@
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                     <div class="col-sm-9">
-                                        <select id="eventLocation" name="eventLocation" class="form-control">
+                                        <select id="eventLocation" name="eventLocation" class="form-control" required="">
+                                            <option value=""> -- Select -- </option>
                                             <option value="locaion1" <?= isset($event)?($event->eventFreq=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
                                             <option value="locaion2" <?= isset($event)?($event->eventFreq=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
                                             <option value="locaion3" <?= isset($event)?($event->eventFreq=='locaion3')?'selected':'':'' ?>>Locaion 3</option>
@@ -94,6 +95,7 @@
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Building Block</label>
                                     <div class="col-sm-9">
                                         <select id="eventBuildingBlock" name="eventBuildingBlock" class="form-control">
+                                            <option value=""> -- Select -- </option>
                                             <option value="Daily">Daily</option>
                                             <option value="Weekly">Weekly</option>
                                             <option value="None">None</option>
@@ -157,4 +159,5 @@
                     </div> <!-- end col -->
                 </div>
  <input type="hidden" name="eventId" value="{{ isset($event)?$event->eventId:'' }}" />
+ <input type="submit" id="formSubmitBtn" style="display: none;"/>
 </form>

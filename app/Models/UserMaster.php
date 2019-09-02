@@ -233,6 +233,7 @@ class UserMaster extends Model  {
                             ->orWhere('last_name', 'LIKE', '%' . $search . '%');
                 })
                  ->where('orgId', '=', Auth::user()->orgId)
+                  ->groupBy("checkins.user_id")
                 ->get();
         return $user;
     }

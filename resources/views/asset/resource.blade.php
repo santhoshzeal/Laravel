@@ -78,7 +78,11 @@
              $(document).ready(function() { 
                
                 loadDatatable();
-                
+                $("#item_year").datepicker({
+                    format: "yyyy",
+                    viewMode: "years", 
+                    minViewMode: "years"
+                });
                 
                
               // $("#eventDateSearch").
@@ -146,12 +150,13 @@
                 $('#create_resource_form').ajaxForm(function(data) { 
                    $("#create_resource_form_status").html(data.message);
                    setTimeout(function(){
-                       CreateEventsDlg.close();
+                       createResourceDlg.close();
                         resourceTable.draw(false);
                     },2000);
                 });
                 
-                $("#create_resource_form").submit();
+                //$("#create_resource_form").submit();
+                $("#formSubmitBtn").click();
             }
             
             function editResource(resourceId){
