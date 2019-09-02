@@ -203,5 +203,13 @@ Route::post('events/list', 'EventsController@listEvents');
 Route::get('events/edit/{id}', 'EventsController@edit');
 
 
-//dd("666out");
+
 Route::post('user_profile_file_upload', 'UserController@userProfileFileUpload');
+
+// Settings => Resource
+Route::get("/settings/asset_management/resources", "Settings\AssetController@index");
+Route::get("/resource/create_page", "Settings\AssetController@createResourcePage");
+Route::post('resource/store', 'Settings\AssetController@store')->name('resource.store');
+Route::post('resource/list', 'Settings\AssetController@resourceList');
+Route::get('resource/edit/{id}', 'Settings\AssetController@edit');
+
