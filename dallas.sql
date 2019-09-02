@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 25, 2019 at 07:10 PM
+-- Generation Time: Sep 01, 2019 at 04:21 PM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `checkins` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`chId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `checkins`
@@ -85,7 +85,13 @@ INSERT INTO `checkins` (`chId`, `eventId`, `user_id`, `chINDateTime`, `chOUTDate
 (2, 1, 1, '2019-08-24 22:14:17', '2019-08-24 22:14:40', 'Regular', '1', '2019-08-24 22:14:17', '1', '2019-08-24 22:14:40', NULL, NULL),
 (3, 1, 1, '2019-08-24 20:04:22', NULL, 'Regular', '1', '2019-08-25 08:04:22', NULL, '2019-08-25 08:04:22', NULL, NULL),
 (4, 1, 1, '2019-08-24 20:07:38', NULL, 'Regular', '1', '2019-08-25 08:07:38', NULL, '2019-08-25 08:07:38', NULL, NULL),
-(5, 1, 1, '2019-08-24 20:07:39', NULL, 'Regular', '1', '2019-08-25 08:07:39', NULL, '2019-08-25 08:07:39', NULL, NULL);
+(5, 1, 1, '2019-08-24 20:07:39', NULL, 'Regular', '1', '2019-08-25 08:07:39', NULL, '2019-08-25 08:07:39', NULL, NULL),
+(6, 3, 1, '2019-08-29 06:45:52', NULL, 'Regular', '1', '2019-08-28 18:45:52', NULL, '2019-08-28 18:45:52', NULL, NULL),
+(7, 3, 5, '2019-08-29 06:46:36', NULL, 'Regular', '1', '2019-08-28 18:46:36', NULL, '2019-08-28 18:46:36', NULL, NULL),
+(8, 3, 5, '2019-08-29 06:47:11', NULL, 'Regular', '1', '2019-08-28 18:47:11', NULL, '2019-08-28 18:47:11', NULL, NULL),
+(9, 2, 1, '2019-08-31 04:19:23', NULL, 'Regular', '1', '2019-08-31 04:19:23', NULL, '2019-08-31 04:19:23', NULL, NULL),
+(10, 2, 1, '2019-08-31 04:19:29', NULL, 'Regular', '1', '2019-08-31 04:19:29', NULL, '2019-08-31 04:19:29', NULL, NULL),
+(11, 2, 5, '2019-08-31 04:19:51', NULL, 'Regular', '1', '2019-08-31 04:19:51', NULL, '2019-08-31 04:19:51', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `comm_details` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `comm_details`
@@ -120,7 +126,8 @@ INSERT INTO `comm_details` (`id`, `comm_master_id`, `to_user_id`, `read_status`,
 (5, 4, 4, 'UNREAD', 'UNDELETED', NULL, '2019-08-24 22:10:13', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (6, 5, 3, 'UNREAD', 'UNDELETED', NULL, '2019-08-24 22:10:57', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (7, 6, 2, 'UNREAD', 'UNDELETED', NULL, '2019-08-24 22:11:17', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(8, 6, 3, 'UNREAD', 'UNDELETED', NULL, '2019-08-24 22:11:17', NULL, '0000-00-00 00:00:00', NULL, NULL);
+(8, 6, 3, 'UNREAD', 'UNDELETED', NULL, '2019-08-24 22:11:17', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(9, 7, 5, 'UNREAD', 'UNDELETED', NULL, '2019-08-28 18:46:25', NULL, '0000-00-00 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -134,6 +141,7 @@ CREATE TABLE IF NOT EXISTS `comm_masters` (
   `org_id` bigint(20) NOT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Email,2=Notification',
   `tag` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `name` text,
   `subject` varchar(255) DEFAULT NULL,
   `body` text,
   `from_user_id` bigint(20) DEFAULT NULL COMMENT 'From UserId',
@@ -144,19 +152,20 @@ CREATE TABLE IF NOT EXISTS `comm_masters` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `comm_masters`
 --
 
-INSERT INTO `comm_masters` (`id`, `comm_template_id`, `org_id`, `type`, `tag`, `subject`, `body`, `from_user_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 4, 1, 1, 'welcome', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-24 22:07:35', NULL, '2019-08-24 22:07:35', NULL, NULL),
-(2, 4, 1, 1, 'welcome', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-24 22:09:03', NULL, '2019-08-24 22:09:03', NULL, NULL),
-(3, 4, 1, 1, 'welcome', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-24 22:09:22', NULL, '2019-08-24 22:09:22', NULL, NULL),
-(4, 5, 1, 2, 'household_added', 'household_added subj', 'household_added body', 1, NULL, '2019-08-24 22:10:13', NULL, '2019-08-24 22:10:13', NULL, NULL),
-(5, 5, 1, 2, 'household_added', 'household_added subj', 'household_added body', 1, NULL, '2019-08-24 22:10:57', NULL, '2019-08-24 22:10:57', NULL, NULL),
-(6, 5, 1, 2, 'household_added', 'household_added subj', 'household_added body', 1, NULL, '2019-08-24 22:11:17', NULL, '2019-08-24 22:11:17', NULL, NULL);
+INSERT INTO `comm_masters` (`id`, `comm_template_id`, `org_id`, `type`, `tag`, `name`, `subject`, `body`, `from_user_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 4, 1, 1, 'welcome', NULL, 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-24 22:07:35', NULL, '2019-08-24 22:07:35', NULL, NULL),
+(2, 4, 1, 1, 'welcome', NULL, 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-24 22:09:03', NULL, '2019-08-24 22:09:03', NULL, NULL),
+(3, 4, 1, 1, 'welcome', NULL, 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-24 22:09:22', NULL, '2019-08-24 22:09:22', NULL, NULL),
+(4, 5, 1, 2, 'household_added', NULL, 'household_added subj', 'household_added body', 1, NULL, '2019-08-24 22:10:13', NULL, '2019-08-24 22:10:13', NULL, NULL),
+(5, 5, 1, 2, 'household_added', NULL, 'household_added subj', 'household_added body', 1, NULL, '2019-08-24 22:10:57', NULL, '2019-08-24 22:10:57', NULL, NULL),
+(6, 5, 1, 2, 'household_added', NULL, 'household_added subj', 'household_added body', 1, NULL, '2019-08-24 22:11:17', NULL, '2019-08-24 22:11:17', NULL, NULL),
+(7, 4, 1, 1, 'welcome', NULL, 'Welcome Email Sujbect', '<p>Welcome Email Body</p>', 1, NULL, '2019-08-28 18:46:25', NULL, '2019-08-28 18:46:25', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -188,8 +197,8 @@ INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, 
 (1, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 0, NULL, '2019-08-22 10:31:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (2, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 0, NULL, '2019-08-22 10:31:18', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (3, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 0, NULL, '2019-08-22 10:31:35', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(4, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-08-25 03:35:24', NULL, NULL, NULL, NULL),
-(5, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, '2019-08-25 03:35:24', NULL, NULL, NULL, NULL),
+(4, 'welcome', 'Welcome Emailasd saddad', 'Welcome Email Sujbect', '<p>Welcome Email Body</p>', 1, NULL, '2019-08-25 03:35:24', NULL, '2019-08-27 21:13:14', NULL, NULL),
+(5, 'household_added', 'household_added name dsadasada', 'household_added subj', '<p>household_added body</p>', 1, NULL, '2019-08-25 03:35:24', NULL, '2019-08-27 21:13:21', NULL, NULL),
 (6, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 1, NULL, '2019-08-25 03:35:24', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -217,14 +226,16 @@ CREATE TABLE IF NOT EXISTS `events` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `events`
 --
 
 INSERT INTO `events` (`eventId`, `orgId`, `eventName`, `eventFreq`, `eventDesc`, `eventCreatedDate`, `eventCheckin`, `eventShowTime`, `eventStartCheckin`, `eventEndCheckin`, `eventLocation`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, NULL, 'First Event', 'Daily', 'First Event Descr', '2019-08-25', NULL, NULL, '08:00:00', '10:00:00', 'Daily', '1', '2019-08-24 22:13:50', NULL, '2019-08-24 22:13:50', NULL, NULL);
+(1, NULL, 'First Event', 'Daily', 'First Event Descr', '2019-08-25', NULL, NULL, '08:00:00', '10:00:00', 'Daily', '1', '2019-08-24 22:13:50', NULL, '2019-08-24 22:13:50', NULL, NULL),
+(2, 1, 'myname', 'Daily', 'myname', '2019-08-29', NULL, '07:00:00', '09:00:00', '11:00:00', 'locaion1', '1', '2019-08-28 18:44:43', '1', '2019-08-28 18:45:30', NULL, NULL),
+(3, 1, 'raja', 'Daily', 'raja', '2019-08-29', NULL, '01:00:00', '01:00:00', '01:00:00', 'locaion1', '1', '2019-08-28 18:45:05', '1', '2019-08-28 18:45:41', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -305,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `master_lookup_data` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`mldId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
 --
 -- Dumping data for table `master_lookup_data`
@@ -436,7 +447,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (115, 'App\\User', 1),
 (116, 'App\\User', 2),
 (116, 'App\\User', 3),
-(116, 'App\\User', 4);
+(116, 'App\\User', 4),
+(116, 'App\\User', 5);
 
 -- --------------------------------------------------------
 
@@ -463,9 +475,12 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
 --
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('06b92c66f47f1b09e8cb6e1ee32778a80108bdb62e83718771fd3b2163b707491784dba739514418', 1, 1, 'dollar', '[]', 0, '2019-08-28 18:43:18', '2019-08-28 18:43:18', '2020-08-29 00:13:18'),
 ('19272c2e52d3f4bf9c452415fef1cc3e2a23e3ddf2bb36eb4955393b6b5399abe289bec13b157272', 1, 1, 'dollar', '[]', 0, '2019-08-24 20:14:52', '2019-08-24 20:14:52', '2020-08-25 01:44:52'),
 ('7c30cbce0a6743331c674d86f532f65cafe3ce5fa871de7483d2eaccf55c9a42c14bb0674909b1d3', 1, 1, 'dollar', '[]', 0, '2019-08-25 07:30:40', '2019-08-25 07:30:40', '2020-08-25 13:00:40'),
-('8407ae545b6bf07952355ec3447c6a80208c6e8b09a7637f7bf5f4ddb6c9dcb99ce3d1fa4050098a', 1, 1, 'dollar', '[]', 0, '2019-08-24 22:05:54', '2019-08-24 22:05:54', '2020-08-25 03:35:54');
+('8407ae545b6bf07952355ec3447c6a80208c6e8b09a7637f7bf5f4ddb6c9dcb99ce3d1fa4050098a', 1, 1, 'dollar', '[]', 0, '2019-08-24 22:05:54', '2019-08-24 22:05:54', '2020-08-25 03:35:54'),
+('a1723d73c4fff1baa97084ae43e45452e7397e24b863cda5950b203ba50101d201f5d4c7dabc195c', 1, 1, 'dollar', '[]', 0, '2019-08-27 21:12:17', '2019-08-27 21:12:17', '2020-08-28 02:42:17'),
+('a7289273947fb30912e96af73341d2a4df9f451979d18dbdaa40962783ed62ff7190eff5938b4c90', 1, 1, 'dollar', '[]', 0, '2019-08-31 04:16:35', '2019-08-31 04:16:35', '2020-08-31 09:46:35');
 
 -- --------------------------------------------------------
 
@@ -617,7 +632,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `permissions`
@@ -640,6 +655,36 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `resources`
+--
+
+CREATE TABLE IF NOT EXISTS `resources` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item_name` varchar(255) DEFAULT NULL,
+  `category_id` bigint(20) DEFAULT NULL,
+  `item_desc` text,
+  `location_id` bigint(20) DEFAULT NULL,
+  `item_year` int(11) DEFAULT NULL,
+  `item_model` varchar(100) DEFAULT NULL,
+  `last_service_date` date DEFAULT NULL,
+  `next_service_date` date DEFAULT NULL,
+  `notification_period` varchar(200) NOT NULL,
+  `item_photo` text,
+  `coa` varchar(150) DEFAULT NULL,
+  `rod` varchar(150) DEFAULT NULL,
+  `approval_group` text,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -652,7 +697,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=130 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=126 ;
 
 --
 -- Dumping data for table `roles`
@@ -721,6 +766,32 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rooms`
+--
+
+CREATE TABLE IF NOT EXISTS `rooms` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `room_name` varchar(255) DEFAULT NULL,
+  `room_owner` varchar(255) DEFAULT NULL,
+  `contact_no` varchar(20) DEFAULT NULL,
+  `contact_email` varchar(255) DEFAULT NULL,
+  `room_desc` text,
+  `room_image` text,
+  `group_id` bigint(20) DEFAULT NULL,
+  `building_number` varchar(150) DEFAULT NULL,
+  `room_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Inactive',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -763,7 +834,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `users`
@@ -773,7 +844,8 @@ INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix
 (1, 1, 'sathish kumar''s household', '0000000001', NULL, NULL, 'sathish kumar', NULL, NULL, NULL, 'sathish kumar', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$yIJFLrVJdpFyIvp.lM3ufO9YdaAuEmaKDzHRour.r9ldURmwm2ooO', NULL, 'sathckyy', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-08-24 22:05:24', '2019-08-24 22:05:24', NULL, NULL),
 (2, 1, 'Karthik''s household', '0000000002', '32', 'given name', 'Karthik', 'K', 'S', 'nick name', 'Karthik S K', NULL, 'karth@g.com', NULL, NULL, '$2y$10$uNBHqnW.J7R2L5kR3bmgq.AbB9252WbKWS.RXcq/mYo75UOROEGee', NULL, 'Kartlhdt', '41', NULL, '1988-01-03', NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '1st main///apartment///mang///karn///651000', NULL, NULL, '2019-08-24 22:07:35', '2019-08-24 22:07:35', NULL, NULL),
 (3, 1, 'suresh''s household', '0000000003', '36', NULL, 'suresh', 'k', 'j', NULL, 'suresh j k', NULL, 'suresh@gmail.com', NULL, NULL, '$2y$10$elFZ/Ac/xGLRPupulpU2VuuHSITKEvJUxCK4Jzwq9Btcl6xPPKjF6', NULL, 'suremohq', '41', NULL, NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-24 22:09:02', '2019-08-24 22:09:02', NULL, NULL),
-(4, 1, 'paul raj''s household', '0000000004', '36', NULL, 'paul raj', 'k', 'j', NULL, 'paul raj j k', NULL, 'paul@g.com', NULL, NULL, '$2y$10$CvYJ27VaVklGP3Nv/AYMKOKtjXEh2GOKjbDKMLkd9jl77DohsPH5W', NULL, 'paul2emp', '41', NULL, NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-24 22:09:22', '2019-08-24 22:09:22', NULL, NULL);
+(4, 1, 'paul raj''s household', '0000000004', '36', NULL, 'paul raj', 'k', 'j', NULL, 'paul raj j k', NULL, 'paul@g.com', NULL, NULL, '$2y$10$CvYJ27VaVklGP3Nv/AYMKOKtjXEh2GOKjbDKMLkd9jl77DohsPH5W', NULL, 'paul2emp', '41', NULL, NULL, NULL, '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-24 22:09:22', '2019-08-24 22:09:22', NULL, NULL),
+(5, 1, 'Child''s household', '0000000005', '36', NULL, 'Child', NULL, 'd', NULL, 'Child d', NULL, 'dec@gmail.com', NULL, NULL, '$2y$10$DFljO1HxHsb43.c7p2.BsuiNF6xohug1tDPiEpkpPkF2FUDfJwFya', NULL, 'Chilquri', '41', 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1567037895.png","original_filename":"1567037895.png","upload_file_extension":"png","file_size":0}";', NULL, NULL, '30', 56, 'Child', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-08-28 18:46:25', '2019-08-28 18:48:15', NULL, NULL);
 
 --
 -- Constraints for dumped tables

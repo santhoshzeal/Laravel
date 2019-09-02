@@ -11,17 +11,20 @@ class GetOrgnaizationDetailsMiddleware {
 
     public function handle($request, Closure $next) {
 
-            
-            if(\Request::segment(2)){
-                $whereArray = array('orgDomain' => \Request::segment(2));
+            $this->org_domain = $data['org_domain'] = $request->route('org_domain') != "" ? $request->route('org_domain') :$request->segment(3);
+              
+            $this->org_domain = trim($this->org_domain)==''?0:$this->org_domain;
+
+            if($this->org_domain){
+                $whereArray = array('orgDomain' => "$this->org_domain");//dd($whereArray);
                 $crudOrganization = Organization::crudOrganization($whereArray,null,null,null,null,null,null,'1')->get();
                 if ($crudOrganization->count() > 0) {
                     return $next($request);
                 } else {
-                    abort(404, \Request::segment(2). ' - Organization Not Found');
+                    abort(404, $this->org_domain. ' - Organization Not Found');
                 }
             }
-            if(\Request::segment(2) == null || \Request::segment(2) == ""){
+            if($this->org_domain == null || $this->org_domain == ""){
                 abort(404, " Organization Doesn't Exist");
             }
             //abort(403, 'Organization Name Missing');

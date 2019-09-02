@@ -30,15 +30,17 @@ use App\Models\CommTemplate;
 class PassportController extends Controller {
 
     
-    public function __construct() {
+    public function __construct(Request $request) {
+
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->common_file_upload_path = Config::get('constants.FILE_UPLOAD_PATH');
-        
+//dd("org_domainpassport==",\Request::route('org_domain'),$request->org_domain,$request->route('org_domain'));        
         if (\Request::route('org_domain')) {
             $this->org_domain = \Request::route('org_domain');
         } else {
             $this->org_domain = \Request::segment(3);
         }
+
         //dd("URL : ".url('/login').'/'.$this->org_domain);
         //dd($this->org_domain);
         //$this->crudOrganizationData = array();

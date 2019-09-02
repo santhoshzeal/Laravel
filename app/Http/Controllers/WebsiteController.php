@@ -6,16 +6,39 @@ use Illuminate\Http\Request;
 use DB;
 use Config;
 use Camroncade\Timezone\Facades\Timezone;
-
+use App\Models\Organization;
 class WebsiteController extends Controller
 {
    
-    public function __construct()
-    {
+    public function __construct(Request $request) {
+
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
+        $this->common_file_upload_path = Config::get('constants.FILE_UPLOAD_PATH');
+//dd("org_domainpassport==",\Request::route('org_domain'),$request->org_domain,$request->route('org_domain'));        
+        if (\Request::route('org_domain')) {
+            $this->org_domain = \Request::route('org_domain');
+        } else {
+            $this->org_domain = \Request::segment(3);
+        }
+
+        //dd("URL : ".url('/login').'/'.$this->org_domain);
+  //      dd($this->org_domain);
+        //$this->crudOrganizationData = array();
+        $whereArray = array('orgDomain' => $this->org_domain);
+        $crudOrganization = Organization::crudOrganization($whereArray,null,null,null,null,null,null,'1')->get();
+        //dd($crudOrganization);
+        //if($crudOrganization->count() > 0){
+        $this->crudOrganizationData = $crudOrganization;
+        //}
+        //dd($this->crudOrganizationData);
+    }
+    public function errorhome()
+    {
+    dd("errorhomesss");
     }
     public function index()
     {
+    //dd($this->org_domain);
         $data['title'] = $this->browserTitle . "";
         $data['dateTimezone'] = Timezone::selectForm(
         '', 

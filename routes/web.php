@@ -9,11 +9,10 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+*/ 
 
-Route::get('/', function () {
-    //return view('welcome');
-});
+
+
 //Route::get('public_site/add_student/{fair_domain}', function() {
 //        return redirect("public_site/add_student");
 //    });
@@ -22,7 +21,7 @@ Route::get('/', function () {
 Route::post('login', [ 'as' => 'login', 'uses' => 'PassportController@login_page']);
 
 Route::get('api/login', function () {
-	return redirect("login");
+    return redirect("login");
 });
 
 
@@ -33,11 +32,75 @@ Route::post('check_unique_org_domain', 'PassportController@checkOrganizationDoma
 Route::post('check_unique_email_per_org', 'PassportController@checkUniqueEmailPerOrganization');
 
 
-Route::group( ['middleware' => ['get_org_detail']], function() {
+/*
+Route::group(array('domain' => '{org_domain}.churchsoftwares.info'), function() {
+    Route::group( ['middleware' => ['get_org_detail']], function() { 
+        Route::get('/login', 'PassportController@login_page'); 
+    }); 
+});
+*/
+//  dd("startinside");
 
-    Route::get('login', 'PassportController@login_page');
-    Route::get('login/{org_domain}', 'PassportController@login_page');
-    Route::get('register/{org_domain}', 'PassportController@register');
+//Route::group(array('domain' => 'churchsoftwares.info'), function() {
+    //dd("inside");
+    //Front end website
+    //
+
+//});
+
+
+Route::group(array('domain' => '{org_domain}.churchsoftwares.info'), function() {
+//dd("lplpinside",\Request::segment(1));
+//if(\Request::segment(1) == '' || \Request::segment(1) == null){
+//  dd('lop');  
+//Route::permanentRedirect('/errorhome', '/errorhome');
+//Route::view('/welcome', 'welcome');
+//return redirect()->route('errorhome');
+//Route::get('/errorhome', 'WebsiteController@errorhome');  
+
+//dd('outfetch1',\Request::route('org_domain'));    
+//
+//return redirect('/errorhome');//->with('message', 'Welcome to ItSolutionStuff Tutorials!');
+//  return redirect('http://anotherdomain.com/');
+//  return redirect("churchsoftwares.info/public");
+//}else{
+//abort(404,"Javascript must be enabled to access this website");
+//}
+    Route::group( ['middleware' => ['get_org_detail']], function() { 
+    
+    Route::get('/login', 'PassportController@login_page');
+    Route::get('/login/{org_domain}', function() {
+        return redirect("login");
+    });
+        //Route::get('/login/{org_domain}', 'PassportController@login_page');
+    
+    
+    Route::get('/register', 'PassportController@register');
+    Route::get('/register/{org_domain}', function() {
+        return redirect("register");
+    });
+        //Route::get('/register/{org_domain}', 'PassportController@register');
+    
+
+    
+    Route::get('/', function() {
+        //return redirect()->route('subdomain.test');
+        //return redirect("http://churchsoftwares.info/public");
+    });
+    Route::get('/{org_domain}', function() {
+        return redirect("/");
+    }); 
+    });
+}); 
+
+Route::get('/', 'WebsiteController@index');
+
+Route::group( ['middleware' => ['get_org_detail']], function() { 
+    Route::get('/login', 'PassportController@login_page');
+    Route::get('/login/{org_domain}', 'PassportController@login_page');
+    
+    Route::get('/register', 'PassportController@register');
+    Route::get('/register/{org_domain}', 'PassportController@register');
 });
 
 
@@ -59,8 +122,12 @@ Route::group( ['middleware' => ['auth']], function() {
     Route::resource('users', 'UserController');
     Route::resource('roles', 'RoleController');
     //Route::resource('posts', 'PostController');
-	Route::resource('permissions','PermissionController');
+    Route::resource('permissions','PermissionController');
 });
+
+
+
+
 
 Route::group( ['middleware' => ['auth','has_permission']], function() {
    
@@ -134,8 +201,7 @@ Route::get('events/create_page', 'EventsController@createPage');
 Route::post('events/store', 'EventsController@store')->name('events.store');
 Route::post('events/list', 'EventsController@listEvents');
 Route::get('events/edit/{id}', 'EventsController@edit');
-//Front end website
-Route::get('/', 'WebsiteController@index');
 
 
+//dd("666out");
 Route::post('user_profile_file_upload', 'UserController@userProfileFileUpload');
