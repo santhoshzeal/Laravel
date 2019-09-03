@@ -78,7 +78,7 @@
                             <div class="card-header">
                                 School
                             </div>
-                            <i class="fa fa-apple"></i>&nbsp;{{$user->grade_name_format}} Grade ({{$user->school_name_format}})
+                            <i class="fa fa-apple"></i>&nbsp;{{$user->grade_name}} Grade ({{$user->school_name}})
                         </div>
                         <div class="col-6">
                             <div class="card-header">

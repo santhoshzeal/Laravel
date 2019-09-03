@@ -1,5 +1,5 @@
- 
-        jQuery('#datepicker-autoclose').datepicker({
+
+        $('.datepicker-autoclose').datepicker({
             autoclose: true,
             todayHighlight: true
         }); 

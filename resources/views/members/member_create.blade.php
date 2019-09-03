@@ -136,7 +136,7 @@
     <div class="col-sm-2 col-lg-2 col-md-2 divcols" >
         <label>Birthdate</label>
         <div class="input-group">
-            <input type="text" class="form-control" name="dob" id="dob" placeholder="mm/dd/yyyy" id="datepicker-autoclose" value="{{ old('dob', isset($user) ? $user->dob : '') }}">
+            <input type="text" class="form-control datepicker-autoclose" name="dob" id="dob" placeholder="mm/dd/yyyy" value="{{ old('dob', isset($user) ? $user->dob : '') }}">
             <div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>
         </div><!-- input-group -->
     </div>
@@ -153,7 +153,7 @@
     <div class="col-sm-2 col-lg-2 col-md-2 divcols" >
         <label>Anniversary</label>
         <div class="input-group">
-            <input type="text" class="form-control" name="doa" id="doa" placeholder="mm/dd/yyyy" id="datepicker-autoclose" value="{{ old('doa', isset($user) ? $user->doa : '') }}">
+            <input type="text" class="form-control datepicker-autoclose" name="doa" id="doa" placeholder="mm/dd/yyyy" value="{{ old('doa', isset($user) ? $user->doa : '') }}">
             <div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>
         </div><!-- input-group -->
     </div> 
@@ -202,9 +202,9 @@
                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                     {{isset($user)? 'Update' : "Create"}}
                 </button>
-                <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                <a href="{{ URL::asset('people/member_directory')}}" type="reset" class="btn btn-secondary waves-effect m-l-5">
                     Close
-                </button>
+                </a>
             </div>
         </div>  
     </div>  

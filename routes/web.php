@@ -1,5 +1,5 @@
 <?php
-
+$domain = "dev.prgmsolutions.com";
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,66 +30,36 @@ Route::post('member_register', 'PassportController@memberRegister');
 
 Route::post('check_unique_org_domain', 'PassportController@checkOrganizationDomain');
 Route::post('check_unique_email_per_org', 'PassportController@checkUniqueEmailPerOrganization');
+ 
 
 
-/*
-Route::group(array('domain' => '{org_domain}.churchsoftwares.info'), function() {
-    Route::group( ['middleware' => ['get_org_detail']], function() { 
-        Route::get('/login', 'PassportController@login_page'); 
-    }); 
-});
-*/
-//  dd("startinside");
+Route::group(array('domain' => '{org_domain}.'.$domain), function() {
 
-//Route::group(array('domain' => 'churchsoftwares.info'), function() {
-    //dd("inside");
-    //Front end website
-    //
-
-//});
-
-
-Route::group(array('domain' => '{org_domain}.churchsoftwares.info'), function() {
-//dd("lplpinside",\Request::segment(1));
-//if(\Request::segment(1) == '' || \Request::segment(1) == null){
-//  dd('lop');  
-//Route::permanentRedirect('/errorhome', '/errorhome');
-//Route::view('/welcome', 'welcome');
-//return redirect()->route('errorhome');
-//Route::get('/errorhome', 'WebsiteController@errorhome');  
-
-//dd('outfetch1',\Request::route('org_domain'));    
-//
-//return redirect('/errorhome');//->with('message', 'Welcome to ItSolutionStuff Tutorials!');
-//  return redirect('http://anotherdomain.com/');
-//  return redirect("churchsoftwares.info/public");
-//}else{
-//abort(404,"Javascript must be enabled to access this website");
-//}
     Route::group( ['middleware' => ['get_org_detail']], function() { 
     
-    Route::get('/login', 'PassportController@login_page');
-    Route::get('/login/{org_domain}', function() {
+        Route::get('/login', 'PassportController@login_page');
+        Route::get('/login/{org_domain}', function() {
         return redirect("login");
-    });
+        });
         //Route::get('/login/{org_domain}', 'PassportController@login_page');
-    
-    
-    Route::get('/register', 'PassportController@register');
-    Route::get('/register/{org_domain}', function() {
+        
+        
+        Route::get('/register', 'PassportController@register');
+        Route::get('/register/{org_domain}', function() {
         return redirect("register");
-    });
+        });
         //Route::get('/register/{org_domain}', 'PassportController@register');
-    
-
-    
-    Route::get('/', function() {
+        
+        
+        /*      
+        Route::get('/', function() {
         //return redirect()->route('subdomain.test');
         //return redirect("http://churchsoftwares.info/public");
-    });
-    Route::get('/{org_domain}', function() {
+        });
+        Route::get('/{org_domain}', function() {
         return redirect("/");
-    }); 
+        }); 
+        */
     });
 }); 
 
@@ -212,4 +182,3 @@ Route::get("/resource/create_page", "Settings\AssetController@createResourcePage
 Route::post('resource/store', 'Settings\AssetController@store')->name('resource.store');
 Route::post('resource/list', 'Settings\AssetController@resourceList');
 Route::get('resource/edit/{id}', 'Settings\AssetController@edit');
-

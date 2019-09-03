@@ -74,13 +74,15 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            
         </script>
 
 
 
 
         <script src="{{ URL:: asset('js/custom/form-advanced.js')}}"></script>
-
+    
 
     </body>
 </html>

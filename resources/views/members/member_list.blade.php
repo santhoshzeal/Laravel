@@ -16,7 +16,7 @@
                 </ol>
             </div>
             <!--<h4 class="page-title">Member Directory</h4>-->
-            <a href="{{URL::asset('people/member/management')}}" type="button" class="btn btn-primary waves-effect waves-light"><i class="fa fa-plus"></i>Add Member</a>
+            <a href="{{URL::asset('people/member/management')}}" type="button" class="btn btn-primary waves-effect waves-light"><i class="fa fa-plus"></i>Add Person</a>
         </div>
     </div>
 </div>

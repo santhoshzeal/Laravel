@@ -62,6 +62,7 @@ class MemberController extends Controller
     }
 
     public function storeOrUpdate(Request $request, $personal_id=null){
+        
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|Regex:/^([a-zA-Z0-9]+[a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,})$/',
             ]);
@@ -80,7 +81,6 @@ class MemberController extends Controller
             }
             $user['address'] = $request->street_address."///".$request->apt_address."///".$request->city_address."///".$request->state_address."///".$request->zip_address;
             $user['householdName'] = $request->first_name."'s household";
-
             $keys= ['name_prefix', 'first_name','middle_name', 'last_name', 'name_suffix', 'given_name', 'nick_name',
                      'email', 'mobile_no', 'life_stage', 'gender', 'dob', 'marital_status', 'doa', 'school_name', 
                      'grade_id', 'medical_note', 'social_profile'
@@ -89,6 +89,10 @@ class MemberController extends Controller
                 $user[$key] = $request[$key];
             }
             $user['full_name'] = $this->extractFullName($user);
+            $user['dob'] = date('Y-m-d',strtotime($request->dob));
+            $user['doa'] = date('Y-m-d',strtotime($request->doa));
+            
+            
             $user->save();
 
             $rolesAdminData = DB::table('roles')->where('orgId',$this->userSessionData['umOrgId'])->where('role_tag','member')->get();
@@ -124,7 +128,8 @@ class MemberController extends Controller
 
     public function viewMember($personal_id){
         $orgId = $this->userSessionData['umOrgId'];
-        $user = User::where('orgId', $orgId)->where("personal_id", $personal_id)->first();
+        $user = User::select("*",DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'),DB::raw('DATE_FORMAT(users.dob, "%d-%m-%Y") AS dob_format'),
+            DB::raw('DATE_FORMAT(users.doa, "%d-%m-%Y") AS doa_format'))->where('orgId', $orgId)->where("personal_id", $personal_id)->first();
         $whereArray = array("personal_id"=> $personal_id);
         //$user = UserMaster::selectUserMasterDetail($whereArray,null,null,null,null,null)->get()[0];
         $fullAdr = explode("///",$user['address']);
@@ -155,6 +160,7 @@ class MemberController extends Controller
             }
         }
         $data['title'] = $this->browserTitle . " - Member View";
+        
         
         $data['user'] = $user;
 

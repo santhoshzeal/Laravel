@@ -477,7 +477,7 @@
             exceptIds = [user.id];
         }
         searchedUserList = [];
-        if(searchStr.length > 3){
+        if(searchStr.length > 1){
             let apiPath = siteUrl+'/api/people/member/households/get-users-search';
             let apiProps = {url: apiPath, method:'post', queryData:{searchStr, exceptIds}}
             fetchDataApi(apiProps, function(data){

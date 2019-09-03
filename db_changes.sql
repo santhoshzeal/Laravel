@@ -77,3 +77,34 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 --added by ananth
 ALTER TABLE `resources` ADD `orgId` INT(11) NOT NULL AFTER `id`;
 ALTER TABLE `rooms` ADD `orgId` INT(11) NOT NULL AFTER `id`
+
+/*03 Aug 2019 Sathish*/
+
+CREATE TABLE IF NOT EXISTS `group_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `group_name` varchar(255) DEFAULT NULL,
+  `description` text,
+  `map_view_public_grp` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Enable,2=Disable',
+  `meeting_schedule` text,
+  `group_description` text,
+  `location_id` bigint(20) DEFAULT NULL,
+  `show_map` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Show,2=DoNotShow',
+  `mem_vis_see_leader` text COMMENT 'store in serialized data',
+  `mem_vis_see_other_mem` text COMMENT 'store in serialized data',
+  `enroll_sett_autoclose_on` date DEFAULT NULL,
+  `enroll_sett_autoclose_reaches` int(11) DEFAULT NULL,
+  `enroll_sett_autoclose_exceeds` int(11) DEFAULT NULL,
+  `leader_access_search_people` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Allow to search,2=Do not allow to search',
+  `evt_sett_calendar_pub` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=List,2=Do not list',
+  `evt_sett_ask_leader_attend` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Attend,2=Do not attend',
+  `send_remind_email_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=on,2=off',
+  `send_remind_email` varchar(255) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

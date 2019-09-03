@@ -38,7 +38,7 @@
                                 <h3>{{$user->name_prefix}} {{$user->full_name}} <?php echo ($user->given_name==''?'': '('.$user->given_name.')' );?> <?php echo ($user->nick_name==''?'': '"'. $user->nick_name .'"');?> <a href={{$edit_profile_url}} style="" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> Edit</a></h3>
                             </div><!-- end col -->
 
-                            <div class="col-md-2 col-lg-2 col-xl-3">
+                            <!-- <div class="col-md-2 col-lg-2 col-xl-3">
                                 <h3></h3>
                                 <div class="dropdown mo-mb-2"  style="float: right !important;">
                                     <button type="button" class="btn btn-primary dropdown-toggle-split" data-toggle="dropdown"><i class="fa fa-user"></i></button>
@@ -51,7 +51,8 @@
                                         <a class="dropdown-item" href="#">Something else here</a>
                                     </div>
                                 </div>
-                            </div><!-- end col -->
+                            </div> -->
+                            <!-- end col -->
                         </div>
                     <!-- </div>
                 </div> -->
