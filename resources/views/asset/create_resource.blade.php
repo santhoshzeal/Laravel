@@ -11,15 +11,18 @@
                                  <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Item Name</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="text" value="{{ isset($resource)?$resource->item_name:'' }}" id="item_name" name="item_name" >
+                                        <input class="form-control" required="" type="text" value="{{ isset($resource)?$resource->item_name:'' }}" id="item_name" name="item_name" >
                                     </div>
                                 </div>
                                 
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Category</label>
                                     <div class="col-sm-9">
-                                        <select id="category_id" name="category_id" class="form-control" value="{{ isset($resource)?$resource->category_id:'' }}">
-                                          
+                                        <select id="category_id" required="" name="category_id" class="form-control" value="{{ isset($resource)?$resource->category_id:'' }}">
+                                           <option value=""> -- Select -- </option>
+                                           @foreach($category as $value)
+                                           <option value="{{$value->mldId}}" @if(isset($resource) &&  $value->mldId == $resource->category_id) selected @endif>{{$value->mldValue}}</option>
+                                           @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -37,7 +40,8 @@
                                 <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                     <div class="col-sm-9">
-                                        <select id="location_id" name="location_id" class="form-control">
+                                        <select id="location_id" name="location_id" class="form-control" required="">
+                                            <option value=""> -- Select -- </option>
                                             <option value="locaion1" <?= isset($resource)?($resource->location_id=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
                                             <option value="locaion2" <?= isset($resource)?($resource->location_id=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
                                             <option value="locaion3" <?= isset($resource)?($resource->location_id=='locaion3')?'selected':'':'' ?>>Locaion 3</option>
@@ -94,7 +98,7 @@
                                <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Criticality</label>
                                     <div class="col-sm-3">
-                                       <select id="coa" name="coa" class="form-control">
+                                        <select id="coa" name="coa" class="form-control" required="">
                                            <option value=""> -- Select -- </option>
                                             <option value="High" <?= isset($resource)?($resource->coa=='High')?'selected':'':'' ?>>High</option>
                                             <option value="Low" <?= isset($resource)?($resource->coa=='Low')?'selected':'':'' ?>>Low</option>
@@ -104,9 +108,9 @@
                                     </div>
                                      <label for="example-date-input" class="col-sm-3 col-form-label">Risk of Damage</label>
                                     <div class="col-sm-3">
-                                      <select id="rod" name="rod" class="form-control">
-                                          <option value=""> -- Select -- </option>
-                                            <option value="High" <?= isset($resource)?($resource->rod=='High')?'selected':'':'' ?>>High</option>
+                                        <select id="rod" name="rod" class="form-control" required="">
+                                          <option value=""> -- Select -- </option> 
+                                           <option value="High" <?= isset($resource)?($resource->rod=='High')?'selected':'':'' ?>>High</option>
                                             <option value="Low" <?= isset($resource)?($resource->rod=='Low')?'selected':'':'' ?>>Low</option>
                                             <option value="Medium" <?= isset($resource)?($resource->rod=='Medium')?'selected':'':'' ?>>Medium</option>
                                         </select>
@@ -128,4 +132,15 @@
                     </div> <!-- end col -->
                 </div>
  <input type="hidden" name="resourceId" value="{{ isset($resource)?$resource->id:'' }}" />
+ <input type="submit" id="formSubmitBtn" style="display: none;" />
 </form>
+
+<script>
+     $(document).ready(function() { 
+            $("#item_year").datepicker({
+                    format: "yyyy",
+                    viewMode: "years", 
+                    minViewMode: "years"
+                });
+            });
+</script>

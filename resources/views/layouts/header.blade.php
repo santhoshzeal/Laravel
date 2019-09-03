@@ -29,7 +29,7 @@
         
          <!-- Custom css -->
          <link href="{{ URL::asset('assets/bootstrap3-dialog/bootstrap-dialog.css') }}" rel="stylesheet" type="text/css" />
-		 <link href="{{ URL::asset('assets/EasyAutocomplete/easy-autocomplete.min.css') }}" rel="stylesheet" type="text/css" />
+		 
         
         <!--<link href="{{ URL::asset('css/adminlte.css') }}" rel="stylesheet" type="text/css" />-->
         <script src="{{ URL:: asset('assets/theme/js/jquery.min.js')}}"></script>

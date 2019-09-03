@@ -83,7 +83,30 @@
 				$( function() {
                                     var eventId = <?= $eventDetails->eventId ?>;
                                    
-                                   console.log(eventId);
+                                   
+                                   
+                                   $('#checkInUser').autoComplete({
+					resolver: 'custom',
+                                        minLength:1,
+					events: {
+						search: function (qry, callback) {
+							// let's do a custom ajax call
+							$.ajax(
+								siteUrl+"/people/list",
+								{
+									data: { 'phrase': qry,eventId:eventId},
+                                                                        method : "POST"
+								}
+                                                                
+							).done(function (res) {
+								callback(res)
+							});
+						}
+					}
+				});
+                                   
+                                   
+                                   /*console.log(eventId);
 					   var options = {
 
 					  url: function(phrase) {
@@ -131,7 +154,7 @@
 					  requestDelay: 400
 					};
 
-					$("#checkInUser").easyAutocomplete(options);
+					$("#checkInUser").easyAutocomplete(options);*/
                                         
                                         
                                         //datatable

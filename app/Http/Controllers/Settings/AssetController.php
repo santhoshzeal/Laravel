@@ -29,6 +29,9 @@ class AssetController extends Controller {
 
     public function createResourcePage(Request $request) {
         $data['title'] = $this->browserTitle . " - Create Resource";
+        
+        $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
+       
         return view('asset.create_resource', $data);
     }
 
@@ -45,14 +48,16 @@ class AssetController extends Controller {
 
         //validation rules
 
-        $insertData = $request->except(['_token', 'location_id', 'resourceId']);
+        
         $item_photo = "";
         if (isset($request->item_photo) && $request->item_photo != "") {
             $item_photo = $this->resourceFileUpload($request->item_photo);
         }
         
+        $insertData = $request->except(['_token', 'location_id', 'resourceId','item_photo']);
+        
         if ($item_photo == "") {
-            $insertData = $request->except(['item_photo']);
+            //$insertData->except(['item_photo']);
         } else {
             $insertData['item_photo'] = $item_photo;
         }
@@ -106,6 +111,7 @@ class AssetController extends Controller {
 
     public function edit($id) {
         $data['title'] = $this->browserTitle . " - Create Event";
+        $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
         $resources = Resources::findOrFail($id);
 
         $data['resource'] = $resources;

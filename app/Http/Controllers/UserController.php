@@ -304,16 +304,18 @@ class UserController extends Controller {
 	public function getUsersList(Request $request) {
             $search = $request->phrase;
             $eventId = $request->eventId;
+            //dd($search);exit();
             $usersList = UserMaster::getUserListForAutocomplete($search,$eventId); //'id', 'first_name', 'last_name'
             $users = array();
+            
             foreach ($usersList as $user) {
                 $disabled = true;
                 if($user->chId == null || $user->chId == "null"){
                     $disabled = false;
                 }
-                $users[] = array("name"=>$user->first_name." ".$user->last_name,"userId"=>$user->id,"disabled"=>$disabled);
+                $users[] = array("text"=>$user->first_name." ".$user->last_name,"id"=>$user->id,"disabled"=>$disabled);
             }
-		
+		//print_r($usersList);
 		
 		return response()->json(
 							   $users
