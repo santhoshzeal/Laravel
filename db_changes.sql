@@ -81,7 +81,7 @@ ALTER TABLE `rooms` ADD `orgId` INT(11) NOT NULL AFTER `id`
 --added by ananth
 INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldType`, `mldOption`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, '0', 'resource_category', 'Electronic', 'A', '4', NULL, '2019-08-23 03:33:55', NULL, '2019-08-23 03:33:55', NULL, NULL);
 
-/*03 Aug 2019 Sathish*/
+/*04 Aug 2019 Sathish*/
 
 CREATE TABLE IF NOT EXISTS `group_type` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -109,5 +109,100 @@ CREATE TABLE IF NOT EXISTS `group_type` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+/*04 Aug 2019 Sathish*/
+
+--
+-- Table structure for table `group_tag_element`
+--
+
+CREATE TABLE IF NOT EXISTS `group_tag_element` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `group_tag_header_id` bigint(20) DEFAULT NULL,
+  `group_tag_element_name` varchar(255) DEFAULT NULL,
+  `element_order` int(20) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_tag_header`
+--
+
+CREATE TABLE IF NOT EXISTS `group_tag_header` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `group_tag_header_name` varchar(255) DEFAULT NULL,
+  `display_public` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=display,2=donot display',
+  `allow_to_select_multiple` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Allow multiple,2=Allow Single only',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `group_name` varchar(255) DEFAULT NULL,
+  `group_description` text,
+  `group_type_id` bigint(20) DEFAULT NULL,
+  `meeting_schedule` text,
+  `display_meeting_schedule` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Display,2=Do not display',
+  `location_id` bigint(20) DEFAULT NULL,
+  `show_map` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1=Show,2=DoNotShow',
+  `enroll_sett_autoclose_on` date DEFAULT NULL,
+  `enroll_sett_autoclose_reaches` int(11) DEFAULT NULL,
+  `enroll_sett_autoclose_exceeds` int(11) DEFAULT NULL,
+  `leader_access_search_people` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Allow to search,2=Do not allow to search',
+  `evt_sett_ask_leader_attend` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Attend,2=Do not attend',
+  `attd_remind_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=on,2=off',
+  `attd_remind_email_user_id` bigint(20) DEFAULT NULL,
+  `send_remind_email_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=on,2=off',
+  `send_remind_email` varchar(255) DEFAULT NULL,
+  `group_page_visibility` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Public,2=Private',
+  `group_enrollment` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Open,2=Closed',
+  `group+contact_person_email` text,
+  `list_leader_name_publicly` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Show,2=DoNotShow',
+  `calendar_settings` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Show,2=DoNotShow',
+  `group_image` text,
+  `group_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Archive',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_has_tags`
+--
+
+CREATE TABLE IF NOT EXISTS `group_has_tags` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(20) DEFAULT NULL,
+  `group_tag_element_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
