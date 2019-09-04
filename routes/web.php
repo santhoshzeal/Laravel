@@ -9,7 +9,7 @@ $domain = "dev.prgmsolutions.com";
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/ 
+*/
 
 
 
@@ -30,45 +30,45 @@ Route::post('member_register', 'PassportController@memberRegister');
 
 Route::post('check_unique_org_domain', 'PassportController@checkOrganizationDomain');
 Route::post('check_unique_email_per_org', 'PassportController@checkUniqueEmailPerOrganization');
- 
+
 
 
 Route::group(array('domain' => '{org_domain}.'.$domain), function() {
 
-    Route::group( ['middleware' => ['get_org_detail']], function() { 
-    
+    Route::group( ['middleware' => ['get_org_detail']], function() {
+
         Route::get('/login', 'PassportController@login_page');
         Route::get('/login/{org_domain}', function() {
         return redirect("login");
         });
         //Route::get('/login/{org_domain}', 'PassportController@login_page');
-        
-        
+
+
         Route::get('/register', 'PassportController@register');
         Route::get('/register/{org_domain}', function() {
         return redirect("register");
         });
         //Route::get('/register/{org_domain}', 'PassportController@register');
-        
-        
-        /*      
+
+
+        /*
         Route::get('/', function() {
         //return redirect()->route('subdomain.test');
         //return redirect("http://churchsoftwares.info/public");
         });
         Route::get('/{org_domain}', function() {
         return redirect("/");
-        }); 
+        });
         */
     });
-}); 
+});
 
 Route::get('/', 'WebsiteController@index');
 
-Route::group( ['middleware' => ['get_org_detail']], function() { 
+Route::group( ['middleware' => ['get_org_detail']], function() {
     Route::get('/login', 'PassportController@login_page');
     Route::get('/login/{org_domain}', 'PassportController@login_page');
-    
+
     Route::get('/register', 'PassportController@register');
     Route::get('/register/{org_domain}', 'PassportController@register');
 });
@@ -100,7 +100,7 @@ Route::group( ['middleware' => ['auth']], function() {
 
 
 Route::group( ['middleware' => ['auth','has_permission']], function() {
-   
+
 });
 
 Route::group( ['middleware' => ['auth','App\Http\Middleware\PermissionMiddleware']], function() {
@@ -182,3 +182,11 @@ Route::get("/resource/create_page", "Settings\AssetController@createResourcePage
 Route::post('resource/store', 'Settings\AssetController@store')->name('resource.store');
 Route::post('resource/list', 'Settings\AssetController@resourceList');
 Route::get('resource/edit/{id}', 'Settings\AssetController@edit');
+
+
+// Settings => Resource
+Route::get("/settings/asset_management/rooms", "Settings\RoomController@index");
+Route::get("/rooms/create_page", "Settings\RoomController@createRoomPage");
+Route::post('rooms/store', 'Settings\RoomController@store')->name('room.store');
+Route::post('rooms/list', 'Settings\RoomController@roomList');
+Route::get('rooms/edit/{id}', 'Settings\RoomController@edit');
