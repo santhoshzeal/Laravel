@@ -90,6 +90,7 @@
                                         minLength:1,
 					events: {
 						search: function (qry, callback) {
+                                                    $("#selectedCheckInUser").val("");
 							// let's do a custom ajax call
 							$.ajax(
 								siteUrl+"/people/list",
@@ -101,10 +102,17 @@
 							).done(function (res) {
 								callback(res)
 							});
-						}
-					}
+						},
+                                                
+					},
+                                        
 				});
-                                   
+                                $('#checkInUser').on('autocomplete.select', function(evt, item) {
+                                    
+                                        $("#selectedCheckInUser").val(item.id);
+					//console.log('eventsAutoComplete autocomplete.select');
+					//eventsCodeContainer.text(eventsCodeContainer.text() + 'fired autocomplete.select. item: ' + item + ' value: ' + $(this).val() + '\n');
+				});   
                                    
                                    /*console.log(eventId);
 					   var options = {
@@ -189,16 +197,18 @@
   
   function checkIn(eventId){
       var userId = $("#selectedCheckInUser").val();
-      
-      $.ajax({
-        type: "POST",
-        url: siteUrl+"/checkin/log-checkin",
-        data: {eventId:eventId,userId:userId},
-        cache: false,
-        success: function(data){
-           checkinsTable.draw(false);
+      if(userId > 0 ) {
+            $.ajax({
+              type: "POST",
+              url: siteUrl+"/checkin/log-checkin",
+              data: {eventId:eventId,userId:userId},
+              cache: false,
+              success: function(data){
+                 checkinsTable.draw(false);
+                 $("#selectedCheckInUser").val("")
+              }
+            });
         }
-      });
 							
 	 
   }

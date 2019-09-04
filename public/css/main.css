@@ -36,7 +36,7 @@
 .child-img {
     max-width: 150px
 }
-.easy-autocomplete li.disabled {
+.bootstrap-autocomplete a.disabled {
     pointer-events: none;
     color: gray;
     cursor: not-allowed;
