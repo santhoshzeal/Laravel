@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use DB;
 use Config;
 use App\Models\Events;
+use App\Models\Rooms;
 use Illuminate\Http\Response;
 use DataTables;
 use Auth;
 class EventsController extends Controller
 {
-   
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,19 +21,21 @@ class EventsController extends Controller
     public function index()
     {
         $data['title'] = $this->browserTitle . " - Event Management";
-       
+
         return view('events.index',$data);
     }
-    
-    
-    
+
+
+
     public function createPage(Request $request){
-         $data['title'] = $this->browserTitle . " - Create Event";      
+         $data['title'] = $this->browserTitle . " - Create Event";
+         $data['rooms'] = Rooms::listRooms("")->get();
+
         return view('events.create_page',$data);
     }
-    
-    
-   
+
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -42,58 +45,59 @@ class EventsController extends Controller
     public function store(Request $request)
     {
         $insertData = $request->all();
-        
+
         $eventId = $request->eventId;
-        
+
         //validation rules
-        
-        $insertData = $request->except(['eventId','_token','eventChildCare','eventBuildingBlock','eventBookedFor','eventRoom','eventSuggestedResources','eventNotification']);
-        
+
+        $insertData = $request->except(['eventId','_token','eventChildCare','eventBuildingBlock','eventBookedFor','eventSuggestedResources','eventNotification']);
+
         if($eventId > 0) { //update
             $insertData['updatedBy']= Auth::id();
-            
-            
+
+
             Events::where("eventId",$eventId)->update($insertData);
         }
         else { //insert
             $insertData['createdBy']= Auth::id();
             $insertData['orgId']= Auth::user()->orgId;
-            
+
             Events::create($insertData);
         }
-       
+
        return response()->json(
                     [
                             'success' => '1',
                             "message" => '<div class="alert alert-success">
-                                                                 <strong>Saved!</strong> 
+                                                                 <strong>Saved!</strong>
                                                            </div>'
                     ]
 						);
 
     }
-   
+
     public function listEvents(Request $request)
     {
         $events = Events::listEvents($request->search['value'],$request->date);
-        
+
         return DataTables::of($events)
-                    
+
                     ->addColumn('action', function($row){
                             $btn = '<a onclick="editEvents('.$row->eventId.')"  class="edit btn btn-primary btn-sm ">Edit</a>';
                            $btn.= '&nbsp;&nbsp;<a href="'.url('/').'/checkin/'.$row->eventId.'" class="edit btn btn-primary btn-sm">Show</a>';
-     
+
                             return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);
     }
-    
+
      public function edit($id) {
         $data['title'] = $this->browserTitle . " - Create Event";
         $event = Events::findOrFail($id);
-       
+
         $data['event'] = $event;
+        $data['rooms'] = Rooms::listRooms("")->get();
         return view('events.create_page',$data);
     }
     /**
@@ -139,8 +143,8 @@ class EventsController extends Controller
      * @Added by : Sathish
      * @Added Date : Jun 12, 2019
      */
-    public function adultCheckin(Request $request) {        
-        $data['title'] = $this->browserTitle . " - Adult Checkin";        
+    public function adultCheckin(Request $request) {
+        $data['title'] = $this->browserTitle . " - Adult Checkin";
         return view('checkin.adult',$data);
     }
 
@@ -150,8 +154,8 @@ class EventsController extends Controller
      * @Added by : Sathish
      * @Added Date : Jun 12, 2019
      */
-    public function childCheckin(Request $request) {        
-        $data['title'] = $this->browserTitle . " - Child Checkin";        
+    public function childCheckin(Request $request) {
+        $data['title'] = $this->browserTitle . " - Child Checkin";
         return view('checkin.child',$data);
     }
 
@@ -161,8 +165,8 @@ class EventsController extends Controller
      * @Added by : Sathish
      * @Added Date : Jun 12, 2019
      */
-    public function notificationCheckin(Request $request) {        
-        $data['title'] = $this->browserTitle . " - Notification Checkin";        
+    public function notificationCheckin(Request $request) {
+        $data['title'] = $this->browserTitle . " - Notification Checkin";
         return view('checkin.notification',$data);
     }
 
@@ -172,8 +176,8 @@ class EventsController extends Controller
      * @Added by : Sathish
      * @Added Date : Jun 12, 2019
      */
-    public function reportCheckin(Request $request) {        
-        $data['title'] = $this->browserTitle . " - Report Checkin";        
+    public function reportCheckin(Request $request) {
+        $data['title'] = $this->browserTitle . " - Report Checkin";
         return view('checkin.report',$data);
     }
 }

@@ -30,8 +30,8 @@
 #checkinsTable thead {
     display: none;
 }
-.table > thead > tr > th { 
-    font-weight: bold; 
+.table > thead > tr > th {
+    font-weight: bold;
 }
 .child-img {
     max-width: 150px
@@ -43,4 +43,7 @@
 }
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: searchfield-cancel-button;
+  }
+  .bootstrap-dialog-header {
+      width: 100%;
   }

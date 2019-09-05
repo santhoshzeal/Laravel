@@ -30,7 +30,7 @@ class RoomController extends Controller {
     public function createRoomPage(Request $request) {
         $data['title'] = $this->browserTitle . " - Create Resource";
 
-        $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
+        $data['room_group'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","room_group"]])->get();
 
         return view('asset.create_room', $data);
     }
@@ -54,7 +54,7 @@ class RoomController extends Controller {
             $room_image = $this->resourceFileUpload($request->room_image);
         }
 
-        $insertData = $request->except(['_token', 'group_id', 'roomId','room_image	']);
+        $insertData = $request->except(['_token', 'roomId','room_image	']);
 
         if ($room_image == "") {
             //$insertData->except(['item_photo']);
@@ -99,8 +99,8 @@ class RoomController extends Controller {
                         })
                         ->addColumn('image', function($row) {
                             $hh_pic_image= url('/assets/uploads/organizations/avatar.png');
-                            if($row->item_photo != null){
-                                $hh_pic_image_json = json_decode(unserialize($row->item_photo));
+                            if($row->room_image != null){
+                                $hh_pic_image_json = json_decode(unserialize($row->room_image));
                                 $hh_pic_image = $hh_pic_image_json->download_path.$hh_pic_image_json->uploaded_file_name;
                             }
                             return "<img src='$hh_pic_image' style='max-width:25px;' />";
@@ -111,7 +111,7 @@ class RoomController extends Controller {
 
     public function edit($id) {
         $data['title'] = $this->browserTitle . " - Create Room";
-        $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
+        $data['room_group'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","room_group"]])->get();
         $room = Rooms::findOrFail($id);
 
         $data['room'] = $room;

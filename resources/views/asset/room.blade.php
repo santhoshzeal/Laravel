@@ -111,7 +111,7 @@
                         columns: [
                             {data: 'image', name: 'image', orderable: false, searchable: false},
                             {data: 'room_name', name: 'room_name'},
-                             {data: 'group_id', name: 'group_id'},
+                             {data: 'group_name', name: 'mldValue'},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "initComplete": function(settings, json) {

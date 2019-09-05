@@ -49,7 +49,8 @@ class Rooms extends Model {
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public static function listRooms($search) {
-        $result = self::select('id', 'room_name', 'room_image', 'group_id')
+        $result = self::select('rooms.id', 'room_name', 'room_image', DB::raw('master_lookup_data.mldValue as group_name'))
+                  ->leftJoin("master_lookup_data","master_lookup_data.mldId","=","rooms.group_id")
         /* ->orderBy("created_at","desc") */;
         if ($search != "") {
             $result->where(function($query)use($search) {
@@ -64,10 +65,11 @@ class Rooms extends Model {
         }
 
 
-        $result->where('orgId', '=', Auth::user()->orgId);
+        $result->where('rooms.orgId', '=', Auth::user()->orgId);
 
         return $result;
     }
+
 
 
 

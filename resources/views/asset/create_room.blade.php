@@ -57,7 +57,7 @@
                                     <div class="col-sm-9">
                                         <select id="group_id" required="" name="group_id" class="form-control" value="{{ isset($room)?$room->group_id:'' }}">
                                            <option value=""> -- Select -- </option>
-                                           @foreach($category as $value)
+                                           @foreach($room_group as $value)
                                            <option value="{{$value->mldId}}" @if(isset($room) &&  $value->mldId == $room->group_id) selected @endif>{{$value->mldValue}}</option>
                                            @endforeach
                                         </select>
