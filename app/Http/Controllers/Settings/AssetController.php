@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Config;
 use App\Models\Resources;
+use App\Models\Roles;
 use Illuminate\Http\Response;
 use DataTables;
 use Auth;
@@ -29,9 +30,9 @@ class AssetController extends Controller {
 
     public function createResourcePage(Request $request) {
         $data['title'] = $this->browserTitle . " - Create Resource";
-        
+        $data['roles'] = Roles::selectFromRoles(['orgId'=>Auth::user()->orgId])->get();
         $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
-       
+
         return view('asset.create_resource', $data);
     }
 
@@ -48,20 +49,20 @@ class AssetController extends Controller {
 
         //validation rules
 
-        
+
         $item_photo = "";
         if (isset($request->item_photo) && $request->item_photo != "") {
             $item_photo = $this->resourceFileUpload($request->item_photo);
         }
-        
+
         $insertData = $request->except(['_token', 'location_id', 'resourceId','item_photo']);
-        
+
         if ($item_photo == "") {
             //$insertData->except(['item_photo']);
         } else {
             $insertData['item_photo'] = $item_photo;
         }
-        
+
         if ($resourcesId > 0) { //update
             $insertData['updatedBy'] = Auth::id();
 
@@ -78,7 +79,7 @@ class AssetController extends Controller {
                         [
                             'success' => '1',
                             "message" => '<div class="alert alert-success">
-                                                                 <strong>Saved!</strong> 
+                                                                 <strong>Saved!</strong>
                                                            </div>'
                         ]
         );
@@ -94,9 +95,7 @@ class AssetController extends Controller {
 
                             return $btn;
                         })
-                        ->addColumn('quantity', function($row) {
-                            return 0;
-                        })
+
                         ->addColumn('image', function($row) {
                             $hh_pic_image= url('/assets/uploads/organizations/avatar.png');
                             if($row->item_photo != null){
@@ -112,6 +111,7 @@ class AssetController extends Controller {
     public function edit($id) {
         $data['title'] = $this->browserTitle . " - Create Event";
         $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
+        $data['roles'] = Roles::selectFromRoles(['orgId'=>Auth::user()->orgId])->get();
         $resources = Resources::findOrFail($id);
 
         $data['resource'] = $resources;
