@@ -213,3 +213,37 @@ CREATE TABLE IF NOT EXISTS `group_has_tags` (
 INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldType`, `mldOption`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, '0', 'room_group', 'Group1', 'A', '4', NULL, '2019-08-23 03:33:55', NULL, '2019-08-23 03:33:55', NULL, NULL);
 
 ALTER TABLE `events` ADD `eventRoom` INT(11) NULL AFTER `eventLocation`, ADD `eventResource` INT(11) NULL AFTER `eventRoom`;
+
+--------------- Dynamic forms Table Structure
+CREATE TABLE IF NOT EXISTS `forms` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `title` varchar(250) DEFAULT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  `fields` varchar(1000) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+--------------- Dynamic form_submissions Table Structure
+CREATE TABLE IF NOT EXISTS `form_submissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `form_id` bigint(20) DEFAULT NULL,
+  `profile_fields` varchar(1000) DEFAULT NULL,
+  `general_fields` varchar(1000) DEFAULT NULL,
+  `fields` varchar(1000) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+------------------ Altering FORM table
+ALTER TABLE `forms` ADD `is_active` INT NOT NULL DEFAULT '1' COMMENT '1 - active, 2 - deactive' AFTER `fields`;
+
+------------------ Altering FORM table and adding profile_fields Column
+ALTER TABLE `forms` ADD `profile_fields` VARCHAR(250) NULL AFTER `fields`;
+
+------------------ Altering form_submissions Table and dropping fields column
+ALTER TABLE `form_submissions` DROP `fields`;

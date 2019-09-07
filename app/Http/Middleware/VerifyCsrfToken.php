@@ -25,6 +25,9 @@ class VerifyCsrfToken extends Middleware
         "/api/people/member/households/update-household",
         "/api/people/member/{personal_id}/get_messages",
         "/settings/communication/getOrgTemplates",
-        "/api/people/member/{personal_id}/get_messages/{master_id}"
+        "/api/people/member/{personal_id}/get_messages/{master_id}",
+        "/api/settings/forms/manage/{form_id}",
+        "/api/settings/forms/manage",
+        "/api/form/submission"
     ];
 }

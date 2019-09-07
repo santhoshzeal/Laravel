@@ -26,26 +26,31 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Form Title</span>
                             </div>
-                            <input type="text" id="formTitle" class="form-control">
+                            <input type="text" id="formTitle" class="form-control" placeholder="Enter Form Title">
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Description</span>
                             </div>
-                            <input type="text" id="formTitle" class="form-control" >
+                            <input type="text" id="formDes" class="form-control" placeholder="Enter Form Description">
                         </div>
                         <small><strong>First Name, Middle Name, Last Name and Email Address</strong> are always collected by every form.</small>
                         <div class="row bal_builder">
                             <div class="form_builder_area"></div>
+                            <!-- <div class="row"> -->
+                                <div class="col-sm-12 card text-white bg-secondary mb-3 empty-block" style="min-height:100px; margin-top:20px;">
+                                    <div class="card-body">
+                                        <h5><i class="fa fa-plus"></i> Drag a field here to get started!</h5>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
                         </div>
                         
                     </div>
                     <div class="col-md-5">
-                        <div class="col-md-12">
+                        <div class="col-md-12 bg-light p-2">
                             <form class="form-horizontal">
-                                <div class="preview"></div>
-                                <div style="display: none" class="form-group plain_html"><textarea rows="50" class="form-control"></textarea></div>
-                            </form>
+                                <div id="form-preview"></div>
                         </div>
                     </div>
                 </div>
@@ -57,5 +62,6 @@
         </div>
     </div>
     <script src="{{ URL:: asset('assets/theme/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-    <script src="{{ URL:: asset('js/form-build.js')}}"></script>
+    <script src="{{ URL:: asset('js/fetch_api_call.js')}}"></script>
+    <script src="{{ URL:: asset('js/forms/form-build.js')}}"></script>
 @endsection

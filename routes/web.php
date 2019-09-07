@@ -146,7 +146,19 @@ Route::post("/settings/communication/getOrgTemplates", 'Settings\CommunicationCo
 
 // Settings => Forms
 Route::get("/settings/forms", "Settings\FormController@formIndex");
+Route::get("/settings/forms/{form_id}/submissions", "Settings\FormController@formSubmissionsIndex")->name('form.submissions');
+Route::get("/settings/forms/{form_id}/submissions/{submission_id}", "Settings\FormController@formSubmissionDetails");
+Route::get('/settings/forms/{form_id}/submissions/{submission_id}/delete', "Settings\FormController@deleteSubmission");
+Route::get("/settings/forms/{form_id}/fields", "Settings\FormController@formFields")->name('form.fields');
+Route::get("/settings/forms/{form_id}/settings", "Settings\FormController@formSettings")->name('form.settings');
+Route::get("/settings/forms/{form_id}/changeStatus", "Settings\FormController@changeStatus");
 Route::get("/settings/forms/manage/{form_id?}", "Settings\FormController@createOrEdit");
+Route::get("/api/settings/forms", 'Settings\FormController@getFormsList');
+Route::get("/form/submission/{form_id}", "Settings\FormController@getFormSubmission");
+Route::post("/api/form/submission", "Settings\FormController@storeFormSubmission");
+Route::get("/api/form/submissions/list/{form_id}", "Settings\FormController@getFormSubmissionsList");
+Route::post("/api/settings/forms/manage/{form_id?}", 'Settings\FormController@storeOrUpdate');
+Route::get('/api/settings/forms/content/{form_id}', 'Settings\FormController@getFormDetails');
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');

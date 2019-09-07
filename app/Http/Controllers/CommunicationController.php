@@ -24,7 +24,9 @@ class CommunicationController extends Controller
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->userSessionData = Session::get('userSessionData');
     }
-
+/**
+ * Created By: Lokesh
+ */
     public function userCommunicationsIndex($personal_id){
         $data['title'] = $this->browserTitle . " - Communication Management";
         $user = User::where('personal_id', $personal_id)->first();
@@ -35,6 +37,9 @@ class CommunicationController extends Controller
         return view('members.communication.index', $data);
     }
 
+ /**
+ * Created By: Lokesh
+ */
     public function getUserCommunications($personal_id){
         $result = array();
         // $user = User::where('personal_id', $personal_id)->with(['communications' => function($query){
@@ -63,8 +68,10 @@ class CommunicationController extends Controller
         }
 
         return Datatables::of($result)->escapeColumns(['user_id'])->make(true);
-    }
-
+    }    
+ /**
+ * Created By: Lokesh
+ */
     public function getUserCommunication($personal_id, $master_id){
         $communication = CommMaster::where('id', $master_id)->with(["createdUser" => function($query){
                                         $query->select("id", "full_name", "email", "mobile_no");
