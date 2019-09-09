@@ -248,5 +248,12 @@ ALTER TABLE `forms` ADD `profile_fields` VARCHAR(250) NULL AFTER `fields`;
 ------------------ Altering form_submissions Table and dropping fields column
 ALTER TABLE `form_submissions` DROP `fields`;
 
------------------- Altering FORM table and adding general_fields Column
+------------------ Altering FORM table and adding general_fields Column Lokesh
 ALTER TABLE `forms` ADD `general_fields` VARCHAR(500) NULL DEFAULT NULL AFTER `profile_fields`;
+
+-----07-Sep-2019  Sathish
+ALTER TABLE `resources` ADD `room_id` BIGINT( 20 ) NULL DEFAULT NULL AFTER `approval_group` ;
+ALTER TABLE `resources` CHANGE `approval_group` `approval_group` INT( 20 ) NULL DEFAULT NULL COMMENT 'From ''roles'' table role id resepective of orgId';
+
+ALTER TABLE `rooms` ADD `approval_group` INT( 20 ) NULL DEFAULT NULL COMMENT 'From ''''roles'''' table role id resepective of orgId' AFTER `building_number` ;
+ALTER TABLE `resources` ADD `quantity` INT( 20 ) NULL DEFAULT NULL AFTER `approval_group` ;

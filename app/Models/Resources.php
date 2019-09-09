@@ -25,7 +25,7 @@ class Resources extends Model {
      *
      * @var array
      */
-    protected $fillable = ['orgId','item_name','category_id','item_desc','location_id','item_year','item_model','last_service_date', 'next_service_date','notification_period','item_photo','coa','rod','approval_group','createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
+    protected $fillable = ['orgId','item_name','category_id','item_desc','location_id','item_year','item_model','last_service_date', 'next_service_date','notification_period','item_photo','coa','rod','approval_group','quantity','createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -49,7 +49,7 @@ class Resources extends Model {
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public static function listResources($search) {
-        $result = self::select('id', 'item_name', 'item_photo', 'location_id')
+        $result = self::select('id', 'item_name', 'item_photo', 'location_id','quantity')
         /* ->orderBy("created_at","desc") */;
         if ($search != "") {
             $result->where(function($query)use($search) {
@@ -63,12 +63,12 @@ class Resources extends Model {
             });
         }
 
-        
+
         $result->where('orgId', '=', Auth::user()->orgId);
 
         return $result;
     }
 
-   
+
 
 }

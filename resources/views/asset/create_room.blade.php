@@ -73,7 +73,18 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row">
+                                        <label for="example-date-input" class="col-sm-3 col-form-label">Approval</label>
+                                        <div class="col-sm-9">
+                                            <select id="approval_group" name="approval_group" class="form-control" required="">
+                                                <option value=""> -- Select -- </option>
+                                                @foreach($roles as $value)
+                                                <option value="{{$value->id}}" @if(isset($room) &&  $value->id == $room->approval_group) selected @endif>{{$value->name}}</option>
+                                                @endforeach
+                                            </select>
 
+                                        </div>
+                                    </div>
 
 
 
