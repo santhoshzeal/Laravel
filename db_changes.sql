@@ -247,3 +247,6 @@ ALTER TABLE `forms` ADD `profile_fields` VARCHAR(250) NULL AFTER `fields`;
 
 ------------------ Altering form_submissions Table and dropping fields column
 ALTER TABLE `form_submissions` DROP `fields`;
+
+------------------ Altering FORM table and adding general_fields Column
+ALTER TABLE `forms` ADD `general_fields` VARCHAR(500) NULL DEFAULT NULL AFTER `profile_fields`;

@@ -105,22 +105,30 @@ class FormController extends Controller
         if(isset($form_id)){
             $form = Form::where('id', $form_id)->first();
             $profile_fields = unserialize($form->profile_fields);
+            $general_fields = unserialize($form->general_fields);
             foreach($payload['elObject'] as $elObj){
                 if($elObj['type'] == 1 && !in_array($elObj['title'], $profile_fields)){
                     $profile_fields[] = $elObj['title'];
+                }else if($elObj['type'] == 2 && !in_array($elObj['label'], $profile_fields)){
+                    $general_fields[] = $elObj['label'];
                 }
             }
             $form->profile_fields = serialize($profile_fields);
+            $form->general_fields = serialize($general_fields);
         }else {
             $form = new Form();
             $form->orgId = $this->orgId;
             $profile_fields = [];
+            $general_fields = [];
             foreach($payload['elObject'] as $elObj){
                 if($elObj['type'] == 1){
                     $profile_fields[] = $elObj['title'];
+                }else {
+                    $general_fields[] = $elObj['label'];
                 }
             }
             $form->profile_fields = serialize($profile_fields);
+            $form->general_fields = serialize($general_fields);
         }
         $form->title = $payload["formTitle"];
         $form->description = $payload["formDes"];
@@ -171,7 +179,6 @@ class FormController extends Controller
         
         foreach ($submissions as $submission) {
             $sp_fields = unserialize($submission->profile_fields);
-            // dd($sp_fields);
             $fp_fields = unserialize($form->profile_fields);
             $row = array();
             $row[] = $sp_fields["Name"];
