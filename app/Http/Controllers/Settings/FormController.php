@@ -176,10 +176,12 @@ class FormController extends Controller
     public function getFormSubmissionsList($form_id){
         $form = form::where('id', $form_id)->first();
         $submissions = FormSubmission::where('form_id', $form_id)->orderBy('created_at', 'desc')->get();
-        
+        $result = [];
+        $fp_fields = unserialize($form->profile_fields);
+        $fLength = count($fp_fields);
         foreach ($submissions as $submission) {
             $sp_fields = unserialize($submission->profile_fields);
-            $fp_fields = unserialize($form->profile_fields);
+            
             $row = array();
             $row[] = $sp_fields["Name"];
             $row[] = $sp_fields["Mail Id"];
@@ -188,10 +190,10 @@ class FormController extends Controller
             }
             $row[] = \Carbon\Carbon::parse($submission->created_at)->format('d-m-Y h:i');
             $link = "/settings/forms/". $form->id ."/submissions/". $submission->id;
-            $row[] = "<a href='".$link ."'><i class='fa fa-external-link'></i></a>";
+            $row[] = "<a href='".$link ."'><i class='fa fa-eye'></i></a>";
             $result[] = $row;
         }
 
-        return Datatables::of($result)->rawColumns([5])->make(true);
+        return Datatables::of($result)->rawColumns([$fLength+3])->make(true);
     }
 }

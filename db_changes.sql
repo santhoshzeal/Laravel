@@ -257,3 +257,6 @@ ALTER TABLE `resources` CHANGE `approval_group` `approval_group` INT( 20 ) NULL 
 
 ALTER TABLE `rooms` ADD `approval_group` INT( 20 ) NULL DEFAULT NULL COMMENT 'From ''''roles'''' table role id resepective of orgId' AFTER `building_number` ;
 ALTER TABLE `resources` ADD `quantity` INT( 20 ) NULL DEFAULT NULL AFTER `approval_group` ;
+
+------ 09-Sep-2019 Lokesh
+ALTER TABLE `forms` CHANGE `fields` `fields` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
