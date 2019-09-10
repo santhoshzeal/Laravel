@@ -5,6 +5,7 @@
         <div class="col-sm-12">
             <div class="text-white card-primary" >
                 <div class="card-body">
+                    <input type="hidden" name="form_id_hidden" id="form_id_hidden" value="{{$form_id}}">
                     <h6>Create New Form<a href="{{URL::asset('/settings/forms')}}" class="btn btn-secondary btn-sm pull-right">Forms List</a></h6>
                 </div>
             </div>

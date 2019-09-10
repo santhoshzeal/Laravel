@@ -6,8 +6,11 @@ let formTitle = "";
 let formDes = "";
 let formId = null;
 let urlPath = location.pathname.split('/');
-if (urlPath.length === 5) {
-    formId = urlPath[urlPath.length - 1];
+let form_id_hidden = $("#form_id_hidden").val();
+//if (urlPath.length === 5) {
+if(form_id_hidden != ""){
+    //formId = urlPath[urlPath.length - 1];
+    formId = form_id_hidden;
     let apiPath = siteUrl + '/api/settings/forms/content/' + formId;
     let queryData = {};
     let apiProps = { url: apiPath, method: 'get', queryData };

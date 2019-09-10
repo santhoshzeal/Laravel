@@ -30,8 +30,10 @@ class FormController extends Controller
 
     public function createOrEdit($form_id = null){
         $data['title'] = $this->browserTitle . " - Manage Form";
+        $data['form_id'] = '';
         if(isset($form_id)){
             $data['form_details'] =  Form::where('id', $form_id)->select('id', 'title', 'description', 'fields')->first();
+            $data['form_id'] = $form_id;
         }
         return view('settings.forms.create_edit', $data);
     }
@@ -92,6 +94,7 @@ class FormController extends Controller
     public function getFormSubmission($form_id){
         $form = Form::where('id', $form_id)->first();
         $data['title'] = $this->browserTitle . " - Form Submissions";
+        $data['form_id'] = $form_id;
         if($form->is_active == 1){
             return view('settings.forms.public_form', $data);
         } else {
@@ -141,6 +144,7 @@ class FormController extends Controller
     }
 
     public function getFormDetails($form_id){
+
         try {
             $form = Form::where('id', $form_id)->select('orgId', 'title', 'description', 'fields')->first();
             $result['formTitle'] = $form->title;
@@ -174,6 +178,7 @@ class FormController extends Controller
     }
 
     public function getFormSubmissionsList($form_id){
+        $result = array();
         $form = form::where('id', $form_id)->first();
         $submissions = FormSubmission::where('form_id', $form_id)->orderBy('created_at', 'desc')->get();
         

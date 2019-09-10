@@ -2,6 +2,8 @@
 
 @section('content')
     @include('settings.forms.header-block') 
+
+    <input type="hidden" name="form_id_hidden" id="form_id_hidden" value="{{$form->id}}">
     <div class="row justify-content-md-center bg-light ml-0 mr-0" >
         <div class="col-sm-12 col-md-8">
             <div class="card">
