@@ -10,8 +10,11 @@ function fetchFormData() {
     if (urlPath.includes('submission')) {
         isSubmissionForm = true;
     }
-    if (urlPath[3] && typeof parseInt(urlPath[3]) === 'number') {
-        formId = urlPath[3];
+    let form_id_hidden = $("#form_id_hidden").val();
+    //if (urlPath[3] && typeof parseInt(urlPath[3]) === 'number') {
+    //    formId = urlPath[3];
+    if (form_id_hidden && typeof parseInt(form_id_hidden) === 'number') {
+        formId = form_id_hidden;
         let apiPath = siteUrl + '/api/settings/forms/content/' + formId;
         let queryData = {};
         let apiProps = { url: apiPath, method: 'get', queryData };
