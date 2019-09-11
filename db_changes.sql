@@ -385,6 +385,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 CREATE TABLE IF NOT EXISTS `group_events` (
     `id` bigint(22) NOT NULL AUTO_INCREMENT,
     `group_id` bigint(22) DEFAULT NULL,
+    `title` varchar(150) NOT NULL,
     `isMutiDay_event` BOOLEAN NOT NULL DEFAULT TRUE,
     `start_date` date DEFAULT NULL,
     `end_date` date DEFAULT NULL,
