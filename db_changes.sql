@@ -518,3 +518,31 @@ ALTER TABLE `groups` CHANGE `event_remind_before` `event_remind_before` VARCHAR(
 ALTER TABLE `groups` CHANGE `can_leaders_search_people` `can_leaders_search_people` BOOLEAN NOT NULL DEFAULT TRUE;
 ALTER TABLE `groups` CHANGE `can_leaders_take_attendance` `can_leaders_take_attendance` BOOLEAN NOT NULL DEFAULT TRUE;
 ALTER TABLE `groups` CHANGE `is_event_public` `is_event_public` BOOLEAN NOT NULL DEFAULT TRUE;
+
+--- Pastor board related tables Sathish 11- Sep 2019
+
+
+--
+-- Table structure for table `pastor_board`
+--
+
+CREATE TABLE IF NOT EXISTS `pastor_board` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `parent_type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Post,2=News,3=Ads',
+  `p_title` text,
+  `p_description` text,
+  `classified_type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Buy,2=Sell',
+  `p_category` bigint(22) DEFAULT NULL COMMENT 'Category from master_lookup table with pastor_board cat',
+  `posted_date` datetime DEFAULT NULL,
+  `contact_name` varchar(255) DEFAULT NULL,
+  `contact_email` text,
+  `contact_phone` varchar(20) DEFAULT NULL,
+  `cost` varchar(20) DEFAULT NULL,
+  `image_path` text,
+  `location_id` bigint(22) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2-Inactive',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+INSERT INTO `dallas`.`master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldType`, `mldOption`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, '0', 'pastor_board', 'Electronic', 'A', '1', NULL, CURRENT_TIMESTAMP, NULL, '0000-00-00 00:00:00', NULL, NULL), (NULL, '0', 'pastor_board', 'Home Care', 'A', '1', NULL, CURRENT_TIMESTAMP, NULL, '0000-00-00 00:00:00', NULL, NULL);
