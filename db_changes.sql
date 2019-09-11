@@ -491,3 +491,30 @@ CREATE TABLE IF NOT EXISTS `tag_groups` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- Group related Tables Changes 11-9-2019 Lokesh
+ALTER TABLE `group_types` DROP `d_is_enroll_autoClose_on`;
+ALTER TABLE `group_types` CHANGE `d_isPublic` `d_isPublic` BOOLEAN NOT NULL DEFAULT TRUE COMMENT '1=Enable,0=Disable';
+ALTER TABLE `group_types` DROP `locationId`;
+ALTER TABLE `group_types` ADD `d_location` VARCHAR(150) NULL DEFAULT NULL AFTER `d_description`;
+ALTER TABLE `group_types` ADD `d_is_enroll_autoClose` BOOLEAN NOT NULL DEFAULT FALSE AFTER `d_visible_members_fields`;
+ALTER TABLE `group_types` ADD `d_enroll_autoClose_on` DATE NULL DEFAULT NULL AFTER `d_is_enroll_autoClose`;
+ALTER TABLE `group_types` CHANGE `d_is_enroll_autoClose_count` `d_is_enroll_autoClose_count` TINYINT NULL DEFAULT '0' COMMENT '1=Enable,2=Disable';
+ALTER TABLE `group_types` CHANGE `d_is_enroll_notify_count` `d_is_enroll_notify_count` BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE `group_types` CHANGE `d_event_remind_before` `d_event_remind_before` VARCHAR(25) NULL DEFAULT NULL;
+ALTER TABLE `group_types` CHANGE `d_can_leaders_search_people` `d_can_leaders_search_people` BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE `group_types` CHANGE `d_can_leaders_take_attendance` `d_can_leaders_take_attendance` BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE `group_types` CHANGE `d_is_event_public` `d_is_event_public` BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE `groups` CHANGE `orgId` `orgId` BIGINT(20) NOT NULL;
+ALTER TABLE `groups` ADD `groupType_id` BIGINT(20) NULL DEFAULT NULL AFTER `orgId`;
+ALTER TABLE `groups` CHANGE `isPublic` `isPublic` TINYINT NOT NULL DEFAULT '1' COMMENT '1=Enable,0=Disable';
+ALTER TABLE `groups` CHANGE `locationId` `location` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `groups` DROP `is_enroll_autoClose_on`;
+ALTER TABLE `groups` ADD `is_enroll_autoClose` BOOLEAN NOT NULL DEFAULT FALSE AFTER `visible_members_fields`;
+ALTER TABLE `groups` ADD `enroll_autoClose_on` DATE NULL DEFAULT NULL AFTER `is_enroll_autoClose`;
+ALTER TABLE `groups` CHANGE `is_enroll_autoClose_count` `is_enroll_autoClose_count` BOOLEAN NULL DEFAULT FALSE COMMENT '1=enable, 0=desable';
+ALTER TABLE `groups` CHANGE `is_enroll_notify_count` `is_enroll_notify_count` BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE `groups` CHANGE `event_remind_before` `event_remind_before` VARCHAR(25) NULL DEFAULT NULL;
+ALTER TABLE `groups` CHANGE `can_leaders_search_people` `can_leaders_search_people` BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE `groups` CHANGE `can_leaders_take_attendance` `can_leaders_take_attendance` BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE `groups` CHANGE `is_event_public` `is_event_public` BOOLEAN NOT NULL DEFAULT TRUE;
