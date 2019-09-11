@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 03, 2019 at 06:29 AM
+-- Generation Time: Sep 11, 2019 at 07:18 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -74,7 +74,15 @@ CREATE TABLE IF NOT EXISTS `checkins` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`chId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `checkins`
+--
+
+INSERT INTO `checkins` (`chId`, `eventId`, `user_id`, `chINDateTime`, `chOUTDateTime`, `chKind`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 1, '2019-09-05 20:17:34', NULL, 'Regular', '1', '2019-09-05 20:17:34', NULL, '2019-09-05 20:17:34', NULL, NULL),
+(2, 1, 2, '2019-09-05 20:18:16', NULL, 'Regular', '1', '2019-09-05 20:18:16', NULL, '2019-09-05 20:18:16', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -95,7 +103,14 @@ CREATE TABLE IF NOT EXISTS `comm_details` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `comm_details`
+--
+
+INSERT INTO `comm_details` (`id`, `comm_master_id`, `to_user_id`, `read_status`, `delete_status`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 2, 'UNREAD', 'UNDELETED', NULL, '2019-09-05 20:18:05', NULL, '0000-00-00 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -120,7 +135,14 @@ CREATE TABLE IF NOT EXISTS `comm_masters` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `comm_masters`
+--
+
+INSERT INTO `comm_masters` (`id`, `comm_template_id`, `org_id`, `type`, `tag`, `name`, `subject`, `body`, `from_user_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 4, 1, 1, 'welcome', NULL, 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-09-05 20:18:05', NULL, '2019-09-05 20:18:05', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -174,6 +196,8 @@ CREATE TABLE IF NOT EXISTS `events` (
   `eventStartCheckin` time DEFAULT NULL,
   `eventEndCheckin` time DEFAULT NULL,
   `eventLocation` text,
+  `eventRoom` int(11) DEFAULT NULL,
+  `eventResource` int(11) DEFAULT NULL,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -181,34 +205,253 @@ CREATE TABLE IF NOT EXISTS `events` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`eventId`, `orgId`, `eventName`, `eventFreq`, `eventDesc`, `eventCreatedDate`, `eventCheckin`, `eventShowTime`, `eventStartCheckin`, `eventEndCheckin`, `eventLocation`, `eventRoom`, `eventResource`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'Fiest', 'Daily', 'asdad asdsasdas adad', '2019-09-07', NULL, '08:00:00', '14:00:00', '15:00:00', 'locaion1', NULL, NULL, '1', '2019-09-05 20:17:23', NULL, '2019-09-05 20:17:23', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_type`
+-- Table structure for table `forms`
 --
 
-CREATE TABLE IF NOT EXISTS `group_type` (
+CREATE TABLE IF NOT EXISTS `forms` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `orgId` bigint(20) DEFAULT NULL,
-  `group_name` varchar(255) DEFAULT NULL,
+  `title` varchar(250) DEFAULT NULL,
+  `description` varchar(250) DEFAULT NULL,
+  `fields` varchar(1000) DEFAULT NULL,
+  `profile_fields` varchar(250) DEFAULT NULL,
+  `general_fields` varchar(500) DEFAULT NULL,
+  `is_active` int(11) NOT NULL DEFAULT '1' COMMENT '1 - active, 2 - deactive',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `forms`
+--
+
+INSERT INTO `forms` (`id`, `orgId`, `title`, `description`, `fields`, `profile_fields`, `general_fields`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 1, '', '', 'a:0:{}', 'a:0:{}', NULL, 1, '2019-09-06 22:57:46', '2019-09-06 22:59:51'),
+(2, 1, '', '', 'a:0:{}', 'a:0:{}', NULL, 1, '2019-09-06 22:58:38', '2019-09-06 22:58:38'),
+(3, 1, 'Tour Request Form', 'St Aloysius Mangalore', 'a:4:{i:0;a:4:{s:5:"title";s:5:"Phone";s:4:"type";s:1:"1";s:3:"tag";s:9:"mobile_no";s:10:"isRequired";b:0;}i:1;a:4:{s:5:"title";s:7:"Address";s:4:"type";s:1:"1";s:3:"tag";s:7:"address";s:10:"isRequired";b:0;}i:2;a:7:{s:10:"fieldTitle";s:9:"Paragraph";s:9:"inputType";s:8:"textarea";s:4:"type";s:1:"2";s:5:"label";s:15:"Your Experience";s:11:"placeholder";s:21:"Your Experience Place";s:10:"isRequired";b:0;s:7:"options";a:0:{}}i:3;a:7:{s:10:"fieldTitle";s:4:"Text";s:9:"inputType";s:4:"text";s:4:"type";s:1:"2";s:5:"label";s:17:"Your Fathers Name";s:11:"placeholder";s:23:"Your Fathers Name Place";s:10:"isRequired";b:1;s:7:"options";a:0:{}}}', 'a:2:{i:0;s:5:"Phone";i:1;s:7:"Address";}', NULL, 1, '2019-09-06 23:01:58', '2019-09-06 23:01:58'),
+(4, 1, 'Contact', 'Contact desc', 'a:3:{i:0;a:4:{s:5:"title";s:8:"Birthday";s:4:"type";s:1:"1";s:3:"tag";s:3:"dob";s:10:"isRequired";b:0;}i:1;a:7:{s:10:"fieldTitle";s:4:"Text";s:9:"inputType";s:4:"text";s:4:"type";s:1:"2";s:5:"label";s:8:"Your age";s:11:"placeholder";s:8:"Your age";s:10:"isRequired";b:1;s:7:"options";a:0:{}}i:2;a:4:{s:5:"title";s:5:"Phone";s:4:"type";s:1:"1";s:3:"tag";s:9:"mobile_no";s:10:"isRequired";b:0;}}', 'a:2:{i:0;s:8:"Birthday";i:1;s:5:"Phone";}', NULL, 1, '2019-09-08 19:28:05', '2019-09-08 19:28:05'),
+(5, 1, 'New DB FOrm', 'New DB FOrm desc', 'a:2:{i:0;a:4:{s:5:"title";s:5:"Phone";s:4:"type";s:1:"1";s:3:"tag";s:9:"mobile_no";s:10:"isRequired";b:1;}i:1;a:7:{s:10:"fieldTitle";s:4:"Text";s:9:"inputType";s:4:"text";s:4:"type";s:1:"2";s:5:"label";s:3:"Age";s:11:"placeholder";s:9:"Age Place";s:10:"isRequired";b:0;s:7:"options";a:0:{}}}', 'a:1:{i:0;s:5:"Phone";}', 'a:1:{i:0;s:3:"Age";}', 1, '2019-09-09 08:57:03', '2019-09-09 08:57:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `form_submissions`
+--
+
+CREATE TABLE IF NOT EXISTS `form_submissions` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `form_id` bigint(20) DEFAULT NULL,
+  `profile_fields` varchar(1000) DEFAULT NULL,
+  `general_fields` varchar(1000) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `form_submissions`
+--
+
+INSERT INTO `form_submissions` (`id`, `orgId`, `form_id`, `profile_fields`, `general_fields`, `created_at`, `updated_at`) VALUES
+(1, 1, 4, 'a:5:{s:7:"Mail Id";s:25:"sathish@cobrasoftwares.in";s:8:"Birthday";s:10:"2019-09-11";s:5:"Phone";s:0:"";s:4:"Name";s:11:"Sathish K S";s:7:"Address";s:0:"";}', 'a:1:{s:8:"Your age";s:2:"21";}', '2019-09-08 19:45:06', '2019-09-08 19:45:06'),
+(2, 1, 4, 'a:5:{s:7:"Mail Id";s:25:"sathish@cobrasoftwares.in";s:8:"Birthday";s:10:"2019-09-11";s:5:"Phone";s:0:"";s:4:"Name";s:11:"Sathish K S";s:7:"Address";s:0:"";}', 'a:1:{s:8:"Your age";s:2:"21";}', '2019-09-08 19:45:06', '2019-09-08 19:45:06'),
+(3, 1, 3, 'a:4:{s:7:"Mail Id";s:14:"asasd@asda.com";s:5:"Phone";s:0:"";s:4:"Name";s:13:"1234 1223 asd";s:7:"Address";s:0:"";}', 'a:2:{s:15:"Your Experience";s:0:"";s:17:"Your Fathers Name";s:7:"asdadas";}', '2019-09-09 20:39:04', '2019-09-09 20:39:04'),
+(4, 1, 3, 'a:4:{s:7:"Mail Id";s:14:"asasd@asda.com";s:5:"Phone";s:0:"";s:4:"Name";s:13:"1234 1223 asd";s:7:"Address";s:0:"";}', 'a:2:{s:15:"Your Experience";s:0:"";s:17:"Your Fathers Name";s:7:"asdadas";}', '2019-09-09 20:39:04', '2019-09-09 20:39:04'),
+(5, 1, 3, 'a:4:{s:7:"Mail Id";s:14:"asasd@asda.com";s:5:"Phone";s:0:"";s:4:"Name";s:13:"1234 1223 asd";s:7:"Address";s:0:"";}', 'a:2:{s:15:"Your Experience";s:0:"";s:17:"Your Fathers Name";s:7:"asdadas";}', '2019-09-09 20:39:04', '2019-09-09 20:39:04'),
+(6, 1, 3, 'a:4:{s:7:"Mail Id";s:14:"asasd@asda.com";s:5:"Phone";s:0:"";s:4:"Name";s:13:"1234 1223 asd";s:7:"Address";s:0:"";}', 'a:2:{s:15:"Your Experience";s:0:"";s:17:"Your Fathers Name";s:7:"asdadas";}', '2019-09-09 20:39:04', '2019-09-09 20:39:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `description` text,
-  `map_view_public_grp` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Enable,2=Disable',
+  `notes` text,
+  `image_path` text,
+  `isPublic` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Enable,2=Disable',
   `meeting_schedule` text,
-  `group_description` text,
-  `location_id` bigint(20) DEFAULT NULL,
-  `show_map` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Show,2=DoNotShow',
-  `mem_vis_see_leader` text COMMENT 'store in serialized data',
-  `mem_vis_see_other_mem` text COMMENT 'store in serialized data',
-  `enroll_sett_autoclose_on` date DEFAULT NULL,
-  `enroll_sett_autoclose_reaches` int(11) DEFAULT NULL,
-  `enroll_sett_autoclose_exceeds` int(11) DEFAULT NULL,
-  `leader_access_search_people` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Allow to search,2=Do not allow to search',
-  `evt_sett_calendar_pub` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=List,2=Do not list',
-  `evt_sett_ask_leader_attend` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Attend,2=Do not attend',
-  `send_remind_email_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=on,2=off',
-  `send_remind_email` varchar(255) DEFAULT NULL,
+  `locationId` bigint(20) DEFAULT NULL,
+  `contact_email` varchar(255) DEFAULT NULL,
+  `visible_leaders_fields` text COMMENT 'store in serialized data',
+  `visible_members_fields` text COMMENT 'store in serialized data',
+  `is_enroll_autoClose_on` date DEFAULT NULL,
+  `is_enroll_autoClose_count` tinyint(1) DEFAULT '1' COMMENT '1=Allow to search,2=Do not allow to search',
+  `enroll_autoClose_count` int(11) DEFAULT NULL,
+  `is_enroll_notify_count` tinyint(1) NOT NULL DEFAULT '1',
+  `enroll_notify_count` int(11) DEFAULT NULL,
+  `can_leaders_search_people` tinyint(1) NOT NULL DEFAULT '1',
+  `is_event_public` tinyint(1) NOT NULL DEFAULT '1',
+  `is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
+  `event_remind_before` int(11) DEFAULT NULL,
+  `can_leaders_take_attendance` tinyint(11) NOT NULL DEFAULT '1',
+  `enroll_status` tinyint(1) NOT NULL DEFAULT '1',
+  `enroll_msg` text,
+  `leader_visibility_publicly` tinyint(1) NOT NULL DEFAULT '1',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_events`
+--
+
+CREATE TABLE IF NOT EXISTS `group_events` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(22) DEFAULT NULL,
+  `isMutiDay_event` tinyint(1) NOT NULL DEFAULT '1',
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `repeat` varchar(255) DEFAULT NULL,
+  `description` text,
+  `is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
+  `event_remind_before` varchar(255) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_events_attendace`
+--
+
+CREATE TABLE IF NOT EXISTS `group_events_attendace` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(22) DEFAULT NULL,
+  `group_event_id` bigint(22) DEFAULT NULL,
+  `user_id` bigint(22) DEFAULT NULL,
+  `checkin_at` datetime DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_members`
+--
+
+CREATE TABLE IF NOT EXISTS `group_members` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(22) DEFAULT NULL,
+  `user_id` bigint(22) DEFAULT NULL,
+  `role` int(11) NOT NULL,
+  `member_since` date DEFAULT NULL,
+  `message` text,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_resources`
+--
+
+CREATE TABLE IF NOT EXISTS `group_resources` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `source` text,
+  `description` text,
+  `visibility` int(11) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_tags`
+--
+
+CREATE TABLE IF NOT EXISTS `group_tags` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(22) DEFAULT NULL,
+  `tag_id` bigint(22) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_types`
+--
+
+CREATE TABLE IF NOT EXISTS `group_types` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` text,
+  `d_isPublic` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Enable,2=Disable',
+  `d_meeting_schedule` text,
+  `d_description` text,
+  `locationId` bigint(20) DEFAULT NULL,
+  `d_contact_email` varchar(255) DEFAULT NULL,
+  `d_visible_leaders_fields` text COMMENT 'store in serialized data',
+  `d_visible_members_fields` text COMMENT 'store in serialized data',
+  `d_is_enroll_autoClose_on` date DEFAULT NULL,
+  `d_is_enroll_autoClose_count` tinyint(1) DEFAULT '1' COMMENT '1=Allow to search,2=Do not allow to search',
+  `d_enroll_autoClose_count` int(11) DEFAULT NULL,
+  `d_is_enroll_notify_count` tinyint(1) NOT NULL DEFAULT '1',
+  `d_enroll_notify_count` int(11) DEFAULT NULL,
+  `d_can_leaders_search_people` tinyint(1) NOT NULL DEFAULT '1',
+  `d_is_event_public` tinyint(1) NOT NULL DEFAULT '1',
+  `d_is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
+  `d_event_remind_before` int(11) DEFAULT NULL,
+  `d_can_leaders_take_attendance` tinyint(11) NOT NULL DEFAULT '1',
+  `d_enroll_status` tinyint(1) NOT NULL DEFAULT '1',
+  `d_enroll_msg` text,
+  `d_leader_visibility_publicly` tinyint(1) NOT NULL DEFAULT '1',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -342,7 +585,9 @@ INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldTy
 (55, 1, 'grade_name', 'K', 'A', 4, NULL, '2019-09-02 08:45:03', NULL, '2019-09-02 08:45:03', NULL, NULL),
 (56, 1, 'grade_name', '1st', 'A', 4, NULL, '2019-09-02 08:45:03', NULL, '2019-09-02 08:45:03', NULL, NULL),
 (57, 1, 'grade_name', '2nd', 'A', 1, NULL, '2019-09-02 08:45:03', NULL, '2019-09-02 08:45:03', NULL, NULL),
-(58, 1, 'grade_name', '3rd', 'A', 4, NULL, '2019-09-02 08:45:03', NULL, '2019-09-02 08:45:03', NULL, NULL);
+(58, 1, 'grade_name', '3rd', 'A', 4, NULL, '2019-09-02 08:45:03', NULL, '2019-09-02 08:45:03', NULL, NULL),
+(59, 0, 'room_group', 'Group1', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL),
+(60, 0, 'resource_category', 'Electronic', 'A', 4, NULL, '2019-08-22 22:03:55', NULL, '2019-08-22 22:03:55', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -406,7 +651,8 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\User', 1),
-(13, 'App\\User', 1);
+(13, 'App\\User', 1),
+(14, 'App\\User', 2);
 
 -- --------------------------------------------------------
 
@@ -434,19 +680,26 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('06b92c66f47f1b09e8cb6e1ee32778a80108bdb62e83718771fd3b2163b707491784dba739514418', 1, 1, 'dollar', '[]', 0, '2019-08-28 18:43:18', '2019-08-28 18:43:18', '2020-08-29 00:13:18'),
+('0d61ed80db33fe1aa5e153100ae879bb44c12644aad237106c470b656356dd5c6779d6c8b9f894a8', 1, 1, 'dollar', '[]', 0, '2019-09-05 20:15:25', '2019-09-05 20:15:25', '2020-09-06 01:45:25'),
 ('0fd5c8dc43845d73972b409c3730b1c32133490ebf3be9485b4ba89aa6f9b5fcaa37438f2274efa0', 1, 1, 'dollar', '[]', 0, '2019-09-02 08:45:09', '2019-09-02 08:45:09', '2020-09-02 14:15:09'),
 ('19272c2e52d3f4bf9c452415fef1cc3e2a23e3ddf2bb36eb4955393b6b5399abe289bec13b157272', 1, 1, 'dollar', '[]', 0, '2019-08-24 20:14:52', '2019-08-24 20:14:52', '2020-08-25 01:44:52'),
 ('2d29e100b686baa8d92c5c7f10e3aa5b6cc5673dc59c8f052bcfb512c9d1b7b9c3e4751f2f9924da', 9, 1, 'dollar', '[]', 0, '2019-09-02 04:08:44', '2019-09-02 04:08:44', '2020-09-02 09:38:44'),
 ('402ab601017494b14bc09382e0965ecd1e5e5e351aae8cd067ffb41f057e7f5232c7a9bb37348bc0', 8, 1, 'dollar', '[]', 0, '2019-09-02 04:07:33', '2019-09-02 04:07:33', '2020-09-02 09:37:33'),
 ('455877b653904f9c6048523a34715a018cef4d976c791e5f5cab7dfa5ce0409820ac15e772a3256d', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:53:49', '2019-09-01 23:53:49', '2020-09-02 05:23:49'),
 ('685dbfec990ed843e61c63b17448880dcb4c30d003612ed9122435006d78105d69a0b6ffd1d19ca6', 1, 1, 'dollar', '[]', 0, '2019-09-01 22:52:04', '2019-09-01 22:52:04', '2020-09-02 04:22:04'),
+('714c6e61bb08aa30d5d649b146e525661a1f0cce949c8e17a4f3e98d6c4438869e8b042ab7062a8b', 1, 1, 'dollar', '[]', 0, '2019-09-09 20:13:57', '2019-09-09 20:13:57', '2020-09-10 01:43:57'),
+('76b825058ef909da602b57ce9889be0a80a6fddc41e7076307f9326082476240a002e5c2485180e9', 1, 1, 'dollar', '[]', 0, '2019-09-09 08:51:06', '2019-09-09 08:51:06', '2020-09-09 14:21:06'),
+('7a64927dc3d31e440440f694937044c0ae4c529e8cfb58925066fe36c142d7b36c26fc2e372e8145', 1, 1, 'dollar', '[]', 0, '2019-09-03 10:56:57', '2019-09-03 10:56:57', '2020-09-03 16:26:57'),
 ('7c30cbce0a6743331c674d86f532f65cafe3ce5fa871de7483d2eaccf55c9a42c14bb0674909b1d3', 1, 1, 'dollar', '[]', 0, '2019-08-25 07:30:40', '2019-08-25 07:30:40', '2020-08-25 13:00:40'),
 ('7e1d70bf3f288eb4c2f815d57e93290abd3f41fdda886045c1a0c4446e53008ffb1d1b0a263ddafb', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:54:46', '2019-09-01 23:54:46', '2020-09-02 05:24:46'),
 ('8407ae545b6bf07952355ec3447c6a80208c6e8b09a7637f7bf5f4ddb6c9dcb99ce3d1fa4050098a', 1, 1, 'dollar', '[]', 0, '2019-08-24 22:05:54', '2019-08-24 22:05:54', '2020-08-25 03:35:54'),
 ('94bf3108327fb1a09f2193a0854c5294392373407c6290d0c9077d36fa367452c87795cee0b2d64f', 1, 1, 'dollar', '[]', 0, '2019-09-02 01:59:19', '2019-09-02 01:59:19', '2020-09-02 07:29:19'),
 ('a1723d73c4fff1baa97084ae43e45452e7397e24b863cda5950b203ba50101d201f5d4c7dabc195c', 1, 1, 'dollar', '[]', 0, '2019-08-27 21:12:17', '2019-08-27 21:12:17', '2020-08-28 02:42:17'),
 ('a7289273947fb30912e96af73341d2a4df9f451979d18dbdaa40962783ed62ff7190eff5938b4c90', 1, 1, 'dollar', '[]', 0, '2019-08-31 04:16:35', '2019-08-31 04:16:35', '2020-08-31 09:46:35'),
-('baefa5b4c70698404089905b8a498da903ef868d0708a4f5c62ab27878725eb6e1798fb5d8f0ae1f', 6, 1, 'dollar', '[]', 0, '2019-09-01 19:57:35', '2019-09-01 19:57:35', '2020-09-02 01:27:35');
+('b5dbec6e13b7712c33b3443d43f2d12bfeea4b550b25f00fc7a5523c92a0790c01cd1ca4bbc25c28', 1, 1, 'dollar', '[]', 0, '2019-09-07 05:42:28', '2019-09-07 05:42:28', '2020-09-07 11:12:28'),
+('baefa5b4c70698404089905b8a498da903ef868d0708a4f5c62ab27878725eb6e1798fb5d8f0ae1f', 6, 1, 'dollar', '[]', 0, '2019-09-01 19:57:35', '2019-09-01 19:57:35', '2020-09-02 01:27:35'),
+('bb86c418163c8e10f073be8612f60e48c490f37205ef83ff05ca6b84c36d2347c09088cd5d231691', 1, 1, 'dollar', '[]', 0, '2019-09-06 22:57:11', '2019-09-06 22:57:11', '2020-09-07 04:27:11'),
+('f565875e7d6449c2a9dd4feb381b254b8217ea04fc94c1ce362ead76e378124ecf97ff0efb3e0234', 1, 1, 'dollar', '[]', 0, '2019-09-08 19:26:11', '2019-09-08 19:26:11', '2020-09-09 00:56:11');
 
 -- --------------------------------------------------------
 
@@ -598,7 +851,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `permissions`
@@ -639,7 +892,9 @@ CREATE TABLE IF NOT EXISTS `resources` (
   `item_photo` text,
   `coa` varchar(150) DEFAULT NULL,
   `rod` varchar(150) DEFAULT NULL,
-  `approval_group` text,
+  `approval_group` int(20) DEFAULT NULL COMMENT 'From ''roles'' table role id resepective of orgId',
+  `quantity` int(20) DEFAULT NULL,
+  `room_id` bigint(20) DEFAULT NULL,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -664,7 +919,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `roles`
@@ -747,7 +1002,50 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `room_image` text,
   `group_id` bigint(20) DEFAULT NULL,
   `building_number` varchar(150) DEFAULT NULL,
+  `approval_group` int(20) DEFAULT NULL COMMENT 'From ''''roles'''' table role id resepective of orgId',
   `room_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Inactive',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tags`
+--
+
+CREATE TABLE IF NOT EXISTS `tags` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `tagGroup_id` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `tag_groups` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `isPublic` tinyint(1) NOT NULL DEFAULT '1',
+  `isMultiple_select` tinyint(1) NOT NULL DEFAULT '1',
+  `order` int(11) DEFAULT NULL,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -802,14 +1100,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'stpaul name''s household', '0000000001', NULL, NULL, 'stpaul name', NULL, NULL, NULL, 'stpaul name', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$o9KLhUJSz5S7tn20C6BhlOGaQq6sV0dfodXFAEhkLBVJPEn1fYSge', NULL, 'stpa6pnp', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-02 08:45:03', '2019-09-02 08:45:03', NULL, NULL);
+(1, 1, 'stpaul name''s household', '0000000001', NULL, NULL, 'stpaul name', NULL, NULL, NULL, 'stpaul name', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$o9KLhUJSz5S7tn20C6BhlOGaQq6sV0dfodXFAEhkLBVJPEn1fYSge', NULL, 'stpa6pnp', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-02 08:45:03', '2019-09-02 08:45:03', NULL, NULL),
+(2, 1, 'ramesg''s household', '0000000002', '36', NULL, 'ramesg', 'f', 'de', NULL, 'ramesg de f', NULL, 'asd@asda.ocm', NULL, NULL, '$2y$10$K6n4YZZ4veda5Xq0UiONmutMGwzPcE5cWWHqYjwY2sA7gRcUACA5y', NULL, 'rameufk1', '41', NULL, '1970-01-01', '1970-01-01', '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-09-05 20:18:05', '2019-09-05 20:18:05', NULL, NULL);
 
 --
 -- Constraints for dumped tables
