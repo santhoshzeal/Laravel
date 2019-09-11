@@ -518,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `group_events_attendance` (
   `event_id` bigint(22) DEFAULT NULL,
   `group_member_id` bigint(22) DEFAULT NULL,
   `createdBy` text,
-  `checkIn_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
