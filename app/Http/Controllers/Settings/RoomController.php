@@ -153,4 +153,10 @@ class RoomController extends Controller {
         return $jsonformat;
     }
 
+    public function fbwall() {
+
+        $data['title'] = $this->browserTitle . " - Asset Management";
+
+        return view('asset.fbwall', $data);
+    }
 }

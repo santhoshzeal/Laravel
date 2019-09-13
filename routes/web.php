@@ -205,3 +205,11 @@ Route::get('rooms/edit/{id}', 'Settings\RoomController@edit');
 
 //paster board
 Route::get("/paster_board", "PastorBoardController@index");
+
+
+Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
+
+// GROUPS
+Route::get("/groups", "Groups\GroupController@index")->name('groups');
+Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
+
