@@ -18,9 +18,5 @@ class GroupController extends Controller
         $this->orgId = $this->userSessionData['umOrgId'];
     }
 
-    public function index(){
-        $data['title'] = $this->browserTitle . " - Asset Management";
-        
-        return view('groups.list', $data);
-    }
+    
 }

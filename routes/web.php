@@ -207,5 +207,9 @@ Route::get('rooms/edit/{id}', 'Settings\RoomController@edit');
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
 
 // GROUPS
-Route::get("/groups", "Groups\GroupController@index")->name('groups');
+Route::get("/groups", "Groups\GroupTypesController@groupsList")->name('groups');
+Route::get("/groups/reports", "Groups\GroupTypesController@reports")->name('groups.reports');
+Route::get("/groups/events", "Groups\GroupTypesController@events")->name('groups.events');
+Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('groups.resources');
+Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("groups.types");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");

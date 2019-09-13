@@ -403,3 +403,6 @@ CREATE TABLE IF NOT EXISTS `group_events_attendance` (
 ALTER TABLE `group_members` ADD `user_id` BIGINT(20) NULL AFTER `isUser`;
 ALTER TABLE `group_members` ADD `orgId` BIGINT(20) NOT NULL AFTER `id`;
 ALTER TABLE `group_types` ADD `isPublic` BOOLEAN NOT NULL DEFAULT TRUE AFTER `description`;
+ALTER TABLE `group_types` CHANGE `d_enroll_autoClose_on` `d_enroll_autoClose_on` DATE NULL;
+ALTER TABLE `group_types` CHANGE `d_event_remind_before` `d_event_remind_before` INT(5) NULL;
+ALTER TABLE `group_types` CHANGE `d_enroll_msg` `d_enroll_msg` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
