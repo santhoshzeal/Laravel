@@ -22,8 +22,8 @@
                         <div class="card m-b-30">
                             <div class="card-body">
                                 <div class="button-items">
-                                    <a href="{{URL::asset('settings/asset_management/resources')}}" class="btn btn-primary btn-lg btn-block">Resources</a>
-                                    <a href="{{URL::asset('settings/asset_management/rooms')}}" class="btn btn-primary btn-lg btn-block">Rooms</a>
+                                    <a href="{{URL::asset('pastor_board/manage')}}" class="btn btn-primary btn-lg btn-block">Manage Board</a>
+
                                     </div>
                             </div>
                         </div>

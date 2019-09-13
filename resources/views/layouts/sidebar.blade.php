@@ -26,7 +26,7 @@
                             @endif
 
                             <a href="" class="logo"><img src="{{ URL::asset('assets/uploads/organizations/'.$orgLogoName)}}" alt="" height="55" class="logo-large"></a>
-                            
+
                         @else
                             <a href="" class="logo"><img src="{{ URL::asset('assets/theme/images/bible-cross-logo1.png')}}" alt="" height="55" class="logo-large"></a>
                         @endif
@@ -47,9 +47,9 @@
                     <div class="menu-extras topbar-custom">
 
                         <!-- Search input -->
-                        
+
                         <ul class="list-inline float-right mb-0">
-                            
+
                             <!-- Messages-->
                             <li class="list-inline-item dropdown notification-list">
                                 <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
@@ -186,7 +186,7 @@
                                             <li><a href="ui-alerts.html">Alerts</a></li>-->
                                         </ul>
                                     </li>
-                                    
+
 <!--                                    <li>
                                         <ul>
                                             <li><a href="ui-progressbars.html">Progress Bars</a></li>
@@ -218,12 +218,13 @@
                                     <li @if($url_segment_one == "checkin" && $url_segment_two == "child") class='active' @else @endif><a href="{{URL::asset('checkin/child')}}"> Child Checkin</a></li>
                                     <li @if($url_segment_one == "checkin" && $url_segment_two == "notification") class='active' @else @endif><a href="{{URL::asset('checkin/notification')}}"> Notification</a></li>
                                     <li @if($url_segment_one == "checkin" && $url_segment_two == "report") class='active' @else @endif><a href="{{URL::asset('checkin/report')}}"> Report</a></li>
-                                     
-                                    
+
+
                                 </ul>
                             </li> -->
                             <!-- <li @if($url_segment_one == "communication") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('communication')}}"> Communication</a></li> -->
                             <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('events')}}"> <i class="ti-crown"></i> Events</a></li>
+                            <li @if($url_segment_one == "paster_board") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('paster_board')}}"> <i class="ti-crown"></i> Paster Board</a></li>
 
                             <li class="has-submenu">
                                 <a href="#"><i class="ti-settings"></i>Settings</a>
@@ -233,10 +234,10 @@
                                     </li>
                                     <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/forms')}}">Forms</a>
-                                    </li> 
+                                    </li>
                                      <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/asset_management/resources')}}">Asset Management</a>
-                                    </li> 
+                                    </li>
                                 </ul>
                             </li>
 
@@ -247,6 +248,6 @@
             </div> <!-- end navbar-custom -->
         </header>
         <!-- End Navigation Bar-->
-        
+
         <div class="wrapper">
             <div class="container-fluid">
