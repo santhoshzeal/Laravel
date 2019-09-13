@@ -9,7 +9,7 @@ class GroupMember extends Model
     protected $table = 'group_members';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['id', 'group_id', 'isUser', 'role', 'email', 'first_name', 'middle_name', 'last_name', 'full_name', 'mobile_no', 'message', 
+    protected $fillable = ['id', 'orgId', 'group_id', 'isUser', 'user_id', 'role', 'email', 'first_name', 'middle_name', 'last_name', 'full_name', 'mobile_no', 'message', 
                             'member_since', 'createdBy', 'created_at', 'updated_at', 'deleted_at'];
             
     public function group(){
