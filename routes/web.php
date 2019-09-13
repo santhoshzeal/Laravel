@@ -108,7 +108,15 @@ Route::group( ['middleware' => ['auth','App\Http\Middleware\PermissionMiddleware
 });
 
 //people
-Route::get('people/member_directory', 'UserController@index');
+//Route::group(['middleware' => ['role:Adminstrator','permission:Nextgen Checkin']], function () {
+Route::group(['middleware' => ['role_or_permission:Member Directory']], function () {
+    // Members Directory
+    Route::get('people/member_directory', 'UserController@index');
+    Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
+    Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
+    Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
+});
+
 Route::get('people/member_create', 'UserController@create');
 Route::get('people/{personal_id}', 'UserController@view');
 Route::get('people/{personal_id}/messages', 'CommunicationController@messages');
@@ -118,10 +126,7 @@ Route::get('get_usermaster_data', 'UserController@getUserData');
 
 Route::post('store', 'UserController@userMasterStore');
 
-// Members Directory
-Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
-Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
-Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
+
 
 // Households Api's List
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');

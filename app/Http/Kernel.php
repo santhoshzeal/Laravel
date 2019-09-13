@@ -68,6 +68,12 @@ class Kernel extends HttpKernel {
         'api_has_won_already_post' => \App\Http\Middleware\ApiHasWonAlreadyPostMiddleware::class,
         'api_has_source_type' => \App\Http\Middleware\ApiHasSourceTypePostMiddleware::class,
         'get_org_detail' => \App\Http\Middleware\GetOrgnaizationDetailsMiddleware::class,
+        
+        // ... Roles and Permissions
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        //'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        'role_or_permission' => \App\Http\Middleware\CustomRoleOrPermissionMiddleware::class,
     ];
 
     /**
