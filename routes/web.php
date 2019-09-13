@@ -108,7 +108,15 @@ Route::group( ['middleware' => ['auth','App\Http\Middleware\PermissionMiddleware
 });
 
 //people
-Route::get('people/member_directory', 'UserController@index');
+//Route::group(['middleware' => ['role:Adminstrator','permission:Nextgen Checkin']], function () {
+Route::group(['middleware' => ['role_or_permission:Member Directory']], function () {
+    // Members Directory
+    Route::get('people/member_directory', 'UserController@index');
+    Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
+    Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
+    Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
+});
+
 Route::get('people/member_create', 'UserController@create');
 Route::get('people/{personal_id}', 'UserController@view');
 Route::get('people/{personal_id}/messages', 'CommunicationController@messages');
@@ -118,10 +126,7 @@ Route::get('get_usermaster_data', 'UserController@getUserData');
 
 Route::post('store', 'UserController@userMasterStore');
 
-// Members Directory
-Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
-Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
-Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
+
 
 // Households Api's List
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');
@@ -203,6 +208,9 @@ Route::post('rooms/store', 'Settings\RoomController@store')->name('room.store');
 Route::post('rooms/list', 'Settings\RoomController@roomList');
 Route::get('rooms/edit/{id}', 'Settings\RoomController@edit');
 
+//paster board
+Route::get("/paster_board", "PastorBoardController@index");
+
 
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
 
@@ -213,3 +221,4 @@ Route::get("/groups/events", "Groups\GroupTypesController@events")->name('groups
 Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('groups.resources');
 Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("groups.types");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
+

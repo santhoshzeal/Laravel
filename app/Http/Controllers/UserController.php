@@ -41,7 +41,14 @@ class UserController extends Controller {
      * @Added by : Sathish    
      * @Added Date : Jul 03, 2019
      */
-    public function index() {
+    public function index(Request $request) {
+//        $user = $request->user();
+//        $roles = $user->roles;
+//        //dd($roles);
+//        //dd($user->hasPermissionTo('Event management'));
+//            $permissions = $user->permissions;
+//            $permissions = $user->getAllPermissions();
+//            dd($permissions->toArray());
         $data['title'] = $this->browserTitle . " - Member Directory";
         return view('members.member_list', $data);
     }
