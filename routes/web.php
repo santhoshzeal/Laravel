@@ -215,6 +215,12 @@ Route::post('pastor_board/postList', 'PastorBoardController@postList');
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
 
 // GROUPS
-Route::get("/groups", "Groups\GroupController@index")->name('groups');
+Route::get("/groups", "Groups\GroupTypesController@groupsList")->name('groups');
+Route::get("/groups/reports", "Groups\GroupTypesController@reports")->name('groups.reports');
+Route::get("/groups/events", "Groups\GroupTypesController@events")->name('groups.events');
+Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('groups.resources');
+Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("groups.types");
+Route::get("/groups/tags", "Groups\TagsController@tagsIndex")->name("groups.tags");
+Route::get("/groups/people", "Groups\PeopleController@peopleIndex")->name("groups.people");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
 

@@ -1,6 +1,6 @@
 
 
-ALTER TABLE `comm_templates` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL; 
+ALTER TABLE `comm_templates` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
 
 /*24 aug 2019 sathish added*/
 ALTER TABLE `users` ADD `full_name` TEXT NULL DEFAULT NULL AFTER `nick_name` ;
@@ -406,3 +406,8 @@ ALTER TABLE `group_types` ADD `isPublic` BOOLEAN NOT NULL DEFAULT TRUE AFTER `de
 
 --added by ananth
 ALTER TABLE `pastor_board` ADD `createdBy` INT(11) NOT NULL AFTER `status`, ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`, ADD `updatedBy` INT(11) NULL AFTER `created_at`, ADD `updated_at` DATETIME on update CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP AFTER `updatedBy`, ADD `deletedBy` INT(11) NULL AFTER `updated_at`, ADD `deleted_at` DATETIME NULL AFTER `deletedBy`;
+
+---
+ALTER TABLE `group_types` CHANGE `d_enroll_autoClose_on` `d_enroll_autoClose_on` DATE NULL;
+ALTER TABLE `group_types` CHANGE `d_event_remind_before` `d_event_remind_before` INT(5) NULL;
+ALTER TABLE `group_types` CHANGE `d_enroll_msg` `d_enroll_msg` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;

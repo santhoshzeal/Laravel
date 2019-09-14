@@ -241,7 +241,7 @@
                                 </ul>
                             </li>
                             <li class="has-submenu">
-                                <a href="#" class="{{request()->is('groups*') ? 'active' : ''}}"><i class="ti-layout-grid3"></i>Groups</a>
+                                <a href="#" class="{{request()->is('groups/*') ? 'active' : ''}}"><i class="ti-layout-grid3"></i>Groups</a>
                                 <ul class="submenu">
                                     <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/groups')}}">Groups</a>
