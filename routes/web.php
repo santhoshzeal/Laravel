@@ -220,5 +220,7 @@ Route::get("/groups/reports", "Groups\GroupTypesController@reports")->name('grou
 Route::get("/groups/events", "Groups\GroupTypesController@events")->name('groups.events');
 Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('groups.resources');
 Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("groups.types");
+Route::get("/groups/tags", "Groups\TagsController@tagsIndex")->name("groups.tags");
+Route::get("/groups/people", "Groups\PeopleController@peopleIndex")->name("groups.people");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
 
