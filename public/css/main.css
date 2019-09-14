@@ -47,3 +47,34 @@ input[type="search"]::-webkit-search-cancel-button {
   .bootstrap-dialog-header {
       width: 100%;
   }
+
+  .post-main .post-img {
+border: 1px solid #ccc;
+padding: 1px;
+  }
+
+   .post-main .post-title {
+       font-weight: bold;
+       font-size: 16px;
+   }
+
+   .post-main .post-desc{
+       padding-bottom: 5px;
+
+   }
+   .post-main .post-email{
+    padding-bottom: 5px;
+
+}
+
+#postTable thead {
+    display: none;
+}
+
+#pastorTable_wrapper thead {
+    display: none;
+}
+
+#pastorTable tr,#pastorTable td {
+    border: none;
+}

@@ -403,3 +403,6 @@ CREATE TABLE IF NOT EXISTS `group_events_attendance` (
 ALTER TABLE `group_members` ADD `user_id` BIGINT(20) NULL AFTER `isUser`;
 ALTER TABLE `group_members` ADD `orgId` BIGINT(20) NOT NULL AFTER `id`;
 ALTER TABLE `group_types` ADD `isPublic` BOOLEAN NOT NULL DEFAULT TRUE AFTER `description`;
+
+--added by ananth
+ALTER TABLE `pastor_board` ADD `createdBy` INT(11) NOT NULL AFTER `status`, ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`, ADD `updatedBy` INT(11) NULL AFTER `created_at`, ADD `updated_at` DATETIME on update CURRENT_TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP AFTER `updatedBy`, ADD `deletedBy` INT(11) NULL AFTER `updated_at`, ADD `deleted_at` DATETIME NULL AFTER `deletedBy`;

@@ -29,27 +29,27 @@
                         </div>
                     </div>
             <div class="col-lg-9">
+
                         <div class="card m-b-30">
                             <div class="card-body">
 
-                                <h4 class="mt-0 header-title">Rooms</h4>
+                                <h4 class="mt-0 header-title">Posts</h4>
 
 
                                 <!-- -->
-                                <div class="row">
-                                <div class="button-items col-md-6">
-                                    <button type="button" onclick="createRoomDialog()" class="btn btn-primary waves-effect waves-light">Create Room</button>
-                                </div>
+                                <div class="row" id="postList">
+
+
+
+
 
                                 </div>
                                 <br>
                                 <!-- -->
-                                <table id="roomsTable" class="table table-bordered">
+                                <table id="pastorTable" class="table" style="display: none">
                                     <thead>
                                     <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Rooms</th>
+
                                         <th>Action</th>
                                     </thead>
 
@@ -73,25 +73,51 @@
 
              $(document).ready(function() {
 
-                loadDatatable();
-                $("#item_year").datepicker({
-                    format: "yyyy",
-                    viewMode: "years",
-                    minViewMode: "years"
-                });
+                //loadDatatable();
 
+                loadPost(0);
 
               // $("#eventDateSearch").
             });
 
+            function loadPost(offset){
+                $.ajax({
+                            type:'POST',
+                            url: siteUrl + '/pastor_board/postList',
+                            data:{offset:offset},
+                            beforeSend:function(){
+                                $('.load-more').show();
+                            },
+                            success:function(res){
+                                $('.load-more').remove();
+                                $('#postList').append(res.data);
+                            }
+                        });
+            }
+
+            $(document).ready(function(){
+                $(window).scroll(function(){
+                    var lastID = $("#postList .post-section").length;
+                    if(($(window).scrollTop() == $(document).height() - $(window).height()) && (lastID != 0)){
+                        loadPost(lastID);
+                    }
+                });
+            });
+
                 function loadDatatable(){
                     //var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
-                    roomsTable = $('#roomsTable').DataTable({
+                    pastorTable = $('#pastorTable').DataTable({
                         "serverSide": true,
                         "destroy": true,
+                        limit:8,
                         "autoWidth": false,
-                        "searching": true,
-                        "aaSorting": [[ 1, "desc" ]],
+                        "searching": false,
+                        "scrollY":        800,
+                        "deferRender":    true,
+                        //"scroller":       true,
+                        scroller: {
+                            loadingIndicator: true
+                        },
                         "columnDefs": [
                             {
                                 "targets": 0,
@@ -102,12 +128,10 @@
                         "ajax": {
                             type: "POST",
                             data: {},
-                            url: siteUrl + '/rooms/list',
+                            url: siteUrl + '/pastor_board/postList',
                         }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
                         columns: [
-                            {data: 'image', name: 'image', orderable: false, searchable: false},
-                            {data: 'room_name', name: 'room_name'},
-                             {data: 'group_name', name: 'mldValue'},
+
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "initComplete": function(settings, json) {
@@ -118,65 +142,7 @@
                 }
 
 
-            function createRoomDialog(){
-                 createRoomDlg = BootstrapDialog.show({
-                    title:"Create Room",
-                    size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/rooms/create_page"),
-                    buttons: [
-                        {
-                            label: 'Submit',
-                            cssClass: 'btn-primary',
-                            action: function(dialogRef){
-                                submitCreateRoom();
-                            }
-                        },
-                        {
-                            label: 'Cancel',
-                            action: function(dialogRef){
-                                dialogRef.close();
-                            }
-                        }
-                    ]
-                });
-            }
 
-            function submitCreateRoom(){
-
-                $('#create_room_form').ajaxForm(function(data) {
-                   $("#create_room_form_status").html(data.message);
-                   setTimeout(function(){
-                    createRoomDlg.close();
-                        roomsTable.draw(false);
-                    },2000);
-                });
-
-                //$("#create_resource_form").submit();
-                $("#formSubmitBtn").click();
-            }
-
-            function editRoom(roomId){
-                createRoomDlg = BootstrapDialog.show({
-                    title:"Update Room",
-                    size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/rooms/edit/"+roomId),
-                    buttons: [
-                        {
-                            label: 'Submit',
-                            cssClass: 'btn-primary',
-                            action: function(){
-                                submitCreateRoom();
-                            }
-                        },
-                        {
-                            label: 'Cancel',
-                            action: function(dialogRef){
-                                dialogRef.close();
-                            }
-                        }
-                    ]
-                });
-            }
 
 
                     </script>
