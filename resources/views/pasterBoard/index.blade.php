@@ -28,12 +28,8 @@
                             </div>
                         </div>
                     </div>
-            <div class="col-lg-9">
-
-                        <div class="card m-b-30">
-                            <div class="card-body">
-
-                                <h4 class="mt-0 header-title">Posts</h4>
+                    <div class="col-lg-9">
+                        <div class="row">
 
 
                                 <!-- -->
@@ -44,23 +40,8 @@
 
 
                                 </div>
-                                <br>
-                                <!-- -->
-                                <table id="pastorTable" class="table" style="display: none">
-                                    <thead>
-                                    <tr>
-
-                                        <th>Action</th>
-                                    </thead>
-
-
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-
-
-                            </div>
+                                 
+ 
                         </div>
                     </div> <!-- end col -->
 

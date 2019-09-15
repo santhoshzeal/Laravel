@@ -99,7 +99,7 @@ class PastorBoardController extends Controller {
 
 
         $offset =$request->offset;
-        $limit = 10;
+        $limit = 3;
 
         $posts = PastorBoard::listAllPost($request->search['value'])
                             ->offset($offset)
