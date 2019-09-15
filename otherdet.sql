@@ -72,3 +72,27 @@ git commit -m 'your msg'
 git pull
 git fetch
 git push origin 'branch name'
+
+
+--------------
+permissions-----
+$user = $request->user();
+        $roles = $user->roles;
+        //dd($roles);
+        //dd($user->hasPermissionTo('Event management'));
+            $permissions = $user->permissions;
+            $permissions = $user->getAllPermissions();
+  $checkPermissionTo = $user->checkPermissionTo(12,null);
+//dd("checkPermissionTo=",$checkPermissionTo);
+  $perArray = array_column($permissions->toArray(),'id');
+  
+  array_push($perArray, 9);
+
+  
+//$hasAllPermissions = $user->hasAllPermissions(array_column($permissions->toArray(),'name'));
+  $hasAllPermissions = $user->hasAllPermissions($perArray);
+dd($hasAllPermissions,array_column($permissions->toArray(),'name'));
+
+        dd($permissions); //will return true, if user has role
+
+        dd($user);
