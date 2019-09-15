@@ -86,3 +86,7 @@ padding: 1px;
 .post-section .fb-contact span{
     padding-right: 10px;
 }
+
+.edit_group_node, .edit_group_node input, .edit_group_node select, .edit_group_node button{
+    font-size:12px;
+}
