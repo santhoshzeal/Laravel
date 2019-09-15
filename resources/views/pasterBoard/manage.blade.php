@@ -133,7 +133,7 @@
                 $('#create_post_form').ajaxForm(function(data) {
                    $("#create_post_form_status").html(data.message);
                    setTimeout(function(){
-                    createRoomDlg.close();
+                    createPostDlg.close();
                         postTable.draw(false);
                     },2000);
                 });
@@ -142,11 +142,11 @@
                 $("#formSubmitBtn").click();
             }
 
-            function editRoom(roomId){
+            function editPost(postId){
                 createPostDlg = BootstrapDialog.show({
                     title:"Update Post",
                     size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/rooms/edit/"+roomId),
+                    message: $('<div></div>').load(siteUrl+"/pastor_board/edit/"+postId),
                     buttons: [
                         {
                             label: 'Submit',

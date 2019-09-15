@@ -271,6 +271,17 @@ class PastorBoardController extends Controller {
                         ->rawColumns(['action'])
                         ->make(true);
     }
+    public function edit($id) {
+        $data['title'] = $this->browserTitle . " - Edit Post";
+        $data['p_category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","room_group"]])->get();
+        //$data['room_group'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","room_group"]])->get();
+        $post = PastorBoard::findOrFail($id);
+
+        $data['post'] = $post;
+
+        return view('pasterBoard.create_post', $data);
+
+    }
 
     /**
      * @Function name : resourceFileUpload

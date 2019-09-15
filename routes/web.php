@@ -210,6 +210,7 @@ Route::get("/pastor_board/create_post_page", "PastorBoardController@createPostPa
 Route::post('pastor_board/store', 'PastorBoardController@store')->name('pastor_board.store');
 Route::post('pastor_board/manage/postList', 'PastorBoardController@managePostList');
 Route::post('pastor_board/postList', 'PastorBoardController@postList');
+Route::get('pastor_board/edit/{id}', 'PastorBoardController@edit');
 
 
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");

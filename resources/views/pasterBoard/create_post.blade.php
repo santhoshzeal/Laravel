@@ -34,18 +34,22 @@
                                                 </select>
 
                                     </div>
+                                    @if(isset($post))
+                                    <script>
+                                        postType({{$post->parent_type}});
+                                    </script>
+                                    @endif
                                 </div>
 
                                 <div class="form-group row post-ad">
                                         <label for="example-date-input" class="col-sm-3 col-form-label">High Level Categories</label>
                                         <div class="col-sm-4">
-                                            <label class="radio-inline"><input type="radio" name="classified_type" value="1">Sell</label>
+                                            <label class="radio-inline"><input type="radio" name="classified_type" value="1"  <?= isset($post)?($post->classified_type=='1')?'checked':'':'' ?>>Sell</label>
 
 
-                                        </div>
-                                        <div class="col-sm-4">
 
-                                            <label class="radio-inline"><input type="radio" name="classified_type"  value="2">Buy</label>
+
+                                            <label class="radio-inline" style="margin-left: 20px"><input type="radio" name="classified_type"  value="2" <?= isset($post)?($post->classified_type=='2')?'checked':'':'' ?>>Buy</label>
 
                                         </div>
                                     </div>
@@ -112,7 +116,7 @@
                                         <div class="form-group row">
                                                 <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                                 <div class="col-sm-9">
-                                                    <select id="eventLocation" name="eventLocation" class="form-control" required="">
+                                                    <select id="location_id" name="location_id" class="form-control" required="">
                                                         <option value=""> -- Select -- </option>
                                                         <option value="locaion1" <?= isset($post)?($post->location_id=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
                                                         <option value="locaion2" <?= isset($post)?($post->location_id=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
