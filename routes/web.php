@@ -203,5 +203,25 @@ Route::post('rooms/store', 'Settings\RoomController@store')->name('room.store');
 Route::post('rooms/list', 'Settings\RoomController@roomList');
 Route::get('rooms/edit/{id}', 'Settings\RoomController@edit');
 
+//paster board
+Route::get("/pastor_board", "PastorBoardController@index");
+Route::get("/pastor_board/manage", "PastorBoardController@manage");
+Route::get("/pastor_board/create_post_page", "PastorBoardController@createPostPage");
+Route::post('pastor_board/store', 'PastorBoardController@store')->name('pastor_board.store');
+Route::post('pastor_board/manage/postList', 'PastorBoardController@managePostList');
+Route::post('pastor_board/postList', 'PastorBoardController@postList');
+Route::get('pastor_board/edit/{id}', 'PastorBoardController@edit');
+
 
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
+
+// GROUPS
+Route::get("/groups", "Groups\GroupTypesController@groupsList")->name('groups');
+Route::get("/groups/reports", "Groups\GroupTypesController@reports")->name('groups.reports');
+Route::get("/groups/events", "Groups\GroupTypesController@events")->name('groups.events');
+Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('groups.resources');
+Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("groups.types");
+Route::get("/groups/tags", "Groups\TagsController@tagsIndex")->name("groups.tags");
+Route::get("/groups/people", "Groups\PeopleController@peopleIndex")->name("groups.people");
+Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
+

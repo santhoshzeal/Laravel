@@ -7,7 +7,7 @@
                     <div class="page-title-box">
                         <div class="btn-group pull-right">
                             <ol class="breadcrumb hide-phone p-0 m-0">
-                                <li class="breadcrumb-item active">Room Management</li>
+                                <li class="breadcrumb-item active">Post Management</li>
                             </ol>
                         </div>
                         <!--<h4 class="page-title">Roles Management</h4>-->
@@ -18,39 +18,29 @@
             <!-- end page title end breadcrumb -->
 
             <div class="row">
-                    <div class="col-lg-3">
-                        <div class="card m-b-30">
-                            <div class="card-body">
-                                <div class="button-items">
-                                    <a href="{{URL::asset('settings/asset_management/resources')}}" class="btn btn-primary btn-lg btn-block">Resources</a>
-                                    <a href="{{URL::asset('settings/asset_management/rooms')}}" class="btn btn-primary btn-lg btn-block">Rooms</a>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-            <div class="col-lg-9">
+
+            <div class="col-lg-12">
                         <div class="card m-b-30">
                             <div class="card-body">
 
-                                <h4 class="mt-0 header-title">Rooms</h4>
+                                <h4 class="mt-0 header-title">Post</h4>
 
 
                                 <!-- -->
                                 <div class="row">
                                 <div class="button-items col-md-6">
-                                    <button type="button" onclick="createRoomDialog()" class="btn btn-primary waves-effect waves-light">Create Room</button>
+                                    <button type="button" onclick="createPostDialog()" class="btn btn-primary waves-effect waves-light">Create Post</button>
                                 </div>
 
                                 </div>
                                 <br>
                                 <!-- -->
-                                <table id="roomsTable" class="table table-bordered">
+                                <table id="postTable" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Rooms</th>
                                         <th>Action</th>
+
+                                    </tr>
                                     </thead>
 
 
@@ -86,12 +76,12 @@
 
                 function loadDatatable(){
                     //var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
-                    roomsTable = $('#roomsTable').DataTable({
+                    postTable = $('#postTable').DataTable({
                         "serverSide": true,
                         "destroy": true,
                         "autoWidth": false,
                         "searching": true,
-                        "aaSorting": [[ 1, "desc" ]],
+                        //"aaSorting": [[ 1, "desc" ]],
                         "columnDefs": [
                             {
                                 "targets": 0,
@@ -102,12 +92,9 @@
                         "ajax": {
                             type: "POST",
                             data: {},
-                            url: siteUrl + '/rooms/list',
+                            url: siteUrl + '/pastor_board/manage/postList',
                         }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
                         columns: [
-                            {data: 'image', name: 'image', orderable: false, searchable: false},
-                            {data: 'room_name', name: 'room_name'},
-                             {data: 'group_name', name: 'mldValue'},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         "initComplete": function(settings, json) {
@@ -118,17 +105,17 @@
                 }
 
 
-            function createRoomDialog(){
-                 createRoomDlg = BootstrapDialog.show({
-                    title:"Create Room",
+            function createPostDialog(){
+                 createPostDlg = BootstrapDialog.show({
+                    title:"Create Post",
                     size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/rooms/create_page"),
+                    message: $('<div></div>').load(siteUrl+"/pastor_board/create_post_page"),
                     buttons: [
                         {
                             label: 'Submit',
                             cssClass: 'btn-primary',
                             action: function(dialogRef){
-                                submitCreateRoom();
+                                submitCreatePost();
                             }
                         },
                         {
@@ -141,13 +128,13 @@
                 });
             }
 
-            function submitCreateRoom(){
+            function submitCreatePost(){
 
-                $('#create_room_form').ajaxForm(function(data) {
-                   $("#create_room_form_status").html(data.message);
+                $('#create_post_form').ajaxForm(function(data) {
+                   $("#create_post_form_status").html(data.message);
                    setTimeout(function(){
-                    createRoomDlg.close();
-                        roomsTable.draw(false);
+                    createPostDlg.close();
+                        postTable.draw(false);
                     },2000);
                 });
 
@@ -155,17 +142,17 @@
                 $("#formSubmitBtn").click();
             }
 
-            function editRoom(roomId){
-                createRoomDlg = BootstrapDialog.show({
-                    title:"Update Room",
+            function editPost(postId){
+                createPostDlg = BootstrapDialog.show({
+                    title:"Update Post",
                     size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/rooms/edit/"+roomId),
+                    message: $('<div></div>').load(siteUrl+"/pastor_board/edit/"+postId),
                     buttons: [
                         {
                             label: 'Submit',
                             cssClass: 'btn-primary',
                             action: function(){
-                                submitCreateRoom();
+                                submitCreatePost();
                             }
                         },
                         {
@@ -178,7 +165,15 @@
                 });
             }
 
+function postType(post_type){
+    if(post_type=="3") {
+        $(".post-ad").show();
+    }
+    else {
+        $(".post-ad").hide();
+    }
 
+}
                     </script>
 
 @endsection

@@ -28,6 +28,7 @@ class VerifyCsrfToken extends Middleware
         "/api/people/member/{personal_id}/get_messages/{master_id}",
         "/api/settings/forms/manage/{form_id}",
         "/api/settings/forms/manage",
-        "/api/form/submission"
+        "/api/form/submission",
+        "/api/groups/typesList"
     ];
 }
