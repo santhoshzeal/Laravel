@@ -70,7 +70,9 @@ class PastorBoard extends Model {
     }
 
     public static function listAllPost($search) {
-        $result = self::select('id', 'p_title', 'p_description','contact_name','contact_email','contact_phone', 'image_path','posted_date','parent_type')
+        $result = self::select('pastor_board.id', 'p_title', 'p_description','classified_type','contact_name','contact_email','contact_phone', 'image_path','cost','posted_date','parent_type','pastor_board.createdBy','pastor_board.created_at')
+                    ->addSelect(DB::raw("concat(users.first_name,COALESCE(users.last_name,'')) as created_user"))
+                    ->join("users" ,"users.id","=","pastor_board.createdBy");
         /* ->orderBy("created_at","desc") */;
         if ($search != "") {
             $result->where(function($query)use($search) {

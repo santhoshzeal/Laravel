@@ -106,14 +106,20 @@ class PastorBoardController extends Controller {
                             ->limit($limit)
                             ->get();
         $html = "";
+        $adHtml = "";
         foreach($posts as $post){
+            //dump($post);
+            $adHtml = "";
             $class ="bg-warning";
-            if($post->parent_type==3){
+            if($post->parent_type==3){ //ads
                 $class = "bg-success";
+                $adHtml = ' <p class=" font-14"><span class="bg-primary"><i class="fa fa-inr" aria-hidden="true"></i> '.$post->cost.'</span></p>';
             }
-            if($post->parent_type==2){
+            if($post->parent_type==2){ //news
                 $class = "bg-primary";
             }
+
+
             $hh_pic_image= url('/assets/uploads/organizations/avatar.png');
             if($post->image_path != null){
                 $hh_pic_image_json = json_decode(unserialize($post->image_path));
@@ -123,6 +129,7 @@ class PastorBoardController extends Controller {
                              <div class="card m-b-5">
                                  <div class="card-header '.$class.'">
                                      '.$post->p_title.'
+                                     <span class="float-right font-14">'.date("d-M-Y h:i",strtotime($post->created_at)).'</span>
                                  </div>
                                  <div class="card-body">
 
@@ -130,8 +137,13 @@ class PastorBoardController extends Controller {
 
                                          <img class="d-flex mr-3 rounded-circle" src="'.$hh_pic_image.'" alt="Generic placeholder image" height="128">
                                          <div class="media-body">
-                                             <h5 class="mt-0 font-18 mb-1">'.$post->contact_name.'</h5>
-                                             <p class="text-muted font-14">'.$post->p_description.'</p>
+                                             <h5 class="mt-0 font-18 mb-1">'.$post->created_user.'</h5>
+                                             <p class=" font-14">'.$post->p_description.'</p>
+                                            '.$adHtml.'
+                                             <p class="text-muted font-14 fb-contact">
+                                             <span><i class="fa fa-user" aria-hidden="true"></i> '.$post->contact_name.' </span>
+                                             <span><i class="fa fa-phone" aria-hidden="true"></i> '.$post->contact_phone.' </span>
+                                             <span><i class="fa fa-envelope" aria-hidden="true"></i> '.$post->contact_email.'</span></p>
                                          </div>
                                      </div>
 

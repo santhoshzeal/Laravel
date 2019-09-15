@@ -78,3 +78,11 @@ padding: 1px;
 #pastorTable tr,#pastorTable td {
     border: none;
 }
+
+.post-section .fb-contact{
+    bottom: 0;
+    position: absolute;
+}
+.post-section .fb-contact span{
+    padding-right: 10px;
+}
