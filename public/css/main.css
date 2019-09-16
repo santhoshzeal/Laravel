@@ -88,5 +88,28 @@ padding: 1px;
 }
 
 .edit_group_node, .edit_group_node input, .edit_group_node select, .edit_group_node button{
-    font-size:12px;
+    font-size : 12px;
+}
+.child_nodes_group {
+    height : 250px; 
+    overflow : auto;
+    border : 1px solid #f3eeee;
+}
+.child_nodes_group .child_value{
+    text-transform: capitalize;
+    margin-left: 5px;
+}
+.child_node .sort_child_node{
+    border : 1px solid #f3eeee;
+    padding : 5px;
+}
+.parent_node .fa-bars{
+    color: #a29d9d !important;
+}
+.parent_node .sort_group_node, .parent_node .edit_group_node, .new_group_blk .card{
+    height:400px;
+}
+.blk_center{
+    margin-top:35%;
+    color:green;
 }
