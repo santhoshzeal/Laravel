@@ -30,12 +30,12 @@ class TagsController extends Controller
 
     public function getGroupsListWithTags(){
         $tagGroups = TagGroup::where("orgId", $this->orgId)->orderBy('order')->with(['tags' => function($query){
-                        $query->orderBy('order')->select("name", "id", "order");
+                        $query->orderBy('order')->select("id", "name", "tagGroup_id", "order");
                     }])->select("id", "name", "isPublic", "order", "isMultiple_select")->get();
         return $tagGroups;
     }
 
-    public function createGroup(Request $request){
+    public function createOrUpdateTagGroup(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $newTagGroup = null;
         if($payload["groupId"] == "create_new_node_id"){
@@ -60,5 +60,52 @@ class TagsController extends Controller
 
         return ["message" => "Tag Group has been successfully deleted"];
 
+    }
+
+    public function createOrUpdateTag(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $newTag = null;
+        if($payload["id"] == "newTag"){
+            $newTag = new Tag();
+            $newTag->order = $payload["order"];
+            $newTag->tagGroup_id = $payload["tagGroup_id"];
+        }else {
+            $newTag = Tag::where("id", $payload["id"])->first();
+        }
+        $newTag->name = $payload["name"];
+        $newTag->save();
+
+        return ["id" => $newTag->id];
+    }
+
+    public function deleteTag($tag_id){
+        GroupTag::where("tag_id", $tag_id)->delete();
+        Tag::where("id", $tag_id)->delete();
+
+        return ["message" => "Tag has been successfully deleted"];
+    }
+
+    public function updateTagsOrder(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $i = 1;
+        foreach($payload as $tagId){
+            $tag = Tag::where('id', $tagId)->first();
+            $tag->order = $i;
+            $tag->save();
+            $i += 1;
+        }
+        return ["message" => "Tag Order has been successfully"];
+    }
+
+    public function updateTagGroupsOrder(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $i = 1;
+        foreach($payload as $tagId){
+            $tag = TagGroup::where('id', $tagId)->first();
+            $tag->order = $i;
+            $tag->save();
+            $i += 1;
+        }
+        return ["message" => "Tag Groups Order has been successfully"];
     }
 }

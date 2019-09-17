@@ -226,6 +226,10 @@ Route::get("/groups/tags", "Groups\TagsController@tagsIndex")->name("groups.tags
 Route::get("/groups/people", "Groups\PeopleController@peopleIndex")->name("groups.people");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
 Route::get("/api/groups/tagsListWithGroups", "Groups\TagsController@getGroupsListWithTags");
-Route::post("/api/groups/createOrUpdateTagGroup", "Groups\TagsController@createGroup");
-Route::get("/api/groups/deleteGroup/{tagGroup_id}", "Groups\TagsController@deleteTagGroup");
+Route::post("/api/groups/createOrUpdateTagGroup", "Groups\TagsController@createOrUpdateTagGroup");
+Route::get("/api/groups/tags/deleteGroup/{tagGroup_id}", "Groups\TagsController@deleteTagGroup");
+Route::post("/api/groups/tags/createOrUpdateTag", "Groups\TagsController@createOrUpdateTag");
+Route::get("/api/groups/tags/deleteTag/{tag_id}", "Groups\TagsController@deleteTag");
+Route::post("/api/groups/tags/updateTagsOrder", "Groups\TagsController@updateTagsOrder");
+Route::post("/api/groups/tags/updateTagGroupsOrder", "Groups\TagsController@updateTagGroupsOrder");
 
