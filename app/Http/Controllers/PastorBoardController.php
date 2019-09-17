@@ -101,12 +101,23 @@ class PastorBoardController extends Controller {
         $offset =$request->offset;
         $limit = 3;
 
-        $posts = PastorBoard::listAllPost($request->search['value'])
+        $posts = PastorBoard::listAllPost($request->search)
                             ->offset($offset)
                             ->limit($limit)
                             ->get();
+
         $html = "";
         $adHtml = "";
+        //print_r(count($posts));
+        if(count($posts)==0) {
+
+            $html='<div class="col-lg-12 post-section">
+            <div class="card m-b-5">
+            <div class="card-header ">
+            No Data
+            </div></div>
+            </div>';
+        }
         foreach($posts as $post){
             //dump($post);
             $adHtml = "";

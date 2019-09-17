@@ -31,7 +31,15 @@
                     <div class="col-lg-9">
                         <div class="row">
 
+                            <div class="col-md-5" style="padding-bottom: 10px">
+                                <input type="search" class="form-control" id="search_txt" autocomplete="off">
+                                <input type="hidden" name="search_str" id="search_str" />
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" onclick="searchPost()">Search</button>
 
+                            </div>
+                        </div>
                                 <!-- -->
                                 <div class="row" id="postList">
 
@@ -40,8 +48,8 @@
 
 
                                 </div>
-                                 
- 
+
+
                         </div>
                     </div> <!-- end col -->
 
@@ -60,12 +68,23 @@
 
               // $("#eventDateSearch").
             });
+            function searchPost(){
+                var search = $("#search_txt").val();
+                search =  $.trim(search);
+                if(search !="") {
+                    $('#postList').html("");
+                    $("#search_str").val($("#search_txt").val());
+                    loadPost(0);
+                }
 
+            }
             function loadPost(offset){
+                var search = $("#search_str").val();
+                search =  $.trim(search);
                 $.ajax({
                             type:'POST',
                             url: siteUrl + '/pastor_board/postList',
-                            data:{offset:offset},
+                            data:{offset:offset,search:search},
                             beforeSend:function(){
                                 $('.load-more').show();
                             },

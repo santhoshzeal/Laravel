@@ -79,8 +79,8 @@ class PastorBoard extends Model {
 
 
 
-                return $query->where('p_title', 'LIKE', "%$search%");
-                                //->orWhere('eventDesc', 'LIKE', "%$search%");
+                return $query->where('p_title', 'LIKE', "%$search%")
+                                ->orWhere('p_description', 'LIKE', "%$search%");
 
                 //echo date("d m y",(int)$search);
             });
