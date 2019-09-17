@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12" style="background-color:#4d5467">
                 <div class="card-body">
-                      <h3 class="text-white">Group Types</h3>  
+                    <h3 class="text-white">Group Types</h3>  
                 </div>
             </div>
         </div>

@@ -357,7 +357,7 @@ function saveOrUpdateForm() {
     fetchDataApi(apiProps, function (data) {
         // preDefinedData = data;
         // console.log(data);
-        location.replace(`${siteUrl}/settings/forms/${data.id}/fields`)
+        // location.replace(`${siteUrl}/settings/forms/${data.id}/fields`)
     });
 }
 function getEmptyBlk() {

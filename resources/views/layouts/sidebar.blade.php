@@ -250,7 +250,7 @@
                                         <a href="{{URL::asset('/groups/tags')}}">Tags</a>
                                     </li>
                                      <li @if($url_segment_one == "settings") class='active' @else @endif>
-                                        <a href="{{URL::asset('/groups/People')}}">People</a>
+                                        <a href="{{URL::asset('/groups/people')}}">People</a>
                                     </li>
                                 </ul>
                             </li>

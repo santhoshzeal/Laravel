@@ -8,40 +8,51 @@ $(function () {
         connectWith: '.groupSortable'
     });
     $(".groupSortable").disableSelection();
-    updateTabs();
+    fetchTagGroupsWithTags();
 });
 
-let tagGroups = [
-    {
-        id: 1, name: "Testing1", isPublic: false, order: 4, isMultiple_select: false,
-        tags: [{ id: 11, name: "child1", order: 4 }, { id: 12, name: "child2", order: 3 }, { id: 13, name: "child3", order: 2 }, { id: 14, name: "child4", order: 1 }]
-    },
-    {
-        id: 2, name: "Testing2", isPublic: false, order: 2, isMultiple_select: false,
-        tags: [{ id: 21, name: "child1", order: 4 }, { id: 22, name: "child2", order: 3 }, { id: 23, name: "child3", order: 2 }, { id: 24, name: "child4", order: 1 }]
-    },
-    {
-        id: 3, name: "Testing3", isPublic: false, order: 8, isMultiple_select: false,
-        tags: [{ id: 31, name: "child1", order: 4 }, { id: 32, name: "child2", order: 3 }, { id: 33, name: "child3", order: 2 }, { id: 34, name: "child4", order: 1 }]
-    },
-    {
-        id: 4, name: "Testing4", isPublic: false, order: 9, isMultiple_select: false,
-        tags: [{ id: 41, name: "child1", order: 4 }, { id: 42, name: "child2", order: 3 }, { id: 43, name: "child3", order: 2 }, { id: 44, name: "child4", order: 1 }]
-    },
-    {
-        id: 5, name: "Testing1", isPublic: false, order: 4, isMultiple_select: false,
-        tags: [{ id: 11, name: "child1", order: 4 }, { id: 12, name: "child2", order: 3 }, { id: 13, name: "child3", order: 2 }, { id: 14, name: "child4", order: 1 }]
-    },
-    {
-        id: 6, name: "Testing99", isPublic: true, order: 0, isMultiple_select: false,
-        tags: [{ id: 21, name: "child1", order: 4 }, { id: 22, name: "child2", order: 3 }, { id: 23, name: "child3", order: 2 }, { id: 24, name: "child4", order: 1 }]
-    },
-    {
-        id: 7, name: "Testing3", isPublic: false, order: 8, isMultiple_select: false,
-        tags: []
-    }
-]
-// let tagGroups = [];
+// let tagGroups = [
+//     {
+//         id: 1, name: "Testing1", isPublic: false, order: 4, isMultiple_select: false,
+//         tags: [{ id: 11, name: "child1", order: 4 }, { id: 12, name: "child2", order: 3 }, { id: 13, name: "child3", order: 2 }, { id: 14, name: "child4", order: 1 }]
+//     },
+//     {
+//         id: 2, name: "Testing2", isPublic: false, order: 2, isMultiple_select: false,
+//         tags: [{ id: 21, name: "child1", order: 4 }, { id: 22, name: "child2", order: 3 }, { id: 23, name: "child3", order: 2 }, { id: 24, name: "child4", order: 1 }]
+//     },
+//     {
+//         id: 3, name: "Testing3", isPublic: false, order: 8, isMultiple_select: false,
+//         tags: [{ id: 31, name: "child1", order: 4 }, { id: 32, name: "child2", order: 3 }, { id: 33, name: "child3", order: 2 }, { id: 34, name: "child4", order: 1 }]
+//     },
+//     {
+//         id: 4, name: "Testing4", isPublic: false, order: 9, isMultiple_select: false,
+//         tags: [{ id: 41, name: "child1", order: 4 }, { id: 42, name: "child2", order: 3 }, { id: 43, name: "child3", order: 2 }, { id: 44, name: "child4", order: 1 }]
+//     },
+//     {
+//         id: 5, name: "Testing1", isPublic: false, order: 4, isMultiple_select: false,
+//         tags: [{ id: 11, name: "child1", order: 4 }, { id: 12, name: "child2", order: 3 }, { id: 13, name: "child3", order: 2 }, { id: 14, name: "child4", order: 1 }]
+//     },
+//     {
+//         id: 6, name: "Testing99", isPublic: true, order: 0, isMultiple_select: false,
+//         tags: [{ id: 21, name: "child1", order: 4 }, { id: 22, name: "child2", order: 3 }, { id: 23, name: "child3", order: 2 }, { id: 24, name: "child4", order: 1 }]
+//     },
+//     {
+//         id: 7, name: "Testing3", isPublic: false, order: 8, isMultiple_select: false,
+//         tags: []
+//     }
+// ]
+// // let tagGroups = [];
+let tagGroups = [];
+
+function fetchTagGroupsWithTags() {
+    let apiPath = siteUrl + '/api/groups/tagsListWithGroups';
+    let queryData = {};
+    let apiProps = { url: apiPath, method: 'get', queryData };
+    fetchDataApi(apiProps, function (data) {
+        tagGroups = data
+        updateTabs();
+    });
+}
 
 function updateTabs() {
     tagGroups.sort(function (a, b) {
@@ -81,7 +92,7 @@ function generateChildNode(randNum, item) {
     return `<div class="row tag_items child_node" data-randNum="${randNum}" data-id="${item.id}", data-name="${item.name}">
                 <div class="col-sm-12 sort_child_node pb-1 pt-1">
                     <i class="fa fa-bars child_handle"></i>
-                    <span class="child_value">${item.name}</span>
+                    <span class="capitalized">${item.name}</span>
                     <i class="fa fa-edit btn btn-sm pull-right child_edit_btn"></i>
                 </div>
                 <div class="col-sm-12 edit_child_node">
@@ -97,61 +108,64 @@ function generateChildNode(randNum, item) {
 }
 
 function generateParentNode(randNum, gItem, tabEls) {
-    let wrapper = generateGroupWrapper(gItem.name, gItem.isPublic, gItem.isMultiple_select)
+    let wrapper = generateGroupWrapper(randNum, gItem.name, gItem.isPublic, gItem.isMultiple_select)
+    let sortEl = generateGroupNode(randNum, gItem, tabEls);
     return `<div class="col-sm-12 col-md-3 mb-3 parent_node group_${randNum}" 
-                data-groupId="${gItem.id}" data-name="${gItem.name}" data-isPublic="${gItem.isPublic}"
+                data-groupId="${gItem.id}" data-name="${gItem.name}" data-isPublic="${gItem.isPublic}" data-randNum="${randNum}"
                 data-isMultiple_select="${gItem.isMultiple_select}">
-                <div class="row m-2 sort_group_node">
-                    <div class="col-sm-12 card p-0">
-                        <div class="card-title pl-2 pr-2 text-white bg-secondary">
-                                <h6><i class="fa fa-bars handle"></i>  ${gItem.name}
-                                <i class="fa fa-edit btn btn-sm pull-right edit_group_btn"></i></h6>
-                        </div>
-                        <div class="card-body ml-4 mr-4 mt-0 mb-0 pt-1 pb-0 child_nodes_group itemsSortable">
-                            ${tabEls.join("")}
-                            <small class="error_msg_${randNum} text-danger"></small>
-                        </div>
-                        <div class="card-body m-0 pb-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control new_tag_${randNum}" placeholder="add tag " data-randNum="${randNum}">
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-success text-white" onClick="addNewTag(${randNum})" style="cursor:pointer">+</span>
-                                </div>
+                ${sortEl}
+                ${wrapper}
+            </div>`
+}
+function generateGroupNode(randNum, gItem, tabEls){
+    return `<div class="row m-2 sort_group_node">
+                <div class="col-sm-12 card p-0">
+                    <div class="card-title pl-2 pr-2 text-white bg-secondary">
+                            <h6 class="capitalized"><i class="fa fa-bars handle"></i>  ${gItem.name}
+                            <i class="fa fa-edit btn btn-sm pull-right edit_group_btn"></i></h6>
+                    </div>
+                    <div class="card-body ml-4 mr-4 mt-0 mb-0 pt-1 pb-0 child_nodes_group itemsSortable">
+                        ${tabEls.join("")}
+                        <small class="error_msg_${randNum} text-danger"></small>
+                    </div>
+                    <div class="card-body m-0 pb-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control new_tag_${randNum}" placeholder="add tag " data-randNum="${randNum}">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-success text-white" onClick="addNewTag(${randNum})" style="cursor:pointer">+</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                ${wrapper}
             </div>`
 }
-
-function generateGroupWrapper(name = null, isPublic = true, isMultiple_select = true) {
+function generateGroupWrapper(randNum, name = null, isPublic = true, isMultiple_select = true) {
     return `<div class="row m-2 edit_group_node card">
                 <div class="col-sm-12 card p-0">
                     <div class="card-body">
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control group-name" value="${name ? name : ''}" placeholder="Example: Stage of Life">
+                            <small class="error_msg_${randNum} text-danger"></small>
                         </div>
                         <div class="form-group">
                             <div class="form-check">
-                                <input type="checkbox" ${isPublic ? 'checked' : ''}  class="form-control-chk form-check-input form_input_req">
+                                <input type="checkbox" ${isPublic ? 'checked' : ''}  class="form-control-chk form-check-input form_input_req group-isPublic">
                                 <label class="form-check-label"> Display tag publicly</label>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Can one group belong to many Neighborhoods?</label>
-                            <select  class="form-control" >
-                                <option value="true" ${isMultiple_select ? "selected" : ''}>Yes</option>
-                                <option value="false" ${!isMultiple_select ? "selected" : ''}>No</option>
-                            </select>
+                            <div class="form-check">
+                                <input type="checkbox" ${isMultiple_select ? 'checked' : ''}  class="form-control-chk form-check-input form_input_req group-isMultiple_select">
+                                <label class="form-check-label"> Can one group belong to many Neighborhoods?</label>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body" style="bottom:0;">
                         <h6 >
-                            ${name ? '<button class="btn btn-danger btn-sm">Delete</button>' : ''}
-                            <button class="btn btn-success btn-sm pull-right ml-3">Save</button>
-                            <button class="btn btn-light btn-sm pull-right">Cancel</button>
+                            ${name ? '<button class="btn btn-danger btn-sm delete_group_btn">Delete</button>' : ''}
+                            <button class="btn btn-success btn-sm pull-right ml-3 save_group_btn">Save</button>
+                            <button class="btn btn-light btn-sm pull-right cancel_group_btn">Cancel</button>
                         </h6>
                     </div>
                 </div>
@@ -160,9 +174,9 @@ function generateGroupWrapper(name = null, isPublic = true, isMultiple_select = 
 
 function generatenNewTagGroup() {
     let randNum = generateRandNum();
-    let wrapper = generateGroupWrapper();
-    return `<div class="col-sm-12 col-md-3 mb-3 new_group_blk group_${randNum}" 
-            data-groupId="create_new_node_id">
+    let wrapper = generateGroupWrapper(randNum);
+    return `<div class="col-sm-12 col-md-3 mb-3 parent_node group_${randNum}" 
+            data-groupId="create_new_node_id" data-randnum="${randNum}">
                 <div class="card p-2 m-2 add_group_btn_blk">
                     <div class="card-body text-center blk_center">
                         <i class="btn btn-success fa fa-plus add_group_btn"></i>
@@ -181,7 +195,7 @@ function showTagErr(randomNum, msg) {
     $(".error_msg_" + randomNum).text(msg);
     setTimeout(function () {
         $(".error_msg_" + randomNum).text(null);
-    }, 2500);
+    }, 3500);
 }
 
 $(document).on('click', '.child_edit_btn', function () {
@@ -200,12 +214,119 @@ $(document).on('click', '.add_group_btn', function () {
 })
 
 $(document).on('click', ".child_node_delete", function () {
-    let tagName = $(this).closest('.child_node').attr('data-name');
-    let cfDel = confirm(`Are you sure to delete <strong>'${tagName}'</strong>`);
-    if (cfDel) {
-        $(this).closest('.child_node').remove()
+    let tagDetails = {};
+    let childNode = $(this).closest(".child_node");
+    tagDetails.name = childNode.attr('data-name');
+    tagDetails.id = childNode.attr("data-id");
+    let local = this;
+    getConfirmation(`Delete Confirmation tag <strong>${tagDetails.name}</strong>`, `This is a permanent action and the tag will be removed from all groups.`, function(status){
+        if(status){
+            $(local).closest('.child_node').remove();
+        }
+    });
+})
+$(document).on("click", ".child_node_update", function(){
+    let tagDetails = {};
+    let childNode = $(this).closest(".child_node");
+    tagDetails.name = $(this).parent().siblings(".child_node_input").val();
+    tagDetails.id = childNode.attr("data-id");
+    childNode.find(".sort_child_node .child_value").html(tagDetails.name);
+    childNode.find(".edit_child_node").hide();
+    childNode.find(".sort_child_node").show(500);
+})
+$(document).on("click", ".delete_group_btn", function(){
+    let group_node = $(this).closest(".parent_node");
+    let groupDetails = {};
+    groupDetails.name = group_node.attr("data-name");
+    groupDetails.id = group_node.attr("data-groupId");
+    getConfirmation(`Delete Confirmation tag group <strong>${groupDetails.name}</strong>`, `This is a permanent action and the tag will be removed from all groups.`, function(status){
+        if(status){
+            group_node.remove();
+            let apiPath = siteUrl + '/api/groups/deleteGroup/' + groupDetails.id;
+            let queryData = {};
+            let apiProps = { url: apiPath, method: 'get', queryData };
+            fetchDataApi(apiProps, function (data) {
+                console.log(data);
+            });
+        }
+    });
+});
+$(document).on("click", ".cancel_group_btn", function(){
+    let group_node = $(this).closest(".parent_node");
+    let groupId= group_node.attr("data-groupId");
+    let randNum = group_node.attr("data-randNum");
+    if(groupId == "create_new_node_id"){
+        $(this).closest(".edit_group_node").hide();
+        $(this).closest(".edit_group_node").siblings(".add_group_btn_blk").show(500);
+    } else {
+        let tagGroup = tagGroups.find(function(item){ return item.id == groupId});
+        regenerateGroupNode(randNum, group_node, tagGroup);
     }
 })
+$(document).on("click", ".save_group_btn", function(){
+    // $(this).attr("disabled", true);
+    let group_node = $(this).closest(".parent_node");
+    let groupId = group_node.attr("data-groupId");
+    let randNum = group_node.attr('data-randnum');
+    let name = group_node.find(".group-name").val();
+    let isPublic = group_node.find(".group-isPublic").prop('checked');
+    let isMultiple_select = group_node.find(".group-isMultiple_select").prop('checked');
+    let order = $(".groupSortable").children().length;
+    let tagGroup = {};
+    if(name){
+        tagGroup.name = name; 
+        tagGroup.isPublic = isPublic;
+        tagGroup.isMultiple_select = isMultiple_select;
+
+        let apiPath = siteUrl + '/api/groups/createOrUpdateTagGroup';
+        let queryData = {name, isPublic, isMultiple_select, order, groupId};
+        let apiProps = { url: apiPath, method: 'post', queryData };
+        fetchDataApi(apiProps, function (data) {
+            if(groupId == "create_new_node_id"){
+                tagGroup.order = order;
+                tagGroup.tags = [];
+                tagGroup.id = data.id;
+                tagGroups.push(tagGroup);
+            }else{
+                let groupIndex = tagGroups.findIndex(function(item){ return item.id == groupId});
+                tagGroup = tagGroups[groupIndex];
+                tagGroups.splice(groupIndex, 1, tagGroup);
+            }
+            $(this).attr("disabled", false);
+            regenerateGroupNode(randNum, group_node, tagGroup);
+            if(groupId == "create_new_node_id"){
+                let newGroupBlk = generatenNewTagGroup();
+                $(".groupSortable").append(newGroupBlk);
+                $(".edit_group_node").hide();
+            }
+        });
+        
+    }else{
+        $(this).removeAttr("disabled");
+        showTagErr(randNum, "Enter valid Group Tag name")
+    } 
+})
+
+function regenerateGroupNode(randNum, group_node, gItem){
+    let tagEls = gItem.tags.map(function (item, index) {
+            return generateChildNode(randNum, item);
+    });
+    if (tagEls.length <= 0) {
+        tagEls.push(`<h6 class="text-center text-danger">No Tags Present</h6>`);
+    }
+    let wrapper = generateGroupWrapper(randNum, gItem.name, gItem.isPublic, gItem.isMultiple_select)
+    let sortEl = generateGroupNode(randNum, gItem, tagEls);
+    group_node.attr("data-groupId", gItem.id);
+    group_node.attr("data-name", gItem.name);
+    group_node.attr("data-isPublic", gItem.isPublic);
+    group_node.attr("data-isMultiple_select", gItem.isMultiple_select);
+    group_node.empty();
+    group_node.append(sortEl);
+    group_node.append(wrapper);
+    group_node.find(".edit_child_node").hide();
+    group_node.find(".sort_group_node").show(500);
+    group_node.find(".edit_group_node").hide();
+}
 
 function addNewTag(randomNum) {
     let newTag = $(".new_tag_" + randomNum).val();

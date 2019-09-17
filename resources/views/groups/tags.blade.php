@@ -13,5 +13,6 @@
     </div>
     <script src="{{ URL:: asset('assets/theme/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
     <script src="{{ URL:: asset('js/fetch_api_call.js')}}"></script>
+    <script src="{{ URL:: asset('js/custom.js')}}"></script>
     <script src="{{ URL:: asset('js/groups/tags.js')}}"></script>
 @endsection

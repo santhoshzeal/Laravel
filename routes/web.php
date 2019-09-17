@@ -1,5 +1,6 @@
 <?php
 $domain = "dev.prgmsolutions.com";
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -224,4 +225,7 @@ Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("gro
 Route::get("/groups/tags", "Groups\TagsController@tagsIndex")->name("groups.tags");
 Route::get("/groups/people", "Groups\PeopleController@peopleIndex")->name("groups.people");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
+Route::get("/api/groups/tagsListWithGroups", "Groups\TagsController@getGroupsListWithTags");
+Route::post("/api/groups/createOrUpdateTagGroup", "Groups\TagsController@createGroup");
+Route::get("/api/groups/deleteGroup/{tagGroup_id}", "Groups\TagsController@deleteTagGroup");
 

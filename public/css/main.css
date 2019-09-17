@@ -95,7 +95,7 @@ padding: 1px;
     overflow : auto;
     border : 1px solid #f3eeee;
 }
-.child_nodes_group .child_value{
+.capitalized{
     text-transform: capitalize;
     margin-left: 5px;
 }
@@ -106,10 +106,10 @@ padding: 1px;
 .parent_node .fa-bars{
     color: #a29d9d !important;
 }
-.parent_node .sort_group_node, .parent_node .edit_group_node, .new_group_blk .card{
+.parent_node .sort_group_node, .parent_node .edit_group_node, .new_group_blk .card, .add_group_btn_blk{
     height:400px;
 }
 .blk_center{
-    margin-top:35%;
+    margin-top:40%;
     color:green;
 }
