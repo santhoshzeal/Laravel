@@ -411,3 +411,29 @@ ALTER TABLE `pastor_board` ADD `createdBy` INT(11) NOT NULL AFTER `status`, ADD 
 ALTER TABLE `group_types` CHANGE `d_enroll_autoClose_on` `d_enroll_autoClose_on` DATE NULL;
 ALTER TABLE `group_types` CHANGE `d_event_remind_before` `d_event_remind_before` INT(5) NULL;
 ALTER TABLE `group_types` CHANGE `d_enroll_msg` `d_enroll_msg` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+
+--18 Sep 2019 Sathish
+
+
+--
+-- Table structure for table `scheduling`
+--
+
+CREATE TABLE IF NOT EXISTS `scheduling` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `s_title` varchar(255) DEFAULT NULL,
+  `s_date` date DEFAULT NULL,
+  `s_time` time DEFAULT NULL,
+  `eventId` bigint(22) DEFAULT NULL,
+  `location_id` bigint(22) DEFAULT NULL,
+  `building_block` bigint(22) DEFAULT NULL,
+  `type_of_volunteer` bigint(22) DEFAULT NULL,
+  `notification_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=None,2=SMS,3=Email,4=Both',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
