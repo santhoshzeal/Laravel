@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 11, 2019 at 08:39 PM
+-- Generation Time: Sep 18, 2019 at 08:06 PM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -285,31 +285,56 @@ INSERT INTO `form_submissions` (`id`, `orgId`, `form_id`, `profile_fields`, `gen
 CREATE TABLE IF NOT EXISTS `groups` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `orgId` bigint(20) NOT NULL,
-  `groupType_id` bigint(20) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `groupType_id` bigint(20) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `description` text,
   `notes` text,
   `image_path` text,
-  `isPublic` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1=Enable,0=Disable',
   `meeting_schedule` text,
-  `location` varchar(150) DEFAULT NULL,
-  `contact_email` varchar(255) DEFAULT NULL,
-  `visible_leaders_fields` text COMMENT 'store in serialized data',
-  `visible_members_fields` text COMMENT 'store in serialized data',
+  `isPublic` tinyint(1) DEFAULT '1' COMMENT '0=Disable, 1=Enable',
+  `location` varchar(255) DEFAULT NULL,
   `is_enroll_autoClose` tinyint(1) NOT NULL DEFAULT '0',
   `enroll_autoClose_on` date DEFAULT NULL,
-  `is_enroll_autoClose_count` tinyint(1) DEFAULT '0' COMMENT '1=enable, 0=desable',
-  `enroll_autoClose_count` int(11) DEFAULT NULL,
+  `is_enroll_autoClose_count` tinyint(1) NOT NULL DEFAULT '0',
+  `enroll_autoClose_count` int(15) DEFAULT NULL COMMENT 'Max attendendies per group',
   `is_enroll_notify_count` tinyint(1) NOT NULL DEFAULT '0',
-  `enroll_notify_count` int(11) DEFAULT NULL,
+  `enroll_notify_count` int(15) DEFAULT NULL,
+  `contact_email` varchar(75) DEFAULT NULL,
+  `visible_leaders_fields` text COMMENT 'Stored in serialized formate',
+  `visible_members_fields` text COMMENT 'Stored in serialized Formate',
   `can_leaders_search_people` tinyint(1) NOT NULL DEFAULT '1',
-  `is_event_public` tinyint(1) NOT NULL DEFAULT '1',
-  `is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
-  `event_remind_before` varchar(25) DEFAULT NULL,
   `can_leaders_take_attendance` tinyint(1) NOT NULL DEFAULT '1',
+  `is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
+  `event_remind_before` int(5) NOT NULL,
   `enroll_status` tinyint(1) NOT NULL DEFAULT '1',
-  `enroll_msg` text,
+  `enroll_msg` varchar(255) NOT NULL,
   `leader_visibility_publicly` tinyint(1) NOT NULL DEFAULT '1',
+  `is_event_public` tinyint(1) NOT NULL DEFAULT '1',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_enrolls`
+--
+
+CREATE TABLE IF NOT EXISTS `group_enrolls` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(22) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `middle_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `mobile_no` int(15) DEFAULT NULL,
+  `message` text,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -328,12 +353,14 @@ CREATE TABLE IF NOT EXISTS `groups` (
 CREATE TABLE IF NOT EXISTS `group_events` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
   `group_id` bigint(22) DEFAULT NULL,
+  `title` varchar(150) NOT NULL,
   `isMutiDay_event` tinyint(1) NOT NULL DEFAULT '1',
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `repeat` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
   `description` text,
   `is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
   `event_remind_before` varchar(255) DEFAULT NULL,
@@ -349,15 +376,13 @@ CREATE TABLE IF NOT EXISTS `group_events` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_events_attendace`
+-- Table structure for table `group_events_attendance`
 --
 
-CREATE TABLE IF NOT EXISTS `group_events_attendace` (
+CREATE TABLE IF NOT EXISTS `group_events_attendance` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
-  `group_id` bigint(22) DEFAULT NULL,
-  `group_event_id` bigint(22) DEFAULT NULL,
-  `user_id` bigint(22) DEFAULT NULL,
-  `checkin_at` datetime DEFAULT NULL,
+  `event_id` bigint(22) DEFAULT NULL,
+  `group_member_id` bigint(22) DEFAULT NULL,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -375,11 +400,19 @@ CREATE TABLE IF NOT EXISTS `group_events_attendace` (
 
 CREATE TABLE IF NOT EXISTS `group_members` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(20) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
-  `user_id` bigint(22) DEFAULT NULL,
-  `role` int(11) NOT NULL,
-  `member_since` date DEFAULT NULL,
+  `isUser` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=User, 2=Enrolled User',
+  `user_id` bigint(20) DEFAULT NULL,
+  `role` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Leader, 2=Member',
+  `email` varchar(100) DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `middle_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `mobile_no` int(15) DEFAULT NULL,
   `message` text,
+  `member_since` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -399,10 +432,10 @@ CREATE TABLE IF NOT EXISTS `group_resources` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
   `group_id` bigint(22) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=File, 2=URL Path',
   `source` text,
   `description` text,
-  `visibility` int(11) DEFAULT NULL,
+  `visibility` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Only for Leaders / Admins, 2=ALL',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -422,6 +455,12 @@ CREATE TABLE IF NOT EXISTS `group_tags` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
   `group_id` bigint(22) DEFAULT NULL,
   `tag_id` bigint(22) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -433,29 +472,30 @@ CREATE TABLE IF NOT EXISTS `group_tags` (
 
 CREATE TABLE IF NOT EXISTS `group_types` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `orgId` bigint(20) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `orgId` bigint(20) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `description` text,
-  `d_isPublic` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Enable,0=Disable',
+  `isPublic` tinyint(1) NOT NULL DEFAULT '1',
+  `d_isPublic` tinyint(1) DEFAULT '1' COMMENT '0=Disable, 1=Enable',
   `d_meeting_schedule` text,
   `d_description` text,
-  `d_location` varchar(150) DEFAULT NULL,
-  `d_contact_email` varchar(255) DEFAULT NULL,
-  `d_visible_leaders_fields` text COMMENT 'store in serialized data',
-  `d_visible_members_fields` text COMMENT 'store in serialized data',
+  `d_location` varchar(255) DEFAULT NULL,
+  `d_contact_email` varchar(75) DEFAULT NULL,
+  `d_visible_leaders_fields` text COMMENT 'Stored in serialized formate',
+  `d_visible_members_fields` text COMMENT 'Stored in serialized Formate',
   `d_is_enroll_autoClose` tinyint(1) NOT NULL DEFAULT '0',
   `d_enroll_autoClose_on` date DEFAULT NULL,
-  `d_is_enroll_autoClose_count` tinyint(4) DEFAULT '0' COMMENT '1=Enable,2=Disable',
-  `d_enroll_autoClose_count` int(11) DEFAULT NULL,
+  `d_is_enroll_autoClose_count` tinyint(1) NOT NULL DEFAULT '0',
+  `d_enroll_autoClose_count` int(15) DEFAULT NULL COMMENT 'Max attendendies per group',
   `d_is_enroll_notify_count` tinyint(1) NOT NULL DEFAULT '0',
-  `d_enroll_notify_count` int(11) DEFAULT NULL,
+  `d_enroll_notify_count` int(15) DEFAULT NULL,
   `d_can_leaders_search_people` tinyint(1) NOT NULL DEFAULT '1',
   `d_is_event_public` tinyint(1) NOT NULL DEFAULT '1',
   `d_is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
-  `d_event_remind_before` varchar(25) DEFAULT NULL,
+  `d_event_remind_before` int(5) DEFAULT NULL,
   `d_can_leaders_take_attendance` tinyint(1) NOT NULL DEFAULT '1',
   `d_enroll_status` tinyint(1) NOT NULL DEFAULT '1',
-  `d_enroll_msg` text,
+  `d_enroll_msg` varchar(255) DEFAULT NULL,
   `d_leader_visibility_publicly` tinyint(1) NOT NULL DEFAULT '1',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -464,7 +504,14 @@ CREATE TABLE IF NOT EXISTS `group_types` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `group_types`
+--
+
+INSERT INTO `group_types` (`id`, `orgId`, `name`, `description`, `isPublic`, `d_isPublic`, `d_meeting_schedule`, `d_description`, `d_location`, `d_contact_email`, `d_visible_leaders_fields`, `d_visible_members_fields`, `d_is_enroll_autoClose`, `d_enroll_autoClose_on`, `d_is_enroll_autoClose_count`, `d_enroll_autoClose_count`, `d_is_enroll_notify_count`, `d_enroll_notify_count`, `d_can_leaders_search_people`, `d_is_event_public`, `d_is_event_remind`, `d_event_remind_before`, `d_can_leaders_take_attendance`, `d_enroll_status`, `d_enroll_msg`, `d_leader_visibility_publicly`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'Small groups', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', NULL, '2019-09-15 08:19:10', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -638,6 +685,14 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
   KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `model_has_permissions`
+--
+
+INSERT INTO `model_has_permissions` (`permission_id`, `model_type`, `model_id`) VALUES
+(7, '', 13),
+(7, '', 14);
+
 -- --------------------------------------------------------
 
 --
@@ -657,7 +712,6 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(2, 'App\\User', 1),
 (13, 'App\\User', 1),
 (14, 'App\\User', 2);
 
@@ -690,20 +744,26 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('0d61ed80db33fe1aa5e153100ae879bb44c12644aad237106c470b656356dd5c6779d6c8b9f894a8', 1, 1, 'dollar', '[]', 0, '2019-09-05 20:15:25', '2019-09-05 20:15:25', '2020-09-06 01:45:25'),
 ('0fd5c8dc43845d73972b409c3730b1c32133490ebf3be9485b4ba89aa6f9b5fcaa37438f2274efa0', 1, 1, 'dollar', '[]', 0, '2019-09-02 08:45:09', '2019-09-02 08:45:09', '2020-09-02 14:15:09'),
 ('158263b6d99cbb33665d910d839f1d57ce572a49a49efba04c6442c289828af8b7396c0910c88a79', 1, 1, 'dollar', '[]', 0, '2019-09-10 21:40:53', '2019-09-10 21:40:53', '2020-09-11 03:10:53'),
+('16339df9f48f5305d4efca4a4a013ea82dfaf0e1e669c48744b0918fe9049da5e09835e4ae5ba60e', 1, 1, 'dollar', '[]', 0, '2019-09-12 18:39:41', '2019-09-12 18:39:41', '2020-09-13 00:09:41'),
 ('19272c2e52d3f4bf9c452415fef1cc3e2a23e3ddf2bb36eb4955393b6b5399abe289bec13b157272', 1, 1, 'dollar', '[]', 0, '2019-08-24 20:14:52', '2019-08-24 20:14:52', '2020-08-25 01:44:52'),
 ('2d29e100b686baa8d92c5c7f10e3aa5b6cc5673dc59c8f052bcfb512c9d1b7b9c3e4751f2f9924da', 9, 1, 'dollar', '[]', 0, '2019-09-02 04:08:44', '2019-09-02 04:08:44', '2020-09-02 09:38:44'),
+('3456c9c15b71faa05813f8246f2f64979b4f875d22cd34abcfb66c509cca7fd477050272d351ab0f', 1, 1, 'dollar', '[]', 0, '2019-09-11 09:51:23', '2019-09-11 09:51:23', '2020-09-11 15:21:23'),
 ('402ab601017494b14bc09382e0965ecd1e5e5e351aae8cd067ffb41f057e7f5232c7a9bb37348bc0', 8, 1, 'dollar', '[]', 0, '2019-09-02 04:07:33', '2019-09-02 04:07:33', '2020-09-02 09:37:33'),
 ('455877b653904f9c6048523a34715a018cef4d976c791e5f5cab7dfa5ce0409820ac15e772a3256d', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:53:49', '2019-09-01 23:53:49', '2020-09-02 05:23:49'),
+('484c2f0d05df45e1762ccde22b02537e3c8f71098ab74f00c6ae2dda9e1a4da5057f56304d748509', 1, 1, 'dollar', '[]', 0, '2019-09-12 08:30:56', '2019-09-12 08:30:56', '2020-09-12 14:00:56'),
 ('685dbfec990ed843e61c63b17448880dcb4c30d003612ed9122435006d78105d69a0b6ffd1d19ca6', 1, 1, 'dollar', '[]', 0, '2019-09-01 22:52:04', '2019-09-01 22:52:04', '2020-09-02 04:22:04'),
 ('714c6e61bb08aa30d5d649b146e525661a1f0cce949c8e17a4f3e98d6c4438869e8b042ab7062a8b', 1, 1, 'dollar', '[]', 0, '2019-09-09 20:13:57', '2019-09-09 20:13:57', '2020-09-10 01:43:57'),
+('75fb965d62465de738b5697e8ec06c1f528a252799656ae00ccf01e4de863c93d5452cb03ad18ce4', 1, 1, 'dollar', '[]', 0, '2019-09-11 19:28:39', '2019-09-11 19:28:39', '2020-09-12 00:58:39'),
 ('76b825058ef909da602b57ce9889be0a80a6fddc41e7076307f9326082476240a002e5c2485180e9', 1, 1, 'dollar', '[]', 0, '2019-09-09 08:51:06', '2019-09-09 08:51:06', '2020-09-09 14:21:06'),
 ('7a64927dc3d31e440440f694937044c0ae4c529e8cfb58925066fe36c142d7b36c26fc2e372e8145', 1, 1, 'dollar', '[]', 0, '2019-09-03 10:56:57', '2019-09-03 10:56:57', '2020-09-03 16:26:57'),
 ('7c30cbce0a6743331c674d86f532f65cafe3ce5fa871de7483d2eaccf55c9a42c14bb0674909b1d3', 1, 1, 'dollar', '[]', 0, '2019-08-25 07:30:40', '2019-08-25 07:30:40', '2020-08-25 13:00:40'),
 ('7e1d70bf3f288eb4c2f815d57e93290abd3f41fdda886045c1a0c4446e53008ffb1d1b0a263ddafb', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:54:46', '2019-09-01 23:54:46', '2020-09-02 05:24:46'),
 ('8407ae545b6bf07952355ec3447c6a80208c6e8b09a7637f7bf5f4ddb6c9dcb99ce3d1fa4050098a', 1, 1, 'dollar', '[]', 0, '2019-08-24 22:05:54', '2019-08-24 22:05:54', '2020-08-25 03:35:54'),
+('8ec2222cbf759e82025013ff99f3357db0ee7c087e8cfadcfa4cffb684c0f3eb4b47491b8331722f', 1, 1, 'dollar', '[]', 0, '2019-09-15 08:03:24', '2019-09-15 08:03:24', '2020-09-15 13:33:24'),
 ('94bf3108327fb1a09f2193a0854c5294392373407c6290d0c9077d36fa367452c87795cee0b2d64f', 1, 1, 'dollar', '[]', 0, '2019-09-02 01:59:19', '2019-09-02 01:59:19', '2020-09-02 07:29:19'),
 ('a1723d73c4fff1baa97084ae43e45452e7397e24b863cda5950b203ba50101d201f5d4c7dabc195c', 1, 1, 'dollar', '[]', 0, '2019-08-27 21:12:17', '2019-08-27 21:12:17', '2020-08-28 02:42:17'),
 ('a7289273947fb30912e96af73341d2a4df9f451979d18dbdaa40962783ed62ff7190eff5938b4c90', 1, 1, 'dollar', '[]', 0, '2019-08-31 04:16:35', '2019-08-31 04:16:35', '2020-08-31 09:46:35'),
+('a8a5bbdbf236edebe4b3ac0a1c4bae9fe336830cf822843729123a0d05b9ac6b29cfa4f9198dce21', 1, 1, 'dollar', '[]', 0, '2019-09-17 19:33:41', '2019-09-17 19:33:41', '2020-09-18 01:03:41'),
 ('b5dbec6e13b7712c33b3443d43f2d12bfeea4b550b25f00fc7a5523c92a0790c01cd1ca4bbc25c28', 1, 1, 'dollar', '[]', 0, '2019-09-07 05:42:28', '2019-09-07 05:42:28', '2020-09-07 11:12:28'),
 ('baefa5b4c70698404089905b8a498da903ef868d0708a4f5c62ab27878725eb6e1798fb5d8f0ae1f', 6, 1, 'dollar', '[]', 0, '2019-09-01 19:57:35', '2019-09-01 19:57:35', '2020-09-02 01:27:35'),
 ('bb86c418163c8e10f073be8612f60e48c490f37205ef83ff05ca6b84c36d2347c09088cd5d231691', 1, 1, 'dollar', '[]', 0, '2019-09-06 22:57:11', '2019-09-06 22:57:11', '2020-09-07 04:27:11'),
@@ -867,8 +927,30 @@ CREATE TABLE IF NOT EXISTS `pastor_board` (
   `image_path` text,
   `location_id` bigint(22) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2-Inactive',
+  `createdBy` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` int(11) DEFAULT NULL,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `pastor_board`
+--
+
+INSERT INTO `pastor_board` (`id`, `orgId`, `parent_type`, `p_title`, `p_description`, `classified_type`, `p_category`, `posted_date`, `contact_name`, `contact_email`, `contact_phone`, `cost`, `image_path`, `location_id`, `status`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 1, 'First', 'First', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 08:04:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
+(2, 1, 2, 'Sec', 'Sec desc', 1, NULL, NULL, 'Sathish1', 'sat@as2da.com', '9181811', NULL, 's:334:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/2\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/2\\/","uploaded_file_name":"amerfort_1568554490.jpg","original_filename":"amerfort_1568554490.jpg","upload_file_extension":"jpg","file_size":0}";', NULL, 1, 1, '2019-09-15 08:04:50', NULL, '2019-09-15 13:34:50', NULL, NULL),
+(3, 1, 3, 'Third', 'Third desc', 1, 59, NULL, 'Sathish12', 'sat@as2aadda.com', '918181222', '222', 's:344:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/3\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/3\\/","uploaded_file_name":"cobratechlogo_1568554536.png","original_filename":"cobratechlogo_1568554536.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 08:05:36', NULL, '2019-09-15 13:35:36', NULL, NULL),
+(4, 1, 1, 'Fourth', 'Fourth desc', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 08:04:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
+(5, 1, 1, 'Fifth', 'Fifth', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 08:04:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
+(6, 1, 1, 'Six', 'Six', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 02:34:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
+(7, 1, 2, 'seven', 'seven desc', 1, NULL, NULL, 'Sathish1', 'sat@as2da.com', '9181811', NULL, 's:334:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/2\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/2\\/","uploaded_file_name":"amerfort_1568554490.jpg","original_filename":"amerfort_1568554490.jpg","upload_file_extension":"jpg","file_size":0}";', NULL, 1, 1, '2019-09-15 02:34:50', NULL, '2019-09-15 13:34:50', NULL, NULL),
+(8, 1, 3, 'eight', 'eight desc', 1, 59, NULL, 'Sathish12', 'sat@as2aadda.com', '918181222', '222', 's:344:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/3\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/3\\/","uploaded_file_name":"cobratechlogo_1568554536.png","original_filename":"cobratechlogo_1568554536.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 02:35:36', NULL, '2019-09-15 13:35:36', NULL, NULL),
+(9, 1, 1, 'nine', 'nine desc', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 02:34:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
+(10, 1, 1, 'tne', 'tne', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 02:34:05', NULL, '2019-09-15 13:34:05', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -963,25 +1045,25 @@ INSERT INTO `roles` (`id`, `orgId`, `name`, `guard_name`, `role_tag`, `created_a
 (2, 0, 'Adminstrator', 'web', 'admin', '2019-05-05 02:52:08', '2019-08-24 21:27:41'),
 (3, 0, 'Member', 'web', 'member', '2019-05-05 03:50:10', '2019-05-05 03:50:10'),
 (4, 0, 'Volunteer', 'web', 'volunteer', '2019-07-25 23:18:18', '2019-07-25 23:18:18'),
-(5, 0, 'Pastor', 'pastor', 'pastor', '2019-08-24 21:29:13', NULL),
-(6, 0, 'First Time Guest', 'First Time Guest\r\n', 'firsttimeguest', '2019-08-24 21:29:13', NULL),
-(7, 0, 'Inactive Member', 'Inactive Member', 'InactiveMember', '2019-08-24 21:29:52', NULL),
-(8, 0, 'Checkin Volunteer', 'Checkin Volunteer', 'CheckinVolunteer', '2019-08-24 21:29:52', NULL),
-(9, 0, 'Event Organizer', 'Event Organizer', 'EventOrganizer', '2019-08-24 21:30:12', NULL),
-(10, 0, 'Production Manager', 'Production Manager', 'ProductionManager', '2019-08-24 21:30:12', NULL),
-(11, 0, 'Accounts Admin', 'Accounts Admin', 'AccountsAdmin', '2019-08-24 21:30:29', NULL),
-(12, 0, 'Visitor', 'Visitor', 'Visitor', '2019-08-24 21:30:29', NULL),
+(5, 0, 'Pastor', 'web', 'pastor', '2019-08-24 21:29:13', '2019-09-13 01:22:59'),
+(6, 0, 'First Time Guest', 'web', 'firsttimeguest', '2019-08-24 21:29:13', '2019-09-13 01:22:59'),
+(7, 0, 'Inactive Member', 'web', 'InactiveMember', '2019-08-24 21:29:52', '2019-09-13 01:22:59'),
+(8, 0, 'Checkin Volunteer', 'web', 'CheckinVolunteer', '2019-08-24 21:29:52', '2019-09-13 01:22:59'),
+(9, 0, 'Event Organizer', 'web', 'EventOrganizer', '2019-08-24 21:30:12', '2019-09-13 01:22:59'),
+(10, 0, 'Production Manager', 'web', 'ProductionManager', '2019-08-24 21:30:12', '2019-09-13 01:22:59'),
+(11, 0, 'Accounts Admin', 'web', 'AccountsAdmin', '2019-08-24 21:30:29', '2019-09-13 01:22:59'),
+(12, 0, 'Visitor', 'web', 'Visitor', '2019-08-24 21:30:29', '2019-09-13 01:22:59'),
 (13, 1, 'Adminstrator', 'web', 'admin', '2019-09-02 14:15:03', NULL),
 (14, 1, 'Member', 'web', 'member', '2019-09-02 14:15:03', NULL),
 (15, 1, 'Volunteer', 'web', 'volunteer', '2019-09-02 14:15:03', NULL),
-(16, 1, 'Pastor', 'pastor', 'pastor', '2019-09-02 14:15:03', NULL),
-(17, 1, 'First Time Guest', 'First Time Guest\r\n', 'firsttimeguest', '2019-09-02 14:15:03', NULL),
-(18, 1, 'Inactive Member', 'Inactive Member', 'InactiveMember', '2019-09-02 14:15:03', NULL),
-(19, 1, 'Checkin Volunteer', 'Checkin Volunteer', 'CheckinVolunteer', '2019-09-02 14:15:03', NULL),
-(20, 1, 'Event Organizer', 'Event Organizer', 'EventOrganizer', '2019-09-02 14:15:03', NULL),
-(21, 1, 'Production Manager', 'Production Manager', 'ProductionManager', '2019-09-02 14:15:03', NULL),
-(22, 1, 'Accounts Admin', 'Accounts Admin', 'AccountsAdmin', '2019-09-02 14:15:03', NULL),
-(23, 1, 'Visitor', 'Visitor', 'Visitor', '2019-09-02 14:15:03', NULL);
+(16, 1, 'Pastor', 'web', 'pastor', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(17, 1, 'First Time Guest', 'web', 'firsttimeguest', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(18, 1, 'Inactive Member', 'web', 'InactiveMember', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(19, 1, 'Checkin Volunteer', 'web', 'CheckinVolunteer', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(20, 1, 'Event Organizer', 'web', 'EventOrganizer', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(21, 1, 'Production Manager', 'web', 'ProductionManager', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(22, 1, 'Accounts Admin', 'web', 'AccountsAdmin', '2019-09-02 14:15:03', '2019-09-13 01:22:59'),
+(23, 1, 'Visitor', 'web', 'Visitor', '2019-09-02 14:15:03', '2019-09-13 01:22:59');
 
 -- --------------------------------------------------------
 
@@ -1049,14 +1131,31 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tags`
+-- Table structure for table `schedules`
 --
 
-CREATE TABLE IF NOT EXISTS `tags` (
+CREATE TABLE IF NOT EXISTS `schedules` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
-  `tagGroup_id` bigint(22) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `order` int(11) DEFAULT NULL,
+  `s_title` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `scheduling`
+--
+
+CREATE TABLE IF NOT EXISTS `scheduling` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `s_title` varchar(255) DEFAULT NULL,
+  `s_date` date DEFAULT NULL,
+  `s_time` time DEFAULT NULL,
+  `eventId` bigint(22) DEFAULT NULL,
+  `location_id` bigint(22) DEFAULT NULL,
+  `building_block` bigint(22) DEFAULT NULL,
+  `type_of_volunteer` bigint(22) DEFAULT NULL,
+  `notification_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=None,2=SMS,3=Email,4=Both',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -1069,16 +1168,14 @@ CREATE TABLE IF NOT EXISTS `tags` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag_groups`
+-- Table structure for table `tags`
 --
 
-CREATE TABLE IF NOT EXISTS `tag_groups` (
+CREATE TABLE IF NOT EXISTS `tags` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
-  `orgId` bigint(22) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `isPublic` tinyint(1) NOT NULL DEFAULT '1',
-  `isMultiple_select` tinyint(1) NOT NULL DEFAULT '1',
-  `order` int(11) DEFAULT NULL,
+  `tagGroup_id` bigint(22) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `order` tinyint(10) NOT NULL DEFAULT '0' COMMENT 'Listing order number for sorting',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -1086,7 +1183,45 @@ CREATE TABLE IF NOT EXISTS `tag_groups` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `tags`
+--
+
+INSERT INTO `tags` (`id`, `tagGroup_id`, `name`, `order`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'One', 3, NULL, '2019-09-17 19:43:30', NULL, '2019-09-17 19:44:39', NULL, NULL),
+(2, 1, 'Two', 2, NULL, '2019-09-17 19:43:34', NULL, '2019-09-17 19:44:39', NULL, NULL),
+(3, 1, 'Three', 1, NULL, '2019-09-17 19:43:38', NULL, '2019-09-17 19:44:39', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tag_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `tag_groups` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `isPublic` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Public, 0=Restricted',
+  `isMultiple_select` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Multiple select, 0=single',
+  `order` tinyint(10) NOT NULL DEFAULT '0' COMMENT 'Listing order number for sorting',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `tag_groups`
+--
+
+INSERT INTO `tag_groups` (`id`, `orgId`, `name`, `isPublic`, `isMultiple_select`, `order`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'First Tag', 1, 1, 1, NULL, '2019-09-17 19:43:24', NULL, '2019-09-17 19:43:24', NULL, NULL);
 
 -- --------------------------------------------------------
 
