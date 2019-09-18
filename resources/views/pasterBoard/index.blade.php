@@ -90,7 +90,7 @@
                             },
                             success:function(res){
                                 $('.load-more').remove();
-                                $('#postList').append(res.data);
+                                $('#postList').append(res.data).attr("data-count",res.count);
                             }
                         });
             }
@@ -98,8 +98,14 @@
             $(document).ready(function(){
                 $(window).scroll(function(){
                     var lastID = $("#postList .post-section").length;
+                    var total = $("#postList").attr("data-count");
+
+                    console.log(lastID,total);
                     if(($(window).scrollTop() == $(document).height() - $(window).height()) && (lastID != 0)){
-                        loadPost(lastID);
+                        if(lastID <= total) {
+                            loadPost(lastID);
+                        }
+
                     }
                 });
             });

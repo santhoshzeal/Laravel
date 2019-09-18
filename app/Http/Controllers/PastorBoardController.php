@@ -106,6 +106,9 @@ class PastorBoardController extends Controller {
                             ->limit($limit)
                             ->get();
 
+        $count =DB::select('SELECT FOUND_ROWS() as record_count');
+        $count = $count[0]->record_count;
+
         $html = "";
         $adHtml = "";
         //print_r(count($posts));
@@ -166,69 +169,12 @@ class PastorBoardController extends Controller {
         return response()->json(
                         [
                             'success' => '1',
-                            "data" => $html
+                            "data" => $html,
+                            "count" =>$count
                         ]
         );
 
-        $Rooms = PastorBoard::listAllPost($request->search['value']);
 
-        exit;
-        return DataTables::of($Rooms)
-                        ->addColumn('action', function($row) {
-
-                            $hh_pic_image= url('/assets/uploads/organizations/avatar.png');
-                            if($row->image_path != null){
-                                $hh_pic_image_json = json_decode(unserialize($row->image_path));
-                                $hh_pic_image = $hh_pic_image_json->download_path.$hh_pic_image_json->uploaded_file_name;
-                            }
-
-
-                            $html='<div class="row post-main">
-
-                            <div class=" col-md-12 mt-0 font-18 mb-1">'.$row->p_title.'</div>
-                                    <div class=" col-md-2 post-image-container">
-
-                                      <img src="'.$hh_pic_image.'" class="post-img" style="height:100px; ">
-                                    </div>
-
-                                    <div class=" col-md-7 ">
-
-                                      <div class="post-desc ">'.$row->p_description.'</div>
-                                       <div class="post-email"> '.$row->contact_email.'</div>
-                                       <div class="post-phone"> '.$row->contact_phone.'</div>
-
-
-                                    </div> <div class="col-md-3">
-                                                    <button class="btn" onclick="editPost('.$row->id.')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                                                    <button class="btn" onclick="deletePost('.$row->id.')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                             </div></div>';
-
-
-                             $html='<div class="col-lg-12">
-                             <div class="card m-b-5">
-                                 <div class="card-header bg-warning">
-                                     Post  title goes here
-                                 </div>
-                                 <div class="card-body">
-
-                                     <div class="media">
-
-                                         <img class="d-flex mr-3 rounded-circle" src="http://localhost/dallas/public/assets/uploads/organizations/avatar.png" alt="Generic placeholder image" height="128">
-                                         <div class="media-body">
-                                             <h5 class="mt-0 font-18 mb-1">John B. Roman</h5>
-                                             <p class="text-muted font-14">Webdeveloper</p>
-                                         </div>
-                                     </div>
-
-                                 </div>
-                             </div>
-                         </div>';
-
-                            return $html;
-                        })
-
-                        ->rawColumns(['action'])
-                        ->make(true);
     }
 
     public function managePostList(Request $request) {
