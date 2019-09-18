@@ -8,7 +8,7 @@ let formId = null;
 let urlPath = location.pathname.split('/');
 let form_id_hidden = $("#form_id_hidden").val();
 //if (urlPath.length === 5) {
-if(form_id_hidden != ""){
+if (form_id_hidden != "") {
     //formId = urlPath[urlPath.length - 1];
     formId = form_id_hidden;
     let apiPath = siteUrl + '/api/settings/forms/content/' + formId;
@@ -357,7 +357,7 @@ function saveOrUpdateForm() {
     fetchDataApi(apiProps, function (data) {
         // preDefinedData = data;
         // console.log(data);
-        // location.replace(`${siteUrl}/settings/forms/${data.id}/fields`)
+        location.replace(`${siteUrl}/settings/forms/${data.id}/fields`)
     });
 }
 function getEmptyBlk() {
