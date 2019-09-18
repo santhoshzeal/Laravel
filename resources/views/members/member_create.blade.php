@@ -55,7 +55,7 @@
     </div>
     <div class="col-sm-2 col-lg-2 col-md-2 divcols" >
         <label>First</label>
-      <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First name" value="{{ old('first_name', isset($user) ? $user->first_name : '') }}">
+      <input type="text" required class="form-control" name="first_name" id="first_name" placeholder="First name" value="{{ old('first_name', isset($user) ? $user->first_name : '') }}">
     </div>
     <div class="col-sm-2 col-lg-2 col-md-2 divcols" >
         <label>Middle</label>
@@ -63,7 +63,7 @@
     </div>
     <div class="col-sm-2 col-lg-2 col-md-2 divcols" >
         <label>Last</label>
-      <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last name" value="{{ old('last_name', isset($user) ? $user->last_name : '') }}">
+      <input type="text" required class="form-control" name="last_name" id="last_name" placeholder="Last name" value="{{ old('last_name', isset($user) ? $user->last_name : '') }}">
     </div>
 
     <div class="col-sm-2 col-lg-2 col-md-2 divcols" >
