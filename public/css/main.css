@@ -113,3 +113,6 @@ padding: 1px;
     margin-top:40%;
     color:green;
 }
+#scheduleForm input, #scheduleForm select, #scheduleForm label, #scheduleForm select option{
+    font-size:14px;
+}

@@ -12,7 +12,7 @@
                         <hr/>
                         <div class="row">
                             <input id="scheduleId" value="{{$schedule_id}}" class="d-none">
-                            <form id="scheduleForm" novalidate></form>
+                            <form id="scheduleForm" class="col-sm-12 card pr-5 pl-5 pt-2" novalidate></form>
                         </div>
                     </div>
                 </div>
