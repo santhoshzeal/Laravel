@@ -161,6 +161,12 @@ Route::get("/api/form/submissions/list/{form_id}", "Settings\FormController@getF
 Route::post("/api/settings/forms/manage/{form_id?}", 'Settings\FormController@storeOrUpdate');
 Route::get('/api/settings/forms/content/{form_id}', 'Settings\FormController@getFormDetails');
 
+// Settings => Schedulling
+Route::get("/settings/schedulling", "Settings\SchedullingController@schedullingIndex");
+Route::get("/api/settings/schedule/list", 'Settings\SchedullingController@getScheduleList');
+Route::get("/settings/schedulling/manage/{schedule_id?}", 'Settings\SchedullingController@createOrEditPage');
+Route::post("/api/settings/schedule/createRelatedData", 'Settings\SchedullingController@createRelatedData');
+
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');
 //Route::get('checkin', 'CheckinController@index');

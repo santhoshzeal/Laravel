@@ -109,10 +109,7 @@ function generateFormPreview() {
 }
 
 function filterData() {
-    let fullName = {};
-    let address = {};
-    let profileFields = {};
-    let generalFields = {};
+    let fullName = address = profileFields = generalFields = {};
     let formOutputEls = $('#form-preview .field_data');
     formOutputEls.each(function () {
         var type = $(this).attr('data-type');

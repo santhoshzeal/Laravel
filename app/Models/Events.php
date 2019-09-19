@@ -86,4 +86,10 @@ class Events extends Model {
         return $d && $d->format($format) === $date;
     }
 
+    // Created By Lokesh 19-09-2019
+    public function schedules()
+    {
+        return $this->hasMany('App\Models\Schedule', 'event_id', 'eventId');
+    }
+
 }
