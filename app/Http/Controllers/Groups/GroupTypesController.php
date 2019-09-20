@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Session;
 use Config;
 
 use App\Models\GroupType;
-
+use Illuminate\Http\Response;
+use DataTables;
+use Auth;
 class GroupTypesController extends Controller
 {
     public function __construct()
@@ -22,31 +24,63 @@ class GroupTypesController extends Controller
 
     public function groupsList(){
         $data['title'] = $this->browserTitle . " - Groups List";
-        
+
         return view('groups.list', $data);
     }
 
     public function groupTypes(){
         $data['title'] = $this->browserTitle . " - Group Types";
-        
+
         return view('groups.types', $data);
     }
 
+    public function groupTypesList(Request $request){
+        $groupTypes = GroupType::getGroupTypesList($request->search['value']);
+
+        return DataTables::of($groupTypes)
+                        ->addColumn('action', function($row) {
+                            $html='<div class="row post-main">
+
+
+
+
+                                    <div class=" col-md-9 ">
+
+                                      <div class="grouptype-name "><h6>'.$row->name.'</h6></div>
+                                       <div class="grouptype-desc"> '.$row->description.'</div>
+
+
+
+                                    </div> <div class="col-md-3">
+                                                    <button class="btn btn-outline-primary" onclick="groupDefaults('.$row->id.')">Group Defaults</button>
+                                                    <button class="btn btn-outline-primary" onclick="viewGroups('.$row->id.')">View Groups</button>
+                             </div></div>';
+
+                            return $html;
+                        })
+
+                        ->rawColumns(['action'])
+                        ->make(true);
+    }
+    public function createGroupTypesPage(){
+        $data['title'] = $this->browserTitle . " - ";
+        return view('groups.group_types.create');
+    }
     public function reports(){
         $data['title'] = $this->browserTitle . " - Group Reports";
-        
+
         return view('groups.reports', $data);
     }
 
     public function events(){
         $data['title'] = $this->browserTitle . " - Group Events";
-        
+
         return view('groups.events', $data);
     }
 
     public function resources(){
         $data['title'] = $this->browserTitle . " - Group Resources";
-        
+
         return view('groups.resources', $data);
     }
 
@@ -56,7 +90,7 @@ class GroupTypesController extends Controller
         if(count($groupTypes) < 1){
             $groupTypes[] = $this->createInitialGroupType($this->orgId);
         }
-        
+
         return $groupTypes;
     }
 

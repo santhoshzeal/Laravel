@@ -233,3 +233,11 @@ Route::get("/api/groups/tags/deleteTag/{tag_id}", "Groups\TagsController@deleteT
 Route::post("/api/groups/tags/updateTagsOrder", "Groups\TagsController@updateTagsOrder");
 Route::post("/api/groups/tags/updateTagGroupsOrder", "Groups\TagsController@updateTagGroupsOrder");
 
+//groupTypes
+Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");
+Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController@createGroupTypesPage");
+Route::post("/groups/types/create", "Groups\PeopleController@createGroupTypes")->name("group_type.store");
+
+
+
+

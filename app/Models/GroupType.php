@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Auth;
 class GroupType extends Model
 {
     protected $table = 'group_types';
@@ -15,7 +15,28 @@ class GroupType extends Model
         'd_can_leaders_search_people', 'd_is_event_public', 'd_is_event_remind', 'd_event_remind_before', 'd_can_leaders_take_attendance',
         'd_enroll_status', 'd_enroll_msg', 'd_leader_visibility_publicly', 'created_at', 'updated_at', 'deleted_at'];
 
-        public function groups(){
-            return $this->hasMany('App\Models\Group', 'groupType_id', 'id');
+    public function groups(){
+        return $this->hasMany('App\Models\Group', 'groupType_id', 'id');
+    }
+
+    public static function getGroupTypesList($search){
+        $result = self::select('id', 'name', 'description','created_at')
+        /* ->orderBy("created_at","desc") */;
+        if ($search != "") {
+            $result->where(function($query)use($search) {
+
+
+
+                return $query->where('p_title', 'name', "%$search%")
+                                ->orWhere('description', 'LIKE', "%$search%");
+
+                //echo date("d m y",(int)$search);
+            });
         }
+
+
+        $result->where('orgId', '=', Auth::user()->orgId);
+
+        return $result;
+    }
 }
