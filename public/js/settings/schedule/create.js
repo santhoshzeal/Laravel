@@ -61,12 +61,12 @@ function generateOpts(valType, arr = [], valName = null, propName = null) {
 }
 
 function getDateTimeBlk(timeOpts) {
-    let rowBlk = generateBlk("row card-body pb-0", "");
-    let dateBlk = generateBlk("col-sm-6 card-body", "date_input");
-    let timeBlk = generateBlk("col-sm-6 ", "time_select");
-    let dateRowBlk = generateBlk("row", "");
+    let rowBlk = generateBlk("row card-body pb-0");
+    let dateBlk = generateBlk("col-sm-6 card-body");
+    let timeBlk = generateBlk("col-sm-6 ");
+    let dateRowBlk = generateBlk("row");
     let dateLabelBlk = genLableBlk('col-sm-3 col-form-label', "Date");
-    let dateInputBlk = genInputBlk('col-sm-9', "Scheduling Date", "date");
+    let dateInputBlk = genInputBlk('col-sm-9', "date_input", "Scheduling Date", "date");
     dateRowBlk.html([dateLabelBlk, dateInputBlk]);
     let timeRowBlk = getSelectBlk("time_select", "Time", timeOpts)
     dateBlk.html(dateRowBlk);
@@ -91,14 +91,14 @@ function genCheckboxInput(){
 function genRadioInput(name, value){
     return `<input type="radio" name="${name}" value="${value}" class="form-control-chk form-check-input form_input_req">`
 }
-function genSelectInput(classList, options) {
-    return `<select class="form-control ${classList}">${options.join("")}</select>`
+function genSelectInput(classList, elId, options) {
+    return `<select class="form-control ${classList}" id="${elId}">${options.join("")}</select>`
 }
 function generateTitleBlk(){
     return generateBlk("row card-body pb-0").html([genLableBlk("col-sm-3", "Schedule Title"), genInputBlk("col-sm-9", "title_input", "Schdule Name", "text")])
 }
-function getSelectBlk(blkId, elLabel, options) {
-    return generateBlk("row card-body", blkId).html([genLableBlk("col-sm-3 pt-2", elLabel), genSelectInput("col-sm-9", options)]);
+function getSelectBlk(elId, elLabel, options) {
+    return generateBlk("row card-body").html([genLableBlk("col-sm-3 pt-2", elLabel), genSelectInput("col-sm-9", elId, options)]);
 }
 function getCheckerBlk(){
     let checkerSelect = generateBlk("col-sm-6").html(getSelectBlk("checker_select", "Checker", generateOpts("numbers")));
