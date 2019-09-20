@@ -235,9 +235,9 @@
                                     <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/forms')}}">Forms</a>
                                     </li>
-                                    <!-- <li @if($url_segment_one == "settings") class='active' @else @endif>
+                                    <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/schedulling')}}">Schedlling</a>
-                                    </li> -->
+                                    </li>
                                      <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/asset_management/resources')}}">Asset Management</a>
                                     </li>

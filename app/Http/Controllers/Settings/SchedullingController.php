@@ -39,7 +39,7 @@ class SchedullingController extends Controller
         
         $i = 1;
         foreach ($schedules as $schedule) {
-            $row = [$i, $schedule->title, $schedule->event->name,$schedule->volunteer->mldValue, 
+            $row = [$i, $schedule->title, $schedule->event->name, $schedule->volunteer->mldValue, 
                         \Carbon\Carbon::parse($schedule->data)->format('d-m-Y'), $schedule->time];
             $link = "/settings/schedulling/". $schedule->id;
             $row[] = "<a href='".$link ."'><i class='fa fa-eye'></i></a>";
