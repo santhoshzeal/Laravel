@@ -9,9 +9,9 @@
 
 
                                     <div class="form-group row">
-                                       <label for="example-date-input" class="col-sm-3 col-form-label">Item Name</label>
+                                       <label for="example-date-input" class="col-sm-3 col-form-label">Group Type Name</label>
                                        <div class="col-sm-9">
-                                           <input class="form-control" required="" type="text" value="{{ isset($resource)?$resource->item_name:'' }}" id="item_name" name="item_name" >
+                                           <input class="form-control" required="" type="text" value="{{ isset($groupType)?$groupType->name:'' }}" id="name" name="name" >
                                        </div>
                                    </div>
 
@@ -20,9 +20,18 @@
                                    <div class="form-group row">
                                        <label for="example-date-input" class="col-sm-3 col-form-label">Description</label>
                                        <div class="col-sm-9">
-                                           <textarea name="item_desc" id="item_desc" class="form-control">{{ isset($resource)?$resource->item_desc:'' }}</textarea>
+                                           <textarea rows="4" required name="description" id="description" class="form-control">{{ isset($groupType)?$groupType->description:'' }}</textarea>
                                        </div>
                                    </div>
+
+
+                                   <div class="form-group row">
+                                    <label for="example-date-input" class="col-sm-3 col-form-label">Groups list map</label>
+                                    <div class="col-sm-9">
+                                        <input class="checkbox" type="checkbox" checked="checked" name="isPublic" id="isPublic">
+                                        <label class="checkbox-label" for="isPublic">Enable map view on public groups list page</label>
+                                    </div>
+                                </div>
 
 
 
@@ -32,7 +41,7 @@
                            </div>
                        </div> <!-- end col -->
                    </div>
-    <input type="hidden" name="groupTypeId" value="{{ isset($resource)?$resource->id:'' }}" />
+    <input type="hidden" name="groupTypeId" value="{{ isset($groupType)?$groupType->id:'' }}" />
     <input type="submit" id="formSubmitBtn" style="display: none;" />
    </form>
 

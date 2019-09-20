@@ -52,7 +52,7 @@ class GroupTypesController extends Controller
 
 
                                     </div> <div class="col-md-3">
-                                                    <button class="btn btn-outline-primary" onclick="groupDefaults('.$row->id.')">Group Defaults</button>
+                                                    <button class="btn btn-outline-primary" onclick="groupDefaults(\''.$row->name.'\','.$row->id.')">Group Defaults</button>
                                                     <button class="btn btn-outline-primary" onclick="viewGroups('.$row->id.')">View Groups</button>
                              </div></div>';
 
@@ -62,10 +62,61 @@ class GroupTypesController extends Controller
                         ->rawColumns(['action'])
                         ->make(true);
     }
+
     public function createGroupTypesPage(){
         $data['title'] = $this->browserTitle . " - ";
         return view('groups.group_types.create');
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request) {
+        $insertData = $request->all();
+
+        $groupTypeId = $request->groupTypeId;
+
+        //validation rules
+
+        if($request->isPublic){
+            $insertData['isPublic'] = 1;
+        }else {
+            $insertData['isPublic'] = 0;
+        }
+
+
+        if ($groupTypeId > 0) { //update
+            $insertData['updatedBy'] = Auth::id();
+
+
+            GroupType::where("id", $groupTypeId)->update($insertData);
+        } else { //insert
+            $insertData['createdBy'] = Auth::id();
+            $insertData['orgId'] = Auth::user()->orgId;
+
+            GroupType::create($insertData);
+        }
+
+        return response()->json(
+                        [
+                            'success' => '1',
+                            "message" => '<div class="alert alert-success">
+                                                                 <strong>Saved!</strong>
+                                                           </div>'
+                        ]
+        );
+    }
+
+    public function groupDefaults($groupTypeId){
+        $data['title'] = $this->browserTitle . " - ";
+
+        return view('groups.group_types.group-type-default', $data);
+    }
+
+
     public function reports(){
         $data['title'] = $this->browserTitle . " - Group Reports";
 

@@ -242,7 +242,8 @@ Route::post("/api/groups/tags/updateTagGroupsOrder", "Groups\TagsController@upda
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");
 Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController@createGroupTypesPage");
-Route::post("/groups/types/create", "Groups\PeopleController@createGroupTypes")->name("group_type.store");
+Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
+Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
 
 
 

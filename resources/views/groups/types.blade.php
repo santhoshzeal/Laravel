@@ -100,7 +100,7 @@
 
 
             function createGroupTypesDialog (){
-                 createPostDlg = BootstrapDialog.show({
+                 createGroupTypesDlg = BootstrapDialog.show({
                     title:"New Group Type",
                     size:"size-wide",
                     message: $('<div></div>').load(siteUrl+"/groups/types/create_group_types_page"),
@@ -109,7 +109,7 @@
                             label: 'Submit',
                             cssClass: 'btn-primary',
                             action: function(dialogRef){
-                                submitCreatePost();
+                                submitGroupTypes();
                             }
                         },
                         {
@@ -122,13 +122,13 @@
                 });
             }
 
-            function submitCreatePost(){
+            function submitGroupTypes(){
 
-                $('#create_post_form').ajaxForm(function(data) {
-                   $("#create_post_form_status").html(data.message);
+                $('#create_group_type_form').ajaxForm(function(data) {
+                   $("#create_group_type_form_status").html(data.message);
                    setTimeout(function(){
-                    createPostDlg.close();
-                        postTable.draw(false);
+                    createGroupTypesDlg.close();
+                    GroupTypesTable.draw(false);
                     },2000);
                 });
 
@@ -136,17 +136,17 @@
                 $("#formSubmitBtn").click();
             }
 
-            function editPost(postId){
+            function groupDefaults(title,groupTypeId){
                 createPostDlg = BootstrapDialog.show({
-                    title:"Update Post",
+                    title:title+" Default settings",
                     size:"size-wide",
-                    message: $('<div></div>').load(siteUrl+"/pastor_board/edit/"+postId),
+                    message: $('<div></div>').load(siteUrl+"/groups/types/defaults/"+groupTypeId),
                     buttons: [
                         {
                             label: 'Submit',
                             cssClass: 'btn-primary',
                             action: function(){
-                                submitCreatePost();
+                                submitGroupTypes();
                             }
                         },
                         {
