@@ -34,6 +34,7 @@ class VerifyCsrfToken extends Middleware
         "/api/groups/createOrUpdateTagGroup",
         "/api/groups/tags/createOrUpdateTag",
         "/api/groups/tags/updateTagsOrder",
-        "/api/groups/tags/updateTagGroupsOrder"
+        "/api/groups/tags/updateTagGroupsOrder",
+        "/api/settings/schedule/createRelatedData"
     ];
 }

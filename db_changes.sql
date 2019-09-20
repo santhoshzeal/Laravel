@@ -437,3 +437,16 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+----
+-- Altering scheduling Table with following changes
+----
+ALTER TABLE `scheduling` CHANGE `s_title` `title` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `scheduling` CHANGE `s_date` `date` DATE NULL DEFAULT NULL;
+ALTER TABLE `scheduling` CHANGE `s_time` `time` TIME NULL DEFAULT NULL;
+ALTER TABLE `scheduling` CHANGE `eventId` `event_id` BIGINT(22) NULL DEFAULT NULL;
+ALTER TABLE `scheduling` ADD `checker_count` BIGINT(20) NOT NULL AFTER `type_of_volunteer`;
+ALTER TABLE `scheduling` ADD `is_auto_schedule` BOOLEAN NOT NULL DEFAULT TRUE AFTER `checker_count`;
+ALTER TABLE `scheduling` ADD `is_manual_schedule` BOOLEAN NOT NULL DEFAULT FALSE AFTER `is_auto_schedule`;
+ALTER TABLE `scheduling` ADD `assign_ids` TEXT NULL AFTER `is_manual_schedule`;
+ALTER TABLE `scheduling` ADD `orgId` BIGINT(22) NOT NULL AFTER `title`;
