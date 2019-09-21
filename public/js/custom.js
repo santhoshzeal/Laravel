@@ -40,3 +40,16 @@ function getTimeValues(){
     });
     return timeData;
 }
+
+function appendModalToBody(modalId){
+    let modalEl = `<div id='${modalId}' class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" data-backdrop="static">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header modalTitle"></div>
+                                <div class="modal-body modalBody"></div>
+                                <div class="modal-footer modalFooter"></div>
+                            </div>
+                        </div>
+                    </div>`;
+    $(document.body).append(modalEl);
+}

@@ -4,11 +4,15 @@ let sFields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_blo
 let buildBlks = [{ id: 1, name: "daily" }, { id: 2, name: "weekly" }, { id: 999, name: "none" }];
 let locations = [{ id: 1, name: "location1" }, { id: 2, name: "location2" }, { id: 3, name: "location3" }];
 let schedule = {};
+let membersList = [];
+let searchMemberList = [];
+let checker_count = 1;
 
 $(document).ready(function () {
     $(".container-fluid").addClass("m-0 p-0").css({ width: "100vw"});
     $(".wrapper").css("padding-top", "118px");
     scheduleId = $("#scheduleId").val();
+    appendModalToBody("assignMemberModal");
     fetchFormSupportedData();
 });
 
@@ -24,29 +28,40 @@ function fetchFormSupportedData() {
 function extractData() {
     if (!recievedData.schedule) {
         sFields.forEach(function (key) { schedule[key] = null; });
-        schedule.id = null;
+        // schedule.id = null;
         schedule.assign_ids = [];
     }else{
         schedule = recievedData.schedule;
     }
+    // schedule = {"title":"Testing Schedule","date":"2019-09-27","time":"01:00","event_id":"3","location_id":"2","building_block":"","type_of_volunteer":"128","checker_count":"5","is_auto_schedule":false,"is_manual_schedule":false,"notification_flag":null,"id":null,"assign_ids":[1,2,3,4],"notify_type":"4"};
     events = recievedData.events;
     volunteer_types = recievedData.volunteer_types;
+    // membersList = []; 
+    if(schedule.assign_ids.length > 0) fetchAssignedList();
     generateForm();
 }
 
+function fetchAssignedList(){
+    let apiPath = siteUrl + '/api/settings/schedule/getAssignedMembersList';
+    let apiProps = { url: apiPath, method: 'post', queryData: { assign_ids: schedule.assign_ids } };
+    fetchDataApi(apiProps, function (data) {
+        membersList = data;
+    });
+}
+
 function generateForm() {
-    let valunteerBlk = getSelectBlk("volunteer_select", "Type Of Volunteer", generateOpts('id', volunteer_types, "mldId", "mldValue"));
-    let buildingBlk = getSelectBlk("building_select", "Building Block", generateOpts("id", buildBlks, 'id', "name"));
-    let locationBlk = getSelectBlk("location_select", "Location", generateOpts("id", locations, 'id', "name"));
-    let eventBlk = getSelectBlk("event_select", "Event", generateOpts("id", events, "eventId", "eventName"));
+    let valunteerBlk = getSelectBlk("type_of_volunteer_select", "Type Of Volunteer", generateOpts('id', volunteer_types, "mldId", "mldValue"));
+    let buildingBlk = getSelectBlk("building_block_select", "Building Block", generateOpts("id", buildBlks, 'id', "name", true));
+    let locationBlk = getSelectBlk("location_id_select", "Location", generateOpts("id", locations, 'id', "name"));
+    let eventBlk = getSelectBlk("event_id_select", "Event", generateOpts("id", events, "eventId", "eventName"));
     let checkerCountBlk = getCheckerBlk();
-    $("#scheduleForm").html([generateTitleBlk(), getDateTimeBlk(generateOpts("time")), eventBlk, locationBlk, buildingBlk, valunteerBlk, checkerCountBlk, getNotificationBlk() ]);
-    $("#checker_select").removeClass("card-body");
+    $("#scheduleForm").html([generateTitleBlk(), getDateTimeBlk(generateOpts("time")), eventBlk, locationBlk, buildingBlk, valunteerBlk, checkerCountBlk, generateBlk("row card pane p-2", "members_list"), getNotificationBlk(), getActionBlk() ]);
+    $("#checker_count_select").parent(".row").removeClass("card-body");
     updateFormData();
 }
 
-function generateOpts(valType, arr = [], valName = null, propName = null) {
-    let opts = [`<option class="text-secondary" value="">-- Select --</option>`]
+function generateOpts(valType, arr = [], valName = null, propName = null, isSetDefault= false) {
+    let opts = (isSetDefault)? [`<option class="text-secondary" value="">-- Select --</option>`] : [];
     if (valType == "id") {
         arr.forEach(function (item) { opts.push(genOpt(item[valName], item[propName])); })
     } else if (valType == "time") {
@@ -85,8 +100,8 @@ function genLableBlk(classList, label) {
 function genInputBlk(classList, elId, placeholder, type) {
     return `<div class="${classList}"><input class="form-control" id="${elId}" placeholder="${placeholder}" type="${type}"></div>`
 }
-function genCheckboxInput(){
-    return '<input type="checkbox" class="form-control-chk form-check-input form_input_req">'
+function genCheckboxInput(elId){
+    return `<input type="checkbox" class="form-control-chk form-check-input form_input_req" id=${elId}>`
 }
 function genRadioInput(name, value){
     return `<input type="radio" name="${name}" value="${value}" class="form-control-chk form-check-input form_input_req">`
@@ -100,46 +115,219 @@ function generateTitleBlk(){
 function getSelectBlk(elId, elLabel, options) {
     return generateBlk("row card-body").html([genLableBlk("col-sm-3 pt-2", elLabel), genSelectInput("col-sm-9", elId, options)]);
 }
+function genBtn(elClass, elLabel, elId=null){
+    return `<button class="${elClass}" id="${elId}">${elLabel}</button>`;
+}
+
 function getCheckerBlk(){
-    let checkerSelect = generateBlk("col-sm-6").html(getSelectBlk("checker_select", "Checker", generateOpts("numbers")));
-    let asBlkEls = generateBlk("form-check auto_assign").html([genCheckboxInput(),genLableBlk("form-check-label", "Auto Scheduling")]);
-    let msBlkEls = generateBlk("form-check manual_assign").html([genCheckboxInput(),genLableBlk("form-check-label", "Manual Scheduling")]);
+    let checkerSelect = generateBlk("col-sm-6").html(getSelectBlk("checker_count_select", "Checker", generateOpts("numbers")));
+    let asBlkEls = generateBlk("form-check auto_assign").html([genCheckboxInput("is_auto_schedule"), genLableBlk("form-check-label", "Auto Scheduling")]);
+    let msBlkEls = generateBlk("form-check manual_assign").html([genCheckboxInput("is_manual_schedule"), genLableBlk("form-check-label", "Manual Scheduling")]);
     let asBlk = generateBlk("col-sm-3 pt-2").html(asBlkEls);
     let msBlk = generateBlk("col-sm-3 pt-2").html(msBlkEls);
-
     return generateBlk("row pb-3").html([checkerSelect, asBlk, msBlk]);
 }
-
-function getCheckerBlk(){
-    let checkerSelect = generateBlk("col-sm-6").html(getSelectBlk("checker_select", "Checker", generateOpts("numbers")));
-    let asBlkEls = generateBlk("form-check auto_assign").html([genCheckboxInput(), genLableBlk("form-check-label", "Auto Scheduling")]);
-    let msBlkEls = generateBlk("form-check manual_assign").html([genCheckboxInput(), genLableBlk("form-check-label", "Manual Scheduling")]);
-    let asBlk = generateBlk("col-sm-3 pt-2").html(asBlkEls);
-    let msBlk = generateBlk("col-sm-3 pt-2").html(msBlkEls);
-    let assignBlk = `<div class="col-12 card p-2 members_list">
-                        <div class="card-body border border-3 border-light" >
-                            <table class="table table-sm">
-                                <tr>
-                                    <th scope="col">Sl.no</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>`
-    return generateBlk("row").html([checkerSelect, asBlk, msBlk, assignBlk]);
-}
 function getNotificationBlk(){
-    let notifyVals = [{value:2, label:"SMS"}, {value:3, label:"Mail"}, {value:4, label:"Both"}];
+    let notifyVals = [{value:1, label:"None"}, {value:2, label:"SMS"}, {value:3, label:"Mail"}, {value:4, label:"Both"}];
     let notifyRadioEls = notifyVals.map(function(item){
-                        return `<div class="col-sm-3">${genRadioInput("notify_type", item.value)} ${genLableBlk("form-check-label", item.label)}</div>`;
+                        return `<div class="col-sm-2">${genRadioInput("notify_type", item.value)} ${genLableBlk("form-check-label", item.label)}</div>`;
                     });
     let notifyBlkLabel = genLableBlk("col-sm-3", "Notification");
     return generateBlk("row p-4").html([notifyBlkLabel, notifyRadioEls.join("")])
 }
 
-function updateFormData(){
-    $("#title_input").val("testing");
+function getActionBlk(){
+    let saveBtn = genBtn("btn btn-outline-success btn-sm pull-right ml-3", "Save", "save_schedule");
+    let resetBtn = genBtn("btn btn-outline-danger btn-sm pull-right", "Reset", "save_schedule");
+   return generateBlk("row mb-3").html(generateBlk("col-sm-12").html([saveBtn, resetBtn]));
 }
+
+function updateFormData(){
+    sFields = ['title', 'date', 'is_auto_schedule', 'is_manual_schedule', 'notification_flag'];
+   let inputEls = ['title', 'date'];
+   let selectEls = ['time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count']; 
+   let checkboxEls = ['is_auto_schedule', 'is_manual_schedule'];
+    inputEls.forEach(function(item){ $(`#${item}_input`).val(schedule[item]); });
+    // selectEls.forEach(function(item){ $(`#${item}_select option[value=${(schedule[item])? schedule[item]: "" }]`).prop("selected", true); });
+    selectEls.forEach(function(item){ if(schedule[item]) $(`#${item}_select`).val(schedule[item]); });
+    checkboxEls.forEach(function(item){ $(`#${item}`).attr("checked", schedule[item])});
+    $("[name=notify_type]").val([schedule.notify_type]);
+    if(schedule.is_manual_schedule){
+        $("#members_list").show();
+        updateMemberList();
+    }else {
+        $("#members_list").hide();
+    }
+}
+
+function validateForm(){
+    let errorCount = 0;
+    let inputEls = ['title', 'date'];
+    let selectEls = ['time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count']; 
+    let checkboxEls = ['is_auto_schedule', 'is_manual_schedule'];
+    inputEls.forEach(function(item){ schedule[item] = $(`#${item}_input`).val(); });
+    selectEls.forEach(function(item){ schedule[item] = $(`#${item}_select`).val(); });
+    checkboxEls.forEach(function(item){ schedule[item] = $(`#${item}`).is(':checked'); });
+    schedule.notify_type = $("input[name='notify_type']:checked").val();
+    console.log(JSON.stringify(schedule));
+}
+
+function updateMemberList(){
+    let subBlk = generateBlk("card-body pt-0");
+    let tableBlk = $("<table/>", {class:"table table-sm", id:"member_list_table"});
+    let headerRowEl = getTableHeaders(); 
+    let dataRowEls = null;
+    if(membersList.length>0){
+        dataRowEls = membersList.map(function(item, index){ return genTableRow(index, item)});
+    }else {
+        dataRowEls = ['<tr><td colspan="5" class="text-center"><small>No records Found.</small></td></tr>'];
+    }
+    tableBlk.html([headerRowEl, dataRowEls.join("")]);
+    let modalBtn = genBtn("btn btn-sm btn-primary pull-right border border-right-3", "Assign <i class='fa fa-plus'></i>", "member_assign_btn");
+    $("#members_list").html(subBlk.html([tableBlk, modalBtn]));
+    $("#members_list").show(500);
+}
+function getTableHeaders(){
+    let headers = ["Sl.no", "Name", "Image", "Email", ""];
+    let thEls = headers.map(function(item){ return `<th>${item}</th>`});
+    return $("<tr/>", {class:"member_row"}).html([thEls.join("")]);
+}
+function genTableRow(index, item){
+    let profile_img = (item.profile_pic)? `<img src="${item.profile_pic}" alt="Profile Pic" width="75" height="75">` : `<i class="fa fa-user" aria-hidden="true"></i>`;
+    return `<tr><td>${index+1}</td><td>${item.full_name}</td><td>${profile_img}</td><td>${item.email}</td><td><i class="fa fa-close btn btn-sm text-danger remove_member" data-memberId="${item.id}" data-index="${index}"></i></td></tr>`
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function updateModalContent(){
+    let modalCloseBtn = genBtn("btn btn-sm btn-primary pull-right border border-right-3 modal_close", "Close");
+    $("#assignMemberModal .modalTitle").html("<h5>Search Members from Database</h5>");
+    updateModalBodyContent();
+    $("#assignMemberModal .modalFooter").html(modalCloseBtn);
+}
+
+function updateModalBodyContent(){
+    if(membersList.length < checker_count){
+        $("#assignMemberModal .modalBody").html(getSearchBlock());
+    }else{
+        $("#assignMemberModal .modalBody").html('<div class="text-danger"> Assigned Members count has been reached Checkers count</div>');
+    }
+}
+function getSearchBlock(){
+    return `<input type="text" class="input-lg" style="width:100%; padding:5px" id="searchStr" value="" onInput="getSearchResults()" placeholder="Search for someone...">
+            <div id="search_users_list" class="list-group vh-overflow-40 " style="width:100%"></div>`;
+}
+
+// Get Search Users list for search query from API
+function getSearchResults(){
+    let searchStr = $("#searchStr").val();
+    let exceptIds = membersList.map(function(item){ return item.id });
+    searchMemberList = [];
+    if(searchStr.length > 1){
+        let apiPath = siteUrl+'/api/settings/schedule/getMemberSearchList';
+        let apiProps = {url: apiPath, method:'post', queryData:{searchStr, exceptIds}}
+        fetchDataApi(apiProps, function(data){
+            searchMemberList = data.filter(function(item){
+                                return !exceptIds.includes(item.id);
+                            });
+            updateSearchUsrList();
+        })
+    }else {
+        $("#search_users_list").html("<div></div>");
+    }
+}
+
+function updateSearchUsrList(){
+    $(".modalBody").removeClass("text-center");
+     let records = [];
+    if(searchMemberList.length > 0){
+        searchMemberList.forEach(function(item, index){
+            let block = `<div class="list-group-item list-group-item-action hover-focus" data-searchMemIndex="${index}">
+                            <h6 class="no-margin">${item.full_name}</h6>
+                            <p class="text-muted no-padding no-margin">${item.email}</p>
+                        </div>`;
+            records.push(block);
+        })
+    }else {
+        let noRecord = `<small class="text-danger">No records found</small>`;
+        records.push(noRecord);
+    }
+    $("#search_users_list").html(records);
+}
+
+
+
+$(document).on("change", "#is_manual_schedule", function(){
+    if($(this).is(':checked')){
+        updateMemberList();
+    }else{
+        $("#members_list").hide(500);
+    };
+})
+
+$(document).on("click", ".remove_member", function(){
+    let memberId = $(this).attr("data-memberid");
+    let memberIndex = $(this).attr("data-index");
+    membersList.splice(memberIndex, 1);
+    updateMemberList();
+})
+
+$(document).on('change', "#checker_count_select", function(){
+    let checker_count = $(this).val();
+    if(checker_count > membersList.length){
+        $("#member_assign_btn").show(500);
+    }else if(checker_count == membersList.length){
+        $("#member_assign_btn").hide(500);
+    } else{
+        let cnfBody = "<small class='text-danger'>Checkers value greater than to assigned members count.</small> <br/><small> <b>Are you sure to remove some assigned members from assigned List</b></small>";
+        getConfirmation("Something went wrong", cnfBody, function(isAccepted){
+            membersList.splice(count, membersList.length);
+            $("#member_assign_btn").hide(500);
+        })
+    }
+});
+
+$(document).on("click", "#member_assign_btn", function(e){
+    e.preventDefault();
+    updateModalContent();
+    $("#assignMemberModal").modal("show");
+});
+$(document).on("click", ".modal_close", function(e){
+    e.preventDefault();
+    $("#assignMemberModal").modal("hide");
+})
+$(document).on("click", "#save_schedule", function(e){
+    e.preventDefault();
+    validateForm();
+});
+$(document).on("click", ".list-group-item", function(){
+    let indexVal = $(this).attr("data-searchMemIndex");
+    membersList.push(searchMemberList[indexVal]);
+    searchMemberList.splice(indexVal, 1);
+    updateMemberList();
+    if(membersList.length >= checker_count){
+        $("#assignMemberModal .modalBody").hide(500);
+        $("#assignMemberModal .modalBody").html('<div class="text-danger"> Assigned Members count has been reached Checkers count</div>');
+        $("#assignMemberModal .modalBody").show(500);
+    }else {
+        $(this).html("<small class='text-success'>Added in Assignment List</small>");
+        let self = this;
+        setTimeout(function(){
+            $(this).remove(500);
+        }, 2500)
+    }
+})
+

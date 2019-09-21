@@ -12,6 +12,7 @@ use yajra\Datatables\Datatables;
 use App\Models\Schedule;
 use App\Models\Events;
 use App\Models\MasterLookupData;
+use App\User;
 
 class SchedullingController extends Controller
 {
@@ -71,6 +72,25 @@ class SchedullingController extends Controller
         } 
         $events = Events::where('orgId', $this->orgId)->select("eventId", 'eventName')->get();
         return ["schedule"=>$schedule, "volunteer_types"=>$volunteer_types, "events"=>$events];
+    }
+
+    public function getAssignedMembersList(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $users = User::whereIn('id', $payload["assign_ids"])->select("id", "full_name", "profile_pic", "email")->get();
+
+        return $users;
+    }
+
+    public function getMemberSearchList(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $users = User::where('orgId', $this->orgId)
+                    ->whereNotIn('id', $payload["exceptIds"])
+                    ->where('full_name', 'LIKE', "%" . $payload['searchStr'] . "%")
+                    ->orWhere("email", $payload['searchStr'])
+                    ->orWhere("mobile_no",$payload['searchStr'])
+                    ->select('id', "full_name", 'email', 'profile_pic')
+                    ->get();
+        return $users;
     }
 
     static function generateVolunteerTypes($orgId){
