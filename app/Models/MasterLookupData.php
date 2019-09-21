@@ -124,6 +124,6 @@ class MasterLookupData extends Model  {
 
     // Added by Lokesh 19-09-2019
     public function schedule(){
-        return $this->belongsTo("App\Models\Schedule", "type_of_volunteer");
+        return $this->belongsTo("App\Models\Schedule", "type_of_volunteer", "mldId");
     }
 }

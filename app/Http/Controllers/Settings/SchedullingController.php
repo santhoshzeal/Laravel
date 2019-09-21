@@ -33,14 +33,14 @@ class SchedullingController extends Controller
     public function getScheduleList(){
         $result = array();
         $schedules = Schedule::where('orgId', $this->orgId)->with(["event"=>function($query){
-                        $query->select('id', 'name');
+                        $query->select('eventId', 'eventName');
                     }, "volunteer"=>function($query1){
                         $query1->select('mldId', 'mldValue');
                     }])->select("id", "event_id", "title", "type_of_volunteer", "date", "time")->get();
         
         $i = 1;
         foreach ($schedules as $schedule) {
-            $row = [$i, $schedule->title, $schedule->event->name, $schedule->volunteer->mldValue, 
+            $row = [$i, $schedule->title, $schedule->volunteer->mldValue, $schedule->event->eventName,
                         \Carbon\Carbon::parse($schedule->data)->format('d-m-Y'), $schedule->time];
             $link = "/settings/schedulling/". $schedule->id;
             $row[] = "<a href='".$link ."'><i class='fa fa-eye'></i></a>";
@@ -48,13 +48,32 @@ class SchedullingController extends Controller
             $i += 1;
         }
 
-        return Datatables::of($result)->make(true);
+        return Datatables::of($result)->rawColumns([6])->make(true);
     }
 
     public function createOrEditPage($schedule_id = null){
         $data['title'] = $this->browserTitle . " - Schedule List";
         $data['schedule_id'] =  $schedule_id;
         return view('settings.schedule.create', $data);
+    }
+
+    public function storeOrUpdateSchedule(Request $request){
+        $payload = json_decode(request()->getContent(), true);
+        $schedule = null;
+        if(isset($payload['id'])){
+            $schedule = Schedule::where("id", $payload["id"])->first();
+        }else{
+            $schedule = new Schedule();
+            $schedule->orgId = $this->orgId;
+        }
+        $fields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_auto_schedule', 'is_manual_schedule', 'notification_flag'];
+        foreach($fields as $field){
+            $schedule[$field] = $payload[$field];
+        }
+        $schedule->assign_ids = serialize($payload["assign_ids"]);
+        $schedule->save();
+
+        return ["message"=> "Schedule has been successfully stored or updated"];
     }
 
     public function createRelatedData(Request $request){

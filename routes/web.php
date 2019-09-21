@@ -168,6 +168,7 @@ Route::get("/settings/schedulling/manage/{schedule_id?}", 'Settings\SchedullingC
 Route::post("/api/settings/schedule/createRelatedData", 'Settings\SchedullingController@createRelatedData');
 Route::post("/api/settings/schedule/getAssignedMembersList", "Settings\SchedullingController@getAssignedMembersList");
 Route::post("/api/settings/schedule/getMemberSearchList", "Settings\SchedullingController@getMemberSearchList");
+Route::post("/api/settings/schedule/storeOrUpdateSchedule", "Settings\SchedullingController@storeOrUpdateSchedule");
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');

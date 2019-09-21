@@ -17,10 +17,10 @@ class Schedule extends Model
     // Created By Lokesh 19-09-2019
     public function event()
     {
-        return $this->belongsTo('App\Models\Events', 'event_id');
+        return $this->belongsTo('App\Models\Events', 'event_id', 'eventId');
     }
 
     public function volunteer(){
-        return $this->belongsTo("App\Models\MasterLookupData", "type_of_volunteer");
+        return $this->belongsTo("App\Models\MasterLookupData", "type_of_volunteer", "mldId");
     }
 }
