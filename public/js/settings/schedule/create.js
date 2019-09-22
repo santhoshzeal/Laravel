@@ -47,6 +47,7 @@ function fetchAssignedList() {
     let apiProps = { url: apiPath, method: 'post', queryData: { assign_ids: schedule.assign_ids } };
     fetchDataApi(apiProps, function (data) {
         membersList = data;
+        updateMemberList();
     });
 }
 
@@ -129,7 +130,6 @@ function getCheckerBlk() {
     return generateBlk("row pb-3").html([checkerSelect, asBlk, msBlk]);
 }
 function getNotificationBlk() {
-    console.log(schedule);
     let notifyVals = [{ value: 1, label: "None" }, { value: 2, label: "SMS" }, { value: 3, label: "Mail" }, { value: 4, label: "Both" }];
     let notifyRadioEls = notifyVals.map(function (item) {
         return `<div class="col-sm-2">${genRadioInput("notification_flag", item.value)} ${genLableBlk("form-check-label", item.label)}</div>`;
@@ -175,12 +175,10 @@ function validateForm() {
     checkboxEls.forEach(function (item) { schedule[item] = $(`#${item}`).is(':checked'); });
     schedule.notification_flag = $("input[name='notification_flag']:checked").val();
     schedule.assign_ids = membersList.map(function (item) { return item.id });
-    console.log(JSON.stringify(schedule));
     let apiPath = siteUrl + '/api/settings/schedule/storeOrUpdateSchedule';
     let apiProps = { url: apiPath, method: 'post', queryData: schedule };
     fetchDataApi(apiProps, function (data) {
-        console.log(data);
-        localStorage.push(siteUrl + "/settings/schedulling");
+        location = siteUrl + "/settings/schedulling";
     });
 }
 
@@ -205,7 +203,6 @@ function getTableHeaders() {
     return $("<tr/>", { class: "member_row" }).html([thEls.join("")]);
 }
 function genTableRow(index, item) {
-    console.log(item);
     let profile_img = (item.profile_pic) ? `<img src="${item.profile_pic}" alt="Profile Pic" width="75" height="75">` : `<i class="fa fa-user" aria-hidden="true"></i>`;
     return `<tr><td>${index + 1}</td><td>${item.full_name}</td><td>${profile_img}</td><td>${item.email}</td><td><i class="fa fa-close btn btn-sm text-danger remove_member" data-memberId="${item.id}" data-index="${index}"></i></td></tr>`
 }
@@ -328,6 +325,9 @@ $(document).on("click", "#member_assign_btn", function (e) {
 $(document).on("click", ".modal_close", function (e) {
     e.preventDefault();
     $("#assignMemberModal").modal("hide");
+    if(checker_count > membersList.length){
+        $("#member_assign_btn").show();
+    }
 })
 $(document).on("click", "#save_schedule", function (e) {
     e.preventDefault();
@@ -338,9 +338,6 @@ $(document).on("click", ".list-group-item", function () {
     membersList.push(searchMemberList[indexVal]);
     searchMemberList.splice(indexVal, 1);
     updateMemberList();
-    updateSearchUsrList();
-    console.log("Members List Length: ", membersList.length);
-    console.log("Checker count :", checker_count);
     if (membersList.length >= checker_count) {
         $("#assignMemberModal .modalBody").hide();
         $("#assignMemberModal .modalBody").html('<div class="text-danger"> Assigned Members count has been reached Checkers count</div>');
@@ -351,7 +348,8 @@ $(document).on("click", ".list-group-item", function () {
         let self = this;
         setTimeout(function () {
             $(self).remove();
-        }, 2500);
+            // updateSearchUsrList();
+        }, 1500);
         $("#member_assign_btn").hide();
     }
 })

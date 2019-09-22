@@ -42,8 +42,9 @@ class SchedullingController extends Controller
         foreach ($schedules as $schedule) {
             $row = [$i, $schedule->title, $schedule->volunteer->mldValue, $schedule->event->eventName,
                         \Carbon\Carbon::parse($schedule->data)->format('d-m-Y'), $schedule->time];
-            $link = "/settings/schedulling/". $schedule->id;
-            $row[] = "<a href='".$link ."'><i class='fa fa-eye'></i></a>";
+            $viewLink = url("/settings/schedulling/". $schedule->id);
+            $editLink = url("/settings/schedulling/manage/". $schedule->id);
+            $row[] = "<a href='".$viewLink ."'><i class='fa fa-eye'></i></a><a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
             $result[] = $row;
             $i += 1;
         }
@@ -51,6 +52,25 @@ class SchedullingController extends Controller
         return Datatables::of($result)->rawColumns([6])->make(true);
     }
 
+    public function schedullingDetails($schedule_id){
+        $data['title'] = $this->browserTitle . " - Schedule List";
+        
+        $schedule = Schedule::where('orgId', $this->orgId)->where("id", $schedule_id)
+                            ->with(["event"=>function($query){
+                                $query->select('eventId', 'eventName');
+                            }, "volunteer"=>function($query1){
+                                $query1->select('mldId', 'mldValue');
+                            }])->first();
+        $memberIds = unserialize($schedule->assign_ids);
+        if(isset($memberIds) && count($memberIds) > 0){
+            $schedule["members"] = User::whereIn("id", $memberIds)->select("id", "profile_pic", "email", "full_name", "mobile_no")->get();
+        }else{
+            $schedule["members"] = [];
+        }
+        $data["schedule"] = $schedule;
+        return view('settings.schedule.details', $data);
+    }
+    
     public function createOrEditPage($schedule_id = null){
         $data['title'] = $this->browserTitle . " - Schedule List";
         $data['schedule_id'] =  $schedule_id;
@@ -66,6 +86,10 @@ class SchedullingController extends Controller
             $schedule = new Schedule();
             $schedule->orgId = $this->orgId;
         }
+        if($payload["building_block"] == ""){ 
+            $payload["building_block"] = 99999999;
+        }
+        // return $payload;
         $fields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_auto_schedule', 'is_manual_schedule', 'notification_flag'];
         foreach($fields as $field){
             $schedule[$field] = $payload[$field];

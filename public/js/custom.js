@@ -34,9 +34,9 @@ function getTimeValues(){
     let timeData = []
     let stamps = ['AM', 'PM'];
     stamps.forEach(function(stamp){
-        for (let i = 1; i <= 9; i++) timeData.push({value:`${(stamp=='PM')? i+12+':00' : '0'+i+':00'}`, label: `0${i}:00 ${stamp}`}) ;
-        for(let i = 10; i <=11; i++) timeData.push({value:`${(stamp=='PM')? i+12+':00' : i+':00'}`, label: `${i}:00 ${stamp}`});
-        timeData.push({value:`${(stamp=='PM')? '00:00' : '12:00'}`, label: `12:00 ${(stamp == 'AM')? 'PM': 'AM'}`});
+        for (let i = 1; i <= 9; i++) timeData.push({value:`${(stamp=='PM')? i+12+':00:00' : '0'+i+':00:00'}`, label: `0${i}:00 ${stamp}`}) ;
+        for(let i = 10; i <=11; i++) timeData.push({value:`${(stamp=='PM')? i+12+':00:00' : i+':00:00'}`, label: `${i}:00 ${stamp}`});
+        timeData.push({value:`${(stamp=='PM')? '00:00:00' : '12:00:00'}`, label: `12:00 ${(stamp == 'AM')? 'PM': 'AM'}`});
     });
     return timeData;
 }
