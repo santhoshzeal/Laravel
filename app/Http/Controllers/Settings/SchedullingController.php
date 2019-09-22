@@ -41,7 +41,7 @@ class SchedullingController extends Controller
         $i = 1;
         foreach ($schedules as $schedule) {
             $row = [$i, $schedule->title, $schedule->volunteer->mldValue, $schedule->event->eventName,
-                        \Carbon\Carbon::parse($schedule->data)->format('d-m-Y'), $schedule->time];
+                        \Carbon\Carbon::parse($schedule->time)->format('h:i'), \Carbon\Carbon::parse($schedule->data)->format('d-m-Y')];
             $viewLink = url("/settings/schedulling/". $schedule->id);
             $editLink = url("/settings/schedulling/manage/". $schedule->id);
             $row[] = "<a href='".$viewLink ."'><i class='fa fa-eye'></i></a><a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";

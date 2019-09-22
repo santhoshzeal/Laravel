@@ -27,9 +27,13 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     @if(isset($member->profile_pic))
+                                                    <?php
+                                                        $picData = json_decode(unserialize($member->profile_pic));
+                                                        $member->profile_pic = $picData->download_path . $picData->original_filename;
+                                                    ?>
                                                         <img src="{{URL::asset($member->profile_pic)}}" width="75" height="75">
                                                     @else
-                                                        <i class="fa fa-user" style="width:75px; height:75px;"></i>
+                                                        <img src="{{URL::asset('/assets/uploads/organizations/avatar.png')}}" width="75" height="75">
                                                     @endif
                                                 </div>
                                                 <div class="col-sm-9">
