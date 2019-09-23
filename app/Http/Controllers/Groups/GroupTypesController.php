@@ -39,12 +39,13 @@ class GroupTypesController extends Controller
 
         return DataTables::of($groupTypes)
                         ->addColumn('action', function($row) {
-                            $html='<div class="row post-main">
+                            $html=' <div class="card m-b-5 border border-primary">
+                            <div class="card-body ">
+
+                            <div class="row no-gutters">
 
 
-
-
-                                    <div class=" col-md-9 ">
+                                    <div class=" col-md-8 ">
 
                                       <div class="grouptype-name "><h6>'.$row->name.'</h6></div>
                                        <div class="grouptype-desc"> '.$row->description.'</div>
@@ -54,7 +55,7 @@ class GroupTypesController extends Controller
                                     </div> <div class="col-md-3">
                                                     <button class="btn btn-outline-primary" onclick="groupDefaults(\''.$row->name.'\','.$row->id.')">Group Defaults</button>
                                                     <button class="btn btn-outline-primary" onclick="viewGroups('.$row->id.')">View Groups</button>
-                             </div></div>';
+                             </div></div></div></div></div>';
 
                             return $html;
                         })
@@ -88,8 +89,45 @@ class GroupTypesController extends Controller
         }
 
 
+
+
+
         if ($groupTypeId > 0) { //update
+
+
+            $insertData = $request->except(['_token', 'groupTypeId']);
             $insertData['updatedBy'] = Auth::id();
+
+
+            $d_visible_leaders_fields = "";
+            if($request->d_visible_leaders_fields) {
+                $d_visible_leaders_fields =  json_encode($request->d_visible_leaders_fields);
+
+            }
+            $insertData['d_visible_leaders_fields'] = $d_visible_leaders_fields;
+
+            $d_visible_members_fields = "";
+            if($request->d_visible_members_fields) {
+                $d_visible_members_fields =  json_encode($request->d_visible_members_fields);
+
+            }
+            $insertData['d_visible_members_fields'] = $d_visible_members_fields;
+
+            $insertData['d_enroll_autoClose_on'] =NULL;
+            $insertData['d_enroll_autoClose_count'] =NULL;
+            $insertData['d_enroll_notify_count'] =NULL;
+
+            if($request->d_is_enroll_autoClose){
+                $insertData['d_enroll_autoClose_on'] =date("Y-m-d",strtotime($request->d_enroll_autoClose_on));
+            }
+            if($request->d_is_enroll_autoClose_count){
+                $insertData['d_enroll_autoClose_count'] =$request->d_enroll_autoClose_count;
+            }
+            if($request->d_is_enroll_notify_count){
+                $insertData['d_enroll_notify_count'] =$request->d_enroll_notify_count;
+            }
+
+
 
 
             GroupType::where("id", $groupTypeId)->update($insertData);
@@ -112,6 +150,8 @@ class GroupTypesController extends Controller
 
     public function groupDefaults($groupTypeId){
         $data['title'] = $this->browserTitle . " - ";
+
+        $data['groupType'] = GroupType::find($groupTypeId);
 
         return view('groups.group_types.group-type-default', $data);
     }

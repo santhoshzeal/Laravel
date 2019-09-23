@@ -54,7 +54,7 @@
                                  <div class="form-group row">
                                      <label for="example-date-input" class="col-sm-3 col-form-label">Contact email</label>
                                      <div class="col-sm-9">
-                                         <input class="form-control"  type="text" value="{{ isset($groupType)?$groupType->d_contact_email:'' }}" id="d_contact_email" name="d_contact_email" >
+                                         <input class="form-control"  type="email" value="{{ isset($groupType)?$groupType->d_contact_email:'' }}" id="d_contact_email" name="d_contact_email" >
                                      </div>
                                  </div>
                                 </div>
@@ -67,13 +67,123 @@
                                  <div class="form-group row">
                                      <label for="example-date-input" class="col-sm-7 col-form-label">Members can see leader's:</label>
                                      <div class="col-sm-5">
-                                         <input class="form-control"  type="text" value="{{ isset($groupType)?$groupType->d_contact_email:'' }}" id="d_contact_email" name="d_contact_email" >
+                                            <div class="dropdown">
+                                                    <button class="btn btn-default dropdown-toggle" type="button"
+                                                            id="dropdownMenu1" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="true">
+                                                      <i class="glyphicon glyphicon-cog"></i>
+                                                      <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+
+                                                      <li >
+                                                        <label>
+                                                          <input type="checkbox" name="d_visible_leaders_fields[]" value="name"> name
+                                                        </label>
+                                                      </li>
+
+                                                      <li >
+                                                        <label>
+                                                          <input type="checkbox" name="d_visible_leaders_fields[]" value="photo"> photo
+                                                        </label>
+                                                      </li>
+
+                                                      <li >
+                                                        <label>
+                                                          <input type="checkbox" name="d_visible_leaders_fields[]" value="email"> email
+                                                        </label>
+                                                      </li>
+
+                                                      <li >
+                                                            <label>
+                                                              <input type="checkbox" name="d_visible_leaders_fields[]" value="phone"> phone
+                                                            </label>
+                                                          </li>
+
+                                                    </ul>
+                                                  </div>
                                      </div>
                                  </div>
+
+                                 <div class="form-group row">
+                                        <label for="example-date-input" class="col-sm-7 col-form-label">Members can see other member's:
+                                            </label>
+                                        <div class="col-sm-5">
+                                               <div class="dropdown">
+                                                       <button class="btn btn-default dropdown-toggle" type="button"
+                                                               id="dropdownMenu2" data-toggle="dropdown"
+                                                               aria-haspopup="true" aria-expanded="true">
+                                                         <i class="glyphicon glyphicon-cog"></i>
+                                                         <span class="caret"></span>
+                                                       </button>
+                                                       <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+
+                                                         <li >
+                                                           <label>
+                                                             <input type="checkbox" name="d_visible_members_fields[]" value="name"> name
+                                                           </label>
+                                                         </li>
+
+                                                         <li >
+                                                           <label>
+                                                             <input type="checkbox" name="d_visible_members_fields[]" value="photo"> photo
+                                                           </label>
+                                                         </li>
+
+                                                         <li >
+                                                           <label>
+                                                             <input type="checkbox" name="d_visible_members_fields[]" value="email"> email
+                                                           </label>
+                                                         </li>
+
+                                                         <li >
+                                                               <label>
+                                                                 <input type="checkbox" name="d_visible_members_fields[]" value="phone"> phone
+                                                               </label>
+                                                             </li>
+
+                                                       </ul>
+                                                     </div>
+                                        </div>
+                                    </div>
+
+
+
                                 </div>
                             </div>
 
+                            <h6 class="fs-2 mb-2">Enrollment Settings</h6>
+                            <div class="card pane">
+                                 <div class="card-body">
 
+                                 <div class="form-group row">
+                                        <input type="checkbox" value="1" name="d_is_enroll_autoClose" class="checkbox " id="d_is_enroll_autoClose" >
+                                     <label for="d_is_enroll_autoClose" class="checkbox-label col-sm-7">Auto-close enrollment on:</label>
+                                     <div class="col-sm-5">
+                                         <input type="date" class="form-control" name="d_enroll_autoClose_on" id="d_enroll_autoClose_on" />
+                                     </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                            <input type="checkbox" value="1" name="d_is_enroll_autoClose_count" class="checkbox " id="d_is_enroll_autoClose_count" >
+                                         <label for="d_is_enroll_autoClose_count" class="checkbox-label col-sm-7">Auto-close if enrollment number reaches
+                                            </label>
+                                         <div class="col-sm-5">
+                                             <input type="number" class="form-control" name="d_enroll_autoClose_count" id="d_enroll_autoClose_count" />
+                                         </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                                <input type="checkbox" value="1" name="d_is_enroll_notify_count" class="checkbox " id="d_is_enroll_notify_count" >
+                                             <label for="d_is_enroll_notify_count" class="checkbox-label col-sm-7">Create alert if group membership exceeds
+
+                                                </label>
+                                             <div class="col-sm-5">
+                                                 <input type="number" class="form-control" id="d_enroll_notify_count" name="d_enroll_notify_count" />
+                                             </div>
+                                            </div>
+                                </div>
+                            </div>
 
 
 
@@ -85,5 +195,15 @@
     <input type="hidden" name="groupTypeId" value="{{ isset($groupType)?$groupType->id:'' }}" />
     <input type="submit" id="formSubmitBtn" style="display: none;" />
    </form>
+<script>
+    $(document).ready(function(){
+    $(".checkbox-menu").on("change", "input[type='checkbox']", function() {
+   $(this).closest("li").toggleClass("active", this.checked);
+});
 
+$(document).on('click', '.allow-focus', function (e) {
+  e.stopPropagation();
+});
+});
+</script>
 
