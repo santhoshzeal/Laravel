@@ -76,29 +76,22 @@
                                                     </button>
                                                     <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
 
-                                                      <li >
-                                                        <label>
-                                                          <input type="checkbox" name="d_visible_leaders_fields[]" value="name"> name
-                                                        </label>
-                                                      </li>
+                                                     <?php $fields = ["name","photo","email","phone"]; ?>
 
-                                                      <li >
-                                                        <label>
-                                                          <input type="checkbox" name="d_visible_leaders_fields[]" value="photo"> photo
-                                                        </label>
-                                                      </li>
-
-                                                      <li >
-                                                        <label>
-                                                          <input type="checkbox" name="d_visible_leaders_fields[]" value="email"> email
-                                                        </label>
-                                                      </li>
-
-                                                      <li >
+                                                        @foreach($fields as $field)
+                                                        <?php
+                                                            $checked = "";
+                                                         if(isset($groupType)){
+                                                                $d_visible_leaders_fields = json_decode($groupType->d_visible_leaders_fields);
+                                                                    if( $d_visible_leaders_fields &&  in_array($field, $d_visible_leaders_fields))
+                                                                        $checked = "checked";
+                                                          } ?>
+                                                        <li >
                                                             <label>
-                                                              <input type="checkbox" name="d_visible_leaders_fields[]" value="phone"> phone
+                                                              <input  type="checkbox" {{$checked}} name="d_visible_leaders_fields[]" value="{{$field}}"> {{$field}}
                                                             </label>
                                                           </li>
+                                                        @endforeach
 
                                                     </ul>
                                                   </div>
@@ -118,29 +111,26 @@
                                                        </button>
                                                        <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
 
-                                                         <li >
-                                                           <label>
-                                                             <input type="checkbox" name="d_visible_members_fields[]" value="name"> name
-                                                           </label>
-                                                         </li>
+                                                        <?php $fields = ["name","photo","email","phone"]; ?>
 
-                                                         <li >
-                                                           <label>
-                                                             <input type="checkbox" name="d_visible_members_fields[]" value="photo"> photo
-                                                           </label>
-                                                         </li>
+                                                        @foreach($fields as $field)
+                                                        <?php
+                                                            $checked = "";
+                                                         if(isset($groupType)){
+                                                                $d_visible_members_fields = json_decode($groupType->d_visible_members_fields);
+                                                                    if( $d_visible_members_fields &&  in_array($field, $d_visible_members_fields))
+                                                                        $checked = "checked";
+                                                          } ?>
+                                                        <li >
+                                                            <label>
+                                                              <input  type="checkbox" {{$checked}} name="d_visible_members_fields[]" value="{{$field}}"> {{$field}}
+                                                            </label>
+                                                          </li>
+                                                        @endforeach
 
-                                                         <li >
-                                                           <label>
-                                                             <input type="checkbox" name="d_visible_members_fields[]" value="email"> email
-                                                           </label>
-                                                         </li>
 
-                                                         <li >
-                                                               <label>
-                                                                 <input type="checkbox" name="d_visible_members_fields[]" value="phone"> phone
-                                                               </label>
-                                                             </li>
+
+
 
                                                        </ul>
                                                      </div>
@@ -157,29 +147,29 @@
                                  <div class="card-body">
 
                                  <div class="form-group row">
-                                        <input type="checkbox" value="1" name="d_is_enroll_autoClose" class="checkbox " id="d_is_enroll_autoClose" >
+                                        <input type="checkbox" value="1" name="d_is_enroll_autoClose" class="checkbox " id="d_is_enroll_autoClose" onchange="enableInput(this)" >
                                      <label for="d_is_enroll_autoClose" class="checkbox-label col-sm-7">Auto-close enrollment on:</label>
                                      <div class="col-sm-5">
-                                         <input type="date" class="form-control" name="d_enroll_autoClose_on" id="d_enroll_autoClose_on" />
+                                         <input type="date" class="form-control" name="d_enroll_autoClose_on" id="d_enroll_autoClose_on" value="{{(isset($groupType) && $groupType->d_enroll_autoClose_on !="")?$groupType->d_enroll_autoClose_on:'' }}"  disabled />
                                      </div>
                                     </div>
 
                                     <div class="form-group row">
-                                            <input type="checkbox" value="1" name="d_is_enroll_autoClose_count" class="checkbox " id="d_is_enroll_autoClose_count" >
+                                            <input type="checkbox" value="1" name="d_is_enroll_autoClose_count" class="checkbox " id="d_is_enroll_autoClose_count" onchange="enableInput(this)" >
                                          <label for="d_is_enroll_autoClose_count" class="checkbox-label col-sm-7">Auto-close if enrollment number reaches
                                             </label>
                                          <div class="col-sm-5">
-                                             <input type="number" class="form-control" name="d_enroll_autoClose_count" id="d_enroll_autoClose_count" />
+                                             <input type="number" class="form-control" name="d_enroll_autoClose_count" id="d_enroll_autoClose_count" value="{{isset($groupType)?$groupType->d_enroll_autoClose_count:'' }}" disabled />
                                          </div>
                                         </div>
 
                                         <div class="form-group row">
-                                                <input type="checkbox" value="1" name="d_is_enroll_notify_count" class="checkbox " id="d_is_enroll_notify_count" >
+                                                <input type="checkbox" value="1" name="d_is_enroll_notify_count" class="checkbox " id="d_is_enroll_notify_count"  onchange="enableInput(this)">
                                              <label for="d_is_enroll_notify_count" class="checkbox-label col-sm-7">Create alert if group membership exceeds
 
                                                 </label>
                                              <div class="col-sm-5">
-                                                 <input type="number" class="form-control" id="d_enroll_notify_count" name="d_enroll_notify_count" />
+                                                 <input type="number" class="form-control" id="d_enroll_notify_count" name="d_enroll_notify_count" value="{{isset($groupType)?$groupType->d_enroll_notify_count:'' }}" disabled />
                                              </div>
                                             </div>
                                 </div>
@@ -204,6 +194,31 @@
 $(document).on('click', '.allow-focus', function (e) {
   e.stopPropagation();
 });
+
+
+<?php
+    $fields = ["d_is_enroll_autoClose","d_is_enroll_autoClose_count","d_is_enroll_notify_count"];
+    if(isset($groupType)) {
+        foreach($fields as $field) {
+            if($groupType->$field ==1) { ?>
+            $("#<?= $field ?>").attr("checked",true).change();
+           <?php }
+        }
+
+    }
+?>
+
 });
+
+function enableInput(elm){
+    var input = $(elm).parent().closest("div").find("input.form-control");
+
+    if($(elm).prop("checked") == true){
+        $(input).attr("disabled",false);
+    }
+    else {
+        $(input).attr("disabled",true);
+    }
+}
 </script>
 

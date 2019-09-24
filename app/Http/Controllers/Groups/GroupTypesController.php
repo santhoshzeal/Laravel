@@ -117,19 +117,27 @@ class GroupTypesController extends Controller
             $insertData['d_enroll_autoClose_count'] =NULL;
             $insertData['d_enroll_notify_count'] =NULL;
 
+
             if($request->d_is_enroll_autoClose){
                 $insertData['d_enroll_autoClose_on'] =date("Y-m-d",strtotime($request->d_enroll_autoClose_on));
+            }
+            else {
+                $insertData['d_is_enroll_autoClose'] = 0;
             }
             if($request->d_is_enroll_autoClose_count){
                 $insertData['d_enroll_autoClose_count'] =$request->d_enroll_autoClose_count;
             }
+            else {
+                $insertData['d_is_enroll_autoClose_count'] = 0;
+            }
             if($request->d_is_enroll_notify_count){
                 $insertData['d_enroll_notify_count'] =$request->d_enroll_notify_count;
             }
+            else {
+                $insertData['d_is_enroll_notify_count'] = 0;
+            }
 
-
-
-
+            //print_r($insertData);
             GroupType::where("id", $groupTypeId)->update($insertData);
         } else { //insert
             $insertData['createdBy'] = Auth::id();
