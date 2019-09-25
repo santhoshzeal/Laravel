@@ -439,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 ----
--- Altering scheduling Table with following changes
+-- Altering scheduling Table with following changes - LOKESH
 ----
 ALTER TABLE `scheduling` CHANGE `s_title` `title` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 ALTER TABLE `scheduling` CHANGE `s_date` `date` DATE NULL DEFAULT NULL;
@@ -450,3 +450,30 @@ ALTER TABLE `scheduling` ADD `is_auto_schedule` BOOLEAN NOT NULL DEFAULT TRUE AF
 ALTER TABLE `scheduling` ADD `is_manual_schedule` BOOLEAN NOT NULL DEFAULT FALSE AFTER `is_auto_schedule`;
 ALTER TABLE `scheduling` ADD `assign_ids` TEXT NULL AFTER `is_manual_schedule`;
 ALTER TABLE `scheduling` ADD `orgId` BIGINT(22) NOT NULL AFTER `title`;
+
+
+
+--
+-- Table structure for table `scheduling_user` created By LOKESH 25-09-2019
+--
+CREATE TABLE `dallas2`.`scheduling_user`(
+  `id` BIGINT(22) NOT NULL AUTO_INCREMENT,
+  `orgId` BIGINT(22) NOT NULL,
+  `scheduling_id` BIGINT(22) NOT NULL,
+  `user_id` BIGINT(22) NOT NULL,
+  `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=Pending, 2=Accepted, 3=Decline',
+  `createdBy` TEXT NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` TEXT NOT NULL,
+  `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `deletedBy` TEXT NOT NULL,
+  `deleted_at` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY(`id`)
+) ENGINE = InnoDB;
+
+--
+-- Alter Scheduling Table - Lokesh 25-09-2019
+--
+ALTER TABLE `scheduling` DROP `is_auto_schedule`;
+ALTER TABLE `scheduling` CHANGE `is_manual_schedule` `is_manual_schedule` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '1=Auto scheduling, 2=Manual Scheduling';
+ALTER TABLE `scheduling_user` ADD `token` VARCHAR(255) NULL DEFAULT NULL AFTER `status`;

@@ -23,4 +23,9 @@ class Schedule extends Model
     public function volunteer(){
         return $this->belongsTo("App\Models\MasterLookupData", "type_of_volunteer", "mldId");
     }
+
+    // Created By Lokesh 25-09-2019
+    public function users(){
+        return $this->hasMany("App\Models\SchedulingUser", 'scheduling_id');
+    }
 }

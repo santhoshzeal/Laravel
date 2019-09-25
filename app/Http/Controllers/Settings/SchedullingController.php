@@ -12,6 +12,7 @@ use yajra\Datatables\Datatables;
 use App\Models\Schedule;
 use App\Models\Events;
 use App\Models\MasterLookupData;
+use App\Models\SchedulingUser;
 use App\User;
 
 class SchedullingController extends Controller
@@ -80,8 +81,10 @@ class SchedullingController extends Controller
     public function storeOrUpdateSchedule(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $schedule = null;
+        $isNewSchedule = true;
         if(isset($payload['id'])){
             $schedule = Schedule::where("id", $payload["id"])->first();
+            $isNewSchedule = true;
         }else{
             $schedule = new Schedule();
             $schedule->orgId = $this->orgId;
@@ -90,13 +93,14 @@ class SchedullingController extends Controller
             $payload["building_block"] = 99999999;
         }
         // return $payload;
-        $fields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_auto_schedule', 'is_manual_schedule', 'notification_flag'];
+        $fields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_manual_schedule', 'notification_flag'];
         foreach($fields as $field){
             $schedule[$field] = $payload[$field];
         }
         $schedule->assign_ids = serialize($payload["assign_ids"]);
         $schedule->save();
 
+        $this->generateCommunication($payload["assign_ids"], $schedule, $isNewSchedule);
         return ["message"=> "Schedule has been successfully stored or updated"];
     }
 
@@ -144,5 +148,31 @@ class SchedullingController extends Controller
         );
         MasterLookupData::insert($data);
         return MasterLookupData::where("mldKey", "type_of_volunteer")->where('orgId', $orgId)->select("mldId", 'mldKey', 'mldValue')->get();
-    } 
+    }
+
+    static function generateCommunication($userIds, $schedule, $isNewSchedule = true){
+        if($isNewSchedule == true){
+            foreach($userIds as $userId){
+                $this->updateUserComm($userId, $schedule);
+            } 
+        }else {
+            SchedulingUser::whereNotIn('user_id', $userIds)->delete();
+            $existingUserIds = SchedulingUser::where("scheduling_id", $schedule->id)->pluck('user_id');
+            foreach($userIds as $userId){
+                if(!in_array($userId, $existingUserIds)){
+                    $this->updateUserComm($userId, $schedule);
+                }
+            }
+        }
+    }
+
+    static function updateUserComm($userId, $schedule){
+        $scheduleUser = new SchedulingUser();
+        $scheduleUser->orgId = $this->orgId;
+        
+        $scheduleUser->scheduling_id = $schedule->id;
+        $scheduleUser->user_id = $user_id;
+        $scheduleUser->token = substr(sha1(time()), 0, 150);
+        $scheduleUser->save();
+    }
 }

@@ -178,3 +178,12 @@ class CommunicationController extends Controller
         return view('communication.message_list',$data);
     }
 }
+
+// schedule_auto_notify
+// schedule_manual_notify
+// schedule_confirmation
+// schedule_reminder
+// schedule_check_out_notification_to_guest
+// welcome
+// household_added
+// event_added

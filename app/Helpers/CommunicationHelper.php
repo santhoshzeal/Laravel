@@ -6,6 +6,17 @@ use App\Models\CommMaster;
 use App\Models\CommDetail;
 
 class CommunicationHelper {
+/**
+ * Pre-defined Communication Templates List List
+ * 1 welcome
+ * 2 household_added
+ * 3 event_added
+ * 4 schedule_auto_notify
+ * 5 schedule_manual_notify
+ * 6 schedule_confirmation
+ * 7 schedule_reminder
+ * 8 schedule_check_out_notification_to_guest
+ */
     /**
      * @Purpose : creating user communications and updating comm_master and comm_details(pivoteTable) tables
      * PARAMETERS LIST

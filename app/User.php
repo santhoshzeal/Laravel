@@ -92,4 +92,8 @@ class User extends Authenticatable {
     public function createdCommunications(){
         return $this->belongsTo('App\Models\CommMaster');
     }
+
+    public function schedules(){
+        return $this->hasMany('App\Models\SchedulingUser');
+    }
 }

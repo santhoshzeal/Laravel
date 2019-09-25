@@ -1,6 +1,6 @@
 let scheduleId = recievedData = null;
 let events = volunteer_types = [];
-let sFields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_auto_schedule', 'is_manual_schedule', 'notification_flag'];
+let sFields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_manual_schedule', 'notification_flag'];
 let buildBlks = [{ id: 1, name: "daily" }, { id: 2, name: "weekly" }, { id: 999, name: "none" }];
 let locations = [{ id: 1, name: "location1" }, { id: 2, name: "location2" }, { id: 3, name: "location3" }];
 let schedule = {};
@@ -31,13 +31,13 @@ function extractData() {
         schedule.id = null;
         schedule.assign_ids = [];
         schedule.notification_flag = 1;
+        schedule.is_manual_schedule = 1;
     } else {
         schedule = recievedData.schedule;
     }
     // schedule = {"title":"Testing Schedule","date":"2019-09-27","time":"01:00","event_id":"3","location_id":"2","building_block":"","type_of_volunteer":"128","checker_count":"5","is_auto_schedule":false,"is_manual_schedule":false,"notification_flag":null,"id":null,"assign_ids":[1,2,3,4],"notify_type":"4"};
     events = recievedData.events;
     volunteer_types = recievedData.volunteer_types;
-    // membersList = []; 
     if (schedule.assign_ids.length > 0) fetchAssignedList();
     generateForm();
 }
@@ -122,12 +122,19 @@ function genBtn(elClass, elLabel, elId = null) {
 }
 
 function getCheckerBlk() {
-    let checkerSelect = generateBlk("col-sm-6").html(getSelectBlk("checker_count_select", "Checker", generateOpts("numbers")));
-    let asBlkEls = generateBlk("form-check auto_assign").html([genCheckboxInput("is_auto_schedule"), genLableBlk("form-check-label", "Auto Scheduling")]);
-    let msBlkEls = generateBlk("form-check manual_assign").html([genCheckboxInput("is_manual_schedule"), genLableBlk("form-check-label", "Manual Scheduling")]);
-    let asBlk = generateBlk("col-sm-3 pt-2").html(asBlkEls);
-    let msBlk = generateBlk("col-sm-3 pt-2").html(msBlkEls);
-    return generateBlk("row pb-3").html([checkerSelect, asBlk, msBlk]);
+    let checkerSelect = generateBlk("col-sm-5").html(getSelectBlk("checker_count_select", "Checker", generateOpts("numbers")));
+    // let asBlkEls = generateBlk("form-check auto_assign").html([genCheckboxInput("is_auto_schedule"), genLableBlk("form-check-label", "Auto Scheduling")]);
+    // let msBlkEls = generateBlk("form-check manual_assign").html([genCheckboxInput("is_manual_schedule"), genLableBlk("form-check-label", "Manual Scheduling")]);
+    // let asBlk = generateBlk("col-sm-3 pt-2").html(asBlkEls);
+    // let msBlk = generateBlk("col-sm-3 pt-2").html(msBlkEls);
+
+    let checkerVals = [{ value: 1, label: "Auto Scheduling" }, { value: 2, label: "Manual Scheduling" }];
+
+    let checkerRadioEls = checkerVals.map(function (item) {
+        return `<div class="col-sm-3 ml-4 pt-1">${genRadioInput("checker_flag", item.value)} ${genLableBlk("form-check-label", item.label)}</div>`;
+    });
+
+    return generateBlk("row card-body").html([checkerSelect, checkerRadioEls.join("")]);
 }
 function getNotificationBlk() {
     let notifyVals = [{ value: 1, label: "None" }, { value: 2, label: "SMS" }, { value: 3, label: "Mail" }, { value: 4, label: "Both" }];
@@ -147,17 +154,18 @@ function getActionBlk() {
 }
 
 function updateFormData() {
-    sFields = ['title', 'date', 'is_auto_schedule', 'is_manual_schedule'];
+    sFields = ['title', 'date'];
     let inputEls = ['title', 'date'];
     let selectEls = ['time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count'];
-    let checkboxEls = ['is_auto_schedule', 'is_manual_schedule'];
-    $("form input:radio[name='notification_flag']").filter(`[value="${schedule.notification_flag}"]`).attr('checked', true);
+    // $("form input:radio[name='notification_flag']").filter(`[value="${schedule.notification_flag}"]`).attr('checked', true);
     inputEls.forEach(function (item) { $(`#${item}_input`).val(schedule[item]); });
     // selectEls.forEach(function(item){ $(`#${item}_select option[value=${(schedule[item])? schedule[item]: "" }]`).prop("selected", true); });
     selectEls.forEach(function (item) { if (schedule[item]) $(`#${item}_select`).val(schedule[item]); });
-    checkboxEls.forEach(function (item) { $(`#${item}`).attr("checked", schedule[item]) });
-    $("[name=notify_type]").val([schedule.notify_type]);
-    if (schedule.is_manual_schedule) {
+    // checkboxEls.forEach(function (item) { $(`#${item}`).attr("checked", schedule[item]) });
+    $("input[type=radio][name=notification_flag]").val([schedule.notification_flag]);
+    $("input[type=radio][name=checker_flag]").val([schedule.is_manual_schedule]);
+    console.log(schedule)
+    if (schedule.is_manual_schedule == 2) {
         $("#members_list").show();
         updateMemberList();
     } else {
@@ -169,11 +177,12 @@ function validateForm() {
     let errorCount = 0;
     let inputEls = ['title', 'date'];
     let selectEls = ['time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count'];
-    let checkboxEls = ['is_auto_schedule', 'is_manual_schedule'];
+    // let checkboxEls = ['is_manual_schedule'];
     inputEls.forEach(function (item) { schedule[item] = $(`#${item}_input`).val(); });
     selectEls.forEach(function (item) { schedule[item] = $(`#${item}_select`).val(); });
-    checkboxEls.forEach(function (item) { schedule[item] = $(`#${item}`).is(':checked'); });
+    // checkboxEls.forEach(function (item) { schedule[item] = $(`#${item}`).is(':checked'); });
     schedule.notification_flag = $("input[name='notification_flag']:checked").val();
+    schedule.is_manual_schedule = $("input[name='checker_flag']:checked").val();
     schedule.assign_ids = membersList.map(function (item) { return item.id });
     let apiPath = siteUrl + '/api/settings/schedule/storeOrUpdateSchedule';
     let apiProps = { url: apiPath, method: 'post', queryData: schedule };
@@ -203,8 +212,17 @@ function getTableHeaders() {
     return $("<tr/>", { class: "member_row" }).html([thEls.join("")]);
 }
 function genTableRow(index, item) {
-    let profile_img = (item.profile_pic) ? `<img src="${item.profile_pic}" alt="Profile Pic" width="75" height="75">` : `<i class="fa fa-user" aria-hidden="true"></i>`;
-    return `<tr><td>${index + 1}</td><td>${item.full_name}</td><td>${profile_img}</td><td>${item.email}</td><td><i class="fa fa-close btn btn-sm text-danger remove_member" data-memberId="${item.id}" data-index="${index}"></i></td></tr>`
+    console.log(item)
+    let profile_img = null;
+    try {
+        profile_img = (item.profile_pic) ? `<img src="${item.profile_pic}" alt="Profile Pic" width="75" height="75">` : `<i class="fa fa-user" aria-hidden="true"></i>`;
+    } catch (e) {
+        profile_img = `<i class="fa fa-user" aria-hidden="true"></i>`;
+    } finally {
+        return `<tr><td>${index + 1}</td><td>${item.full_name}</td><td>${profile_img}</td><td>${item.email}</td><td><i class="fa fa-close btn btn-sm text-danger remove_member" data-memberId="${item.id}" data-index="${index}"></i></td></tr>`
+    }
+    // let profile_img = (item.profile_pic) ? `<img src="${item.profile_pic}" alt="Profile Pic" width="75" height="75">` : `<i class="fa fa-user" aria-hidden="true"></i>`;
+
 }
 
 
@@ -280,8 +298,9 @@ function updateSearchUsrList() {
 
 
 
-$(document).on("change", "#is_manual_schedule", function () {
-    if ($(this).is(':checked')) {
+$(document).on("change", "input[type=radio][name=checker_flag]", function () {
+    console.log("values are changes", $(this).val())
+    if ($(this).val() == 2) {
         updateMemberList();
     } else {
         $("#members_list").hide(500);
@@ -325,7 +344,7 @@ $(document).on("click", "#member_assign_btn", function (e) {
 $(document).on("click", ".modal_close", function (e) {
     e.preventDefault();
     $("#assignMemberModal").modal("hide");
-    if(checker_count > membersList.length){
+    if (checker_count > membersList.length) {
         $("#member_assign_btn").show();
     }
 })
@@ -348,8 +367,9 @@ $(document).on("click", ".list-group-item", function () {
         let self = this;
         setTimeout(function () {
             $(self).remove();
-            // updateSearchUsrList();
+            updateSearchUsrList();
         }, 1500);
+        updateSearchUsrList();
         $("#member_assign_btn").hide();
     }
 })
