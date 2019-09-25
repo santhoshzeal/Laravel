@@ -162,7 +162,8 @@ Route::post("/api/settings/forms/manage/{form_id?}", 'Settings\FormController@st
 Route::get('/api/settings/forms/content/{form_id}', 'Settings\FormController@getFormDetails');
 
 // Settings => Schedulling
-Route::get("/settings/schedulling", "Settings\SchedullingController@schedullingIndex");
+Route::get("/settings/schedulling", "Settings\SchedullingController@schedullingIndex")->name('schedule.list');
+Route::get("/settings/schedulling/notifications", "Settings\SchedullingController@notificationList")->name('schedule.notifications');
 Route::get("/api/settings/schedule/list", 'Settings\SchedullingController@getScheduleList');
 Route::get("/settings/schedulling/manage/{schedule_id?}", 'Settings\SchedullingController@createOrEditPage');
 Route::post("/api/settings/schedule/createRelatedData", 'Settings\SchedullingController@createRelatedData');

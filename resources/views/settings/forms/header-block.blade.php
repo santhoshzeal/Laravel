@@ -6,13 +6,13 @@
                 </h3>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <strong><a class="nav-link {{request()->routeIs('form.submissions') ? 'active' : ''}}" href='{{URL::asset("/settings/forms/$form->id/submissions")}}'>Submissions</a></strong>
+                        <strong><a class="nav-link {{request()->routeIs('form.submissions') ? 'active' : 'text-white'}}" href='{{URL::asset("/settings/forms/$form->id/submissions")}}'>Submissions</a></strong>
                     </li>
                     <li class="nav-item">
-                        <strong><a class="nav-link {{request()->routeIs('form.fields') ? 'active' : ''}}" href='{{URL::asset("/settings/forms/$form->id/fields")}}'>Fields</a></strong>
+                        <strong><a class="nav-link {{request()->routeIs('form.fields') ? 'active' : 'text-white'}}" href='{{URL::asset("/settings/forms/$form->id/fields")}}'>Fields</a></strong>
                     </li>
                     <li class="nav-item">
-                        <strong><a class="nav-link {{request()->routeIs('form.settings') ? 'active' : ''}}" href='{{URL::asset("/settings/forms/$form->id/settings")}}'>Settings</a></strong>
+                        <strong><a class="nav-link {{request()->routeIs('form.settings') ? 'active' : 'text-white'}}" href='{{URL::asset("/settings/forms/$form->id/settings")}}'>Settings</a></strong>
                     </li>
                 </ul>    
             </div>

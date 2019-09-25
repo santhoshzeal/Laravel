@@ -3,7 +3,7 @@
 @section('content')
     <div style="width:100vw">
         @include('settings.schedule.header')
-        <div class="row row m-5 pl-4 pr-4">
+        <div class="row m-5 pl-4 pr-4">
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">

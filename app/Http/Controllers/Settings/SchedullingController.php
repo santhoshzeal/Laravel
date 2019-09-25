@@ -23,11 +23,11 @@ class SchedullingController extends Controller
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->userSessionData = Session::get('userSessionData');
         $this->orgId = $this->userSessionData['umOrgId'];
+        $this->authUserId = $this->userSessionData['umId'];
     }
 
     public function schedullingIndex(){
         $data['title'] = $this->browserTitle . " - Schedule List";
-        
         return view('settings.schedule.index', $data);
     }
 
@@ -76,6 +76,11 @@ class SchedullingController extends Controller
         $data['title'] = $this->browserTitle . " - Schedule List";
         $data['schedule_id'] =  $schedule_id;
         return view('settings.schedule.create', $data);
+    }
+
+    public function notificationList(){
+        // $this->generateScheduleNotifications($this->orgId);
+        return "Notification List Comes Here";
     }
 
     public function storeOrUpdateSchedule(Request $request){
@@ -150,29 +155,37 @@ class SchedullingController extends Controller
         return MasterLookupData::where("mldKey", "type_of_volunteer")->where('orgId', $orgId)->select("mldId", 'mldKey', 'mldValue')->get();
     }
 
-    static function generateCommunication($userIds, $schedule, $isNewSchedule = true){
-        if($isNewSchedule == true){
-            foreach($userIds as $userId){
-                $this->updateUserComm($userId, $schedule);
-            } 
-        }else {
-            SchedulingUser::whereNotIn('user_id', $userIds)->delete();
-            $existingUserIds = SchedulingUser::where("scheduling_id", $schedule->id)->pluck('user_id');
-            foreach($userIds as $userId){
-                if(!in_array($userId, $existingUserIds)){
-                    $this->updateUserComm($userId, $schedule);
-                }
-            }
-        }
+    static function generateCommunication($userIds, $schedule, $isNewSchedule = true){  
+        // if($isNewSchedule == true){
+        //     $subject = "Event Scheduled for ". $schedule->title;
+        //     $body = "A reminder that the event schedule '" .$schedule->title . "' has been allocated on ". $schedule->time . " ". $schedule->date;
+        //     generateCommunicationsWithPlain($subject, $body, $orgId, $createdUserId, $userIds);
+        // }else {
+        //     SchedulingUser::whereNotIn('user_id', $userIds)->delete();
+        //     $existingUserIds = SchedulingUser::where("scheduling_id", $schedule->id)->pluck('user_id');
+        //     foreach($userIds as $userId){
+        //         if(!in_array($userId, $existingUserIds)){
+        //             $this->updateUserComm($userId, $schedule);
+        //         } else 
+        //     }
+        // }
     }
 
     static function updateUserComm($userId, $schedule){
-        $scheduleUser = new SchedulingUser();
-        $scheduleUser->orgId = $this->orgId;
+        // generateCommunicationsWithPlain($subject, $body, $orgId, $createdUserId, $ToUserIdsArray)
+        // $scheduleUser = new SchedulingUser();
+        // $scheduleUser->orgId = $this->orgId;
         
-        $scheduleUser->scheduling_id = $schedule->id;
-        $scheduleUser->user_id = $user_id;
-        $scheduleUser->token = substr(sha1(time()), 0, 150);
-        $scheduleUser->save();
+        // $scheduleUser->scheduling_id = $schedule->id;
+        // $scheduleUser->user_id = $user_id;
+        // $scheduleUser->token = substr(sha1(time()), 0, 150);
+        // $scheduleUser->save();
     }
 }
+
+// * 4 schedule_auto_notify
+//  * 5 schedule_manual_notify
+//  * 6 schedule_confirmation
+//  * 7 schedule_reminder
+//  * 8 schedule_check_out_notification_to_guest
+
