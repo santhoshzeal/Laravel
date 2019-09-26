@@ -22,11 +22,7 @@ class GroupTypesController extends Controller
         $this->orgId = $this->userSessionData['umOrgId'];
     }
 
-    public function groupsList(){
-        $data['title'] = $this->browserTitle . " - Groups List";
 
-        return view('groups.list', $data);
-    }
 
     public function groupTypes(){
         $data['title'] = $this->browserTitle . " - Group Types";
@@ -55,7 +51,7 @@ class GroupTypesController extends Controller
                                     </div> <div class="col-md-3">
                                                     <button class="btn btn-outline-primary" onclick="groupDefaults(\''.$row->name.'\','.$row->id.')">Group Defaults</button>
                                                     <button class="btn btn-outline-primary" onclick="viewGroups('.$row->id.')">View Groups</button>
-                             </div></div></div></div></div>';
+                             </div></div></div></div>';
 
                             return $html;
                         })

@@ -227,7 +227,7 @@ Route::get('pastor_board/edit/{id}', 'PastorBoardController@edit');
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
 
 // GROUPS
-Route::get("/groups", "Groups\GroupTypesController@groupsList")->name('groups');
+Route::get("/groups", "Groups\GroupController@groupsList")->name('groups');
 Route::get("/groups/reports", "Groups\GroupTypesController@reports")->name('groups.reports');
 Route::get("/groups/events", "Groups\GroupTypesController@events")->name('groups.events');
 Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('groups.resources');
@@ -243,11 +243,15 @@ Route::get("/api/groups/tags/deleteTag/{tag_id}", "Groups\TagsController@deleteT
 Route::post("/api/groups/tags/updateTagsOrder", "Groups\TagsController@updateTagsOrder");
 Route::post("/api/groups/tags/updateTagGroupsOrder", "Groups\TagsController@updateTagGroupsOrder");
 
+Route::post("/groups/groupsListPagination", "Groups\GroupController@groupsListPagination");
+
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");
 Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController@createGroupTypesPage");
 Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
+
+
 
 
 

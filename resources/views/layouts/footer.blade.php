@@ -85,7 +85,7 @@
 
 
         <script src="{{ URL:: asset('js/custom/form-advanced.js')}}"></script>
-
+        <script src="{{ URL:: asset('assets/pagination/pagination.min.js')}}"></script>
 
     </body>
 </html>

@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Auth;
+use DB;
 class Group extends Model
 {
     protected $table = 'groups';
@@ -14,6 +15,8 @@ class Group extends Model
         'is_enroll_notify_count', 'enroll_notify_count', 'contact_email', 'visible_leaders_fields',
         'visible_members_fields', 'can_leaders_search_people', 'can_leaders_take_attendance', 'is_event_remind', 'event_remind_before',
         'enroll_status', 'enroll_msg', 'leader_visibility_publicly', 'is_event_public', 'created_at', 'updated_at', 'deleted_at'];
+
+
 
     public function groupType(){
         return $this->belongsTo('App\Models\GroupType', 'groupType_id');
@@ -37,5 +40,27 @@ class Group extends Model
 
     public function tags(){
         return $this->belongsToMany('App\Models\Tag');
+    }
+
+
+    public static function getGroups($search){
+        $result = self::select(DB::raw('SQL_CALC_FOUND_ROWS  id'), 'name', 'description','created_at')
+        /* ->orderBy("created_at","desc") */;
+        if ($search != "") {
+            $result->where(function($query)use($search) {
+
+
+
+                return $query->where('p_title', 'name', "%$search%")
+                                ->orWhere('description', 'LIKE', "%$search%");
+
+                //echo date("d m y",(int)$search);
+            });
+        }
+
+
+        $result->where('orgId', '=', Auth::user()->orgId);
+
+        return $result;
     }
 }
