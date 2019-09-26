@@ -17,17 +17,17 @@ function updateDatatable() {
             type: "GET",
             url: siteUrl + `/api/settings/schedule/list`,
         },
-        "columnDefs": [ {
+        "columnDefs": [{
             "targets": 0,
             "orderable": false
-            }, {
-                "targets": 6,
-                "orderable": false
-                } ]
+        }, {
+            "targets": 6,
+            "orderable": false
+        }]
     });
-    dt.on( 'order search', function () {
-        dt.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
+    dt.on('order search', function () {
+        dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
+    }).draw();
 }

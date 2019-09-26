@@ -41,28 +41,28 @@
                     <div class="row">
                         <div class="col-6">
                             @if($user->gender)
-                                <i class="fa fa-user"></i>{{$user->gender}}<br/>
+                                <i class="fa fa-user"></i><span class="pl-3">{{$user->gender}}</span><br/>
                             @endif 
                             @if(isset($user->age) && isset($user->dob_format))
-                                {{$user->age}} years old ({{$user->dob_format}})<br/>
+                                <span class="pl-4">{{$user->age}} years old <span><br/><span class="pl-4">({{$user->dob_format}})</span><br/>
                             @endif
                             @if($user->life_stage)
-                                {{$user->life_stage}}<br/>
+                                <span class="pl-4">{{$user->life_stage}}</span><br/>
                             @endif
                             @if($user->medical_note)
-                                <i class="fa fa-heartbeat"></i> {{$user->medical_note}}
+                                <i class="fa fa-heartbeat"></i> <span class="pl-3">{{$user->medical_note}}</span>
                             @endif
 
                         </div>
                         <div class="col-6">
                             @if($user->email)
-                                <i class="fa fa-envelope"></i>&nbsp;{{$user->email}}<br/>
+                                <i class="fa fa-envelope"></i><span class="pl-3">{{$user->email}}<span><br/>
                             @endif
                             @if($user->mobile_no)
-                                <i class="fa fa-phone"></i>&nbsp;{{$user->mobile_no}}<br/>
+                                <i class="fa fa-phone"></i><span class="pl-4">{{$user->mobile_no}}</span><br/>
                             @endif
                             @if($user->address)
-                                <i class="fa fa-address-card"></i>&nbsp;{{$user->address}}<br/>
+                                <i class="fa fa-address-card"></i><span class="pl-3">{{$user->address}}</span><br/>
                             @endif
                         </div>
                     </div>
@@ -112,10 +112,6 @@
 <link rel="stylesheet" href="{{ URL::asset('assets/crop/croppie.css') }}">
 
 
-
-
-
-@include('popup.modal_popup_member')
 @include('popup.household')
 
 

@@ -26,7 +26,7 @@ class CommunicationHelper {
      * createdUserId: loggedin user id
      * toUserIdsArray: 
      */ 
-    public static function generateCommunications($tag, $orgId, $type =2, $createdUserId, $ToUserIdsArray){
+    public static function generateCommunications($tag='', $orgId, $type =2, $createdUserId, $ToUserIdsArray, $related_id = null){
         $template = CommTemplate::where('tag', $tag)->where('org_id', $orgId)->first();
         if(empty($template)){
             $template = (new static)->addCommTemplateToOrg($tag, $orgId);
@@ -40,12 +40,12 @@ class CommunicationHelper {
                         'name' => $template->name,
                         'subject' => $template->subject,
                         'body' => $template->body,
-                        'from_user_id' => $createdUserId
+                        'from_user_id' => $createdUserId,
+                        'related_id' => $related_id
                     ]);
 
         $attachUsers = [];
         foreach($ToUserIdsArray as $userId){
-            // dd($user);
             $attachUsers[$userId] = ['read_status' => "UNREAD", "delete_status" => "UNDELETED"];
         }
         $commMaster->users()->attach($attachUsers);

@@ -12,7 +12,7 @@ class CommMaster extends Model
     protected $table = "comm_masters";
     
     protected $fillable = [
-        'id', 'comm_template_id', 'org_id', 'type', 'tag', 'subject', 'body', 'from_user_id', 
+        'id', 'comm_template_id', 'org_id', 'type', 'tag', 'name', 'subject', 'body', 'from_user_id', 'related_id',
         'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'
     ];
 

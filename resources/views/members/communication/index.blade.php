@@ -65,7 +65,7 @@
     }); 
     
     function load_commDatatable() {
-        $('#commdatatable').DataTable({
+        var dt = $('#commdatatable').DataTable({
             "serverSide": true,
             "destroy": true,
             "autoWidth": false,
@@ -75,8 +75,20 @@
             "ajax": {
                 type: "GET",
                 url: siteUrl + `/api/people/member/${user.personal_id}/get_messages`,
-            }
+            },
+            "columnDefs": [ {
+            "targets": 0,
+            "orderable": false
+            }, {
+                "targets": 5,
+                "orderable": false
+            } ]
         });
+        dt.on( 'order search', function () {
+        dt.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }
 
     function openModalWithCommData(templateId){

@@ -22,12 +22,18 @@ class TagsController extends Controller
         $this->orgId = $this->userSessionData['umOrgId'];
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function tagsIndex(){
         $data['title'] = $this->browserTitle . " - Group Tags List";
         
         return view('groups.tags', $data);
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function getGroupsListWithTags(){
         $tagGroups = TagGroup::where("orgId", $this->orgId)->orderBy('order')->with(['tags' => function($query){
                         $query->orderBy('order')->select("id", "name", "tagGroup_id", "order");
@@ -35,6 +41,9 @@ class TagsController extends Controller
         return $tagGroups;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function createOrUpdateTagGroup(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $newTagGroup = null;
@@ -52,6 +61,9 @@ class TagsController extends Controller
         return ["id" => $newTagGroup->id];
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function deleteTagGroup($tagGroup_id){
         TagGroup::where('id', $tagGroup_id)->delete();
         $tagIds = Tag::where("tagGroup_id", $tagGroup_id)->pluck('id');
@@ -62,6 +74,9 @@ class TagsController extends Controller
 
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function createOrUpdateTag(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $newTag = null;
@@ -78,6 +93,9 @@ class TagsController extends Controller
         return ["id" => $newTag->id];
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function deleteTag($tag_id){
         GroupTag::where("tag_id", $tag_id)->delete();
         Tag::where("id", $tag_id)->delete();
@@ -85,6 +103,9 @@ class TagsController extends Controller
         return ["message" => "Tag has been successfully deleted"];
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function updateTagsOrder(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $i = 1;
@@ -97,6 +118,9 @@ class TagsController extends Controller
         return ["message" => "Tag Order has been successfully"];
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function updateTagGroupsOrder(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $i = 1;
