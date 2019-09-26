@@ -24,62 +24,6 @@ class CommunicationController extends Controller
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->userSessionData = Session::get('userSessionData');
     }
-/**
- * Created By: Lokesh
- */
-    public function userCommunicationsIndex($personal_id){
-        $data['title'] = $this->browserTitle . " - Communication Management";
-        $user = User::where('personal_id', $personal_id)->first();
-        $lookup = Lookup::where('mldId', $user['name_prefix'])->select('mldValue')->first();
-        $user['name_prefix'] = $lookup->mldValue;
-        $data['user'] = $user;
-        $data['isCommPage'] = true; 
-        return view('members.communication.index', $data);
-    }
-
- /**
- * Created By: Lokesh
- */
-    public function getUserCommunications($personal_id){
-        $result = array();
-        // $user = User::where('personal_id', $personal_id)->with(['communications' => function($query){
-        //                         $query->orderBy('subject', 'desc')->select("tag", "subject", "body", 'from_user_id')
-        //                                 ->with(["createdUser" => function($query1){
-        //                                     $query1->select("id", "full_name");
-        //                                 }]);
-        //                     }])->select("id", "orgId")->first();
-
-        $user = User::where('personal_id', $personal_id)->first();
-
-        $slNo = 1;
-        foreach ($user->communications as $comm) {
-            $row = array();
-            $row[] = $slNo;
-            $row[] = $comm->name;
-            $row[] = $comm->subject;
-            // $row[] = $comm->body;
-            // $row[] = $comm->pivot["read_status"];
-            // $row[] = $comm->pivot["delete_status"];
-            $row[] = $comm->createdUser["full_name"];
-            $row[] = \Carbon\Carbon::parse($comm->pivot["created_at"])->format('d-m-Y h:i');
-            $row[] = "<button class='btn btn-outline-primary btn-xs' style='padding:0 5px;' onClick='openModalWithCommData(". $comm->id . ")'><i class='fa fa-eye'></i></button>"; 
-            $result[] = $row;
-            $slNo += 1;
-        }
-
-        return Datatables::of($result)->escapeColumns(['user_id'])->make(true);
-    }    
- /**
- * Created By: Lokesh
- */
-    public function getUserCommunication($personal_id, $master_id){
-        $communication = CommMaster::where('id', $master_id)->with(["createdUser" => function($query){
-                                        $query->select("id", "full_name", "email", "mobile_no");
-                                    }])
-                                    ->select("id", "type", "tag", "name", "subject", "body", "from_user_id")
-                                    ->first();
-        return $communication;
-    }
 
     public function index()
     {
@@ -178,12 +122,3 @@ class CommunicationController extends Controller
         return view('communication.message_list',$data);
     }
 }
-
-// schedule_auto_notify
-// schedule_manual_notify
-// schedule_confirmation
-// schedule_reminder
-// schedule_check_out_notification_to_guest
-// welcome
-// household_added
-// event_added

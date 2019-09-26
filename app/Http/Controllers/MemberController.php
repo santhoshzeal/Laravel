@@ -27,6 +27,9 @@ class MemberController extends Controller
     /*
     ** Purpose: Create a new member or edit a member if id present
     */
+    /**
+    * Created By: Lokesh
+    */
     public function createOrEdit($personal_id = null) {
         $orgId = $this->userSessionData['umOrgId'];
         $keys = ["school_name", "name_prefix", "name_suffix", "marital_status", "grade_name"];
@@ -61,6 +64,9 @@ class MemberController extends Controller
         return view('members.member_create', $data);
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function storeOrUpdate(Request $request, $personal_id=null){
         
         $validator = Validator::make($request->all(), [
@@ -126,6 +132,9 @@ class MemberController extends Controller
         }
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function viewMember($personal_id){
         $orgId = $this->userSessionData['umOrgId'];
         $user = User::select("*",DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'),DB::raw('DATE_FORMAT(users.dob, "%d-%m-%Y") AS dob_format'),
@@ -167,6 +176,9 @@ class MemberController extends Controller
         return view('members.member_view', $data);
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function getHouseholderList($personal_id){
         $mainUser = User::where('personal_id', $personal_id)->first();
         $households = [];
@@ -185,6 +197,9 @@ class MemberController extends Controller
         return $households;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function getHhUserSearch(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $orgId = $this->userSessionData['umOrgId'];
@@ -203,6 +218,9 @@ class MemberController extends Controller
         return $users; 
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function createNewHousehold(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $orgId = $this->userSessionData['umOrgId'];
@@ -231,6 +249,9 @@ class MemberController extends Controller
         return $newHh;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function removeHousehold(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $orgId = $this->userSessionData['umOrgId'];
@@ -242,6 +263,9 @@ class MemberController extends Controller
         return $data;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function updateHousehold(Request $request){
         $payload = json_decode(request()->getContent(), true);
         $orgId = $this->userSessionData['umOrgId'];
@@ -276,6 +300,9 @@ class MemberController extends Controller
         return $data;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function extractAddress($suser){
         $fullAdr = explode("///",$suser['address']);
         $address = $fullAdr[0];
@@ -286,6 +313,9 @@ class MemberController extends Controller
         return $address;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function extreactHhUrserFields($sUser){
         $user['id'] = $sUser->id;
         $user['full_name'] = $sUser->full_name;
@@ -300,6 +330,9 @@ class MemberController extends Controller
         return $user;
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function generateCommunication($tag, $type, $userIds){
         $orgId = $this->userSessionData['umOrgId'];
         $createdUserId = $this->userSessionData['umId'];
@@ -308,6 +341,9 @@ class MemberController extends Controller
         }
     }
 
+    /**
+    * Created By: Lokesh
+    */
     public function extractFullName($user){
         $full_name = isset($user["first_name"]) ? $user["first_name"] : '';
         $full_name .= isset($user["middle_name"]) ? ' '. $user["middle_name"] : '';

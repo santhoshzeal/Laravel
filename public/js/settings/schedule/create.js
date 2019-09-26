@@ -164,7 +164,7 @@ function updateFormData() {
     // checkboxEls.forEach(function (item) { $(`#${item}`).attr("checked", schedule[item]) });
     $("input[type=radio][name=notification_flag]").val([schedule.notification_flag]);
     $("input[type=radio][name=checker_flag]").val([schedule.is_manual_schedule]);
-    console.log(schedule)
+    checker_count = schedule.checker_count;
     if (schedule.is_manual_schedule == 2) {
         $("#members_list").show();
         updateMemberList();

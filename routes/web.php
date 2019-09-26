@@ -113,7 +113,6 @@ Route::get('people/member_directory', 'UserController@index');
 Route::get('people/member_create', 'UserController@create');
 Route::get('people/{personal_id}', 'UserController@view');
 Route::get('people/{personal_id}/messages', 'CommunicationController@messages');
-Route::post('display_household', 'HouseHoldsController@displayHousehold');
 
 Route::get('get_usermaster_data', 'UserController@getUserData');
 
@@ -136,9 +135,9 @@ Route::get('role_management', 'RoleController@index');
 Route::get('role_create', 'RoleController@create');
 
 //communication
-Route::get('/people/member/{personal_id}/messages', 'CommunicationController@userCommunicationsIndex');
-Route::get('/api/people/member/{personal_id}/get_messages', 'CommunicationController@getUserCommunications');
-Route::get('/api/people/member/{personal_id}/get_messages/{master_id}', 'CommunicationController@getUserCommunication');
+Route::get('/people/member/{personal_id}/messages', 'Settings\CommunicationController@userCommunicationsIndex');
+Route::get('/api/people/member/{personal_id}/get_messages', 'Settings\CommunicationController@getUserCommunications');
+Route::get('/api/people/member/{personal_id}/get_messages/{master_id}', 'Settings\CommunicationController@getUserCommunication');
 
 // Settings => Communication
 Route::get("/settings/communication", 'Settings\CommunicationController@getList');
@@ -165,6 +164,7 @@ Route::get('/api/settings/forms/content/{form_id}', 'Settings\FormController@get
 Route::get("/settings/schedulling", "Settings\SchedullingController@schedullingIndex")->name('schedule.list');
 Route::get("/settings/schedulling/notifications", "Settings\SchedullingController@notificationList")->name('schedule.notifications');
 Route::get("/api/settings/schedule/list", 'Settings\SchedullingController@getScheduleList');
+Route::get("/api/settings/schedule/notificationsList/{template_id?}", 'Settings\SchedullingController@getNotificationsList');
 Route::get("/settings/schedulling/manage/{schedule_id?}", 'Settings\SchedullingController@createOrEditPage');
 Route::post("/api/settings/schedule/createRelatedData", 'Settings\SchedullingController@createRelatedData');
 Route::post("/api/settings/schedule/getAssignedMembersList", "Settings\SchedullingController@getAssignedMembersList");

@@ -8,11 +8,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Config;
 use yajra\Datatables\Datatables;
+use App\Helpers\CommunicationHelper;
 
 use App\Models\Schedule;
 use App\Models\Events;
 use App\Models\MasterLookupData;
 use App\Models\SchedulingUser;
+use App\Models\CommTemplate;
 use App\User;
 
 class SchedullingController extends Controller
@@ -37,12 +39,12 @@ class SchedullingController extends Controller
                         $query->select('eventId', 'eventName');
                     }, "volunteer"=>function($query1){
                         $query1->select('mldId', 'mldValue');
-                    }])->select("id", "event_id", "title", "type_of_volunteer", "date", "time")->get();
+                    }])->select("id", "event_id", "title", "type_of_volunteer", "date", "time")->orderBy("date", "desc")->get();
         
         $i = 1;
         foreach ($schedules as $schedule) {
             $row = [$i, $schedule->title, $schedule->volunteer->mldValue, $schedule->event->eventName,
-                        \Carbon\Carbon::parse($schedule->time)->format('h:i'), \Carbon\Carbon::parse($schedule->data)->format('d-m-Y')];
+                        \Carbon\Carbon::parse($schedule->time)->format('h:i'), \Carbon\Carbon::parse($schedule->date)->format('d-m-Y')];
             $viewLink = url("/settings/schedulling/". $schedule->id);
             $editLink = url("/settings/schedulling/manage/". $schedule->id);
             $row[] = "<a href='".$viewLink ."'><i class='fa fa-eye'></i></a><a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
@@ -79,8 +81,8 @@ class SchedullingController extends Controller
     }
 
     public function notificationList(){
-        // $this->generateScheduleNotifications($this->orgId);
-        return "Notification List Comes Here";
+        $data['title'] = $this->browserTitle . " - Schedule Notifications List";
+        return view('settings.schedule.notification', $data);
     }
 
     public function storeOrUpdateSchedule(Request $request){
@@ -89,7 +91,7 @@ class SchedullingController extends Controller
         $isNewSchedule = true;
         if(isset($payload['id'])){
             $schedule = Schedule::where("id", $payload["id"])->first();
-            $isNewSchedule = true;
+            $isNewSchedule = false;
         }else{
             $schedule = new Schedule();
             $schedule->orgId = $this->orgId;
@@ -105,8 +107,26 @@ class SchedullingController extends Controller
         $schedule->assign_ids = serialize($payload["assign_ids"]);
         $schedule->save();
 
-        $this->generateCommunication($payload["assign_ids"], $schedule, $isNewSchedule);
+        $this->generateCommunication($this->orgId, $this->authUserId, $payload["assign_ids"], $schedule, $isNewSchedule);
         return ["message"=> "Schedule has been successfully stored or updated"];
+    }
+
+    public function getNotificationsList($template_id = null){
+        $notificationTags = ["schedule_auto_notify", "schedule_manual_notify", "schedule_confirmation", "schedule_reminder", "schedule_check_out_notification_to_guest", "thank_you_for_service", "schedule_canceled"];
+        $templates = [];
+        if(isset($template_id)){
+            $templates = CommTemplate::where('org_id', $this->orgId)
+                            ->where("id", $template_id)
+                            ->select("id", "tag", "name", "subject", "body")->first();
+        }else {
+            $templates = CommTemplate::where('org_id', $this->orgId)
+                            ->whereIn("tag", $notificationTags)
+                            ->select("id", "tag", "name", "subject")->get();
+            if(count($templates) < count($notificationTags)){
+                $templates = $this->generateNotificationTemplates($this->orgId, $notificationTags);
+            }
+        }
+        return $templates;
     }
 
     public function createRelatedData(Request $request){
@@ -155,37 +175,46 @@ class SchedullingController extends Controller
         return MasterLookupData::where("mldKey", "type_of_volunteer")->where('orgId', $orgId)->select("mldId", 'mldKey', 'mldValue')->get();
     }
 
-    static function generateCommunication($userIds, $schedule, $isNewSchedule = true){  
-        // if($isNewSchedule == true){
-        //     $subject = "Event Scheduled for ". $schedule->title;
-        //     $body = "A reminder that the event schedule '" .$schedule->title . "' has been allocated on ". $schedule->time . " ". $schedule->date;
-        //     generateCommunicationsWithPlain($subject, $body, $orgId, $createdUserId, $userIds);
-        // }else {
-        //     SchedulingUser::whereNotIn('user_id', $userIds)->delete();
-        //     $existingUserIds = SchedulingUser::where("scheduling_id", $schedule->id)->pluck('user_id');
-        //     foreach($userIds as $userId){
-        //         if(!in_array($userId, $existingUserIds)){
-        //             $this->updateUserComm($userId, $schedule);
-        //         } else 
-        //     }
-        // }
+    static function generateCommunication($orgId, $createdUserId, $userIds, $schedule, $isNewSchedule = true){  
+        if($isNewSchedule == true){
+            CommunicationHelper::generateCommunications('schedule_manual_notify', $orgId, 1, $createdUserId, $userIds, $schedule->id);
+        }else {
+            
+            $existingUserIds = SchedulingUser::where("scheduling_id", $schedule->id)->pluck('user_id')->toArray();
+            $removedUserIds = array_diff($existingUserIds, $userIds);
+            $newUserIds = array_diff($userIds, $existingUserIds);
+            $inserRecords = [];
+            foreach($newUserIds as $userId){
+                $record = [];
+                $record["orgId"] = $orgId;
+                $record["scheduling_id"] = $schedule->id;
+                $record["user_id"] = $userId;
+                $record["token"] = substr(sha1(time()), 0, 150).rand ( 199999999, 9999999999999999 );
+
+                $inserRecords[] = $record;
+            }
+            SchedulingUser::insert($inserRecords);
+            SchedulingUser::where("scheduling_id", $schedule->id)->whereIn('user_id', $removedUserIds)->delete();
+            CommunicationHelper::generateCommunications('schedule_manual_notify', $orgId, 1, $createdUserId, $newUserIds, $schedule->id);
+            CommunicationHelper::generateCommunications('schedule_canceled', $orgId, 1, $createdUserId, $removedUserIds, $schedule->id);
+        }
     }
 
-    static function updateUserComm($userId, $schedule){
-        // generateCommunicationsWithPlain($subject, $body, $orgId, $createdUserId, $ToUserIdsArray)
-        // $scheduleUser = new SchedulingUser();
-        // $scheduleUser->orgId = $this->orgId;
-        
-        // $scheduleUser->scheduling_id = $schedule->id;
-        // $scheduleUser->user_id = $user_id;
-        // $scheduleUser->token = substr(sha1(time()), 0, 150);
-        // $scheduleUser->save();
+    static function generateNotificationTemplates($orgId, $tags){
+            foreach($tags as $tag){
+               $template = CommTemplate::where("org_id", $orgId)->where("tag", $tag)->first();
+               if(!isset($template)){
+                $defaultTemplate = CommTemplate::where('tag', $tag)->where('org_id', 0)->first();
+                CommTemplate::create([
+                                    'tag' => $defaultTemplate->tag,
+                                    'name' => $defaultTemplate->name,
+                                    'subject' => $defaultTemplate->subject,
+                                    'body' => $defaultTemplate->body,
+                                    'org_id' => $orgId
+                                ]);
+               }
+            }
+        return CommTemplate::where("org_id", $orgId)->whereIn("tag", $tags)->select("id", "tag", "name", "subject")->get();
     }
 }
-
-// * 4 schedule_auto_notify
-//  * 5 schedule_manual_notify
-//  * 6 schedule_confirmation
-//  * 7 schedule_reminder
-//  * 8 schedule_check_out_notification_to_guest
 

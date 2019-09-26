@@ -462,7 +462,7 @@ CREATE TABLE `dallas2`.`scheduling_user`(
   `scheduling_id` BIGINT(22) NOT NULL,
   `user_id` BIGINT(22) NOT NULL,
   `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=Pending, 2=Accepted, 3=Decline',
-  `createdBy` TEXT NOT NULL,
+  `createdBy` text,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` TEXT NOT NULL,
   `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -480,4 +480,114 @@ ALTER TABLE `scheduling_user` ADD `token` VARCHAR(255) NULL DEFAULT NULL AFTER `
 
 -- 
 -- Alter Comm_masters Table - Lokesh 26-09-2019
+--
 ALTER TABLE `comm_masters` CHANGE `comm_template_id` `comm_template_id` BIGINT(20) NULL;
+ALTER TABLE `comm_masters` ADD `related_id` BIGINT(22) NULL AFTER `from_user_id`;
+ALTER TABLE `scheduling_user` DROP `createdBy`;
+ALTER TABLE `scheduling_user` ADD `token` VARCHAR(255) NOT NULL AFTER `status`;
+ALTER TABLE `scheduling_user` ADD `createdBy` TEXT NULL AFTER `token`;
+ALTER TABLE `scheduling_user` CHANGE `updatedBy` `updatedBy` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
+ALTER TABLE `scheduling_user` CHANGE `deletedBy` `deletedBy` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
+
+--
+-- Adding default Schedule notifications - Lokesh 26-09-2019
+--
+INSERT INTO `comm_templates`(
+    `id`,
+    `tag`,
+    `name`,
+    `subject`,
+    `body`,
+    `org_id`,
+    `createdBy`,
+    `updatedBy`,
+    `updated_at`,
+    `deletedBy`,
+    `deleted_at`
+)
+VALUES(
+    NULL,
+    'schedule_auto_notify',
+    'Auto Scheduling Notification',
+    'Event scheduled',
+    'Your have been placed on the schedule. (Auto assigned)',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),(
+    NULL,
+    'schedule_manual_notify',
+    'Scheduling event',
+    'Event Scheduled',
+    'Your Event has been scheduled, please follow the below mentioned details.',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),(
+    NULL,
+    'schedule_confirmation',
+    'Schedule confirmation',
+    'Schedule Confirmation',
+    'You have been placed on the schedule for the following dates. To respond or simply view this schedule, click the appropriate button below.',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),(
+    NULL,
+    'schedule_reminder',
+    'Schedule Remind',
+    'Schedule Remind',
+    'A Reminder that your event has been scheduled for below listed dates.',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),(
+    NULL,
+    'schedule_check_out_notification_to_guest',
+    'Schedule check out notification to guest',
+    'Event Schedule Notification',
+    'This is notify that event has been scheduled.thank_you_for_service',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),(
+    NULL,
+    'thank_you_for_service',
+    'Thanks for your service',
+    'Thanks for Service',
+    'Thanks for attending the below listed event.',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),
+(
+    NULL,
+    'schedule_canceled',
+    'Schedule canceled',
+    'Schedule canceld',
+    'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.',
+    '0',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+)
