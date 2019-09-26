@@ -37,7 +37,7 @@
                 function simpleTemplating(data) {
                     var html = '<div class="row no-gutters">';
                     $.each(data, function(index, item){
-                        html += '<div class="col-md-3">'+ item +'</div>';
+                        html += '<div class="col-md-3 p-3">'+ item +'</div>';
                     });
                     html += '</div>';
                     return html;

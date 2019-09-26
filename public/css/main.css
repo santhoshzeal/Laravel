@@ -206,3 +206,13 @@ padding: 1px;
 .checkbox + label {
     padding-left: 25px;
 }
+
+a.wrapper-link, a.wrapper-link:hover, a.wrapper-link:focus, a.wrapper-link:visited {
+    color: #525150;
+}
+a.wrapper-link {
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    color: #FB7642;
+    cursor: pointer;
+}

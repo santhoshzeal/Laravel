@@ -32,26 +32,43 @@ class GroupController extends Controller
 
         $items = array();
         foreach($groupList as $item) {
-            $html=' <div class="card m-b-5 border border-primary">
-                            <div class="card-body ">
+            $html=' <div class="card m-b-5 border border-primary group p-0">
+            <a href="'.url("groups/details/".$item->id).'" class="wrapper-link">
+
+                            <div class="card-body p-0">
 
                             <div class="row no-gutters">
 
 
-                                    <div class=" col-md-8 ">
+                                    <div class=" col-md-12 group-header" style=\'height: 116px;background-image: url("https://groups-production.s3.amazonaws.com/uploads/group/header_image/defaults/medium_6.png");\'>
 
-                                      <div class="grouptype-name "><h6>'.$item->name.'</h6></div>
-                                       <div class="grouptype-desc"> '.$item->description.'</div>
+                                      <div class="grouptype-name " ><h6 class="text-center">'.ucwords($item->name).'</h6></div>
+
 
 
 
                                     </div>
 
-                                    <div class="col-md-3">
-                                                    <button class="btn btn-outline-primary" onclick="groupDefaults('.$item->id.')">Group Defaults</button>
-                                                    <button class="btn btn-outline-primary" onclick="viewGroups('.$item->id.')">View Groups</button>
-                             </div>
-                             </div></div></div>';
+
+
+                             </div></div>
+
+                             <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-6">Last Meeting</div>
+                                    <div class="col-md-6">Last Meeting</div>
+                                    <div class="col-md-6">None</div>
+                                    <div class="col-md-6">None</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-md-12">Members</div>
+                                <div class="col-md-12">0</div>
+
+                            </div>
+                        </div> </a>
+                             </div>';
             $items[] = $html;
         }
         return response()->json(
@@ -63,5 +80,8 @@ class GroupController extends Controller
             );
     }
 
+    public function groupDetails($id) {
+
+    }
 
 }
