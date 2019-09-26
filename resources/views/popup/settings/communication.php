@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" id="commTitle">
-                <h3>Edit Communication Template</h3>
+                <h3 id="body_title"></h3>
             </div>
             <div class="modal-body" id="commBody">
                 <div class="row">

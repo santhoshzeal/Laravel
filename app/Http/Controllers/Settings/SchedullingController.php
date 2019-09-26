@@ -112,7 +112,7 @@ class SchedullingController extends Controller
     }
 
     public function getNotificationsList($template_id = null){
-        $notificationTags = ["schedule_auto_notify", "schedule_manual_notify", "schedule_confirmation", "schedule_reminder", "schedule_check_out_notification_to_guest", "thank_you_for_service", "schedule_canceled"];
+        $notificationTags = ["schedule_auto_notify", "schedule_manual_notify", "schedule_confirmation", "schedule_reminder", "schedule_check_out_notification_to_guest", "thank_you_for_service", "schedule_cancelled"];
         $templates = [];
         if(isset($template_id)){
             $templates = CommTemplate::where('org_id', $this->orgId)
@@ -201,20 +201,22 @@ class SchedullingController extends Controller
     }
 
     static function generateNotificationTemplates($orgId, $tags){
-            foreach($tags as $tag){
-               $template = CommTemplate::where("org_id", $orgId)->where("tag", $tag)->first();
-               if(!isset($template)){
-                $defaultTemplate = CommTemplate::where('tag', $tag)->where('org_id', 0)->first();
-                CommTemplate::create([
-                                    'tag' => $defaultTemplate->tag,
-                                    'name' => $defaultTemplate->name,
-                                    'subject' => $defaultTemplate->subject,
-                                    'body' => $defaultTemplate->body,
-                                    'org_id' => $orgId
-                                ]);
-               }
+        foreach($tags as $tag){
+            $template = CommTemplate::where("org_id", $orgId)->where("tag", $tag)->first();
+            if(!isset($template)){
+            $defaultTemplate = CommTemplate::where('tag', $tag)->where('org_id', 0)->first();
+            CommTemplate::create([
+                                'tag' => $defaultTemplate->tag,
+                                'name' => $defaultTemplate->name,
+                                'subject' => $defaultTemplate->subject,
+                                'body' => $defaultTemplate->body,
+                                'org_id' => $orgId
+                            ]);
             }
-        return CommTemplate::where("org_id", $orgId)->whereIn("tag", $tags)->select("id", "tag", "name", "subject")->get();
+        }
+        $templates = CommTemplate::where("org_id", $orgId)->whereIn("tag", $tags)->select("id", "tag", "name", "subject")->get();
+        dd($templates);
+        exit;
     }
 }
 

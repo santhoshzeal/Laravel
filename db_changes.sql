@@ -486,8 +486,8 @@ ALTER TABLE `comm_masters` ADD `related_id` BIGINT(22) NULL AFTER `from_user_id`
 ALTER TABLE `scheduling_user` DROP `createdBy`;
 ALTER TABLE `scheduling_user` ADD `token` VARCHAR(255) NOT NULL AFTER `status`;
 ALTER TABLE `scheduling_user` ADD `createdBy` TEXT NULL AFTER `token`;
-ALTER TABLE `scheduling_user` CHANGE `updatedBy` `updatedBy` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
-ALTER TABLE `scheduling_user` CHANGE `deletedBy` `deletedBy` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;
+ALTER TABLE `scheduling_user` CHANGE `updatedBy` `updatedBy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+ALTER TABLE `scheduling_user` CHANGE `deletedBy` `deletedBy` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
 
 --
 -- Adding default Schedule notifications - Lokesh 26-09-2019
@@ -580,9 +580,9 @@ VALUES(
 ),
 (
     NULL,
-    'schedule_canceled',
-    'Schedule canceled',
-    'Schedule canceld',
+    'schedule_cancelled',
+    'Schedule cancelled',
+    'Schedule cancelled',
     'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.',
     '0',
     NULL,
