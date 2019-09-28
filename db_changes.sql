@@ -456,7 +456,7 @@ ALTER TABLE `scheduling` ADD `orgId` BIGINT(22) NOT NULL AFTER `title`;
 --
 -- Table structure for table `scheduling_user` created By LOKESH 25-09-2019
 --
-CREATE TABLE `dallas2`.`scheduling_user`(
+CREATE TABLE `scheduling_user`(
   `id` BIGINT(22) NOT NULL AUTO_INCREMENT,
   `orgId` BIGINT(22) NOT NULL,
   `scheduling_id` BIGINT(22) NOT NULL,

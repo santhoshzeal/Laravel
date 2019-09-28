@@ -80,8 +80,14 @@ class GroupController extends Controller
             );
     }
 
-    public function groupDetails($id) {
+    public function groupDetails($grpId) {
+        $orgId = $this->userSessionData['umOrgId'];
 
+        
+        $data['title'] = $this->browserTitle . " - Group Details";
+        
+         
+        return view('groups.groups_details_view', $data);
     }
 
 }
