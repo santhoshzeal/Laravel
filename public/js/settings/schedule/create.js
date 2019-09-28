@@ -225,21 +225,6 @@ function genTableRow(index, item) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function updateModalContent() {
     let modalCloseBtn = genBtn("btn btn-sm btn-primary pull-right border border-right-3 modal_close", "Close");
     $("#assignMemberModal .modalTitle").html("<h5>Search Members from Database</h5>");
