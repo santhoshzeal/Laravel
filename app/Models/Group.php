@@ -63,4 +63,14 @@ class Group extends Model
 
         return $result;
     }
+
+    public static function getGroupDetails($id){
+        $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path', 'groups.meeting_schedule', 'groups.isPublic')
+                            ->addSelect("group_types.name as group_type_name")
+                            ->join("group_types","group_types.id","=","groups.groupType_id")
+                        ->where("groups.id",$id)
+                        ->where('groups.orgId', '=', Auth::user()->orgId)
+                        ->first();
+        return $groupDetails;
+    }
 }

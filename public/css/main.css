@@ -216,3 +216,30 @@ a.wrapper-link {
     color: #FB7642;
     cursor: pointer;
 }
+
+.group-details-desc {
+    display: table-cell;
+    color: #fff;
+    vertical-align: middle;
+}
+.group-menu {
+    background: #d7dcdd;
+}
+.group-menu li.active {
+    border-bottom: 1px solid #FB7642;
+    border-radius: 0;
+    border-right-width: 0;
+    margin-right: -1px;
+}
+.group-menu li {
+    border-top: 1px solid;
+    border-color: #E2E1E0;
+    position: relative;
+}
+.group-menu li.active a{
+color: #FB7642;
+    font-weight: 600;
+}
+.group-menu li a {
+    color: #878686 ;
+}
