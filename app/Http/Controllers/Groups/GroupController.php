@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Session;
 use Config;
 use Response;
 use App\Models\Group;
+use App\Models\GroupMember;
 use DB;
+use DataTables;
 class GroupController extends Controller
 {
     public function __construct()
@@ -89,11 +91,37 @@ class GroupController extends Controller
         }
 
         $data['activeTab'] =$activeTab;
+        $data['groupId'] =$id;
         $data['title'] = $this->browserTitle . " - Group Details";
         $groupDetails->img = "https://groups-production.s3.amazonaws.com/uploads/group/header_image/defaults/medium_6.png";
         $data["groupDetails"] = $groupDetails;
         //return view('groups.group.group-details', $data);
         return view('groups.groups_details_view', $data);
+    }
+
+    public function membersList(Request $request){
+        $groupId = $request->groupId;
+        $members  =GroupMember::membersList($groupId,$request->search['value']);
+        return DataTables::of($members)
+                        ->addColumn('action', function($row) {
+                            $btn = '<a onclick="editRoom(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
+
+
+                            return $btn;
+                        })
+                        ->addColumn('role', function($row) {
+                            return ($row->role==1)?"Member":"Leader";
+                        })
+
+                        ->addColumn('member_since', function($row) {
+                            return date('d-M-Y',strtotime($row->member_since));
+                        })
+
+
+                        ->rawColumns(['action',])
+                        ->make(true);
+
+        print_r($members->get());
     }
 
 }

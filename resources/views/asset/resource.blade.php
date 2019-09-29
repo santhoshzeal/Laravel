@@ -33,18 +33,18 @@
                             <div class="card-body">
 
                                 <h4 class="mt-0 header-title">Resources</h4>
-                                
+
 
                                 <!-- -->
                                 <div class="row">
                                 <div class="button-items col-md-6">
                                     <button type="button" onclick="createResourceDialog()" class="btn btn-primary waves-effect waves-light">Create Resources</button>
 
-                                    
-                                    
- 
+
+
+
                                 </div>
-                                
+
                                 </div>
                                 <br>
                                 <!-- -->
@@ -59,35 +59,35 @@
 
 
                                     <tbody>
-                                    
+
                                     </tbody>
                                 </table>
 
- 
+
                             </div>
                         </div>
-                    </div> <!-- end col -->    
-                
-                
-                
-                
+                    </div> <!-- end col -->
+
+
+
+
             </div> <!-- end row -->
-        
+
             <script>
-            
-             $(document).ready(function() { 
-               
+
+             $(document).ready(function() {
+
                 loadDatatable();
                 $("#item_year").datepicker({
                     format: "yyyy",
-                    viewMode: "years", 
+                    viewMode: "years",
                     minViewMode: "years"
                 });
-                
-               
+
+
               // $("#eventDateSearch").
-            }); 
-                
+            });
+
                 function loadDatatable(){
                     //var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
                     resourceTable = $('#resourceTable').DataTable({
@@ -116,12 +116,12 @@
                         ],
                         "initComplete": function(settings, json) {
                           // $("#eventsTable_filter").append('<button class="btn small btn-primary" id="eventDateSearch"  >Event Date</button>');
-                         
+
                         }
                     });
                 }
-                
-            
+
+
             function createResourceDialog(){
                  createResourceDlg = BootstrapDialog.show({
                     title:"Create Resource",
@@ -134,7 +134,7 @@
                             action: function(dialogRef){
                                 submitCreateResource();
                             }
-                        }, 
+                        },
                         {
                             label: 'Cancel',
                             action: function(dialogRef){
@@ -144,21 +144,21 @@
                     ]
                 });
             }
-            
+
             function submitCreateResource(){
-                
-                $('#create_resource_form').ajaxForm(function(data) { 
+
+                $('#create_resource_form').ajaxForm(function(data) {
                    $("#create_resource_form_status").html(data.message);
                    setTimeout(function(){
                        createResourceDlg.close();
                         resourceTable.draw(false);
                     },2000);
                 });
-                
+
                 //$("#create_resource_form").submit();
                 $("#formSubmitBtn").click();
             }
-            
+
             function editResource(resourceId){
                 CreateEventsDlg = BootstrapDialog.show({
                     title:"Update Resource",
@@ -171,7 +171,7 @@
                             action: function(){
                                 submitCreateResource();
                             }
-                        }, 
+                        },
                         {
                             label: 'Cancel',
                             action: function(dialogRef){
@@ -181,11 +181,11 @@
                     ]
                 });
             }
-            
-            
+
+
                     </script>
-        
+
 @endsection
 
 
-        
+

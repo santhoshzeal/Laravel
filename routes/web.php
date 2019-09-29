@@ -248,6 +248,8 @@ Route::post("/groups/groupsListPagination", "Groups\GroupController@groupsListPa
 Route::get("/groups/details/{id}", "Groups\GroupController@groupDetails");
 Route::get("/groups/details/{id}/{type}", "Groups\GroupController@groupDetails");
 
+Route::post("/groups/members/list", "Groups\GroupController@membersList");
+
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");
 Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController@createGroupTypesPage");
