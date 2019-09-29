@@ -80,14 +80,15 @@ class GroupController extends Controller
             );
     }
 
+
     public function groupDetails($id) {
         $groupDetails =Group::getGroupDetails($id);
 
         $data['title'] = $this->browserTitle . " - Group Details";
         $groupDetails->img = "https://groups-production.s3.amazonaws.com/uploads/group/header_image/defaults/medium_6.png";
         $data["groupDetails"] = $groupDetails;
-        return view('groups.group.group-details', $data);
-
+        //return view('groups.group.group-details', $data);
+        return view('groups.groups_details_view', $data);
     }
 
 }
