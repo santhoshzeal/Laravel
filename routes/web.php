@@ -246,6 +246,7 @@ Route::post("/api/groups/tags/updateTagGroupsOrder", "Groups\TagsController@upda
 
 Route::post("/groups/groupsListPagination", "Groups\GroupController@groupsListPagination");
 Route::get("/groups/details/{id}", "Groups\GroupController@groupDetails");
+Route::get("/groups/details/{id}/{type}", "Groups\GroupController@groupDetails");
 
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");

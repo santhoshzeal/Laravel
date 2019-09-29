@@ -19,7 +19,7 @@
 <!-- end page title end breadcrumb -->
 
 <div class="row">
-    
+
     @include('groups.groups_details_header_block')
 
 </div>
@@ -48,19 +48,19 @@
                     </div>
                 </div>
             </div>
- 
+
         </div>
     </div>
- 
+
 </div>
 <!-- end row -->
 
 
- 
+
 <script src="{{ URL::asset('assets/crop/croppie.js') }}"></script>
 
 <link rel="stylesheet" href="{{ URL::asset('assets/crop/croppie.css') }}">
 
- 
+
 
 @endsection
