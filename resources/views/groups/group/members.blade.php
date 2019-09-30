@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="row">
                         <div class="tab-content" id="v-pills-tabContent">
-                                <button class="btn btn-primary " onclick="addMembers">Add Member</button>
+                                <button class="btn btn-primary " onclick="addMembers()">Add Member</button>
 
 
                                 <table id="membersTable" class="table table-bordered">
@@ -47,7 +47,7 @@ $(document).ready(function() {
 
     function loadDatatable(){
         //var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
-        resourceTable = $('#membersTable').DataTable({
+        membersTable = $('#membersTable').DataTable({
             "serverSide": true,
             "destroy": true,
             "autoWidth": false,
@@ -82,17 +82,17 @@ $(document).ready(function() {
     }
 
 
-function createResourceDialog(){
-     createResourceDlg = BootstrapDialog.show({
-        title:"Create Resource",
+function addMembers(){
+    addMemberDlg = BootstrapDialog.show({
+        title:"Add Member",
         size:"size-wide",
-        message: $('<div></div>').load(siteUrl+"/resource/create_page"),
+        message: $('<div></div>').load(siteUrl+"/groups/members/add"),
         buttons: [
             {
                 label: 'Submit',
                 cssClass: 'btn-primary',
                 action: function(dialogRef){
-                    submitCreateResource();
+                    submitAddMember();
                 }
             },
             {
@@ -103,5 +103,52 @@ function createResourceDialog(){
             }
         ]
     });
+
+    setTimeout(function(){
+        var groupId = <?= $groupId ?>;
+        $('#user_id').autoComplete({
+					resolver: 'custom',
+                    minLength:1,
+					events: {
+						search: function (qry, callback) {
+                                                    //$("#selectedCheckInUser").val("");
+							// let's do a custom ajax call
+							$.ajax(
+								siteUrl+"/groups/members/getUsersList",
+								{
+									data: { 'phrase': qry,groupId:groupId},
+                                    method : "POST"
+								}
+
+							).done(function (res) {
+								callback(res)
+							});
+						},
+
+					},
+
+				});
+                                $('#user_id').on('autocomplete.select', function(evt, item) {
+
+                                        $("#selectedCheckInUser").val(item.id);
+					//console.log('eventsAutoComplete autocomplete.select');
+					//eventsCodeContainer.text(eventsCodeContainer.text() + 'fired autocomplete.select. item: ' + item + ' value: ' + $(this).val() + '\n');
+				});
+    },500);
+
+}
+
+function submitAddMember(){
+
+$('#add_member_form').ajaxForm(function(data) {
+   $("#add_member_form_status").html(data.message);
+   setTimeout(function(){
+    addMemberDialog.close();
+    membersTable.draw(false);
+    },2000);
+});
+
+//$("#create_resource_form").submit();
+$("#formSubmitBtn").click();
 }
 </script>

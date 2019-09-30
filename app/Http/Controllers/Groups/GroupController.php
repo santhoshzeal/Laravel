@@ -124,4 +124,32 @@ class GroupController extends Controller
         print_r($members->get());
     }
 
+    public function addMembers(Request $request){
+
+        $data['title'] = $this->browserTitle . " - Groups List";
+        $data['groupId'] = 1;
+        return view('groups.group.add_members', $data);
+    }
+
+    public function getUsersList(Request $request) {
+        $search = $request->phrase;
+        $groupId = $request->groupId;
+        //dd($search);exit();
+        $usersList = Group::getUserListForAutocomplete($search,$groupId); //'id', 'first_name', 'last_name'
+        $users = array();
+
+        foreach ($usersList as $user) {
+            $disabled = true;
+            if($user->group_members_id == null || $user->group_members_id == "null"){
+                $disabled = false;
+            }
+            $users[] = array("text"=>$user->first_name." ".$user->last_name,"id"=>$user->id,"disabled"=>$disabled);
+        }
+    //print_r($usersList);
+
+    return response()->json(
+                           $users
+                    );
+}
+
 }

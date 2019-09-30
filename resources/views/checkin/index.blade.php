@@ -33,58 +33,58 @@
             <div class="col-lg-9">
                         <div class="card m-b-30">
                             <div class="card-body">
-							
+
 							@if(isset($eventDetails))
-                                                        
+
                                 <div class="card m-b-30 card-body event-details">
                                     <div class="col-md-12">{{$eventDetails->eventName}}</div>
                                     <div class="col-md-12">&nbsp;</div>
                                     <div class="col-md-12">{{date("M d, Y",strtotime($eventDetails->eventCreatedDate))}}</div>
                                 </div>
-                               
+
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="checkInUser" autocomplete="new-password" />   
-                                        <input type="hidden" class="form-control" id="selectedCheckInUser" />   
+                                        <input type="text" class="form-control" id="checkInUser" autocomplete="new-password" />
+                                        <input type="hidden" class="form-control" id="selectedCheckInUser" />
                                     </div>
                                      <div class="col-md-4">
-                                         <button class="btn btn-primary" onclick="checkIn({{$eventDetails->eventId}})"  >Add Check-in</button>   
+                                         <button class="btn btn-primary" onclick="checkIn({{$eventDetails->eventId}})"  >Add Check-in</button>
                                          <input type="hidden" id="eventId" value="{{$eventDetails->eventId}}" />
                                      </div>
-                                   
+
                                 </div>
-				@endif	
-                                <br/>                   
+				@endif
+                                <br/>
                                     <div class="row">
                                          <div class="col-md-12">
                                                 <table id="checkinsTable" class="table table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>&nbsp;</th>
-                                                           
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
 
                                                     </tbody>
-                                                </table>    
+                                                </table>
                                          </div>
                                     </div>
                             </div>
                         </div>
-                    </div> <!-- end col -->    
-                
-                
-                
-                
+                    </div> <!-- end col -->
+
+
+
+
             </div> <!-- end row -->
-			
+
 			<script>
 				$( function() {
                                     var eventId = <?= $eventDetails->eventId ?>;
-                                   
-                                   
-                                   
+
+
+
                                    $('#checkInUser').autoComplete({
 					resolver: 'custom',
                                         minLength:1,
@@ -98,22 +98,22 @@
 									data: { 'phrase': qry,eventId:eventId},
                                                                         method : "POST"
 								}
-                                                                
+
 							).done(function (res) {
 								callback(res)
 							});
 						},
-                                                
+
 					},
-                                        
+
 				});
                                 $('#checkInUser').on('autocomplete.select', function(evt, item) {
-                                    
+
                                         $("#selectedCheckInUser").val(item.id);
 					//console.log('eventsAutoComplete autocomplete.select');
 					//eventsCodeContainer.text(eventsCodeContainer.text() + 'fired autocomplete.select. item: ' + item + ' value: ' + $(this).val() + '\n');
-				});   
-                                   
+				});
+
                                    /*console.log(eventId);
 					   var options = {
 
@@ -133,19 +133,19 @@
                                                   eventId:eventId
 						}
 					  },
-					  
+
 					  list: {
 						onClickEvent: function() {
-							
+
 							var userId = $("#checkInUser").getSelectedItemData().userId;
-                                                       
+
                                                         $("#selectedCheckInUser").val(userId);
 							//checkIn(userId);
 						},
                                                 onLoadEvent:function(){
                                                     $('*[data-user-disabled="true"]').closest("li").addClass("disabled");
                                                 }
-                                               
+
 					},
                                         template: {
                                             type: "custom",
@@ -153,7 +153,7 @@
                                                     return "<span data-user-disabled='" + item.disabled + "'></span>" + value;
                                             }
                                     },
-					  
+
 					  preparePostData: function(data) {
 						data.phrase = $("#checkInUser").val();
 						return data;
@@ -163,8 +163,8 @@
 					};
 
 					$("#checkInUser").easyAutocomplete(options);*/
-                                        
-                                        
+
+
                                         //datatable
                                         var eventId = $("#eventId").val();
                                         checkinsTable = $('#checkinsTable').DataTable({
@@ -187,14 +187,14 @@
                                             }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
                                             columns: [
                                                 {data: 'checkInUser', name: ''},
-                                                
+
                                                 //{data: 'action', name: 'action', orderable: false, searchable: false},
                                             ]
                                         });
 
   } );
-  
-  
+
+
   function checkIn(eventId){
       var userId = $("#selectedCheckInUser").val();
       if(userId > 0 ) {
@@ -209,10 +209,10 @@
               }
             });
         }
-							
-	 
+
+
   }
-  
+
   function checkOutUser(chId,eventId,userId){
       $.ajax({
         type: "POST",
@@ -224,7 +224,7 @@
         }
       });
   }
-  
+
   function printCard(eventId,userId,checkinId) {
       /*$.ajax({
         type: "POST",
@@ -235,7 +235,7 @@
            //checkinsTable.draw(false);
         }
       });*/
-      
+
       profileCardDlg = BootstrapDialog.show({
                     title:"Profile",
                     //size:"size-wide",
@@ -245,9 +245,9 @@
                             label: 'Print',
                             cssClass: 'btn-primary',
                             action: function(dialogRef){
-                                
-                                 
-                               
+
+
+
                                 var divToPrint=document.getElementById('profileBlockPrint');
 
                                 var newWin=window.open('','Print-Window');
@@ -261,7 +261,7 @@
                                 setTimeout(function(){newWin.close();},10)
                                 //submitCreateEvent();
                             }
-                        }, 
+                        },
                         {
                             label: 'Cancel',
                             action: function(dialogRef){
@@ -270,12 +270,12 @@
                         }
                     ]
                 });
-                
+
   }
 			</script>
-        
-        
+
+
 @endsection
 
 
-        
+

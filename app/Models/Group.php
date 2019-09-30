@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Models\UserMaster;
 class Group extends Model
 {
     protected $table = 'groups';
@@ -72,5 +73,20 @@ class Group extends Model
                         ->where('groups.orgId', '=', Auth::user()->orgId)
                         ->first();
         return $groupDetails;
+    }
+
+    public static function getUserListForAutocomplete($search, $groupId = "") {
+        $user = UserMaster::select('users.id', 'users.first_name', 'users.last_name')
+                ->addSelect("group_members.id as group_members_id")
+                ->leftJoin("group_members", "group_members.user_id", '=', "users.id")
+                ->where(function($query)use($search) {
+                    /** @var $query Illuminate\Database\Query\Builder  */
+                    return $query->where('users.first_name', 'LIKE', '%' . $search . '%')
+                            ->orWhere('users.last_name', 'LIKE', '%' . $search . '%');
+                })
+                 ->where('users.orgId', '=', Auth::user()->orgId)
+                  ->groupBy("group_members.user_id")
+                ->get();
+        return $user;
     }
 }

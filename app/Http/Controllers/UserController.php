@@ -38,7 +38,7 @@ class UserController extends Controller {
     /**
      * @Function name : index
      * @Purpose : Member Listin
-     * @Added by : Sathish    
+     * @Added by : Sathish
      * @Added Date : Jul 03, 2019
      */
     public function index(Request $request) {
@@ -55,21 +55,21 @@ class UserController extends Controller {
 
     public function create() {
         $data['title'] = $this->browserTitle . " - Member Create";
-        
-        
+
+
         $whereArray = array('orgId' => $this->userSessionData['umOrgId']);
-        
-        //Loading school        
+
+        //Loading school
         $data['school_name'] = CustomHelperFunctions::getMasterData('school_name',null,null,$whereArray);
-        //Loading name_prefix        
+        //Loading name_prefix
         $data['name_prefix'] = CustomHelperFunctions::getMasterData('name_prefix',null,null,$whereArray);
-        //Loading name_suffix        
+        //Loading name_suffix
         $data['name_suffix'] = CustomHelperFunctions::getMasterData('name_suffix',null,null,$whereArray);
-        //Loading marital_status        
+        //Loading marital_status
         $data['marital_status'] = CustomHelperFunctions::getMasterData('marital_status',null,null,$whereArray);
-        //Loading grade_name        
+        //Loading grade_name
         $data['grade_id'] = CustomHelperFunctions::getMasterData('grade_name',null,null,$whereArray);
-        
+
         return view('members.member_create', $data);
     }
 
@@ -77,9 +77,9 @@ class UserController extends Controller {
         $data['title'] = $this->browserTitle . " - Member View";
         $whereArray = array('personal_id' => $personal_id);
         $data['selectUserMasterDetail'] = UserMaster::selectUserMasterDetail($whereArray,null,null,null,null,null)->get()[0];
-        
+
         $whereHHArray = array('orgId' => $data['selectUserMasterDetail']->orgId,'hhdUserId'=>$data['selectUserMasterDetail']->user_id);
-        
+
         $whereHDArray = array('hhdUserId'=>$data['selectUserMasterDetail']->user_id);
         $data['crudHouseholdDetails'] = HouseholdDetails::crudHouseholdDetails($whereHDArray,null,null,null,null,null,null,'1')->get();
         if($data['crudHouseholdDetails']->count() > 0){
@@ -87,7 +87,7 @@ class UserController extends Controller {
             $whereInHHDArray = array('household_details.hhId'=>$hhIdValues);
             $data['crudHouseholdsData'] = Households::crudHouseholdsData(null,$whereInHHDArray,null,null,null,null)->get();
             foreach($data['crudHouseholdsData'] as $value){
-                
+
                 $hh_pic_image= url('/assets/uploads/organizations/avatar.png');
                 if($value->profile_pic != null){
                     $hh_pic_image_json = json_decode(unserialize($value->profile_pic));
@@ -108,14 +108,14 @@ class UserController extends Controller {
                         "hh_pic_image" => $hh_pic_image,
                         "hhIsPrimary" => $value->hhIsPrimary);
             }
-            
+
             $data['hhdValue'] = $hhdValue;
         }
-        
-        
-        
-        
-        
+
+
+
+
+
         return view('members.member_view', $data);
     }
 
@@ -204,7 +204,7 @@ class UserController extends Controller {
             $button_html .= $edit_url;
             $button_html .= "&nbsp;";
             $button_html .= $delete_url;
-            //$button_html .= '</div>';        
+            //$button_html .= '</div>';
 
 
             $row[] = $button_html;
@@ -252,7 +252,7 @@ class UserController extends Controller {
         UserMaster::crudUserMaster($whereUMUpdateArray, null, null, null, null, $update_details, null, null);
         return "done";
     }
-    
+
     /**
      * @Function name : userMasterStore
      * @Purpose : User master insert/update
@@ -267,39 +267,39 @@ class UserController extends Controller {
 
         try {
             $userMasterData = $request->except('documentattached');
-            
+
             $randomString = strtolower(str_random(4));
-            
-            
+
+
             if($this->userSessionData['umOrgId'] > 0){
-                
+
                 $userMasterData['orgId'] = $this->userSessionData['umOrgId'];
                 $userMasterData['referal_code'] = substr($request->first_name, 0, 4) . $randomString;
                 $lastUserId = UserMaster::orderBy('id','DESC')->first();
                 $newPersonal_id = str_pad($lastUserId->id + 1, 10, "0", STR_PAD_LEFT);
-                
+
                 $userMasterData['personal_id'] = $newPersonal_id;
                 $userMasterData['householdName'] = $request->first_name."'s household";
                 $userMasterData['password'] = "password";
                 $userMasterData['address'] = $request->street_address.",".$request->apt_address.",".$request->city_address.",".$request->state_address." - ".$request->zip_address;
-                
+
                 $insertUser = User::create($userMasterData);
-                
+
                 $request['roles'] = 2;
                 if ($request->roles <> '') {
                     $insertUser->roles()->attach($request->roles);
                 }
                 DB::commit();
-                
+
                 return redirect()->back()->with('message', 'User created successfully');
                 return redirect()->route('people/member_create')->with('success', "User created successfully");
-                
+
             }else{
                 return Redirect::back()->withErrors( $e->getMessage());
                 //return redirect()->route('people/member_create')->with('failure', $e->getMessage());
             }
 
-            
+
         }catch (\Exception $e) {
             DB::rollback();
             // something went wrong
@@ -307,14 +307,14 @@ class UserController extends Controller {
         }
         return redirect('people/member_directory');
     }
-	
+
 	public function getUsersList(Request $request) {
             $search = $request->phrase;
             $eventId = $request->eventId;
             //dd($search);exit();
             $usersList = UserMaster::getUserListForAutocomplete($search,$eventId); //'id', 'first_name', 'last_name'
             $users = array();
-            
+
             foreach ($usersList as $user) {
                 $disabled = true;
                 if($user->chId == null || $user->chId == "null"){
@@ -323,7 +323,7 @@ class UserController extends Controller {
                 $users[] = array("text"=>$user->first_name." ".$user->last_name,"id"=>$user->id,"disabled"=>$disabled);
             }
 		//print_r($usersList);
-		
+
 		return response()->json(
 							   $users
 						);

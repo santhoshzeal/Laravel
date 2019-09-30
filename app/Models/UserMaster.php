@@ -79,8 +79,8 @@ class UserMaster extends Model  {
     public static function deleteUserMaster($whereArray) {
         UserMaster::where($whereArray)->delete();
     }
-    
-    
+
+
     /**
     * @Function name : crudUserMaster
     * @Purpose : crud account heads based on  array
@@ -89,7 +89,7 @@ class UserMaster extends Model  {
     */
     public static function crudUserMaster($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$update_details=null,$delete=null,$select=null) {
         $query = UserMaster::query();
-        
+
         if($whereArray){
             $query->where($whereArray);
         }
@@ -108,14 +108,14 @@ class UserMaster extends Model  {
         if($whereNotNullArray){
             foreach($whereNotNullArray as $value){
                 $query->whereNotNull($value);
-            }            
+            }
         }
         if($whereNullArray){
             foreach($whereNullArray as $value){
                 $query->whereNull($value);
-            }            
+            }
         }
-        
+
         if($update_details){
             $query->update($update_details);
         }elseif($delete){
@@ -124,7 +124,7 @@ class UserMaster extends Model  {
             return $query;
         }
     }
-    
+
     /**
     * @Function name : crudUserMasterDetail
     * @Purpose : crud account heads based on  array
@@ -151,14 +151,14 @@ class UserMaster extends Model  {
         if($whereNotNullArray){
             foreach($whereNotNullArray as $value){
                 $query->whereNotNull($value);
-            }            
+            }
         }
         if($whereNullArray){
             foreach($whereNullArray as $value){
                 $query->whereNull($value);
-            }            
+            }
         }
-        
+
         return $query;
     }
 
@@ -183,7 +183,7 @@ class UserMaster extends Model  {
             DB::raw('(select mldValue from master_lookup_data where master_lookup_data.mldKey="name_prefix" and master_lookup_data.orgId=users.orgId and master_lookup_data.mldId=users.name_prefix)  AS name_prefix_format'),
             DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'),'life_stage','mobile_no',
             'gender','marital_status','address','medical_note','social_profile','full_name');
-        
+
         $query->leftJoin('model_has_roles', function($join) {
             $join->on("model_has_roles.model_id", "=", "users.id");
         });
@@ -210,19 +210,19 @@ class UserMaster extends Model  {
         if($whereNotNullArray){
             foreach($whereNotNullArray as $value){
                 $query->whereNotNull($value);
-            }            
+            }
         }
         if($whereNullArray){
             foreach($whereNullArray as $value){
                 $query->whereNull($value);
-            }            
+            }
         }
-        
-        $query->groupBy('users.id'); 
+
+        $query->groupBy('users.id');
         return $query;
     }
-	
-	
+
+
     public static function getUserListForAutocomplete($search, $eventId = "") {
         $user = self::select('id', 'first_name', 'last_name')
                 ->addSelect("checkins.chId")
