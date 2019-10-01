@@ -30,3 +30,25 @@ bulk upload of users and household
  6. in groups settings add form design as a dropdown to seleect the form and display in group	
 
 Is in group outside memers can join?
+
+
+30-Sep-2019
+1. make email id unique for entire application level
+2. Pastor board , in ads make a provision for sell, buy option for paypal payment gateway integraition to church account
+3. pastor sort option
+4. Resource/rooms approval with another option as others , with email id and that shd exist in org and for them room/resource booking approval shd go
+5. in resource create add room dropdown
+6. Events -> 
+	Building Block - crud
+	Location - crud
+	Booked for -> person
+	Suggested Resources - in checkboxes with count dropdown to map available resources
+
+7. Scheduling pull events from events table with calendar date pick,
+remove -Location,Bluiding Block	
+
+
+After event
+
+-	Teams dd
+	
