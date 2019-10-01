@@ -119,6 +119,7 @@ class PassportController extends Controller {
 
                 return redirect('/home');
             } else {
+                //return redirect('/home');
                 return response()->json(['result_code' => 1,'token' => $token, 'result' => $resultSetSessionArray], 200);
             }
         } else {
@@ -126,7 +127,7 @@ class PassportController extends Controller {
                 $errors = new MessageBag(['email' => ['Email and/or password invalid.']]);
                 return Redirect::back()->withErrors($errors)->withInput(Input::except('password'));
             } else {
-                return response()->json(['result_code' => 2,'failure' => 'UnAuthorised Access'], 401);
+                return response()->json(['result_code' => 2,'failure' => 'Email and/or password invalid.'], 200);
             }
         }
     }
@@ -329,9 +330,26 @@ class PassportController extends Controller {
      * @Added Date : Nov 07, 2018
      */
     
-   public function checkUniqueEmailPerOrganization(Request $request)
+    public function checkUniqueEmailPerOrganization(Request $request)
+    {
+        $whereArrayAT = array('orgId' => $request->orgId,'email' => $request->email);
+        $selectFromUserMaster = UserMaster::selectFromUserMaster($whereArrayAT)->get()->count();
+        if($selectFromUserMaster > 0){
+            return "found";
+        }
+        return "notfound";
+    }
+
+    /**
+     * @Function name : checkUniqueEmail
+     * @Purpose : Check email exist
+     * @Added by : Sathish    
+     * @Added Date : Oct 01, 2019
+     */
+    
+   public function checkUniqueEmail(Request $request)
    {
-       $whereArrayAT = array('orgId' => $request->orgId,'email' => $request->email);
+       $whereArrayAT = array('email' => $request->email);
        $selectFromUserMaster = UserMaster::selectFromUserMaster($whereArrayAT)->get()->count();
        if($selectFromUserMaster > 0){
            return "found";

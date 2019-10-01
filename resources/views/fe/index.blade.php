@@ -735,6 +735,42 @@
       </div>
     </section>
 
+    <section class="ftco-section sign-in ftco-no-pb" id="sign-in">
+      <div class="container">
+        <div class="row justify-content-center "> <!--mb-5 pb-3-->
+          <div class="col-md-7 heading-section text-center ftco-animate">
+            <span class="subheading">SignIn</span>
+            <h2 class="mb-4">Sign In to Your Account</h2>
+            
+          </div>
+        </div> 
+        <div class="row no-gutters block-12">
+          <div class="col-md-10 order-md-last d-flex">
+           
+            
+            {!! Form::open(array('id'=>'siteLoginForm','name'=>'siteLoginForm','method' => 'post', 'url' => url('site_login'), 'class' => 'bg-light p-12 signin-form')) !!}
+            @csrf
+               
+              <div class="form-group">
+                <input autocomplete="off" id="email" type="email" class="form-control" name="email"     autofocus required placeholder="Email">
+              </div>
+              <div class="form-group">
+                <input class="form-control" name="password" id="password" type="password" value="" placeholder="Password" required>
+              </div> 
+              <div class="form-group text-center m-t-20">
+                    <div class="col-12">
+                        <button class="btn btn-info btn-block waves-effect waves-light" id="btnSignIn" type="button">SignIn</button>
+                    </div>
+                </div>
+            </form>
+          
+          </div>
+
+           
+        </div>
+      </div>
+    </section>
+
 <script src="{{ URL:: asset('js/custom/org_register.js')}}"></script>
 
 @endsection

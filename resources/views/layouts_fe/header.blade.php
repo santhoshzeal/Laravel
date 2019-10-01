@@ -50,6 +50,7 @@
               <li class="nav-item"><a href="#testimony-section" class="nav-link"><span>Testimony</span></a></li>
               <li class="nav-item"><a href="#contact-section" class="nav-link"><span>Contact</span></a></li>
               <li class="nav-item"><a href="#sign-up" class="nav-link"><span>SignUp</span></a></li>
+              <li class="nav-item"><a href="#sign-in" class="nav-link"><span>SignIn</span></a></li>
               <!-- {{ URL::asset('webapp/signup')}} -->
             </ul>
           </div>

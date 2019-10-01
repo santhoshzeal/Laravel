@@ -30,6 +30,7 @@ Route::post('org_register', 'PassportController@organizationRegister');
 Route::post('member_register', 'PassportController@memberRegister');
 
 Route::post('check_unique_org_domain', 'PassportController@checkOrganizationDomain');
+Route::post('check_unique_email', 'PassportController@checkUniqueEmail');
 Route::post('check_unique_email_per_org', 'PassportController@checkUniqueEmailPerOrganization');
 
 
@@ -84,6 +85,9 @@ Route::get('logout', 'PassportController@logout');
 //Route::get('auth.register', 'PassportController@register');
 
 Route::post('webapp/login', 'PassportController@login');
+
+
+Route::post('site_login', 'PassportController@login');
 
 Route::get('webapp/logout/{orgDomain}', 'PassportController@logout');
 

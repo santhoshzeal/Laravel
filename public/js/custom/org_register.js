@@ -22,7 +22,8 @@ $(document).ready(function () {
             },
             email: {
                 required: true,
-                email:true
+                email:true,
+                uniqueEmail:true
             },
             password: {
                 required: true,
@@ -65,19 +66,44 @@ $(document).ready(function () {
 });
  
 
-//DUPLICATE BRANCH CODE WITH SAME ACCOUNT HEAD TYPE VALIDATION
-    $.validator.addMethod("uniqueOrgDomain", function(ahSiteId, element) {
+//DUPLICATE Organization VALIDATION
+$.validator.addMethod("uniqueOrgDomain", function(ahSiteId, element) {
+    //alert('ss');
+    var mydata1 = null;
+    var orgDomain = $.trim($('#orgDomain').val());
+    
+    var dataString = 'orgDomain='+orgDomain;
+    //alert(dataString);
+    $.ajax({
+        type: "POST",
+        async: false,
+        data: dataString,
+        url: siteUrl+'/check_unique_org_domain',
+        success: function(data){
+            //alert(data);
+            if (data == "found"){
+                mydata1 = data;
+            }
+        }
+    });
+    return (mydata1 != "found");
+}, 'This Domain Name is already exist');
+
+
+//DUPLICATE Email VALIDATION
+    
+    $.validator.addMethod("uniqueEmail", function(element) {
         //alert('ss');
         var mydata1 = null;
-        var orgDomain = $.trim($('#orgDomain').val());
+        var email = $.trim($('#email').val());
         
-        var dataString = 'orgDomain='+orgDomain;
+        var dataString = 'email='+email;
         //alert(dataString);
         $.ajax({
             type: "POST",
             async: false,
             data: dataString,
-            url: siteUrl+'/check_unique_org_domain',
+            url: siteUrl+'/check_unique_email',
             success: function(data){
                 //alert(data);
                 if (data == "found"){
@@ -86,8 +112,8 @@ $(document).ready(function () {
             }
         });
         return (mydata1 != "found");
-    }, 'This Domain Name is already exist');
-    
+    }, 'This Email Id is already existing');
+
 $("#btnCreateOrg").click(function () {
 
     var formObj = $('#organizationCreateForm');
@@ -159,5 +185,74 @@ $('#organizationCreateForm').submit(function (e) {
     else
     {
     
+    }
+});
+
+$(document).ready(function () {
+
+
+    chkLoginValidateStatus = "";
+    chkLoginValidateStatus = $("#siteLoginForm").validate({
+        //ignore:[],// false,
+        ignore: false,
+        errorClass: "error",
+        rules: {
+            email: {
+                required: true,
+                email:true
+            },
+            password: {
+                required: true
+
+            }
+        },
+        messages: {
+            email: {
+                required: "Please enter email",
+                email: "Please enter valid email"
+            },
+            password: {
+                required: "Please enter password"
+            }
+        }
+    });
+
+});
+
+$("#btnSignIn").click(function () {
+
+    var formObj = $('#siteLoginForm');
+    var formData = new FormData(formObj[0]);
+
+    $("#siteLoginForm").valid();
+
+    var errorNumbers = chkLoginValidateStatus.numberOfInvalids();
+
+    if (errorNumbers == 0) {
+        $.ajax({
+            url: siteUrl + '/site_login',
+            async: true,
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data)
+            {
+                if(data.result_code == 1){
+                    //alert("aaaa");
+                    window.location.href=siteUrl+"/home";    
+                }else{
+                    alert(data.failure);
+                    return false;
+                }
+                 
+            }
+
+        });
+
+    } else {
+
     }
 });
