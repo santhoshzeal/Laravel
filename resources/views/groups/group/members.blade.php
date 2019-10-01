@@ -111,7 +111,7 @@ function addMembers(){
                     minLength:1,
 					events: {
 						search: function (qry, callback) {
-                                                    //$("#selectedCheckInUser").val("");
+                                                    $("#selectedUser").val("");
 							// let's do a custom ajax call
 							$.ajax(
 								siteUrl+"/groups/members/getUsersList",
@@ -130,7 +130,7 @@ function addMembers(){
 				});
                                 $('#user_id').on('autocomplete.select', function(evt, item) {
 
-                                        $("#selectedCheckInUser").val(item.id);
+                                        $("#selectedUser").val(item.id);
 					//console.log('eventsAutoComplete autocomplete.select');
 					//eventsCodeContainer.text(eventsCodeContainer.text() + 'fired autocomplete.select. item: ' + item + ' value: ' + $(this).val() + '\n');
 				});
@@ -143,7 +143,7 @@ function submitAddMember(){
 $('#add_member_form').ajaxForm(function(data) {
    $("#add_member_form_status").html(data.message);
    setTimeout(function(){
-    addMemberDialog.close();
+    addMemberDlg.close();
     membersTable.draw(false);
     },2000);
 });

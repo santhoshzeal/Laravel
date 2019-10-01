@@ -253,7 +253,7 @@ Route::get("/groups/details/{id}", "Groups\GroupController@groupDetails");
 Route::get("/groups/details/{id}/{type}", "Groups\GroupController@groupDetails");
 
 Route::post("/groups/members/list", "Groups\GroupController@membersList");
-Route::post("/groups/member/store", "Groups\GroupController@storeMembers")->name("group.member.store");
+Route::post("/groups/member/store", "Groups\GroupController@groupAddMember")->name("group.member.store");
 Route::get("/groups/members/add", "Groups\GroupController@addMembers");
 Route::post("/groups/members/getUsersList", "Groups\GroupController@getUsersList");
 

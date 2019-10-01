@@ -11,7 +11,7 @@
 
                                        <div class="col-sm-12">
                                           <input class="form-control" type="text" value="" id="user_id" name="user_id" >
-
+                                        <input type="hidden" name="selectedUser" id="selectedUser" />
                                        </div>
                                    </div>
 

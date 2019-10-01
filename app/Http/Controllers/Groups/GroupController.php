@@ -12,6 +12,7 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use DB;
 use DataTables;
+use Auth;
 class GroupController extends Controller
 {
     public function __construct()
@@ -150,6 +151,29 @@ class GroupController extends Controller
     return response()->json(
                            $users
                     );
-}
+    }
+    public function groupAddMember(Request $request) {
+        $user_id = $request->selectedUser;
+        $groupId = $request->groupId;
+
+        if($user_id && $groupId > 0 && $groupId && $groupId > 0){
+            $insertData['group_id'] = $groupId;
+            $insertData['user_id'] = $user_id;
+            $insertData['createdBy'] = Auth::id();
+            $insertData['orgId'] = Auth::user()->orgId;
+
+            GroupMember::create($insertData);
+
+            return response()->json(
+                [
+                    'success' => '1',
+                    "message" => '<div class="alert alert-success">
+                                                         <strong>Saved!</strong>
+                                                   </div>'
+                ]
+);
+
+        }
+    }
 
 }
