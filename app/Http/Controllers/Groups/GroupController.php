@@ -105,13 +105,24 @@ class GroupController extends Controller
         $members  =GroupMember::membersList($groupId,$request->search['value']);
         return DataTables::of($members)
                         ->addColumn('action', function($row) {
-                            $btn = '<a onclick="editRoom(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
+
+                            $btn = '<div class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Action
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                              <a class="dropdown-item" href="javascript:removeMember('.$row->id.')">Remove from group</a>
+                              <a class="dropdown-item" href="javascript:editMembershipDate('.$row->id.')">Edit Membership date</a>
+                              <a class="dropdown-item" href="javascript:makeLeader('.$row->id.')">Make leader</a>
+                            </div>
+                          </div>';
 
 
                             return $btn;
                         })
                         ->addColumn('role', function($row) {
-                            return ($row->role==1)?"Member":"Leader";
+                            return ($row->role==2)?"Member":"Leader";
                         })
 
                         ->addColumn('member_since', function($row) {
@@ -173,6 +184,33 @@ class GroupController extends Controller
                 ]
 );
 
+        }
+    }
+
+    public function memberAction(Request $request){
+        $action = $request->action;
+        $memberId = $request->memberId;
+        if($action =="remove") {
+            $model = GroupMember::find( $memberId );
+            $model->delete();
+        }
+        if($action =="update_date") {
+            GroupMember::where("id", $memberId)
+                        ->update(
+                            [
+                                "member_since"=>date("Y-m-d h:i:s",strtotime($request->member_since)),
+                                "updatedBy"=> Auth::id()
+                            ]
+                        );
+        }
+        if($action =="make_leader") {
+            GroupMember::where("id", $memberId)
+                        ->update(
+                            [
+                                "role"=>1,
+                                "updatedBy"=> Auth::id()
+                            ]
+                        );
         }
     }
 

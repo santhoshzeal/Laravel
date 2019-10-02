@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use DateTime;
 use Auth;
-
 class Rooms extends Model {
 
     /**

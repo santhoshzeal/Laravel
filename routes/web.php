@@ -256,6 +256,8 @@ Route::post("/groups/members/list", "Groups\GroupController@membersList");
 Route::post("/groups/member/store", "Groups\GroupController@groupAddMember")->name("group.member.store");
 Route::get("/groups/members/add", "Groups\GroupController@addMembers");
 Route::post("/groups/members/getUsersList", "Groups\GroupController@getUsersList");
+Route::post("/groups/members/action", "Groups\GroupController@memberAction");
+
 
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");

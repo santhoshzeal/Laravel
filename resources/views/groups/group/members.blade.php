@@ -151,4 +151,101 @@ $('#add_member_form').ajaxForm(function(data) {
 //$("#create_resource_form").submit();
 $("#formSubmitBtn").click();
 }
+
+function removeMember(memberId){
+    actionDlg = BootstrapDialog.show({
+        title:"Remove Member",
+        //size:"size-wide",
+        message: '<div >Are you sure you want to remove member from the group?</div> <div style="position: relative;"> \
+        <input type="checkbox" name="notify_member" id="notify_member" value="1" class="checkbox"> \
+        <label class="checkbox-label c-dark" for="notify_member">Notify Member</label> \
+      </div>',
+        buttons: [
+            {
+                label: 'Yes',
+                cssClass: 'btn-primary',
+                action: function(dialogRef){
+                    //submitAddMember();
+                    memberAction("remove",memberId);
+                }
+            },
+            {
+                label: 'No',
+                action: function(dialogRef){
+                    dialogRef.close();
+                }
+            }
+        ]
+});
+}
+
+function editMembershipDate (memberId){
+    actionDlg = BootstrapDialog.show({
+        title:"Edit Membership",
+        //size:"size-wide",
+        message: '<div style="position: relative;">Member since</div> <div> \
+        <input type="date" name="member_since_dlg" id="member_since_dlg" value="" class="form-control"> \
+            \
+      </div>',
+        buttons: [
+            {
+                label: 'Yes',
+                cssClass: 'btn-primary',
+                action: function(dialogRef){
+                    memberAction("update_date",memberId);
+                }
+            },
+            {
+                label: 'No',
+                action: function(dialogRef){
+                    dialogRef.close();
+                }
+            }
+        ]
+});
+}
+
+
+function makeLeader(memberId){
+    actionDlg = BootstrapDialog.show({
+        title:"Make Leader",
+        //size:"size-wide",
+        message: '<div >Are you sure you want to make member leader of this group?</div> <div style="position: relative;"> \
+        <input type="checkbox" name="notify_member_role" id="notify_member_role" value="1" class="checkbox"> \
+        <label class="checkbox-label c-dark" for="notify_member_role">Notify Member</label> \
+      </div>',
+        buttons: [
+            {
+                label: 'Yes',
+                cssClass: 'btn-primary',
+                action: function(dialogRef){
+                    //submitAddMember();
+                    memberAction("make_leader",memberId);
+                }
+            },
+            {
+                label: 'No',
+                action: function(dialogRef){
+                    dialogRef.close();
+                }
+            }
+        ]
+});
+}
+
+function memberAction(action,memberId){
+    notify_member=  $("#notify_member").prop("checked");
+    member_since_dlg=  $("#member_since_dlg").val();
+    notify_member_role=  $("#notify_member_role").prop("checked");
+    $.ajax({
+      type: 'POST',
+      url: siteUrl+"/groups/members/action",
+      data: {action:action,memberId:memberId,notify_member:notify_member,member_since:member_since_dlg,notify_member_role:notify_member_role},
+
+      success: function(resultData) {
+        //actionDlg.close();
+       }
+});
+}
+
 </script>
