@@ -265,8 +265,10 @@ Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController
 Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
 
+
 //Groups publishing publicly
-Route::get("/{orgDomain}/hosting/groups", "Groups\PublicController@getGroupsListTemplate");
+Route::get("/{orgDomain}/hosting/groups/{group_type?}", "Groups\PublicController@getGroupsListTemplate");
+Route::post("/api/hosting/groups/typesList", "Groups\PublicController@getGroupsLists");
 
 
 

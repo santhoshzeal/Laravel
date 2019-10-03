@@ -179,6 +179,7 @@ class GroupTypesController extends Controller
         return view('groups.resources', $data);
     }
 
+    // Created By Lokesh
     public function apiGetTypes(){
         $groupTypes = GroupType::where("orgId", $this->orgId)->select("id", "name")->orderBy('created_at', 'desc')->get();
 
@@ -189,10 +190,12 @@ class GroupTypesController extends Controller
         return $groupTypes;
     }
 
+    // Created By Lokesh
     static function createInitialGroupType($orgId){
         $groupType = new GroupType();
         $groupType->orgId = $orgId;
         $groupType->name = "Small groups";
+        $groupType->description = "Small groups are a key aspect of our church community. Most meet weekly in the home of a group member (usually the leader's home). We try to keep them limited to about 12 people. If you can't find an open group, please let us know!";
         $groupType->save();
         return ["id" => $groupType->id, "name" => $groupType->name];
     }

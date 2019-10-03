@@ -2,6 +2,7 @@ $(function () {
     $(".container-fluid").addClass("m-0 p-0");
     $(".container-fluid").css({ width: "100vw" });
     $(".wrapper").css("padding-top", "118px");
+    $("#navigation .navigation-menu").addClass("pl-3");
     $(".groupSortable").sortable({
         handle: ".handle",
         cursor: "move",

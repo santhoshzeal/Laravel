@@ -15,8 +15,9 @@ class GroupType extends Model
         'd_can_leaders_search_people', 'd_is_event_public', 'd_is_event_remind', 'd_event_remind_before', 'd_can_leaders_take_attendance',
         'd_enroll_status', 'd_enroll_msg', 'd_leader_visibility_publicly', 'created_at', 'updated_at', 'deleted_at'];
 
+    /** Crated By Lokesh */
     public function groups(){
-        return $this->hasMany('App\Models\Group', 'groupType_id', 'id');
+        return $this->hasMany('App\Models\Group', 'groupType_id');
     }
 
     public static function getGroupTypesList($search){

@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 
 use Config;
 
+use App\Models\Organization;
+use App\Models\GroupType;
+use App\Models\TagGroup;
+
 class PublicController extends Controller
 {
     public function __construct()
@@ -15,9 +19,44 @@ class PublicController extends Controller
     }
 
 
-    public function getGroupsListTemplate(){
-        $data['title'] = $this->browserTitle . " - Groups List";
+    public function getGroupsListTemplate($orgDomain = null, $group_type = null){
+        $org = Organization::where("orgDomain", $orgDomain)->first();
+        if(isset($org)){
+            $data['org'] = $org;
+            if(isset($group_type)){
+                $data['title'] = $this->browserTitle . " - ". $group_type . " Groups List";
+                $data['gType'] = $group_type;
+            }else {
+                $data['title'] = $this->browserTitle . " - Groups List";
+                $data['gType'] = "all";
+            }
+            return view("groups.public.groups_list", $data);
+        }else {
+            return view("errors.404");
+        }
+    }
 
-        return view("groups.public.group_types", $data);
+    public function getGroupsLists(Request $request){
+        if($request["group_type"] == "all"){
+            $resData["groupTypes"] = GroupType::where('orgId', $request['orgId'])
+                                    ->select("id", 'name', 'description')
+                                    ->withCount("groups")
+                                    ->orderBy("name")->get();
+            return $resData;
+        }else{
+            return $this->getGroupTypesListWithTagList($request['orgId']);
+        }
+    }
+
+    static function getGroupTypesListWithTagList($orgId){
+        $resData["groupTypes"] = GroupType::where('orgId', $orgId)
+                                    ->select("id", 'name')->orderBy("name")->get();
+        $resData["tagGroups"] = TagGroup::where("orgId", $orgId)->where("isPublic", 1)
+                                    ->select("id", "name", "isMultiple_select")
+                                    ->with(['tags' => function($query){
+                                        $query->select("id", "name", "tagGroup_id")
+                                                ->orderBy("order");
+                                    }])->orderBy('order')->get();
+        return $resData;
     }
 }

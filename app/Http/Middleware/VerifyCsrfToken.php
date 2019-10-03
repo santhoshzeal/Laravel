@@ -38,6 +38,7 @@ class VerifyCsrfToken extends Middleware
         "/api/settings/schedule/createRelatedData",
         "/api/settings/schedule/getAssignedMembersList",
         "/api/settings/schedule/getMemberSearchList",
-        "/api/settings/schedule/storeOrUpdateSchedule"
+        "/api/settings/schedule/storeOrUpdateSchedule",
+        "/api/hosting/groups/typesList"
     ];
 }

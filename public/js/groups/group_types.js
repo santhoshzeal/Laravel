@@ -3,6 +3,7 @@ let selectedGType = null;
 $(document).ready(function () {
     $(".container-fluid").addClass("m-0 p-0");
     $(".container-fluid").css({ width: "100vw" });
+    $("#navigation .navigation-menu").addClass("pl-3");
     $(".wrapper").css("padding-top", "118px");
     queries = getQueries();
     console.log("Queries :", queries)
