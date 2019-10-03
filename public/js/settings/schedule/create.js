@@ -212,7 +212,6 @@ function getTableHeaders() {
     return $("<tr/>", { class: "member_row" }).html([thEls.join("")]);
 }
 function genTableRow(index, item) {
-    console.log(item)
     let profile_img = null;
     try {
         profile_img = (item.profile_pic) ? `<img src="${item.profile_pic}" alt="Profile Pic" width="75" height="75">` : `<i class="fa fa-user" aria-hidden="true"></i>`;
@@ -284,7 +283,6 @@ function updateSearchUsrList() {
 
 
 $(document).on("change", "input[type=radio][name=checker_flag]", function () {
-    console.log("values are changes", $(this).val())
     if ($(this).val() == 2) {
         updateMemberList();
     } else {

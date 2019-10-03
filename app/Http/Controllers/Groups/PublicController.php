@@ -32,7 +32,7 @@ class PublicController extends Controller
             }
             return view("groups.public.groups_list", $data);
         }else {
-            return view("errors.404");
+            abort(404, 'Organization not present.');
         }
     }
 

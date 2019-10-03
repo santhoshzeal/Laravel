@@ -7,6 +7,13 @@
         <title>{{$title}}</title>
         <link href="{{ URL::asset('assets/theme/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <script>var siteUrl = '<?php echo url('/'); ?>';</script>
+        <style>
+            .pane {
+                margin-bottom: 1.5rem;
+                border-color: #EBEBEB;
+                box-shadow: 0 2px 5px rgb(153, 153, 153);
+            }
+        </style>
     </head>
     <body>
         @include("groups.public.layout.header")
