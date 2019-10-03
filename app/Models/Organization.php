@@ -50,7 +50,7 @@ class Organization extends Model  {
     /**
      * @Function name : selectFromOrganization
      * @Purpose : Select from Organization data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function selectFromOrganization($whereArray) {
@@ -61,7 +61,7 @@ class Organization extends Model  {
     /**
      * @Function name : updateOrganization
      * @Purpose : Update Organization data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function updateOrganization($update_details, $whereArray) {
@@ -71,7 +71,7 @@ class Organization extends Model  {
     /**
      * @Function name : deleteOrganization
      * @Purpose : delete Organization data based on  where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function deleteOrganization($whereArray) {

@@ -50,7 +50,7 @@ class ModelHasRoles extends Model  {
     /**
      * @Function name : selectFromModelHasRoles
      * @Purpose : Select from ModelHasRoles data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function selectFromModelHasRoles($whereArray) {
@@ -61,7 +61,7 @@ class ModelHasRoles extends Model  {
     /**
      * @Function name : updateModelHasRoles
      * @Purpose : Update ModelHasRoles data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function updateModelHasRoles($update_details, $whereArray) {
@@ -71,7 +71,7 @@ class ModelHasRoles extends Model  {
     /**
      * @Function name : deleteModelHasRoles
      * @Purpose : delete ModelHasRoles data based on  where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function deleteModelHasRoles($whereArray) {

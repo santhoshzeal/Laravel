@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
-class Households extends Model  {
+class Service extends Model  {
 
 
 
@@ -16,15 +16,15 @@ class Households extends Model  {
      * @var string
      */
     use SoftDeletes;
-    protected $table = 'households';
-    protected $primaryKey = 'hhId';
+    protected $table = 'service';
+    protected $primaryKey = 'id';
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = [ 'hhId', 'orgId', 'hhPrimaryUserId', 'hhdName', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
+    protected $fillable = [ 'id', 'orgId', 'name', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -48,45 +48,45 @@ class Households extends Model  {
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * @Function name : selectFromHouseholds
-     * @Purpose : Select from Households data based on where array
+     * @Function name : selectFromService
+     * @Purpose : Select from Service data based on where array
      * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
-    public static function selectFromHouseholds($whereArray) {
-        $query = Households::where($whereArray);
+    public static function selectFromService($whereArray) {
+        $query = Service::where($whereArray);
         return $query;
     }
 
     /**
-     * @Function name : updateHouseholds
-     * @Purpose : Update Households data based on where array
+     * @Function name : updateService
+     * @Purpose : Update Service data based on where array
      * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
-    public static function updateHouseholds($update_details, $whereArray) {
-        Households::where($whereArray)->update($update_details);
+    public static function updateService($update_details, $whereArray) {
+        Service::where($whereArray)->update($update_details);
     }
 
     /**
-     * @Function name : deleteHouseholds
-     * @Purpose : delete Households data based on  where array
+     * @Function name : deleteService
+     * @Purpose : delete Service data based on  where array
      * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
-    public static function deleteHouseholds($whereArray) {
-        Households::where($whereArray)->delete();
+    public static function deleteService($whereArray) {
+        Service::where($whereArray)->delete();
     }
      
     
     /**
-    * @Function name : crudHouseholds
-    * @Purpose : crud on  array
+    * @Function name : crudService
+    * @Purpose : crud account heads based on  array
     * @Added by : Sathish
     * @Added Date : Nov 07, 2018
     */
-    public static function crudHouseholds($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$update_details=null,$delete=null,$select=null) {
-        $query = Households::query();
+    public static function crudService($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$update_details=null,$delete=null,$select=null) {
+        $query = Service::query();
         if($whereArray){
             $query->where($whereArray);
         }
@@ -121,22 +121,16 @@ class Households extends Model  {
             return $query;
         }
     }
-    
+
     /**
-    * @Function name : crudHouseholdsData
-    * @Purpose : crud on  array
+    * @Function name : selectServiceDetail
+    * @Purpose : crud account heads based on  array
     * @Added by : Sathish
     * @Added Date : Nov 07, 2018
     */
-    public static function crudHouseholdsData($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
-        $query = Households::select('*');
-        $query->leftJoin('household_details', function($join) {
-            $join->on("household_details.hhId", "=", "households.hhId");
-        });
-        
-        $query->leftJoin('users', function($join) {
-            $join->on("household_details.hhdUserId", "=", "users.id");
-        });
+    public static function selectServiceDetail($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
+        $query = Service::select('*');
+
         if($whereArray){
             $query->where($whereArray);
         }
@@ -155,15 +149,14 @@ class Households extends Model  {
         if($whereNotNullArray){
             foreach($whereNotNullArray as $value){
                 $query->whereNotNull($value);
-            }            
+            }
         }
         if($whereNullArray){
             foreach($whereNullArray as $value){
                 $query->whereNull($value);
-            }            
+            }
         }
-        //$query->groupBy('households.hhId','household_details.hhdId'); 
+ 
         return $query;
-        
     }
 }

@@ -52,7 +52,7 @@ class UserMaster extends Model  {
     /**
      * @Function name : selectFromUserMaster
      * @Purpose : Select from UserMaster data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function selectFromUserMaster($whereArray) {
@@ -63,7 +63,7 @@ class UserMaster extends Model  {
     /**
      * @Function name : updateUserMaster
      * @Purpose : Update UserMaster data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function updateUserMaster($update_details, $whereArray) {
@@ -73,7 +73,7 @@ class UserMaster extends Model  {
     /**
      * @Function name : deleteUserMaster
      * @Purpose : delete UserMaster data based on  where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function deleteUserMaster($whereArray) {

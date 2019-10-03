@@ -50,7 +50,7 @@ class MasterLookupData extends Model  {
     /**
      * @Function name : selectFromMasterLookupData
      * @Purpose : Select from MasterLookupData data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function selectFromMasterLookupData($whereArray) {
@@ -61,7 +61,7 @@ class MasterLookupData extends Model  {
     /**
      * @Function name : updateMasterLookupData
      * @Purpose : Update MasterLookupData data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function updateMasterLookupData($update_details, $whereArray) {
@@ -71,7 +71,7 @@ class MasterLookupData extends Model  {
     /**
      * @Function name : deleteMasterLookupData
      * @Purpose : delete MasterLookupData data based on  where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function deleteMasterLookupData($whereArray) {

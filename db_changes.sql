@@ -590,4 +590,85 @@ VALUES(
     NULL,
     NULL,
     NULL
-)
+);
+
+/*  03-Oct - 2019 Sathish*/
+ALTER TABLE `scheduling`
+  DROP `location_id`,
+  DROP `building_block`,
+  DROP `type_of_volunteer`,
+  DROP `checker_count`;
+
+ALTER TABLE `scheduling`
+  DROP `date`,
+  DROP `time`;
+
+-- Table structure for table `service`
+CREATE TABLE `service` (
+  `id` bigint(22) NOT NULL,
+  `orgId` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `service`  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `service`  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+-- Table structure for table `team`
+CREATE TABLE `team` (
+  `id` bigint(22) NOT NULL,
+  `orgId` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `team`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `team`  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+-- Table structure for table `team_has_service`
+CREATE TABLE `team_has_service` (
+  `id` bigint(22) NOT NULL,
+  `team_id` bigint(22) DEFAULT NULL,
+  `service_id` bigint(22) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `team_has_service`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `team_has_service`  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+-- Table structure for table `schedule_service_users_count`
+CREATE TABLE `schedule_service_users_count` (
+  `id` bigint(22) NOT NULL,
+  `orgId` bigint(22) DEFAULT NULL,
+  `scheduling_id` bigint(22) DEFAULT NULL,
+  `team_id` bigint(22) DEFAULT NULL,
+  `service_id` bigint(22) DEFAULT NULL,
+  `user_count` int(10) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `schedule_service_users_count`  ADD PRIMARY KEY (`id`);
+ALTER TABLE `schedule_service_users_count`  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `scheduling_user` ADD `service_id` BIGINT(22) NULL DEFAULT NULL AFTER `scheduling_id`; 

@@ -270,6 +270,9 @@ Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefa
 Route::get("/{orgDomain}/hosting/groups/{group_type?}", "Groups\PublicController@getGroupsListTemplate");
 Route::post("/api/hosting/groups/typesList", "Groups\PublicController@getGroupsLists");
 
+//Services
+Route::get("/settings/service", "Settings\ServiceController@serviceIndex")->name('service.list');
+Route::post("/settings/service/list", "Settings\ServiceController@getServiceList");
 
 
 

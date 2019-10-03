@@ -50,7 +50,7 @@ class HouseholdDetails extends Model  {
     /**
      * @Function name : selectFromHouseholdDetails
      * @Purpose : Select from HouseholdDetails data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function selectFromHouseholdDetails($whereArray) {
@@ -61,7 +61,7 @@ class HouseholdDetails extends Model  {
     /**
      * @Function name : updateHouseholdDetails
      * @Purpose : Update HouseholdDetails data based on where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function updateHouseholdDetails($update_details, $whereArray) {
@@ -71,7 +71,7 @@ class HouseholdDetails extends Model  {
     /**
      * @Function name : deleteHouseholdDetails
      * @Purpose : delete HouseholdDetails data based on  where array
-     * @Added by : Biplob
+     * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
     public static function deleteHouseholdDetails($whereArray) {
