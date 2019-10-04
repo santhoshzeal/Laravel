@@ -66,7 +66,8 @@
             });
         </script>-->
 
-
+        
+        <!-- <script src="{{ URL:: asset('js/bootbox.min.js')}}"></script> -->
         <!-- App js -->
          <script src="{{ URL:: asset('assets/theme/js/app.js')}}"></script>
 
@@ -83,9 +84,12 @@
 
 
 
+        <!-- Alertify js -->    
+        <script src="{{ URL:: asset('assets/theme/plugins/alertify/js/alertify.js')}}"></script>
+        <script src="{{ URL:: asset('js/custom/alertify-init.js')}}"></script>
 
         <script src="{{ URL:: asset('js/custom/form-advanced.js')}}"></script>
         <script src="{{ URL:: asset('assets/pagination/pagination.min.js')}}"></script>
-
+            
     </body>
 </html>

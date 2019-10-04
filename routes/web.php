@@ -273,6 +273,9 @@ Route::post("/api/hosting/groups/typesList", "Groups\PublicController@getGroupsL
 //Services
 Route::get("/settings/service", "Settings\ServiceController@serviceIndex")->name('service.list');
 Route::post("/settings/service/list", "Settings\ServiceController@getServiceList");
+Route::get("/settings/get_service_by_id", "Settings\ServiceController@getServiceById");
+Route::post("/service_data_insert", "Settings\ServiceController@storeOrUpdateService");
+Route::get("/settings/service_data_delete", "Settings\ServiceController@deleteServiceById");
 
 
 

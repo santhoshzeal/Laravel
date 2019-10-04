@@ -129,7 +129,7 @@ class Service extends Model  {
     * @Added Date : Nov 07, 2018
     */
     public static function selectServiceDetail($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
-        $query = Service::select('*');
+        $query = Service::select('service.id','service.orgId', 'service.name');
 
         if($whereArray){
             $query->where($whereArray);

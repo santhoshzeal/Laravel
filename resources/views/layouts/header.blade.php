@@ -32,7 +32,7 @@
 
          <link href="{{ URL::asset('assets/scroller-dataTables/scroller.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
 
-
+        <link href="{{ URL::asset('css/custom.css') }}" rel="stylesheet" type="text/css" />
         <!--<link href="{{ URL::asset('css/adminlte.css') }}" rel="stylesheet" type="text/css" />-->
         <script src="{{ URL:: asset('assets/theme/js/jquery.min.js')}}"></script>
         <script>
@@ -49,6 +49,12 @@
         <link href="{{ URL::asset('css/form_build.css') }}" rel="stylesheet" type="text/css" />
 
         <link href="{{ URL::asset('assets/pagination/pagination.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Jquery Validation Js-->        
+        <script src="{{ URL:: asset('js/jquery_validation/jquery.validate.min.js')}}"></script>
+
+        <link href="{{ URL::asset('assets/theme/plugins/alertify/css/alertify.css') }}" rel="stylesheet" type="text/css" />
+        
     </head>
 
     <body>
