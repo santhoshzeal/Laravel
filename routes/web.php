@@ -226,7 +226,7 @@ Route::get("/pastor_board/create_post_page", "PastorBoardController@createPostPa
 Route::post('pastor_board/store', 'PastorBoardController@store')->name('pastor_board.store');
 Route::post('pastor_board/manage/postList', 'PastorBoardController@managePostList');
 Route::post('pastor_board/postList', 'PastorBoardController@postList');
-Route::get('pastor_board/edit/{id}', 'PastorBoardController@edit');
+
 
 
 Route::get("/settings/fbwall", "Settings\RoomController@fbwall");
@@ -257,6 +257,12 @@ Route::post("/groups/member/store", "Groups\GroupController@groupAddMember")->na
 Route::get("/groups/members/add", "Groups\GroupController@addMembers");
 Route::post("/groups/members/getUsersList", "Groups\GroupController@getUsersList");
 Route::post("/groups/members/action", "Groups\GroupController@memberAction");
+
+Route::get("/groups/events/add","Groups\GroupController@addEvents");
+Route::post("/groups/events/store", "Groups\GroupController@groupAddEvents")->name("group.events.store");
+Route::post("/groups/events/list", "Groups\GroupController@eventsList");
+Route::get('groups/events/edit/{id}', 'Groups\GroupController@editEvent');
+
 
 
 //groupTypes

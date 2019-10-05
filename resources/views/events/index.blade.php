@@ -33,28 +33,28 @@
                             <div class="card-body">
 
                                 <h4 class="mt-0 header-title">Events</h4>
-                                
+
 
                                 <!-- -->
                                 <div class="row">
                                 <div class="button-items col-md-6">
                                     <button type="button" onclick="createEventDialog()" class="btn btn-primary waves-effect waves-light">Create Event</button>
 
-                                    
-                                    
- 
+
+
+
                                 </div>
                                 <div class=" col-md-6 ">
-                                    
+
                                     <div class="input-group">
                                         <input class="form-control col-md-6 " type="search"   value=""  id="eventDateSearch" autocomplete="off" />
                                         <span class="input-group-btn" style="padding-left: 10px;">
                                              <button type="button" onclick="loadDatatable()" class="btn btn-primary waves-effect waves-light">Search</button>
                                         </span>
                                      </div>
-                                    
-                                    
- 
+
+
+
                                 </div>
                                 </div>
                                 <br>
@@ -72,37 +72,37 @@
 
 
                                     <tbody>
-                                    
+
                                     </tbody>
                                 </table>
 
- 
+
                             </div>
                         </div>
-                    </div> <!-- end col -->    
-                
-                
-                
-                
+                    </div> <!-- end col -->
+
+
+
+
             </div> <!-- end row -->
-        
+
             <script>
-            
-             $(document).ready(function() { 
+
+             $(document).ready(function() {
                 initDatePicker();
                 loadDatatable();
-                
-                
-               
+
+
+
               // $("#eventDateSearch").
-            }); 
-                
+            });
+
                 function loadDatatable(){
                     var date = $('#eventDateSearch').datepicker('getFormattedDate',"yyyy-mm-dd");
                     if($('#eventDateSearch').val()==""){
                         date = "";
                     }
-                    
+
                     eventsTable = $('#eventsTable').DataTable({
                         "serverSide": true,
                         "destroy": true,
@@ -130,7 +130,7 @@
                         ],
                         "initComplete": function(settings, json) {
                           // $("#eventsTable_filter").append('<button class="btn small btn-primary" id="eventDateSearch"  >Event Date</button>');
-                         
+
                         }
                     });
                 }
@@ -147,7 +147,7 @@
             //eventsTable.search(date).draw(false);
                 });
                 }
-            
+
             function createEventDialog(){
                  CreateEventsDlg = BootstrapDialog.show({
                     title:"Create Event",
@@ -160,7 +160,7 @@
                             action: function(dialogRef){
                                 submitCreateEvent();
                             }
-                        }, 
+                        },
                         {
                             label: 'Cancel',
                             action: function(dialogRef){
@@ -170,21 +170,21 @@
                     ]
                 });
             }
-            
+
             function submitCreateEvent(){
-                
-                $('#create_event_form').ajaxForm(function(data) { 
+
+                $('#create_event_form').ajaxForm(function(data) {
                    $("#create_event_form_status").html(data.message);
                    setTimeout(function(){
                        CreateEventsDlg.close();
                         eventsTable.draw(false);
                     },2000);
                 });
-                
+
                 //$("#create_event_form").submit();
                 $("#formSubmitBtn").click();
             }
-            
+
             function editEvents(eventId){
                 CreateEventsDlg = BootstrapDialog.show({
                     title:"Update Event",
@@ -197,7 +197,7 @@
                             action: function(){
                                 submitCreateEvent();
                             }
-                        }, 
+                        },
                         {
                             label: 'Cancel',
                             action: function(dialogRef){
@@ -207,37 +207,37 @@
                     ]
                 });
             }
-            
+
             function validateTime(elm){
-                
+
                 //$(".create-time option").attr("disabled",false);
-                
+
                 if(elm.id=="eventStartCheckin"){
                     var index = $("#eventStartCheckin option:selected").index();
                     $("#eventEndCheckin option").eq(0).prop('selected', true);
                     $("#eventShowTime option").eq(0).prop('selected', true);
-                    
+
                     $("#eventEndCheckin option").attr("disabled",false);
                     $("#eventShowTime option").attr("disabled",false);
-                    
+
                     $("#eventEndCheckin option:lt("+(index+1)+")").attr('disabled',true);
                     $("#eventShowTime option:gt("+(index-2)+")").attr('disabled',true);
                 }
                 if(elm.id=="eventEndCheckin"){
                     var index = $("#eventEndCheckin option:selected").index();
-                    
+
                     $("#eventShowTime option").eq(0).prop('selected', true);
-                    
+
                      $("#eventShowTime option").attr("disabled",false);
                     $("#eventShowTime option:gt("+(index-1)+")").attr('disabled',true);
                 }
                 if(elm.id=="eventShowTime"){
-                    
+
                 }
             }
                     </script>
-        
+
 @endsection
 
 
-        
+

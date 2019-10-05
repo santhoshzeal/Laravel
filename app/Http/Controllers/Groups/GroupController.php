@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Config;
 use Response;
 use App\Models\Group;
+use App\Models\GroupEvent;
 use App\Models\GroupMember;
 use DB;
 use DataTables;
@@ -214,4 +215,83 @@ class GroupController extends Controller
         }
     }
 
+
+    /*** events */
+
+    public function addEvents(Request $request){
+
+        $data['title'] = $this->browserTitle . " - ";
+        $data['groupId'] = $request->groupId;
+        return view('groups.group.add_events', $data);
+    }
+
+    public function groupAddEvents(Request $request){
+        $insertData = $request->all();
+
+        $eventId = $request->eventId;
+
+        //validation rules
+
+
+
+
+        $insertData = $request->except(['_token', 'eventId',]);
+        $insertData["isMutiDay_event"] = 0;
+        if($request->isMutiDay_event){
+            $insertData["isMutiDay_event"] = 1;
+        }
+
+        if ($eventId > 0) { //update
+            $insertData['updatedBy'] = Auth::id();
+
+
+            GroupEvent::where("id", $eventId)->update($insertData);
+        } else { //insert
+            $insertData['createdBy'] = Auth::id();
+            $insertData['orgId'] = Auth::user()->orgId;
+
+            GroupEvent::create($insertData);
+        }
+
+        return response()->json(
+                        [
+                            'success' => '1',
+                            "message" => '<div class="alert alert-success">
+                                                                 <strong>Saved!</strong>
+                                                           </div>'
+                        ]
+        );
+    }
+
+    public function eventsList(Request $request) {
+        $groupId = $request->groupId;
+        $members  =GroupEvent::eventsList($groupId,$request->search['value']);
+        return DataTables::of($members)
+                        ->addColumn('action', function($row) {
+
+                            $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
+
+
+
+                            return $btn;
+                        })
+                        ->addColumn('start', function($row) {
+                            return date('d-M-Y',strtotime($row->start_date))." ".$row->start_time;
+                        })
+
+                        ->addColumn('end', function($row) {
+                            return date('d-M-Y',strtotime($row->end_date))." ".$row->end_time;
+                        })
+
+
+                        ->rawColumns(['action',])
+                        ->make(true);
+    }
+
+    public function editEvent($eventId, Request $request){
+        $data['title'] = $this->browserTitle . " - ";
+        $data['groupId'] = $request->groupId;
+        $data['event'] = GroupEvent::find($eventId);
+        return view('groups.group.add_events', $data);
+    }
 }
