@@ -11,6 +11,7 @@ use Response;
 use App\Models\Group;
 use App\Models\GroupEvent;
 use App\Models\GroupMember;
+use App\Models\GroupResource;
 use DB;
 use DataTables;
 use Auth;
@@ -294,4 +295,126 @@ class GroupController extends Controller
         $data['event'] = GroupEvent::find($eventId);
         return view('groups.group.add_events', $data);
     }
+
+    /** end */
+    /** Resource */
+
+
+
+    public function addResources(Request $request){
+
+        $data['title'] = $this->browserTitle . " - ";
+        $data['groupId'] = $request->groupId;
+        return view('groups.group.add_resource', $data);
+    }
+
+    public function groupAddResources(Request $request){
+        $insertData = $request->all();
+
+        $resourceId = $request->resourceId;
+
+        //validation rules
+
+        $item_photo = "";
+        if (isset($request->item_photo) && $request->item_photo != "") {
+            $item_photo = $this->resourceFileUpload($request->item_photo);
+        }
+
+        $insertData = $request->except(['_token', 'resourceId',"file"]);
+
+        if ($item_photo == "") {
+            //$insertData->except(['item_photo']);
+        } else {
+            $insertData['item_photo'] = $item_photo;
+        }
+
+
+
+
+
+
+        if ($resourceId > 0) { //update
+            $insertData['updatedBy'] = Auth::id();
+
+
+            GroupResource::where("id", $resourceId)->update($insertData);
+        } else { //insert
+            $insertData['createdBy'] = Auth::id();
+            $insertData['orgId'] = Auth::user()->orgId;
+
+            GroupResource::create($insertData);
+        }
+
+        return response()->json(
+                        [
+                            'success' => '1',
+                            "message" => '<div class="alert alert-success">
+                                                                 <strong>Saved!</strong>
+                                                           </div>'
+                        ]
+        );
+    }
+
+    public function resourcesList(Request $request) {
+        $groupId = $request->groupId;
+        $members  =GroupEvent::eventsList($groupId,$request->search['value']);
+        return DataTables::of($members)
+                        ->addColumn('action', function($row) {
+
+                            $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
+
+
+
+                            return $btn;
+                        })
+                        ->addColumn('start', function($row) {
+                            return date('d-M-Y',strtotime($row->start_date))." ".$row->start_time;
+                        })
+
+                        ->addColumn('end', function($row) {
+                            return date('d-M-Y',strtotime($row->end_date))." ".$row->end_time;
+                        })
+
+
+                        ->rawColumns(['action',])
+                        ->make(true);
+    }
+
+    public function editResources($eventId, Request $request){
+        $data['title'] = $this->browserTitle . " - ";
+        $data['groupId'] = $request->groupId;
+        $data['event'] = GroupEvent::find($eventId);
+        return view('groups.group.add_events', $data);
+    }
+
+
+
+    private function resourceFileUpload($file) {
+
+
+        $extension = $file->getClientOriginalExtension();
+
+
+        $imageName = basename($file->getClientOriginalName(), ("." . $extension));
+
+        $imageName .= "_" . time() . '.' . $extension;
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "group" .DIRECTORY_SEPARATOR . "resource". DIRECTORY_SEPARATOR;
+
+
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "group/resource" . '/';
+
+
+        $file->move(
+                $destinationPath, $imageName
+        );
+
+
+
+        $upload_data = array('uploaded_path' => $destinationPath, 'download_path' => $downloadPath, 'uploaded_file_name' => $imageName, 'original_filename' => $imageName, 'upload_file_extension' => $extension, 'file_size' => 0);
+        $jsonformat = serialize(json_encode($upload_data));
+
+        return $jsonformat;
+    }
+
+    /** end */
 }

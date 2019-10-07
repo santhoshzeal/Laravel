@@ -263,6 +263,11 @@ Route::post("/groups/events/store", "Groups\GroupController@groupAddEvents")->na
 Route::post("/groups/events/list", "Groups\GroupController@eventsList");
 Route::get('groups/events/edit/{id}', 'Groups\GroupController@editEvent');
 
+Route::get("/groups/resources/add","Groups\GroupController@addResources");
+Route::post("/groups/resources/store", "Groups\GroupController@groupAddResources")->name("group.resources.store");
+Route::post("/groups/resources/list", "Groups\GroupController@resourcesList");
+Route::get('groups/resources/edit/{id}', 'Groups\GroupController@editResources');
+
 
 
 //groupTypes
