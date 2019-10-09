@@ -23,6 +23,9 @@ class GroupController extends Controller
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->userSessionData = Session::get('userSessionData');
         $this->orgId = $this->userSessionData['umOrgId'];
+        $this->browserTitle = Config::get('constants.BROWSERTITLE');
+        $this->common_file_upload_path = Config::get('constants.FILE_UPLOAD_PATH');
+        $this->common_file_download_path = Config::get('constants.FILE_DOWNLOAD_PATH');
     }
 
     public function groupsList(){
@@ -309,29 +312,32 @@ class GroupController extends Controller
     }
 
     public function groupAddResources(Request $request){
-        $insertData = $request->all();
+        //$insertData = $request->all();
 
         $resourceId = $request->resourceId;
 
         //validation rules
 
-        $item_photo = "";
-        if (isset($request->item_photo) && $request->item_photo != "") {
-            $item_photo = $this->resourceFileUpload($request->item_photo);
+        $file = "";
+        if (isset($request->file) && $request->file != "") {
+            $file = $this->resourceFileUpload($request->file);
+        }
+        $insertData = $request->except(['_token', 'resourceId',"file","source",'url_name','url_description','url_visibility']);
+        //print_r($insertData);
+        if($request->type==2){
+            $insertData['name'] = $request->url_name;
+            $file = $request->source;
+            $insertData['description'] =  $request->url_description;
+            $insertData['visibility'] = $request->url_visibility;
         }
 
-        $insertData = $request->except(['_token', 'resourceId',"file"]);
-
-        if ($item_photo == "") {
+        //
+        //print_r($insertData);
+        if ($file == "") {
             //$insertData->except(['item_photo']);
         } else {
-            $insertData['item_photo'] = $item_photo;
+            $insertData['source'] = $file;
         }
-
-
-
-
-
 
         if ($resourceId > 0) { //update
             $insertData['updatedBy'] = Auth::id();
@@ -357,34 +363,68 @@ class GroupController extends Controller
 
     public function resourcesList(Request $request) {
         $groupId = $request->groupId;
-        $members  =GroupEvent::eventsList($groupId,$request->search['value']);
+        $members  =GroupResource::resourceList($groupId,$request->search['value']);
         return DataTables::of($members)
                         ->addColumn('action', function($row) {
 
-                            $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
+                            $btn ="";
+
+                            if($row->type==1) {
+                                $r = json_decode(unserialize($row->source));
+
+                                $url =$r->download_path."/".$r->uploaded_file_name;
+                                //$r->uploaded_file_name;
+
+                                $btn.='<a download href="'.$url.'" class="btn btn-outline-primary btn-sm" target="_blank">Download</a>';
+                            }
+                            else {
+                                $btn.='<a href="'.$row->source.'" class="btn btn-outline-primary btn-sm" target="_blank">Go to Link</a>';
+                            }
+
+                            $btn.= '<a onclick="editResource(' . $row->id . ')"  class="edit btn btn-primary btn-sm float-right"><i class="fa fa-edit"></i></a>';
 
 
 
                             return $btn;
                         })
-                        ->addColumn('start', function($row) {
-                            return date('d-M-Y',strtotime($row->start_date))." ".$row->start_time;
+
+                        ->addColumn('type', function($row) {
+                            return ($row->type==1)?'<i title="file" class="fa fa-file" aria-hidden="true"></i>':'<i title="link" class="fa fa-link" aria-hidden="true"></i>';
                         })
 
-                        ->addColumn('end', function($row) {
-                            return date('d-M-Y',strtotime($row->end_date))." ".$row->end_time;
+                        ->addColumn('updated_at', function($row) {
+                            return date('d-M-Y',strtotime($row->updated_at));
                         })
 
-
-                        ->rawColumns(['action',])
+                        ->addColumn('visibility', function($row) {
+                            return ($row->visibility==1)?'Leaders/Admins':'All';
+                        })
+                        ->rawColumns(['action',"type"])
                         ->make(true);
     }
 
     public function editResources($eventId, Request $request){
         $data['title'] = $this->browserTitle . " - ";
         $data['groupId'] = $request->groupId;
-        $data['event'] = GroupEvent::find($eventId);
-        return view('groups.group.add_events', $data);
+        $data['resource'] = GroupResource::find($eventId);
+
+
+
+        if($data['resource'] != null){
+            //echo $data['resource']->source; exit();
+            if($data['resource']->type==1){
+                $r = json_decode(unserialize($data['resource']->source));
+                $data['resource']->source = $r->uploaded_file_name;
+            }
+            else {
+
+            }
+
+
+
+        }
+
+        return view('groups.group.add_resource', $data);
     }
 
 

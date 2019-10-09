@@ -243,3 +243,40 @@ color: #FB7642;
 .group-menu li a {
     color: #878686 ;
 }
+.dataTable td, .table th{
+    vertical-align: middle;
+    border: none;
+}
+.dataTable th  {
+    background-color: #F8F8F8;
+
+    border-bottom: 1px solid #EBEBEB;
+    border-bottom-width: 1px !important;
+    color: #878686;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    padding: 1rem;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.dataTable {
+    background-color: white;
+    border-collapse: collapse;
+    border-spacing: 0;
+    /*border: 0;*/
+    font-size: 14px;
+    table-layout: auto;
+    vertical-align: middle;
+    width: 100%;
+}
+
+.dataTable td
+{
+    padding: 0.50rem 1rem !important;
+    border-bottom: 1px solid #EBEBEB;
+    border-bottom-width: 1px !important;
+}
+.dataTable tr:last-child td {
+    border-bottom: 0;
+}

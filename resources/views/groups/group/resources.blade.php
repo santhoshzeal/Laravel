@@ -18,7 +18,7 @@
                                                 <th>DESCRIPTION</th>
                                                 <th>LAST UPDATED</th>
                                                 <th>VISIBILITY</th>
-                                                <th>ACTION</th>
+                                                <th style="min-width: 8rem">ACTION</th>
                                             </tr>
                                         </thead>
 
@@ -66,11 +66,11 @@ $(document).ready(function() {
                 url: siteUrl + '/groups/resources/list',
             }, //'eventId', 'eventName','eventDesc' , 'eventFreq', 'eventCreatedDate', 'eventCheckin', 'eventStartCheckin', 'eventEndCheckin','eventLocation'
             columns: [
-                {data: 'title', name: 'title'},
+                {data: 'type', name: 'type'},
+                {data: 'name', name: 'name'},
                 {data: 'description', name: 'description'},
-                {data: 'start', name: 'start_date'},
-                {data: 'end', name: 'end_date'},
-                {data: 'end', name: 'end_date'},
+                {data: 'updated_at', name: 'updated_at'},
+                {data: 'visibility', name: 'visibility'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
 
             ],

@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="row">
                         <div class="tab-content" id="v-pills-tabContent">
-                                <button class="btn btn-primary " onclick="addMembers()">Add Member</button>
+                                <button class="btn btn-primary float-right"  style="margin-right: 40px" onclick="addMembers()">Add Member</button>
 
 
                                 <table id="membersTable" class="table table-bordered">
