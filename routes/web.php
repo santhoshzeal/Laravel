@@ -251,6 +251,7 @@ Route::post("/api/groups/tags/updateTagGroupsOrder", "Groups\TagsController@upda
 Route::post("/groups/groupsListPagination", "Groups\GroupController@groupsListPagination");
 Route::get("/groups/details/{id}", "Groups\GroupController@groupDetails");
 Route::get("/groups/details/{id}/{type}", "Groups\GroupController@groupDetails");
+Route::post("/groups/settings/store", "Groups\GroupController@groupStoreSettings")->name("group_settings.store");
 
 Route::post("/groups/members/list", "Groups\GroupController@membersList");
 Route::post("/groups/member/store", "Groups\GroupController@groupAddMember")->name("group.member.store");

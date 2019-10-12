@@ -280,3 +280,11 @@ color: #FB7642;
 .dataTable tr:last-child td {
     border-bottom: 0;
 }
+
+.d_form {
+    color: #2e2e2e;
+    font-size: 0.8125rem;
+}
+.d_form label,.d_form h{
+    font-weight: normal;
+}

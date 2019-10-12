@@ -68,6 +68,8 @@ class Group extends Model
     public static function getGroupDetails($id){
         $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path', 'groups.meeting_schedule', 'groups.isPublic')
                             ->addSelect("group_types.name as group_type_name")
+                            ->addSelect("groups.location",'groups.is_enroll_autoClose','groups.enroll_autoClose_on','groups.is_enroll_autoClose_count','groups.enroll_autoClose_count','groups.is_enroll_notify_count')
+                            ->addSelect("groups.enroll_notify_count","groups.contact_email","groups.visible_leaders_fields","groups.visible_members_fields")
                             ->join("group_types","group_types.id","=","groups.groupType_id")
                         ->where("groups.id",$id)
                         ->where('groups.orgId', '=', Auth::user()->orgId)

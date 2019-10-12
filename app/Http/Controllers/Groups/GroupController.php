@@ -428,6 +428,68 @@ class GroupController extends Controller
     }
 
 
+    public function groupStoreSettings(Request $request){
+        //$insertData = $request->all();
+
+
+        $insertData = $request->except(['_token', 'groupId',]);
+
+
+        if ($request->groupId > 0) { //update
+            $insertData['updatedBy'] = Auth::id();
+
+            $visible_leaders_fields = "";
+            if($request->visible_leaders_fields) {
+                $visible_leaders_fields =  json_encode($request->visible_leaders_fields);
+
+            }
+            $insertData['visible_leaders_fields'] = $visible_leaders_fields;
+
+            $visible_members_fields = "";
+            if($request->visible_members_fields) {
+                $visible_members_fields =  json_encode($request->visible_members_fields);
+
+            }
+            $insertData['visible_members_fields'] = $visible_members_fields;
+
+            $insertData['enroll_autoClose_on'] =NULL;
+            $insertData['enroll_autoClose_count'] =NULL;
+            $insertData['enroll_notify_count'] =NULL;
+
+
+            if($request->is_enroll_autoClose){
+                $insertData['enroll_autoClose_on'] =date("Y-m-d",strtotime($request->enroll_autoClose_on));
+            }
+            else {
+                $insertData['is_enroll_autoClose'] = 0;
+            }
+            if($request->is_enroll_autoClose_count){
+                $insertData['enroll_autoClose_count'] =$request->enroll_autoClose_count;
+            }
+            else {
+                $insertData['is_enroll_autoClose_count'] = 0;
+            }
+            if($request->is_enroll_notify_count){
+                $insertData['enroll_notify_count'] =$request->enroll_notify_count;
+            }
+            else {
+                $insertData['is_enroll_notify_count'] = 0;
+            }
+
+            Group::where("id", $request->groupId)->update($insertData);
+
+        }
+
+        return response()->json(
+                        [
+                            'success' => '1',
+                            "message" => '<div class="alert alert-success">
+                                                                 <strong>Saved!</strong>
+                                                           </div>'
+                        ]
+        );
+    }
+
 
     private function resourceFileUpload($file) {
 

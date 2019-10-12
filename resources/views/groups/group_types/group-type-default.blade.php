@@ -1,4 +1,4 @@
-<form method="post" action="{{ route('group_type.store') }}" name="create_group_type_form" id="create_group_type_form" enctype="multipart/form-data">
+<form method="post" action="{{ route('group_type.store') }}" class="d_form" name="create_group_type_form" id="create_group_type_form" enctype="multipart/form-data">
     <div id="create_resource_form_status"></div>
        <div class="row">
 
