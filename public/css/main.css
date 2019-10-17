@@ -288,3 +288,36 @@ color: #FB7642;
 .d_form label,.d_form h{
     font-weight: normal;
 }
+
+.chart-container__stat-details {
+    background: #F8F8F8;
+    border-radius: 34px;
+    -webkit-box-flex: 1;
+    flex: 1;
+    padding: 0.625rem 0.875rem;
+    font-size:0.9rem;
+    display: inline-flex;
+}
+.chart-container__stat-separator {
+    color: rgb(172, 172, 172);
+    font-size: 1.125rem;
+    text-align: center;
+    width: 1.125rem;
+    margin: 0px 5px;
+}
+
+
+.chart-container__stat-value {
+    display: inline-block;
+    text-align: right;
+    font-size: 1.75rem;
+    width: 1rem;
+}
+.f-r {
+    float: right;
+}
+
+.verticle-center {
+    display: flex;
+    align-items: center;
+}

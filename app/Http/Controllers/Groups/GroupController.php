@@ -100,6 +100,13 @@ class GroupController extends Controller
         $data['groupId'] =$id;
         $data['title'] = $this->browserTitle . " - Group Details";
         $groupDetails->img = "https://groups-production.s3.amazonaws.com/uploads/group/header_image/defaults/medium_6.png";
+
+        if($groupDetails->image_path!=""){
+            $r = json_decode(unserialize($groupDetails->image_path));
+
+            $groupDetails->img =$r->download_path."/".$r->uploaded_file_name;
+        }
+
         $data["groupDetails"] = $groupDetails;
         //return view('groups.group.group-details', $data);
         return view('groups.groups_details_view', $data);
@@ -320,7 +327,7 @@ class GroupController extends Controller
 
         $file = "";
         if (isset($request->file) && $request->file != "") {
-            $file = $this->resourceFileUpload($request->file);
+            $file = $this->resourceFileUpload($request->file,$request->group_id);
         }
         $insertData = $request->except(['_token', 'resourceId',"file","source",'url_name','url_description','url_visibility']);
         //print_r($insertData);
@@ -490,8 +497,31 @@ class GroupController extends Controller
         );
     }
 
+    public function groupStoreImage(Request $request){
+        $im = "group-image";
+        if (isset($request->$im) && $request->$im != "") {
+            $file = $this->groupImageFileUpload($request->$im,$request->groupId);
 
-    private function resourceFileUpload($file) {
+            $insertData['image_path'] = $file;
+            $insertData['updatedBy'] = Auth::id();
+
+
+            Group::where("id", $request->groupId)->update($insertData);
+
+            $r = json_decode(unserialize($file));
+
+            return response()->json(
+                [
+                    'success' => '1',
+                    "image" =>$r->download_path."/".$r->original_filename
+                ]);
+            print_r($r);
+
+
+        }
+    }
+
+    private function resourceFileUpload($file,$groupId) {
 
 
         $extension = $file->getClientOriginalExtension();
@@ -500,10 +530,37 @@ class GroupController extends Controller
         $imageName = basename($file->getClientOriginalName(), ("." . $extension));
 
         $imageName .= "_" . time() . '.' . $extension;
-        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "group" .DIRECTORY_SEPARATOR . "resource". DIRECTORY_SEPARATOR;
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "group" .DIRECTORY_SEPARATOR .$groupId. DIRECTORY_SEPARATOR . "resource". DIRECTORY_SEPARATOR;
 
 
-        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "group/resource" . '/';
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "group/$groupId/resource" . '/';
+
+
+        $file->move(
+                $destinationPath, $imageName
+        );
+
+
+
+        $upload_data = array('uploaded_path' => $destinationPath, 'download_path' => $downloadPath, 'uploaded_file_name' => $imageName, 'original_filename' => $imageName, 'upload_file_extension' => $extension, 'file_size' => 0);
+        $jsonformat = serialize(json_encode($upload_data));
+
+        return $jsonformat;
+    }
+
+    private function groupImageFileUpload($file,$groupId) {
+
+
+        $extension = $file->getClientOriginalExtension();
+
+
+        $imageName = basename($file->getClientOriginalName(), ("." . $extension));
+
+        $imageName .= "_" . time() . '.' . $extension;
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "group" .DIRECTORY_SEPARATOR .$groupId. DIRECTORY_SEPARATOR;
+
+
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "group/$groupId" . '/';
 
 
         $file->move(
