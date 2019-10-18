@@ -41,7 +41,12 @@
                                                             </div>
                                                             <div class="col-md-4">
                                                                     <div class="form-group row">
-                                                                            <img class="d-flex mr-3 " src="{{$groupDetails->img}}" alt="Generic placeholder image" height="128">
+                                                                            <img class="d-flex mr-3 " id="group-img" src="{{$groupDetails->img}}" alt="Generic placeholder image" height="128" />
+
+                                                                            <div  class="col-md-12" >
+                                                                                <input type="button" class="btn btn-outline-primary btn-sm my-md-2" onclick="uploadImage()" value="Upload Image" />
+                                                                            </div>
+
                                                                         </div>
                                                             </div>
 
@@ -207,6 +212,12 @@
                                             <input type="hidden" name="groupId" value="{{$groupId}}" />
                                 <input type="submit" class="btn btn-primary" id="formSubmitBtn" style="display: block;" />
                                </form>
+
+                               <form style="display: none" method="post" action="{{ route('group_settings.image.store') }}" class="d_form" name="group_settings_image_form" id="group_settings_image_form" enctype="multipart/form-data">
+                               <input type="file" name="group-image" id="group-image" />
+                               <input type="hidden" name="groupId" value="{{$groupId}}" />
+                               <input type="submit" class="btn btn-primary" id="imgSubmitBtn" />
+                                </form>
                             <script>
                                 $(document).ready(function(){
 
@@ -218,6 +229,19 @@
 
                     },2000);
                 });
+
+
+                $('#group_settings_image_form').ajaxForm(function(data) {
+
+                   setTimeout(function(){
+                        $("#group-img").attr("src",data.image);
+                    },100);
+                });
+
+                $("#group-image").change(function(){
+                    $("#imgSubmitBtn").click();
+                });
+
 
 
                                 $(".checkbox-menu").on("change", "input[type='checkbox']", function() {
@@ -252,6 +276,10 @@
                                 else {
                                     $(input).attr("disabled",true);
                                 }
+                            }
+
+                            function uploadImage(){
+                                $('#group-image').trigger('click');
                             }
                             </script>
                         </div>

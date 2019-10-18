@@ -252,6 +252,9 @@ Route::post("/groups/groupsListPagination", "Groups\GroupController@groupsListPa
 Route::get("/groups/details/{id}", "Groups\GroupController@groupDetails");
 Route::get("/groups/details/{id}/{type}", "Groups\GroupController@groupDetails");
 Route::post("/groups/settings/store", "Groups\GroupController@groupStoreSettings")->name("group_settings.store");
+Route::post("/groups/settings/image/store", "Groups\GroupController@groupStoreImage")->name("group_settings.image.store");
+
+
 
 Route::post("/groups/members/list", "Groups\GroupController@membersList");
 Route::post("/groups/member/store", "Groups\GroupController@groupAddMember")->name("group.member.store");

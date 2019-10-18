@@ -7,10 +7,84 @@
             <div class="col-12">
                 <div class="row">
                         <div class="tab-content" id="v-pills-tabContent">
-                          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">..home.</div>
-                          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">.profile..</div>
-                          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">.messages..</div>
-                          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">.settings..</div>
+
+
+                                <div class="row">
+                                        <div class="col-sm-4">
+                                          <div class="card">
+                                            <div class="card-body">
+                                                    <div class="col-md-12 text-left py-md-0" style="padding-top:0 !important; font-weight:600">{{ucwords($groupDetails->name)}} Health Stats</div>
+
+                                                    <div class="col-md-12 " style="padding-left:0rem">
+                                                        <div class="col-md-12 py-md-2 verticle-center">
+                                                            <span class="chart-container__stat-value">1</span>
+                                                            <span class="chart-container__stat-separator">–</span>
+                                                            <span class="chart-container__stat-details">Member</span>
+                                                        </div>
+                                                        <div class="col-md-12 py-md-2 verticle-center">
+                                                                <span class="chart-container__stat-value">1</span>
+                                                                <span class="chart-container__stat-separator">–</span>
+                                                                <span class="chart-container__stat-details">Average meetings <br> per month</span>
+                                                            </div>
+
+                                                            <div class="col-md-12 py-md-2 verticle-center">
+                                                                    <span class="chart-container__stat-value">1</span>
+                                                                    <span class="chart-container__stat-separator">%</span>
+                                                                    <span class="chart-container__stat-details">90 day turnover</span>
+                                                                </div>
+
+
+                                                    </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                          <div class="card">
+                                            <div class="card-body">
+                                                    <div class="col-md-12 text-left py-md-0" style="padding-top:0 !important; font-weight:600">Other {{ucwords($groupDetails->group_type_name)}}</div>
+
+                                                    <div class="col-md-12 " style="padding-left:0rem">
+                                                        <div class="col-md-12 py-md-2 verticle-center">
+                                                            <span class="chart-container__stat-value">1</span>
+                                                            <span class="chart-container__stat-separator">–</span>
+                                                            <span class="chart-container__stat-details">Member</span>
+                                                        </div>
+                                                        <div class="col-md-12 py-md-2 verticle-center">
+                                                                <span class="chart-container__stat-value">1</span>
+                                                                <span class="chart-container__stat-separator">–</span>
+                                                                <span class="chart-container__stat-details">Average meetings <br> per month</span>
+                                                            </div>
+
+                                                            <div class="col-md-12 py-md-2 verticle-center">
+                                                                    <span class="chart-container__stat-value">1</span>
+                                                                    <span class="chart-container__stat-separator">%</span>
+                                                                    <span class="chart-container__stat-details">90 day turnover</span>
+                                                                </div>
+
+
+                                                    </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                                <div class="card">
+                                                  <div class="card-body">
+                                                    <div class="col-md-12 text-left py-md-4" style="padding-top:0 !important"><b>Binary Health Stats</b></div>
+
+                                                    <div class="col-md-12 " style="padding-left:3rem">
+                                                        <div class="col-md-12 py-md-3 ">1 –  <span class="chart-container__stat-details">Member</span></div>
+
+                                                        <div class="col-md-12 py-md-3">0 –  <span class="chart-container__stat-details">Average meetings per month</span></div>
+
+                                                        <div class="col-md-12 py-md-3">1 %  <span class="chart-container__stat-details">90 day turnover</span></div>
+
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                      </div>
+
                         </div>
                 </div>
             </div>
