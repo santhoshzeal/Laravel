@@ -34,7 +34,7 @@
 
                 <h4 class="mt-0 header-title">Services <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-service">Add New</button></h4>
 
-                <button type="button" class="btn btn-primary waves-effect waves-light" id="alertify-labels">Click me</button>
+                <!-- <button type="button" class="btn btn-primary waves-effect waves-light" id="alertify-labels">Click me</button> -->
                 
                 <!-- -->
                 <table id="serviceTable" class="table table-bordered">
