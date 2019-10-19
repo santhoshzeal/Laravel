@@ -77,6 +77,45 @@ class Group extends Model
         return $groupDetails;
     }
 
+    public static function getOverViewDetails($id,$groupType_id){
+        $result = array();
+        $groupMemebrCount =  GroupMember::select(DB::raw("count(id) as member_count"))
+                            ->where("group_id",$id)
+                            ->first();
+        $groupEventCount =  GroupEvent::select(DB::raw("count(id) as event_count"))
+                            ->where("group_id",$id)
+                            ->first();
+
+
+        $otherGroupMemebrCount =  GroupMember::select(DB::raw("count(group_members.id) as member_count"))
+                            ->join("groups","groups.id","=","group_members.group_id")
+                            ->where("groups.id","<>",$id)
+                            ->where("groupType_id",$groupType_id)
+                            ->first();
+
+        $otherGroupEventCount =  GroupEvent::select(DB::raw("count(group_events.id) as event_count"))
+                                ->join("groups","groups.id","=","group_events.group_id")
+                                ->where("groups.id","<>",$id)
+                                ->where("groupType_id",$groupType_id)
+                                ->first();
+
+        $result["member_count"] = $groupMemebrCount->member_count;
+        $result["event_count"] = $groupEventCount->event_count;
+        $result["turn_over"] = 0;
+        $result["other_group_member_count"] = $otherGroupMemebrCount->member_count;
+        $result["other_group_event_count"] = $otherGroupEventCount->event_count;
+        $result["other_turn_over"] = 0;
+
+        //echo $groupType_id;
+
+
+
+       // print_r($result); exit();
+
+        return $result;
+    }
+
+
     public static function getUserListForAutocomplete($search, $groupId = "") {
         $user = UserMaster::select('users.id', 'users.first_name', 'users.last_name')
                 ->addSelect("group_members.id as group_members_id")

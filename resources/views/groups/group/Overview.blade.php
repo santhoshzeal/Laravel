@@ -17,18 +17,18 @@
 
                                                     <div class="col-md-12 " style="padding-left:0rem">
                                                         <div class="col-md-12 py-md-2 verticle-center">
-                                                            <span class="chart-container__stat-value">1</span>
+                                                            <span class="chart-container__stat-value">{{$overview['member_count']}}</span>
                                                             <span class="chart-container__stat-separator">–</span>
                                                             <span class="chart-container__stat-details">Member</span>
                                                         </div>
                                                         <div class="col-md-12 py-md-2 verticle-center">
-                                                                <span class="chart-container__stat-value">1</span>
+                                                                <span class="chart-container__stat-value">{{$overview['event_count']}}</span>
                                                                 <span class="chart-container__stat-separator">–</span>
                                                                 <span class="chart-container__stat-details">Average meetings <br> per month</span>
                                                             </div>
 
                                                             <div class="col-md-12 py-md-2 verticle-center">
-                                                                    <span class="chart-container__stat-value">1</span>
+                                                                    <span class="chart-container__stat-value">{{$overview['turn_over']}}</span>
                                                                     <span class="chart-container__stat-separator">%</span>
                                                                     <span class="chart-container__stat-details">90 day turnover</span>
                                                                 </div>
@@ -45,18 +45,18 @@
 
                                                     <div class="col-md-12 " style="padding-left:0rem">
                                                         <div class="col-md-12 py-md-2 verticle-center">
-                                                            <span class="chart-container__stat-value">1</span>
+                                                            <span class="chart-container__stat-value">{{$overview['other_group_member_count']}}</span>
                                                             <span class="chart-container__stat-separator">–</span>
                                                             <span class="chart-container__stat-details">Member</span>
                                                         </div>
                                                         <div class="col-md-12 py-md-2 verticle-center">
-                                                                <span class="chart-container__stat-value">1</span>
+                                                                <span class="chart-container__stat-value">{{$overview['other_group_event_count']}}</span>
                                                                 <span class="chart-container__stat-separator">–</span>
                                                                 <span class="chart-container__stat-details">Average meetings <br> per month</span>
                                                             </div>
 
                                                             <div class="col-md-12 py-md-2 verticle-center">
-                                                                    <span class="chart-container__stat-value">1</span>
+                                                                    <span class="chart-container__stat-value">{{$overview['other_turn_over']}}</span>
                                                                     <span class="chart-container__stat-separator">%</span>
                                                                     <span class="chart-container__stat-details">90 day turnover</span>
                                                                 </div>

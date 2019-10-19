@@ -96,6 +96,11 @@ class GroupController extends Controller
             $activeTab = $type;
         }
 
+        if($type =="overview") {
+            $data['overview'] =Group::getOverViewDetails($id,$groupDetails->groupType_id);
+           // print_r($data['overview'] ); exit();
+        }
+
         $data['activeTab'] =$activeTab;
         $data['groupId'] =$id;
         $data['title'] = $this->browserTitle . " - Group Details";
