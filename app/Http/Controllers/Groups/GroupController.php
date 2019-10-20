@@ -10,6 +10,7 @@ use Config;
 use Response;
 use App\Models\Group;
 use App\Models\GroupEvent;
+use App\Models\GroupEventAttendance;
 use App\Models\GroupMember;
 use App\Models\GroupResource;
 use DB;
@@ -98,6 +99,12 @@ class GroupController extends Controller
 
         if($type =="overview") {
             $data['overview'] =Group::getOverViewDetails($id,$groupDetails->groupType_id);
+           // print_r($data['overview'] ); exit();
+        }
+        if($type =="attendance") {
+            $formDate = date("Y-m-01");
+            $toDate = date('Y-m-d');
+            $data['attendance'] =GroupEvent::getMeetingDates($id,$formDate,$toDate);
            // print_r($data['overview'] ); exit();
         }
 
@@ -524,6 +531,66 @@ class GroupController extends Controller
 
 
         }
+    }
+
+
+    public function attedenceList(Request $request){
+        $groupId = $request->groupId;
+        $events = $request->events;
+        $eventsObj = json_decode($events);
+        $members  =GroupMember::membersList($groupId,$request->search['value']);
+        $datatable =   DataTables::of($members);
+
+        $raw =array();
+        $datatable = $datatable->addColumn('percentage', function($row) {
+                            return "100";
+                        });
+
+                        if($eventsObj) {
+                        foreach($eventsObj as $value){
+
+                            $datatable = $datatable->addColumn(str_replace(" ","_",$value->event_date), function($row)use($value,$raw) {
+
+
+                                $exists = GroupEventAttendance::select("id as exists")
+                                            ->where("event_id",$value->id)
+                                            ->where("group_member_id",$row->id)
+                                            ->first();
+                                $html = '<i class="fa fa-check-circle  att-icon text-success" aria-hidden="true"></i>';
+                                if(!$exists){
+                                    $html = '<i class="fa fa-times-circle att-icon text-warning" aria-hidden="true"></i>';
+                                }
+                                //print_r($raw);
+                                return $html;
+
+
+                            });
+                        }
+                    }
+                    if($eventsObj) {
+                        foreach($eventsObj as $value){
+                            $raw[] =str_replace(" ","_",$value->event_date);
+                        }
+                    }
+                        //print_r($raw);
+                        $datatable = $datatable->rawColumns(array_values($raw));
+                         return $datatable->make(true);
+
+        print_r($members->get());
+    }
+
+    public function getEventDates(Request $request){
+        $start_date = date("Y-m-d",strtotime($request->start_date));
+        $end_date = date("Y-m-d",strtotime($request->end_date));
+        $id = $request->group_id;
+
+        $events = GroupEvent::getMeetingDates($id,$start_date,$end_date);
+
+        return response()->json(
+            [
+                'events' => $events
+            ]);
+
     }
 
     private function resourceFileUpload($file,$groupId) {

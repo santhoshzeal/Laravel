@@ -280,6 +280,10 @@ Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController
 Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
 
+//group attedence
+Route::post("/groups/attedence/list", "Groups\GroupController@attedenceList");
+Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEventDates");
+
 
 //Groups publishing publicly
 Route::get("/{orgDomain}/hosting/groups/{group_type?}", "Groups\PublicController@getGroupsListTemplate");
