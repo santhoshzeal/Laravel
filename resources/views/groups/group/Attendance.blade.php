@@ -124,7 +124,7 @@
                 $("#attendenceTable tbody").empty();
                 $.each(data.events, function( key, value ) {
                     let da = (value.event_date);
-                    da.replace(" ","_");
+                    da = da.replace(" ","_");
                     //alert( index + ": " + value );
                     columns.push({data:da,name:da,orderable: false, searchable: false});
                     $("#attendenceTable thead tr").append("<th>"+value.event_date+"</th>");

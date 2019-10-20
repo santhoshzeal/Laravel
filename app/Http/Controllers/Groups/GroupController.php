@@ -294,7 +294,7 @@ class GroupController extends Controller
 
                             $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
 
-
+                            $btn.= '<a onclick="markAttedence(' . $row->id . ')"  class="edit btn btn-primary btn-sm mx-md-1">Attendence</a>';
 
                             return $btn;
                         })
@@ -542,9 +542,9 @@ class GroupController extends Controller
         $datatable =   DataTables::of($members);
 
         $raw =array();
-        $datatable = $datatable->addColumn('percentage', function($row) {
-                            return "100";
-                        });
+
+        //print_r($eventsObj);
+
 
                         if($eventsObj) {
                         foreach($eventsObj as $value){
@@ -557,7 +557,12 @@ class GroupController extends Controller
                                             ->where("group_member_id",$row->id)
                                             ->first();
                                 $html = '<i class="fa fa-check-circle  att-icon text-success" aria-hidden="true"></i>';
+
                                 if(!$exists){
+                                    if(!isset( $GLOBALS['attedence'][$row->id])) {
+                                        $GLOBALS['attedence'][$row->id] = 0;
+                                    }
+                                    $GLOBALS['attedence'][$row->id] ++;
                                     $html = '<i class="fa fa-times-circle att-icon text-warning" aria-hidden="true"></i>';
                                 }
                                 //print_r($raw);
@@ -567,6 +572,17 @@ class GroupController extends Controller
                             });
                         }
                     }
+                    $datatable = $datatable->addColumn('percentage', function($row)use($eventsObj) {
+                        $per = 100;
+                        if(count($eventsObj) > 0){
+                            $active =count($eventsObj)-$GLOBALS['attedence'][$row->id];
+
+                            $per = round(($active*100)/count($eventsObj));
+
+                        }
+                        return $per."%";//$GLOBALS['attedence'];
+                    });
+
                     if($eventsObj) {
                         foreach($eventsObj as $value){
                             $raw[] =str_replace(" ","_",$value->event_date);
