@@ -16,11 +16,11 @@
                                         <tr>
                                             <th>S.No</th>
                                             <th>Name</th>
-                                            <th>Volunteer</th>
+                                            <!-- <th>Volunteer</th> -->
                                             <th>Event</th>
-                                            <th>Time</th>
-                                            <th>Date</th>
-                                            <th></th>
+                                            <!-- <th>Time</th>
+                                            <th>Date</th> -->
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                 </table>

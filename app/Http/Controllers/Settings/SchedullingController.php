@@ -39,20 +39,20 @@ class SchedullingController extends Controller
                         $query->select('eventId', 'eventName');
                     }, "volunteer"=>function($query1){
                         $query1->select('mldId', 'mldValue');
-                    }])->select("id", "event_id", "title", "type_of_volunteer", "date", "time")->orderBy("date", "desc")->get();
+                    }])->select("id", "event_id", "title")->orderBy("id", "desc")->get();
         
         $i = 1;
         foreach ($schedules as $schedule) {
-            $row = [$i, $schedule->title, $schedule->volunteer->mldValue, $schedule->event->eventName,
-                        \Carbon\Carbon::parse($schedule->time)->format('h:i'), \Carbon\Carbon::parse($schedule->date)->format('d-m-Y')];
-            $viewLink = url("/settings/schedulling/". $schedule->id);
+            $row = [$i, $schedule->title,  $schedule->event->eventName];
+            //\Carbon\Carbon::parse($schedule->time)->format('h:i'), \Carbon\Carbon::parse($schedule->date)->format('d-m-Y')
+            $viewLink = "";//<a href='".url("/settings/schedulling/". $schedule->id) ."'><i class='fa fa-eye'></i></a>
             $editLink = url("/settings/schedulling/manage/". $schedule->id);
-            $row[] = "<a href='".$viewLink ."'><i class='fa fa-eye'></i></a><a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
+            $row[] = "<a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
             $result[] = $row;
             $i += 1;
         }
 
-        return Datatables::of($result)->rawColumns([6])->make(true);
+        return Datatables::of($result)->rawColumns([3])->make(true);
     }
 
     public function schedullingDetails($schedule_id){

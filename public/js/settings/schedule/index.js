@@ -21,7 +21,7 @@ function updateDatatable() {
             "targets": 0,
             "orderable": false
         }, {
-            "targets": 6,
+            "targets": 3,
             "orderable": false
         }]
     });
