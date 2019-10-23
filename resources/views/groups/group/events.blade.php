@@ -141,5 +141,48 @@ $('#create_event_form').ajaxForm(function(data) {
 $("#formSubmitBtn").click();
 }
 
+function markAttedence($eventId)
+{
+    markAttedenceDlg = BootstrapDialog.show({
+        title:"Mark Attedence",
+        size:"size-wide",
+        message: $('<div></div>').load(siteUrl+"/groups/events/mark-attendence/"+$eventId+"?groupId=<?= $groupId ?>"),
+        buttons: [
+            {
+                label: 'Submit',
+                cssClass: 'btn-primary',
+                action: function(dialogRef){
+                    submitMarkAttedence();
+                }
+            },
+            {
+                label: 'Cancel',
+                action: function(dialogRef){
+                    dialogRef.close();
+                }
+            }
+        ]
+    });
+}
+function submitMarkAttedence() {
+    $att = [];
+    var event_id = "";
+    $(".m_check:checked").each(function(){
+        $att.push($(this).data("group-member-id"));
+        event_id =$(this).data("event");
+    });
+    if($att.length > 0) {
+        console.log(event_id,$att);
 
+        $.post( siteUrl + '/groups/events/submit-attendence', { group_id:<?= $groupId ?>,event_id: event_id, attedence:$att })
+            .done(function( data ) {
+                $("#attedence_result").html("Saved!").show();
+                setTimeout(function(){
+                    markAttedenceDlg.close();
+                },2000)
+            });
+
+    }
+
+}
 </script>

@@ -294,6 +294,11 @@ class GroupController extends Controller
 
                             $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
 
+                            $start_time  = $row->start_date."".$row->start_time;
+                            $end_time  = $row->end_date."".$row->end_time;
+
+
+
                             $btn.= '<a onclick="markAttedence(' . $row->id . ')"  class="edit btn btn-primary btn-sm mx-md-1">Attendence</a>';
 
                             return $btn;
@@ -609,6 +614,33 @@ class GroupController extends Controller
 
     }
 
+    public function markAttendence($eventId,Request $request) {
+        $data['title'] = $this->browserTitle . " - ";
+        $data['groupId'] = $request->groupId;
+        $data['eventId'] = $eventId;
+
+        $members  =GroupMember::membersListForAttdedence($request->groupId,$eventId)->get();
+        //print_r($members);
+        $data['members'] = $members;
+        return view('groups.group.log-attedence', $data);
+    }
+
+    public function submitAttendence(Request $request) {
+
+        $eventId =$request->event_id;
+        GroupEventAttendance::where("event_id",$eventId)->delete();
+        $insert = array();
+        foreach($request->attedence as $attedence) {
+            $insert[] = ["event_id"=>$eventId,"group_member_id"=>$attedence,"createdBy"=>Auth::id()];
+        }
+        GroupEventAttendance::insert($insert);
+
+        return response()->json(
+            [
+                'success' => 1
+            ]);
+    }
+
     private function resourceFileUpload($file,$groupId) {
 
 
@@ -635,6 +667,7 @@ class GroupController extends Controller
 
         return $jsonformat;
     }
+
 
     private function groupImageFileUpload($file,$groupId) {
 
