@@ -10,6 +10,7 @@ use Config;
 use Response;
 use App\Models\Group;
 use App\Models\GroupEvent;
+use App\Models\GroupEventAttendance;
 use App\Models\GroupMember;
 use App\Models\GroupResource;
 use DB;
@@ -98,6 +99,12 @@ class GroupController extends Controller
 
         if($type =="overview") {
             $data['overview'] =Group::getOverViewDetails($id,$groupDetails->groupType_id);
+           // print_r($data['overview'] ); exit();
+        }
+        if($type =="attendance") {
+            $formDate = date("Y-m-01");
+            $toDate = date('Y-m-d');
+            $data['attendance'] =GroupEvent::getMeetingDates($id,$formDate,$toDate);
            // print_r($data['overview'] ); exit();
         }
 
@@ -287,7 +294,12 @@ class GroupController extends Controller
 
                             $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
 
+                            $start_time  = $row->start_date."".$row->start_time;
+                            $end_time  = $row->end_date."".$row->end_time;
 
+
+
+                            $btn.= '<a onclick="markAttedence(' . $row->id . ')"  class="edit btn btn-primary btn-sm mx-md-1">Attendence</a>';
 
                             return $btn;
                         })
@@ -526,6 +538,109 @@ class GroupController extends Controller
         }
     }
 
+
+    public function attedenceList(Request $request){
+        $groupId = $request->groupId;
+        $events = $request->events;
+        $eventsObj = json_decode($events);
+        $members  =GroupMember::membersList($groupId,$request->search['value']);
+        $datatable =   DataTables::of($members);
+
+        $raw =array();
+
+        //print_r($eventsObj);
+
+
+                        if($eventsObj) {
+                        foreach($eventsObj as $value){
+
+                            $datatable = $datatable->addColumn(str_replace(" ","_",$value->event_date), function($row)use($value,$raw) {
+
+
+                                $exists = GroupEventAttendance::select("id as exists")
+                                            ->where("event_id",$value->id)
+                                            ->where("group_member_id",$row->id)
+                                            ->first();
+                                $html = '<i class="fa fa-check-circle  att-icon text-success" aria-hidden="true"></i>';
+
+                                if(!$exists){
+                                    if(!isset( $GLOBALS['attedence'][$row->id])) {
+                                        $GLOBALS['attedence'][$row->id] = 0;
+                                    }
+                                    $GLOBALS['attedence'][$row->id] ++;
+                                    $html = '<i class="fa fa-times-circle att-icon text-warning" aria-hidden="true"></i>';
+                                }
+                                //print_r($raw);
+                                return $html;
+
+
+                            });
+                        }
+                    }
+                    $datatable = $datatable->addColumn('percentage', function($row)use($eventsObj) {
+                        $per = 100;
+                        if(count($eventsObj) > 0){
+                            $active =count($eventsObj)-$GLOBALS['attedence'][$row->id];
+
+                            $per = round(($active*100)/count($eventsObj));
+
+                        }
+                        return $per."%";//$GLOBALS['attedence'];
+                    });
+
+                    if($eventsObj) {
+                        foreach($eventsObj as $value){
+                            $raw[] =str_replace(" ","_",$value->event_date);
+                        }
+                    }
+                        //print_r($raw);
+                        $datatable = $datatable->rawColumns(array_values($raw));
+                         return $datatable->make(true);
+
+        print_r($members->get());
+    }
+
+    public function getEventDates(Request $request){
+        $start_date = date("Y-m-d",strtotime($request->start_date));
+        $end_date = date("Y-m-d",strtotime($request->end_date));
+        $id = $request->group_id;
+
+        $events = GroupEvent::getMeetingDates($id,$start_date,$end_date);
+
+        return response()->json(
+            [
+                'events' => $events
+            ]);
+
+    }
+
+    public function markAttendence($eventId,Request $request) {
+        $data['title'] = $this->browserTitle . " - ";
+        $data['groupId'] = $request->groupId;
+        $data['eventId'] = $eventId;
+
+        $members  =GroupMember::membersListForAttdedence($request->groupId,$eventId)->get();
+        //print_r($members);
+        $data['members'] = $members;
+        return view('groups.group.log-attedence', $data);
+    }
+
+    public function submitAttendence(Request $request) {
+
+        $eventId =$request->event_id;
+        GroupEventAttendance::where("event_id",$eventId)->delete();
+        $insert = array();
+        foreach($request->attedence as $attedence) {
+            $insert[] = ["event_id"=>$eventId,"group_member_id"=>$attedence,"createdBy"=>Auth::id()];
+        }
+        GroupEventAttendance::insert($insert);
+
+        return response()->json(
+            [
+                'success' => 1
+            ]);
+    }
+
     private function resourceFileUpload($file,$groupId) {
 
 
@@ -552,6 +667,7 @@ class GroupController extends Controller
 
         return $jsonformat;
     }
+
 
     private function groupImageFileUpload($file,$groupId) {
 

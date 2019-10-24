@@ -266,6 +266,9 @@ Route::get("/groups/events/add","Groups\GroupController@addEvents");
 Route::post("/groups/events/store", "Groups\GroupController@groupAddEvents")->name("group.events.store");
 Route::post("/groups/events/list", "Groups\GroupController@eventsList");
 Route::get('groups/events/edit/{id}', 'Groups\GroupController@editEvent');
+Route::get('groups/events/mark-attendence/{id}', 'Groups\GroupController@markAttendence');
+Route::post('groups/events/submit-attendence', 'Groups\GroupController@submitAttendence');
+
 
 Route::get("/groups/resources/add","Groups\GroupController@addResources");
 Route::post("/groups/resources/store", "Groups\GroupController@groupAddResources")->name("group.resources.store");
@@ -279,6 +282,10 @@ Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTy
 Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController@createGroupTypesPage");
 Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
+
+//group attedence
+Route::post("/groups/attedence/list", "Groups\GroupController@attedenceList");
+Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEventDates");
 
 
 //Groups publishing publicly

@@ -321,3 +321,6 @@ color: #FB7642;
     display: flex;
     align-items: center;
 }
+.att-icon {
+    font-size: 1.2rem;
+}

@@ -3,7 +3,7 @@
 namespace App\Models;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
-
+use DB;
 class GroupEvent extends Model
 {
     protected $table = 'group_events';
@@ -35,5 +35,26 @@ class GroupEvent extends Model
         $result->where("group_events.group_id",$groupId);
         $result->where('groups.orgId', '=', Auth::user()->orgId);
         return $result;
+    }
+
+    public static  function getMeetingDates($groupId,$fromDate = "",$toDate ="") {
+        $result = self::select('group_events.id',DB::raw('DATE_FORMAT(group_events.start_date,"%b %d") as event_date'))
+
+
+        /* ->orderBy("created_at","desc") */;
+        if ($fromDate != "" && $toDate) {
+            $result->where(function($query)use($fromDate,$toDate) {
+
+
+
+                return $query->whereBetween('group_events.start_date',[$fromDate,$toDate]);
+                                //->orWhere('eventDesc', 'LIKE', "%$search%");
+
+                //echo date("d m y",(int)$search);
+            });
+        }
+        $result->where("group_events.group_id",$groupId);
+        //$result->where('group_events.orgId', '=', Auth::user()->orgId)->get();
+        return $result->get();
     }
 }

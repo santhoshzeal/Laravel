@@ -36,4 +36,21 @@ class GroupMember extends Model
         $result->where('group_members.orgId', '=', Auth::user()->orgId);
         return $result;
     }
+
+    public static function membersListForAttdedence($groupId,$eventId){
+        $result = self::select('group_members.id', 'users.id as user_id','users.first_name','users.last_name','users.email','users.mobile_no')
+                  ->addSelect("member_since","group_members.role")
+                  ->addSelect("group_events_attendance.id as att")
+                  ->leftJoin("users","users.id","=","group_members.user_id")
+                  ->leftJoin('group_events_attendance', function($join)use($eventId)
+                  {
+                      $join->on('group_events_attendance.group_member_id', '=', 'group_members.id');
+                      $join->where('group_events_attendance.event_id','=', $eventId);
+                  });
+
+
+        $result->where("group_members.group_id",$groupId);
+        $result->where('group_members.orgId', '=', Auth::user()->orgId);
+        return $result;
+    }
 }

@@ -478,7 +478,7 @@ ALTER TABLE `scheduling` DROP `is_auto_schedule`;
 ALTER TABLE `scheduling` CHANGE `is_manual_schedule` `is_manual_schedule` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '1=Auto scheduling, 2=Manual Scheduling';
 ALTER TABLE `scheduling_user` ADD `token` VARCHAR(255) NULL DEFAULT NULL AFTER `status`;
 
--- 
+--
 -- Alter Comm_masters Table - Lokesh 26-09-2019
 --
 ALTER TABLE `comm_masters` CHANGE `comm_template_id` `comm_template_id` BIGINT(20) NULL;
@@ -671,4 +671,7 @@ CREATE TABLE `schedule_service_users_count` (
 ALTER TABLE `schedule_service_users_count`  ADD PRIMARY KEY (`id`);
 ALTER TABLE `schedule_service_users_count`  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `scheduling_user` ADD `service_id` BIGINT(22) NULL DEFAULT NULL AFTER `scheduling_id`; 
+ALTER TABLE `scheduling_user` ADD `service_id` BIGINT(22) NULL DEFAULT NULL AFTER `scheduling_id`;
+
+
+ALTER TABLE `group_events_attendance` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
