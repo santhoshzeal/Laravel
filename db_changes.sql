@@ -673,5 +673,5 @@ ALTER TABLE `schedule_service_users_count`  MODIFY `id` bigint(22) NOT NULL AUTO
 
 ALTER TABLE `scheduling_user` ADD `service_id` BIGINT(22) NULL DEFAULT NULL AFTER `scheduling_id`;
 
-
+-- Ananth 22 Oct 2019
 ALTER TABLE `group_events_attendance` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
