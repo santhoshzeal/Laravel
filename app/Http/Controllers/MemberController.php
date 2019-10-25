@@ -15,6 +15,9 @@ use App\HouseholdDetail;
 use App\Helpers\CommunicationHelper;
 use DB;
 use App\Models\UserMaster;
+use App\Models\UserHasPosition;
+use App\Models\Position;
+
 class MemberController extends Controller
 {
     public function __construct()
@@ -349,5 +352,62 @@ class MemberController extends Controller
         $full_name .= isset($user["middle_name"]) ? ' '. $user["middle_name"] : '';
         $full_name .= isset($user["last_name"]) ? ' '. $user["last_name"] : '';
         return $full_name;
+    }
+
+    /**
+     * @Function name : viewPosition
+     * @Purpose : Member Positions listing
+     * @Added by : Sathish    
+     * @Added Date : Jul 03, 2019
+     */
+    public function viewPosition(Request $request)
+    {
+        $data['title'] = $this->browserTitle. " - Member Position";        
+        $orgId = $this->userSessionData['umOrgId'];
+        $personal_id = $request->segment(3);
+        $whereArray = array('personal_id' => $request->segment(3));
+        $selectUserMasterDetail = $data['selectUserMasterDetail']  = UserMaster::selectUserMasterDetail($whereArray,null,null,null,null,null)->get()[0];
+        
+        $whereUHPArray = array('user_id' => $selectUserMasterDetail['user_id']);
+        $data['selectFromUserHasPosition'] = UserHasPosition::selectFromUserHasPosition($whereUHPArray)->get();
+
+        $wherePosArray = array('orgId' => $this->userSessionData['umOrgId']);
+        $data['selectFromPosition'] = Position::selectFromPosition($wherePosArray)->get();
+
+        
+        $user = User::select("*",DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'),DB::raw('DATE_FORMAT(users.dob, "%d-%m-%Y") AS dob_format'),
+            DB::raw('DATE_FORMAT(users.doa, "%d-%m-%Y") AS doa_format'))->where('orgId', $orgId)->where("personal_id", $personal_id)->first();
+        $whereArray = array("personal_id"=> $personal_id);
+        //$user = UserMaster::selectUserMasterDetail($whereArray,null,null,null,null,null)->get()[0];
+        $fullAdr = explode("///",$user['address']);
+        $user['address'] = $fullAdr[0];
+        $user['address'] .= isSet($fullAdr[1]) && strlen($fullAdr[1]) >0? ','. $fullAdr[1]:'';
+        $user['address'] .= isSet($fullAdr[2]) && strlen($fullAdr[2]) >0? ','. $fullAdr[2]:'';
+        $user['address'] .= isSet($fullAdr[3]) && strlen($fullAdr[3]) >0? ','. $fullAdr[3]:'';
+        $user['address'] .= isSet($fullAdr[4]) && strlen($fullAdr[4]) >0? '-'. $fullAdr[4]:'';
+        // Getting Master loook data
+        $keys = ["school_name", "name_prefix", "name_suffix", "marital_status"];
+        $lookUpKeys = [];
+        foreach($keys as $key){
+            if(isSet($user[$key])){
+                $lookUpKeys[] = $user[$key];
+            }
+        }
+        if(isSet($user["grade_id"])){
+            $lookUpKeys[] = $user["grade_id"];
+        }
+
+        $lookUpData = Lookup::whereIn('mldId', $lookUpKeys)->select('mldKey', 'mldValue')->get();
+        $keys[] = 'grade_name';
+        foreach($lookUpData as $lookupRow){
+            foreach($keys as $key){
+                if($lookupRow['mldKey'] == $key){
+                    $user[$key] = $lookupRow['mldValue'];
+                }
+            }
+        }
+        
+        $data['user'] = $user;
+        return view('members.position_list',$data);
     }
 }

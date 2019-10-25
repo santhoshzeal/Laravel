@@ -7,7 +7,7 @@
         <div class="page-title-box">
             <div class="btn-group pull-right">
                 <ol class="breadcrumb hide-phone p-0 m-0">
-                    <li class="breadcrumb-item active">Service Management</li>
+                    <li class="breadcrumb-item active">Position Management</li>
                 </ol>
             </div>
             <!--<h4 class="page-title">Roles Management</h4>-->
@@ -22,7 +22,7 @@
         <div class="card m-b-30">
             <div class="card-body">
                 <div class="button-items">
-                    <a href="{{URL::asset('settings/service')}}" class="btn btn-primary btn-lg btn-block">Services</a>
+                    <a href="{{URL::asset('settings/position')}}" class="btn btn-primary btn-lg btn-block">Positions</a>
                     <a href="{{URL::asset('settings/team')}}" class="btn btn-primary btn-lg btn-block">Teams</a>
                 </div>
             </div>
@@ -32,12 +32,12 @@
         <div class="card m-b-30">
             <div class="card-body">
 
-                <h4 class="mt-0 header-title">Services <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-service">Add New</button></h4>
+                <h4 class="mt-0 header-title">Positions <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-position">Add New</button></h4>
 
                 <!-- <button type="button" class="btn btn-primary waves-effect waves-light" id="alertify-labels">Click me</button> -->
                 
                 <!-- -->
-                <table id="serviceTable" class="table table-bordered">
+                <table id="positionTable" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -62,23 +62,23 @@
 </div> <!-- end row -->
 
 
-<div class="modal fade bs-example-modal-center" id="modal-service" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-center" id="modal-position" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-    {!! Form::open(array('id'=>'serviceCreateForm','name'=>'serviceCreateForm','method' => 'post', 'url' => url('service_data_insert'), 'class' => '')) !!}
+    {!! Form::open(array('id'=>'positionCreateForm','name'=>'positionCreateForm','method' => 'post', 'url' => url('position_data_insert'), 'class' => '')) !!}
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title service_modal_title">Add Service</h4>
+                <h4 class="modal-title position_modal_title">Add Position</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <div class="modal-body form-horizontal servicebody">
+            <div class="modal-body form-horizontal positionbody">
                 <div class="form-group no-bg">
-                    <label for="" class="col-sm-10 control-label text_align_right" style="text-align: left !important;">Service Name</label>
+                    <label for="" class="col-sm-10 control-label text_align_right" style="text-align: left !important;">Position Name</label>
                     <div class="col-sm-9">
-                        <input type="hidden" name="hidden_serviceID" id="hidden_serviceID" value="" />
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Service Name" maxlength="200">
+                        <input type="hidden" name="hidden_positionID" id="hidden_positionID" value="" />
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Position Name" maxlength="200">
                     </div>
                 </div>
-                <button type="button" class="btn btn-success margin pull-left" id="btnCreateService">Save</button>
+                <button type="button" class="btn btn-success margin pull-left" id="btnCreatePosition">Save</button>
                 <button type="button" class="btn btn-danger margin pull-right" data-dismiss="modal">Cancel</button>
                 <div class="clear"></div>
             </div>
@@ -89,12 +89,12 @@
  
 <script>
     $(document).ready(function() {
-        loadServiceDatatable();
+        loadPositionDatatable();
     });
 
-    function loadServiceDatatable() {
+    function loadPositionDatatable() {
 
-        serviceTable = $('#serviceTable').DataTable({
+        positionTable = $('#positionTable').DataTable({
             "serverSide": true,
             "destroy": true,
             "autoWidth": false,
@@ -110,7 +110,7 @@
             "ajax": {
                 type: "POST",
                 data: {},
-                url: siteUrl + '/settings/service/list',
+                url: siteUrl + '/settings/position/list',
             },
             "initComplete": function(settings, json) {
                 // $("#eventsTable_filter").append('<button class="btn small btn-primary" id="eventDateSearch"  >Event Date</button>');
@@ -123,13 +123,13 @@
 
 
 
-    $('#modal-service').on('hidden.bs.modal', function() {
-        $(".service_modal_title").html('');
-        $(".service_modal_title").html('Add Service');
-        $('.servicebody').find('select').val('');
-        $('.servicebody').find('input').val('');
+    $('#modal-position').on('hidden.bs.modal', function() {
+        $(".position_modal_title").html('');
+        $(".position_modal_title").html('Add Position');
+        $('.positionbody').find('select').val('');
+        $('.positionbody').find('input').val('');
 
-        var $alertas = $('#serviceCreateForm');
+        var $alertas = $('#positionCreateForm');
         $alertas.validate().resetForm();
         $alertas.find('.error').removeClass('error');
     });
@@ -139,7 +139,7 @@
 
 
         chkValidateStatus = "";
-        chkValidateStatus = $("#serviceCreateForm").validate({
+        chkValidateStatus = $("#positionCreateForm").validate({
             //ignore:[],// false,
             ignore: false,
             errorClass: "error",
@@ -160,20 +160,20 @@
 
 
 
-    //Save Service details to the database
+    //Save Position details to the database
 
-    $("#btnCreateService").click(function() {
+    $("#btnCreatePosition").click(function() {
         
-        var formObj = $('#serviceCreateForm');
+        var formObj = $('#positionCreateForm');
         var formData = new FormData(formObj[0]);
 
-        $("#serviceCreateForm").valid();
+        $("#positionCreateForm").valid();
 
         var errorNumbers = chkValidateStatus.numberOfInvalids();
         
         if (errorNumbers == 0) {
             $.ajax({
-                url: siteUrl + '/service_data_insert',
+                url: siteUrl + '/position_data_insert',
                 async: true,
                 type: "POST",
                 data: formData,
@@ -182,16 +182,16 @@
                 cache: false,
                 processData: false,
                 success: function(data) {
-                    $('#modal-service').modal('hide');
+                    $('#modal-position').modal('hide');
                     if (data == "updated") {
-                        //alert("Service Updated");
+                        //alert("Position Updated");
                         //location.reload();
-                        loadServiceDatatable();
+                        loadPositionDatatable();
 
                     } else if (data == "inserted") {
-                        //alert("Service Added");
+                        //alert("Position Added");
                         //location.reload();
-                        loadServiceDatatable();
+                        loadPositionDatatable();
 
                     } else {
                         alert("Error in Updation");
@@ -207,7 +207,7 @@
     });
 
     //form submission
-    $('#serviceCreateForm').submit(function(e) {
+    $('#positionCreateForm').submit(function(e) {
         var errorNumbers = chkValidateStatus.numberOfInvalids();
         if (errorNumbers == 0) {
             return true;
@@ -216,14 +216,14 @@
         }
     });
 
-    //Edit the Services data
-    function edit_service(serviceID) {
-        $(".service_modal_title").html('');
-        $(".service_modal_title").html('Edit Service');
-        var dataString = 'serviceID=' + serviceID;
+    //Edit the Positions data
+    function edit_position(positionID) {
+        $(".position_modal_title").html('');
+        $(".position_modal_title").html('Edit Position');
+        var dataString = 'positionID=' + positionID;
 
         $.ajax({
-            url: siteUrl + '/settings/get_service_by_id',
+            url: siteUrl + '/settings/get_position_by_id',
             async: true,
             type: "GET",
             data: dataString,
@@ -234,8 +234,8 @@
             success: function(data) {
                 //console.log(data);
                 //location.reload();
-                $('#modal-service').modal('show');
-                $("#hidden_serviceID").val(data.id);
+                $('#modal-position').modal('show');
+                $("#hidden_positionID").val(data.id);
                 $("#name").val(data.name);
 
             }
@@ -244,17 +244,17 @@
     }
 
     
-//Delete the service data
-function service_data_delete(serviceId)
+//Delete the position data
+function position_data_delete(positionId)
 {
     
     alertify.confirm("Are you sure you want to delete?", function (asc) {
          if (asc) {
              //ajax call for delete    
-             var dataString = 'serviceId=' + serviceId;
+             var dataString = 'positionId=' + positionId;
 
              $.ajax({
-                url: siteUrl + '/settings/service_data_delete',
+                url: siteUrl + '/settings/position_data_delete',
                 async: true,
                 type: "GET",
                 data: dataString,
@@ -265,7 +265,7 @@ function service_data_delete(serviceId)
                 success: function (data)
                 {
                     //location.reload();
-                    loadServiceDatatable();
+                    loadPositionDatatable();
 
                 }
             });   
@@ -289,11 +289,11 @@ function service_data_delete(serviceId)
         }
 
 
-    var dataString = 'serviceId=' + serviceId;
+    var dataString = 'positionId=' + positionId;
 
     bootbox.confirm({
         title: "Confirm",
-        message: "<h4 id='modal_content'>Do you want to continue to delete this Service?</h4>",
+        message: "<h4 id='modal_content'>Do you want to continue to delete this Position?</h4>",
         buttons: {
             cancel: {
                 label: '<i class="fa fa-times"></i> No',
@@ -307,7 +307,7 @@ function service_data_delete(serviceId)
         callback: function (result) {
             if (result === true) {
                 $.ajax({
-                    url: siteUrl + '/service_data_delete',
+                    url: siteUrl + '/position_data_delete',
                     async: true,
                     type: "GET",
                     data: dataString,
@@ -318,7 +318,7 @@ function service_data_delete(serviceId)
                     success: function (data)
                     {
                         //location.reload();
-                        loadServiceDatatable();
+                        loadPositionDatatable();
 
                     }
                 })

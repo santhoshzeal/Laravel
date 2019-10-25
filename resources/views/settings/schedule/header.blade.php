@@ -10,7 +10,7 @@
                     <strong><a class="nav-link {{request()->routeIs('schedule.notifications') ? 'active' : 'text-white'}}" href='{{URL::asset("/settings/schedulling/notifications")}}'>Notifications</a></strong>
                 </li>
                 <li class="nav-item">
-                    <strong><a class="nav-link {{request()->routeIs('service.list') ? 'active' : 'text-white'}}" href='{{URL::asset("/settings/service")}}'>Services List</a></strong>
+                    <strong><a class="nav-link {{request()->routeIs('position.list') ? 'active' : 'text-white'}}" href='{{URL::asset("/settings/position")}}'>Position List</a></strong>
                 </li>
             </ul>
         </div>

@@ -127,6 +127,9 @@ Route::get('/people/member/management/{personal_id?}', 'MemberController@createO
 Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
 Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
 
+//Member position
+Route::get('/people/position/{personal_id}', 'MemberController@viewPosition');
+
 // Households Api's List
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');
 Route::post('/api/people/member/households/get-users-search', 'MemberController@getHhUserSearch');
@@ -292,12 +295,12 @@ Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEven
 Route::get("/{orgDomain}/hosting/groups/{group_type?}", "Groups\PublicController@getGroupsListTemplate");
 Route::post("/api/hosting/groups/typesList", "Groups\PublicController@getGroupsLists");
 
-//Services
-Route::get("/settings/service", "Settings\ServiceController@serviceIndex")->name('service.list');
-Route::post("/settings/service/list", "Settings\ServiceController@getServiceList");
-Route::get("/settings/get_service_by_id", "Settings\ServiceController@getServiceById");
-Route::post("/service_data_insert", "Settings\ServiceController@storeOrUpdateService");
-Route::get("/settings/service_data_delete", "Settings\ServiceController@deleteServiceById");
+//Positions
+Route::get("/settings/position", "Settings\PositionController@positionIndex")->name('position.list');
+Route::post("/settings/position/list", "Settings\PositionController@getPositionList");
+Route::get("/settings/get_position_by_id", "Settings\PositionController@getPositionById");
+Route::post("/position_data_insert", "Settings\PositionController@storeOrUpdatePosition");
+Route::get("/settings/position_data_delete", "Settings\PositionController@deletePositionById");
 
 
 

@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `pastor_board` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-INSERT INTO `dallas`.`master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldType`, `mldOption`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, '0', 'pastor_board', 'Electronic', 'A', '1', NULL, CURRENT_TIMESTAMP, NULL, '0000-00-00 00:00:00', NULL, NULL), (NULL, '0', 'pastor_board', 'Home Care', 'A', '1', NULL, CURRENT_TIMESTAMP, NULL, '0000-00-00 00:00:00', NULL, NULL);
+INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldType`, `mldOption`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, '0', 'pastor_board', 'Electronic', 'A', '1', NULL, CURRENT_TIMESTAMP, NULL, '0000-00-00 00:00:00', NULL, NULL), (NULL, '0', 'pastor_board', 'Home Care', 'A', '1', NULL, CURRENT_TIMESTAMP, NULL, '0000-00-00 00:00:00', NULL, NULL);
 
 
 ---------
@@ -675,3 +675,37 @@ ALTER TABLE `scheduling_user` ADD `service_id` BIGINT(22) NULL DEFAULT NULL AFTE
 
 -- Ananth 22 Oct 2019
 ALTER TABLE `group_events_attendance` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
+
+-- Sathish 25-Oct-2019
+ RENAME TABLE `service` TO `position`; 
+ ALTER TABLE `team_has_service` CHANGE `service_id` `position_id` BIGINT(22) NULL DEFAULT NULL; 
+  RENAME TABLE `team_has_service` TO `team_has_position`; 
+
+--
+-- Table structure for table `user_has_position`
+--
+
+CREATE TABLE `user_has_position` (
+  `id` bigint(22) NOT NULL,
+  `orgId` bigint(22) DEFAULT NULL,
+  `user_id` bigint(22) DEFAULT NULL,
+  `position_id` bigint(22) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for table `user_has_position`
+--
+ALTER TABLE `user_has_position`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for table `user_has_position`
+--
+ALTER TABLE `user_has_position`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;  

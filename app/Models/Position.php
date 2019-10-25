@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 
-class Service extends Model  {
+class Position extends Model  {
 
 
 
@@ -16,7 +16,7 @@ class Service extends Model  {
      * @var string
      */
     use SoftDeletes;
-    protected $table = 'service';
+    protected $table = 'position';
     protected $primaryKey = 'id';
 
     /**
@@ -48,45 +48,45 @@ class Service extends Model  {
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * @Function name : selectFromService
-     * @Purpose : Select from Service data based on where array
+     * @Function name : selectFromPosition
+     * @Purpose : Select from Position data based on where array
      * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
-    public static function selectFromService($whereArray) {
-        $query = Service::where($whereArray);
+    public static function selectFromPosition($whereArray) {
+        $query = Position::where($whereArray);
         return $query;
     }
 
     /**
-     * @Function name : updateService
-     * @Purpose : Update Service data based on where array
+     * @Function name : updatePosition
+     * @Purpose : Update Position data based on where array
      * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
-    public static function updateService($update_details, $whereArray) {
-        Service::where($whereArray)->update($update_details);
+    public static function updatePosition($update_details, $whereArray) {
+        Position::where($whereArray)->update($update_details);
     }
 
     /**
-     * @Function name : deleteService
-     * @Purpose : delete Service data based on  where array
+     * @Function name : deletePosition
+     * @Purpose : delete Position data based on  where array
      * @Added by : Sathish
      * @Added Date : Jul 13, 2018
      */
-    public static function deleteService($whereArray) {
-        Service::where($whereArray)->delete();
+    public static function deletePosition($whereArray) {
+        Position::where($whereArray)->delete();
     }
      
     
     /**
-    * @Function name : crudService
+    * @Function name : crudPosition
     * @Purpose : crud account heads based on  array
     * @Added by : Sathish
     * @Added Date : Nov 07, 2018
     */
-    public static function crudService($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$update_details=null,$delete=null,$select=null) {
-        $query = Service::query();
+    public static function crudPosition($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$update_details=null,$delete=null,$select=null) {
+        $query = Position::query();
         if($whereArray){
             $query->where($whereArray);
         }
@@ -123,13 +123,13 @@ class Service extends Model  {
     }
 
     /**
-    * @Function name : selectServiceDetail
+    * @Function name : selectPositionDetail
     * @Purpose : crud account heads based on  array
     * @Added by : Sathish
     * @Added Date : Nov 07, 2018
     */
-    public static function selectServiceDetail($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
-        $query = Service::select('service.id','service.orgId', 'service.name');
+    public static function selectPositionDetail($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
+        $query = Position::select('position.id','position.orgId', 'position.name');
 
         if($whereArray){
             $query->where($whereArray);
