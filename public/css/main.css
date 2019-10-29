@@ -324,3 +324,8 @@ color: #FB7642;
 .att-icon {
     font-size: 1.2rem;
 }
+.dataTable td {
+    overflow: hidden; /* this is what fixes the expansion */
+    text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
+    white-space: nowrap;
+  }

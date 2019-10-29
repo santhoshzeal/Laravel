@@ -10,15 +10,15 @@
                                 <button class="btn btn-outline-primary float-right " style="margin-right: 40px" onclick="addResource()">Add Resource</button>
 
 
-                                <table id="resourceTable" class="table table-bordered">
+                                <table id="resourceTable" class="table table-bordered" style="table-layout: fixed;">
                                         <thead>
                                             <tr>
-                                                <th>TYPE</th>
-                                                <th>RESOURCE NAME</th>
+                                                <th width=20>TYPE</th>
+                                                <th style="max-width: 20%">RESOURCE NAME</th>
                                                 <th>DESCRIPTION</th>
                                                 <th>LAST UPDATED</th>
                                                 <th>VISIBILITY</th>
-                                                <th style="min-width: 8rem">ACTION</th>
+                                                <th style="width: 20%">ACTION</th>
                                             </tr>
                                         </thead>
 

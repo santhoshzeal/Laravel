@@ -294,12 +294,34 @@ class GroupController extends Controller
 
                             $btn = '<a onclick="editEvent(' . $row->id . ')"  class="edit btn btn-primary btn-sm ">Edit</a>';
 
-                            $start_time  = $row->start_date."".$row->start_time;
-                            $end_time  = $row->end_date."".$row->end_time;
+                            $start_time  = $row->start_date." ".$row->start_time;
+                            $end_time  = $row->end_date." ".$row->end_time;
+
+                            $current = time();
+
+                            $before = Config::get('constants.ATTEDENCE_LOCK.BEFORE');
+                            $after  = Config::get('constants.ATTEDENCE_LOCK.AFTER');
+
+                            $startDate = date("Y-m-d H:i:s",strtotime($start_time)-$before*60);
+                            //echo date("Y-m-d h:i:s",time()). " ".$startDate. "---- ";
+                            //echo date_default_timezone_get();
+                         // echo $startDate . " ".strtotime($startDate)."<br/>";
+                            $disbled ="disabled";
+                            $title= "Diabled";
+                            if(  $current >= strtotime($startDate) ) {
+                                //echo "here";
+                                $endDate = date("Y-m-d H:i:s",strtotime($end_time)+($after*60));
+                                //echo $current." -- ".($endDate); exit();
+                                if($current <= strtotime($endDate)  ){
+                                    //echo "here";
+                                    $disbled = "";
+                                    $title= "";
+                                }
+                            }
+                            //echo $start_time. " --". $startDate;
 
 
-
-                            $btn.= '<a onclick="markAttedence(' . $row->id . ')"  class="edit btn btn-primary btn-sm mx-md-1">Attendence</a>';
+                            $btn.= '<a onclick="markAttedence(' . $row->id . ')" title="'.$title.'" class="edit btn btn-primary btn-sm mx-md-1 '.$disbled.'" '.$disbled.'>Attendence</a>';
 
                             return $btn;
                         })

@@ -129,7 +129,7 @@ function validateTime(elm){
                 if(elm.id=="end_time"){
                     var index = $("#end_time option:selected").index();
 
-                    $("#start_time option").eq(0).prop('selected', true);
+                    //$("#start_time option").eq(0).prop('selected', true);
 
                      $("#start_time option").attr("disabled",false);
                     $("#start_time option:gt("+(index-1)+")").attr('disabled',true);
