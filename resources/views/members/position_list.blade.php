@@ -74,8 +74,6 @@
 <!-- end row -->
 
 
-
-
 <script type="text/javascript">
     $(".select2").select2();
     $(".select2").val([<?php echo $selPosIds;?>]).change();;
@@ -83,20 +81,21 @@
 
 $("#btnUpdUserPosition").click(function () {
 
-     
+        var datastring = "user_pos_id="+$("#user_pos_id").val()+"&user_id={{$user->id}}";
+        
         $.ajax({
             url: siteUrl + '/update_user_positions',
             async: true,
             type: "POST",
-            data: formData,
+            data: datastring,
             dataType: "html",
-            contentType: false,
-            cache: false,
-            processData: false,
+            // contentType: false,
+            // cache: false,
+            // processData: false,
             success: function (data)
             {
                 
-                
+                console.log(data);
                  
             }
 

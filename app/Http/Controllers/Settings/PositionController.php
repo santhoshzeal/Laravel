@@ -11,6 +11,7 @@ use yajra\Datatables\Datatables;
 use App\Helpers\CommunicationHelper;
 
 use App\Models\Position;
+use App\Models\UserHasPosition;
 use App\Models\Events;
 use App\Models\MasterLookupData;
 use App\Models\SchedulingUser;
@@ -102,5 +103,27 @@ class PositionController extends Controller
         $updateAHDeletedStatus = array('deleted_at' => now(),'deletedBy' => $this->authUserId);  
         Position::crudPosition($whereArray,null,null,null,null,$updateAHDeletedStatus,null,null);       
    }
+
+   /**
+     * @Function name : storeOrUpdateUserHasPos
+     * @Purpose : Delete from Position
+     * @Added by : Sathish
+     * @Added Date : Nov 07, 2018
+     */
+    public function storeOrUpdateUserHasPos(Request $request) {
+        
+        $user_pos_id = $request->user_pos_id;
+
+        $exp_user_pos_id = explode(",",$user_pos_id);
+        //dd($exp_user_pos_id);
+        foreach($exp_user_pos_id as $exp_user_pos_id_value){
+            $whereUHPArray = array('user_id'=>$request->user_id,'position_id'=>$exp_user_pos_id_value);
+
+            $arrayUHPUpdate = array('user_id'=>$request->user_id,'position_id'=>$exp_user_pos_id_value);
+            UserHasPosition::updateOrCreate($whereUHPArray, $arrayUHPUpdate);
+        }
+        
+        //return ($request->all());
+    }
 }
 

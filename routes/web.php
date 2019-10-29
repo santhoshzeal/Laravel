@@ -129,6 +129,7 @@ Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
 
 //Member position
 Route::get('/people/position/{personal_id}', 'MemberController@viewPosition');
+Route::post('/update_user_positions', 'Settings\PositionController@storeOrUpdateUserHasPos');
 
 // Households Api's List
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');
