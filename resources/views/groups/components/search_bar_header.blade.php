@@ -6,10 +6,11 @@
                     <div class="col-sm-6 col-md-3 grpTypeSelect"></div>
                     <div class="col-sm-6 col-md-3">
                         <a href="{{URL::asset('/groups/types')}}" class="btn btn-secondary text-white border border-light rounded">Manage Group Types</a>
+                        <button onclick="addGroup()"  class="btn btn-secondary text-white border border-light rounded">Add Group</button>
                     </div>
                 </div>
                 <ul class="nav nav-tabs groupsUrlTabs">
-                </ul>    
+                </ul>
             </div>
         </div>
     </div>
