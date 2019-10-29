@@ -371,6 +371,7 @@ class MemberController extends Controller
         $whereUHPArray = array('user_id' => $selectUserMasterDetail['user_id']);
         $data['selectFromUserHasPosition'] = UserHasPosition::selectFromUserHasPosition($whereUHPArray)->get();
 
+        
         $wherePosArray = array('orgId' => $this->userSessionData['umOrgId']);
         $data['selectFromPosition'] = Position::selectFromPosition($wherePosArray)->get();
 
@@ -408,6 +409,8 @@ class MemberController extends Controller
         }
         
         $data['user'] = $user;
+ 
+
         return view('members.position_list',$data);
     }
 }

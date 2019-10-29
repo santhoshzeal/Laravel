@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 24, 2019 at 07:01 AM
+-- Generation Time: Oct 29, 2019 at 07:39 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -813,6 +813,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('16339df9f48f5305d4efca4a4a013ea82dfaf0e1e669c48744b0918fe9049da5e09835e4ae5ba60e', 1, 1, 'dollar', '[]', 0, '2019-09-12 18:39:41', '2019-09-12 18:39:41', '2020-09-13 00:09:41'),
 ('17dd8bbcecc3613454cc8b67f84c85d92cb1794fb88355a7c6a5af98b7f68c407208862ba2fd24e8', 1, 1, 'dollar', '[]', 0, '2019-10-19 18:48:41', '2019-10-19 18:48:41', '2020-10-20 00:18:41'),
 ('19272c2e52d3f4bf9c452415fef1cc3e2a23e3ddf2bb36eb4955393b6b5399abe289bec13b157272', 1, 1, 'dollar', '[]', 0, '2019-08-24 20:14:52', '2019-08-24 20:14:52', '2020-08-25 01:44:52'),
+('283d82cd1c526e52825dbf5ce6900872d84645596ba30c7abb3fbe010deb4472f17b53086b3f477a', 1, 1, 'dollar', '[]', 0, '2019-10-28 20:24:01', '2019-10-28 20:24:01', '2020-10-29 01:54:01'),
 ('2d29e100b686baa8d92c5c7f10e3aa5b6cc5673dc59c8f052bcfb512c9d1b7b9c3e4751f2f9924da', 9, 1, 'dollar', '[]', 0, '2019-09-02 04:08:44', '2019-09-02 04:08:44', '2020-09-02 09:38:44'),
 ('302072937ee1300a17c3afe68ebeae90195aed4e5b0b1cb22073297aadda5becb67025e9fa511776', 1, 1, 'dollar', '[]', 0, '2019-09-18 09:16:55', '2019-09-18 09:16:55', '2020-09-18 14:46:55'),
 ('3456c9c15b71faa05813f8246f2f64979b4f875d22cd34abcfb66c509cca7fd477050272d351ab0f', 1, 1, 'dollar', '[]', 0, '2019-09-11 09:51:23', '2019-09-11 09:51:23', '2020-09-11 15:21:23'),
@@ -837,8 +838,10 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('a1723d73c4fff1baa97084ae43e45452e7397e24b863cda5950b203ba50101d201f5d4c7dabc195c', 1, 1, 'dollar', '[]', 0, '2019-08-27 21:12:17', '2019-08-27 21:12:17', '2020-08-28 02:42:17'),
 ('a7289273947fb30912e96af73341d2a4df9f451979d18dbdaa40962783ed62ff7190eff5938b4c90', 1, 1, 'dollar', '[]', 0, '2019-08-31 04:16:35', '2019-08-31 04:16:35', '2020-08-31 09:46:35'),
 ('a8a5bbdbf236edebe4b3ac0a1c4bae9fe336830cf822843729123a0d05b9ac6b29cfa4f9198dce21', 1, 1, 'dollar', '[]', 0, '2019-09-17 19:33:41', '2019-09-17 19:33:41', '2020-09-18 01:03:41'),
+('a9de36c574966338c0fce32a54d31c04a2aeb0898acad2bf85dcec9b56bebeab651f9876586ff50a', 1, 1, 'dollar', '[]', 0, '2019-10-28 04:20:21', '2019-10-28 04:20:21', '2020-10-28 09:50:21'),
 ('adcde0b137b07760d67aee5d0f00ba3088ad27c743c870df9088b4a769af7928c6f9676372300a1a', 1, 1, 'dollar', '[]', 0, '2019-10-23 19:12:50', '2019-10-23 19:12:50', '2020-10-24 00:42:50'),
 ('afb7ecf322cce1c0b02f09bad72eae1ffd15949ff145139e04bb79fd29ee6639744a1cacb15e45dd', 1, 1, 'dollar', '[]', 0, '2019-10-19 05:57:26', '2019-10-19 05:57:26', '2020-10-19 11:27:26'),
+('b3211c42f7084ead2ecc214ce30761795364de62b3ae55ad2fa352a182591fd465eced8461d20505', 1, 1, 'dollar', '[]', 0, '2019-10-28 00:20:41', '2019-10-28 00:20:41', '2020-10-28 05:50:41'),
 ('b34efcdfcb37b3353e61a09b96361057120a73507f6316a67b5a3fe538d26ddb0defa980234f05b0', 1, 1, 'dollar', '[]', 0, '2019-10-19 21:40:11', '2019-10-19 21:40:11', '2020-10-20 03:10:11'),
 ('b593a2961f8deeeb1b42f9cc1059cfcc282975180c7d36577a4c7267def7548edb4a689ba9310c23', 1, 1, 'dollar', '[]', 0, '2019-09-29 06:31:56', '2019-09-29 06:31:56', '2020-09-29 12:01:56'),
 ('b5dbec6e13b7712c33b3443d43f2d12bfeea4b550b25f00fc7a5523c92a0790c01cd1ca4bbc25c28', 1, 1, 'dollar', '[]', 0, '2019-09-07 05:42:28', '2019-09-07 05:42:28', '2020-09-07 11:12:28'),
@@ -1070,6 +1073,36 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 (10, 1, 'Event management', 'web', NULL, NULL),
 (11, 1, 'Small Group', 'web', NULL, NULL),
 (12, 1, 'Accounting', 'web', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `position`
+--
+
+CREATE TABLE IF NOT EXISTS `position` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `position`
+--
+
+INSERT INTO `position` (`id`, `orgId`, `name`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'Band', '1', '2019-10-14 21:02:56', '1', '2019-10-14 21:03:55', '1', '2019-10-14 21:03:55'),
+(2, 1, 'Drums', '1', '2019-10-19 21:47:39', '1', '2019-10-19 21:50:31', NULL, NULL),
+(3, 1, 'Guitar', '1', '2019-10-19 21:47:45', NULL, '2019-10-19 21:47:45', NULL, NULL),
+(4, 1, 'Piano', '1', '2019-10-28 07:49:20', NULL, '2019-10-28 07:49:20', NULL, NULL),
+(5, 1, 'Singing', '1', '2019-10-28 07:49:37', NULL, '2019-10-28 07:49:37', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1310,34 +1343,6 @@ CREATE TABLE IF NOT EXISTS `scheduling_user` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `service`
---
-
-CREATE TABLE IF NOT EXISTS `service` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
-  `orgId` bigint(22) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `createdBy` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedBy` text,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `service`
---
-
-INSERT INTO `service` (`id`, `orgId`, `name`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'Band', '1', '2019-10-14 21:02:56', '1', '2019-10-14 21:03:55', '1', '2019-10-14 21:03:55'),
-(2, 1, 'Drums', '1', '2019-10-19 21:47:39', '1', '2019-10-19 21:50:31', NULL, NULL),
-(3, 1, 'Guitar', '1', '2019-10-19 21:47:45', NULL, '2019-10-19 21:47:45', NULL, NULL);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tags`
 --
 
@@ -1415,13 +1420,13 @@ CREATE TABLE IF NOT EXISTS `team` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `team_has_service`
+-- Table structure for table `team_has_position`
 --
 
-CREATE TABLE IF NOT EXISTS `team_has_service` (
+CREATE TABLE IF NOT EXISTS `team_has_position` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
   `team_id` bigint(22) DEFAULT NULL,
-  `service_id` bigint(22) DEFAULT NULL,
+  `position_id` bigint(22) DEFAULT NULL,
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -1485,6 +1490,34 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 1, 'stpaul name''s household', '0000000001', NULL, NULL, 'stpaul name', NULL, NULL, NULL, 'stpaul name', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$o9KLhUJSz5S7tn20C6BhlOGaQq6sV0dfodXFAEhkLBVJPEn1fYSge', NULL, 'stpa6pnp', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-02 08:45:03', '2019-09-02 08:45:03', NULL, NULL),
 (2, 1, 'ramesg''s household', '0000000002', '36', NULL, 'ramesg', 'f', 'de', NULL, 'ramesg de f', NULL, 'asd@asda.ocm', NULL, NULL, '$2y$10$K6n4YZZ4veda5Xq0UiONmutMGwzPcE5cWWHqYjwY2sA7gRcUACA5y', NULL, 'rameufk1', '41', 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1568818124.png","original_filename":"1568818124.png","upload_file_extension":"png","file_size":0}";', '1970-01-01', '1970-01-01', '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-09-05 20:18:05', '2019-09-18 09:18:44', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_has_position`
+--
+
+CREATE TABLE IF NOT EXISTS `user_has_position` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `user_id` bigint(22) DEFAULT NULL,
+  `position_id` bigint(22) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `user_has_position`
+--
+
+INSERT INTO `user_has_position` (`id`, `orgId`, `user_id`, `position_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 2, 2, NULL, '2019-10-28 13:10:41', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(2, 1, 2, 3, NULL, '2019-10-28 13:10:41', NULL, '2019-10-28 13:18:52', NULL, NULL);
 
 --
 -- Constraints for dumped tables
