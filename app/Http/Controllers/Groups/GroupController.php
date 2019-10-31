@@ -663,6 +663,10 @@ class GroupController extends Controller
             ]);
     }
 
+    public function groupCreateForm(Request $request){
+
+    }
+
     private function resourceFileUpload($file,$groupId) {
 
 
