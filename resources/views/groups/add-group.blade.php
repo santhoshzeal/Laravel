@@ -11,7 +11,13 @@
                                     <div class="form-group row">
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Group Type:</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" required="" type="text" value="" id="add_group_type" name="add_group_name">
+                                        <select class="form-control"  id="add_group_type" name="add_group_type" required="">
+                                            <option value="">-- Select --</option>
+                                            @foreach($groupTypes as $groupType)
+                                                <option value="{{$groupType->id}}">{{$groupType->name}}</option>
+                                            @endforeach
+                                        </select>
+
                                     </div>
                                 </div>
 

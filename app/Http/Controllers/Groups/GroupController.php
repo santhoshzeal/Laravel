@@ -13,6 +13,7 @@ use App\Models\GroupEvent;
 use App\Models\GroupEventAttendance;
 use App\Models\GroupMember;
 use App\Models\GroupResource;
+use App\Models\GroupType;
 use DB;
 use DataTables;
 use Auth;
@@ -664,9 +665,45 @@ class GroupController extends Controller
     }
 
     public function groupCreateForm(Request $request){
-
+        $data = [];
+        $data['groupTypes'] = GroupType::getGroupTypesList("")->get();
+        return view('groups.add-group', $data);
     }
 
+    public function groupStore(Request $request){
+        //print_r($request->all());
+        $groupType =$request->add_group_type;
+        $groupName = $request->add_group_name;
+
+        $groupTypeDetails = GroupType::find($groupType);
+
+        $insertData = [
+            "orgId" => Auth::user()->orgId,
+            "groupType_id" =>$groupType,
+            "name" => trim($groupName),
+            "is_enroll_autoClose" =>$groupTypeDetails->d_is_enroll_autoClose,
+            "enroll_autoClose_on" =>$groupTypeDetails->d_enroll_autoClose_on,
+            "is_enroll_autoClose_count"=>$groupTypeDetails->d_is_enroll_autoClose_count,
+            "enroll_autoClose_count"=>$groupTypeDetails->d_enroll_autoClose_count,
+            "is_enroll_notify_count"=>$groupTypeDetails->d_is_enroll_notify_count,
+            "enroll_notify_count"=>$groupTypeDetails->d_enroll_notify_count,
+            "contact_email"=>$groupTypeDetails->d_contact_email,
+            "visible_leaders_fields"=>$groupTypeDetails->d_visible_leaders_fields,
+            "visible_members_fields"=>$groupTypeDetails->d_visible_members_fields,
+            "can_leaders_search_people"=>$groupTypeDetails->d_can_leaders_search_people,
+            "can_leaders_take_attendance"=>$groupTypeDetails->d_can_leaders_take_attendance,
+            "event_remind_before" => $groupTypeDetails->d_event_remind_before,
+            "is_event_remind"=>$groupTypeDetails->d_is_event_remind,
+            "enroll_status"=>$groupTypeDetails->d_enroll_status,
+            "enroll_msg"=>$groupTypeDetails->d_enroll_msg,
+            "leader_visibility_publicly"=>$groupTypeDetails->d_leader_visibility_publicly,
+            "is_event_public"=>$groupTypeDetails->d_is_event_public,
+            'createdBy' => Auth::id()
+        ];
+        Group::insert($insertData);
+        //print_r($insertData);
+
+    }
     private function resourceFileUpload($file,$groupId) {
 
 

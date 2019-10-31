@@ -69,6 +69,20 @@
 
 
                 }
+                function submitGroup(){
+                    $('#create_group_form').ajaxForm(function(data) {
+                        $("#create_group_form_status").html(data.message);
+                        setTimeout(function(){
+                            //createGroupDlg.close();
+                            /*resourceTable.draw(false);
+                            },2000);*/
+                        });
+
+                        //$("#create_resource_form").submit();
+
+                });
+                $("#formSubmitBtn").click();
+                }
             </script>
 
 

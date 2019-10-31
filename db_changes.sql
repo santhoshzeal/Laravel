@@ -677,9 +677,9 @@ ALTER TABLE `scheduling_user` ADD `service_id` BIGINT(22) NULL DEFAULT NULL AFTE
 ALTER TABLE `group_events_attendance` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
 
 -- Sathish 25-Oct-2019
- RENAME TABLE `service` TO `position`; 
- ALTER TABLE `team_has_service` CHANGE `service_id` `position_id` BIGINT(22) NULL DEFAULT NULL; 
-  RENAME TABLE `team_has_service` TO `team_has_position`; 
+ RENAME TABLE `service` TO `position`;
+ ALTER TABLE `team_has_service` CHANGE `service_id` `position_id` BIGINT(22) NULL DEFAULT NULL;
+  RENAME TABLE `team_has_service` TO `team_has_position`;
 
 --
 -- Table structure for table `user_has_position`
@@ -708,4 +708,8 @@ ALTER TABLE `user_has_position`
 -- AUTO_INCREMENT for table `user_has_position`
 --
 ALTER TABLE `user_has_position`
-  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;  
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+
+
+  ALTER TABLE `groups` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;

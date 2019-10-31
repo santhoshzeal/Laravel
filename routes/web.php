@@ -258,7 +258,7 @@ Route::get("/groups/details/{id}/{type}", "Groups\GroupController@groupDetails")
 Route::post("/groups/settings/store", "Groups\GroupController@groupStoreSettings")->name("group_settings.store");
 Route::post("/groups/settings/image/store", "Groups\GroupController@groupStoreImage")->name("group_settings.image.store");
 
-Route::post("/groups/store", "Groups\GroupController@store")->name("groups.store");
+Route::post("/groups/store", "Groups\GroupController@groupStore")->name("groups.store");
 Route::get("/groups/create/form", "Groups\GroupController@groupCreateForm");
 
 Route::post("/groups/members/list", "Groups\GroupController@membersList");
