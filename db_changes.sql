@@ -713,3 +713,7 @@ ALTER TABLE `user_has_position`
 
 
   ALTER TABLE `groups` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
+
+
+ALTER TABLE `groups` CHANGE `event_remind_before` `event_remind_before` INT(5) NOT NULL DEFAULT '0', CHANGE `enroll_msg` `enroll_msg` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+ALTER TABLE `groups` CHANGE `event_remind_before` `event_remind_before` INT(5) NULL DEFAULT '0';

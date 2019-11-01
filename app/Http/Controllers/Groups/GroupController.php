@@ -36,7 +36,7 @@ class GroupController extends Controller
     }
 
     public function groupsListPagination(){
-        $groupList = Group::getGroups("")->get();
+        $groupList = Group::getGroups("")->orderBy("id","desc")->get();
         $count =DB::select('SELECT FOUND_ROWS() as record_count');
         $count = $count[0]->record_count;
 
