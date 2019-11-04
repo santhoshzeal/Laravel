@@ -713,3 +713,7 @@ ALTER TABLE `user_has_position`
 
 
   ALTER TABLE `groups` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL;
+
+--Sathish 03 Nov 2019
+
+ALTER TABLE `scheduling` ADD `team_id` BIGINT( 22 ) NULL DEFAULT NULL AFTER `notification_flag` ;

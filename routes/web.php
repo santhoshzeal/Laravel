@@ -131,6 +131,7 @@ Route::get('/people/member/{personal_id}', 'MemberController@viewMember');
 Route::get('/people/position/{personal_id}', 'MemberController@viewPosition');
 Route::post('/update_user_positions', 'Settings\PositionController@storeOrUpdateUserHasPos');
 
+
 // Households Api's List
 Route::get('/api/people/member/households/{personal_id}', 'MemberController@getHouseholderList');
 Route::post('/api/people/member/households/get-users-search', 'MemberController@getHhUserSearch');
@@ -304,6 +305,11 @@ Route::get("/settings/get_position_by_id", "Settings\PositionController@getPosit
 Route::post("/position_data_insert", "Settings\PositionController@storeOrUpdatePosition");
 Route::get("/settings/position_data_delete", "Settings\PositionController@deletePositionById");
 
-
+//Settings => Team
+Route::get("/settings/team", "Settings\TeamController@teamIndex")->name('team.list');
+Route::post("/settings/team/list", "Settings\TeamController@getTeamList");
+Route::get("/settings/get_team_by_id", "Settings\TeamController@getTeamById");
+Route::post("/team_data_insert", "Settings\TeamController@storeOrUpdateTeam");
+Route::get("/settings/team_data_delete", "Settings\TeamController@deleteTeamById");
 
 
