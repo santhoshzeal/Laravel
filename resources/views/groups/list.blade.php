@@ -12,6 +12,10 @@
 
             <script>
                  $(document).ready(function() {
+                    listGroups("");
+                });
+
+                function listGroups(groupType){
                     $('#pagination-container').pagination({
                         dataSource: siteUrl + '/groups/groupsListPagination',
                         locator: 'items',
@@ -32,7 +36,7 @@
                             $('#data-container').html(html);
                         }
                     })
-                });
+                }
 
                 function simpleTemplating(data) {
                     var html = '<div class="row no-gutters">';
@@ -73,10 +77,10 @@
                     $('#create_group_form').ajaxForm(function(data) {
                         $("#create_group_form_status").html(data.message);
                         setTimeout(function(){
-                            //createGroupDlg.close();
-                            /*resourceTable.draw(false);
-                            },2000);*/
-                        });
+                            listGroups("");
+                            createGroupDlg.close();
+
+                        },2000);
 
                         //$("#create_resource_form").submit();
 
