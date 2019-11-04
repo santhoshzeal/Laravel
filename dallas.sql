@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 04, 2019 at 07:32 AM
+-- Generation Time: Nov 04, 2019 at 07:34 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -322,9 +322,9 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `can_leaders_search_people` tinyint(1) NOT NULL DEFAULT '1',
   `can_leaders_take_attendance` tinyint(1) NOT NULL DEFAULT '1',
   `is_event_remind` tinyint(1) NOT NULL DEFAULT '1',
-  `event_remind_before` int(5) NOT NULL,
+  `event_remind_before` int(5) DEFAULT '0',
   `enroll_status` tinyint(1) NOT NULL DEFAULT '1',
-  `enroll_msg` varchar(255) NOT NULL,
+  `enroll_msg` varchar(255) DEFAULT NULL,
   `leader_visibility_publicly` tinyint(1) NOT NULL DEFAULT '1',
   `is_event_public` tinyint(1) NOT NULL DEFAULT '1',
   `createdBy` text,
