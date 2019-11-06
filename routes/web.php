@@ -312,4 +312,9 @@ Route::get("/settings/get_team_by_id", "Settings\TeamController@getTeamById");
 Route::post("/team_data_insert", "Settings\TeamController@storeOrUpdateTeam");
 Route::get("/settings/team_data_delete", "Settings\TeamController@deleteTeamById");
 
+//settings - location
+Route::get("/settings/location", "Settings\LocationController@index");
+Route::post("/settings/location/list", "Settings\LocationController@list");
+Route::get("/settings/location/addPage", "Settings\LocationController@addPage");
+Route::post("/settings/location/store", "Settings\TeamController@store")->name('location.store');
 

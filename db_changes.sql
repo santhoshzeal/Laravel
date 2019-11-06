@@ -723,3 +723,41 @@ ALTER TABLE `scheduling` ADD `team_id` BIGINT( 22 ) NULL DEFAULT NULL AFTER `not
 
 ALTER TABLE `groups` CHANGE `event_remind_before` `event_remind_before` INT(5) NOT NULL DEFAULT '0', CHANGE `enroll_msg` `enroll_msg` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 ALTER TABLE `groups` CHANGE `event_remind_before` `event_remind_before` INT(5) NULL DEFAULT '0';
+
+--ananth 6 nov  location table
+
+CREATE TABLE `locations` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `latitude` varchar(100) NOT NULL,
+  `longitude` varchar(100) NOT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+--- ---

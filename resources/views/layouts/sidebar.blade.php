@@ -241,9 +241,12 @@
                                      <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/asset_management/resources')}}">Asset Management</a>
                                     </li>
+                                    <li @if($url_segment_one == "settings") class='active' @else @endif>
+                                        <a href="{{URL::asset('/settings/location')}}">Location</a>
+                                    </li>
                                 </ul>
                             </li>
-                            
+
                             <li class="has-submenu {{request()->is('groups/*') ? 'active' : ''}}">
                                 <a href="#" class="{{request()->is('groups/*') ? 'active' : ''}}"><i class="ti-layout-grid3"></i>Groups</a>
                                 <ul class="submenu">
