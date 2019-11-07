@@ -159,4 +159,59 @@ class Position extends Model  {
  
         return $query;
     }
+
+    /**
+    * @Function name : loadTeamPositions
+    * @Purpose : crud account heads based on  array
+    * @Added by : Sathish
+    * @Added Date : Nov 07, 2018
+    */
+    public static function loadTeamPositions($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
+        $query = Position::select('team.name as team_name','team.id as team_id','position.name as position_name','users.id as usersid','users.fname');
+
+        $query->leftJoin('team_has_position', function($join) {
+            $join->on("team_has_position.position_id", "=", "position.id");
+        });
+
+        $query->leftJoin('team', function($join) {
+            $join->on("team.id", "=", "team_has_position.team_id");
+        });
+
+        $query->leftJoin('scheduling_user', function($join) {
+            $join->on("scheduling_user.position_id", "=", "position.id");
+            $join->on("scheduling_user.team_id", "=", "team.id");
+        });
+
+        $query->leftJoin('users', function($join) {
+            $join->on("users.id", "=", "scheduling_user.user_id");
+        });
+
+        if($whereArray){
+            $query->where($whereArray);
+        }
+        if($whereInArray){
+            foreach($whereInArray as $key=>$value){
+                $whereInFiltered = array_filter($value);
+                $query->whereIn($key,$whereInFiltered);
+            }
+        }
+        if($whereNotInArray){
+            foreach($whereNotInArray as $key=>$value){
+                $whereNotInFiltered = array_filter($value);
+                $query->whereNotIn($key,$whereNotInFiltered);
+            }
+        }
+        if($whereNotNullArray){
+            foreach($whereNotNullArray as $value){
+                $query->whereNotNull($value);
+            }
+        }
+        if($whereNullArray){
+            foreach($whereNullArray as $value){
+                $query->whereNull($value);
+            }
+        }
+        $query->groupBy("team_has_position.team_id","team_has_position.position_id");
+        return $query;
+    }
 }

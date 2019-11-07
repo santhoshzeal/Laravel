@@ -15,6 +15,7 @@ use App\Models\Events;
 use App\Models\MasterLookupData;
 use App\Models\SchedulingUser;
 use App\Models\CommTemplate;
+use App\Models\Team;
 use App\User;
 
 class SchedullingController extends Controller
@@ -77,6 +78,9 @@ class SchedullingController extends Controller
     public function createOrEditPage($schedule_id = null){
         $data['title'] = $this->browserTitle . " - Schedule List";
         $data['schedule_id'] =  $schedule_id;
+        $whereTeamArray=array('orgId'=>$this->orgId);
+        $data['team_id'] = Team::selectFromTeam($whereTeamArray)->get();
+        //dd($data['team_id']->get()->toArray(),$whereTeamArray);
         return view('settings.schedule.create', $data);
     }
 

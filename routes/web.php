@@ -180,6 +180,7 @@ Route::post("/api/settings/schedule/getAssignedMembersList", "Settings\Schedulli
 Route::post("/api/settings/schedule/getMemberSearchList", "Settings\SchedullingController@getMemberSearchList");
 Route::post("/api/settings/schedule/storeOrUpdateSchedule", "Settings\SchedullingController@storeOrUpdateSchedule");
 Route::get("/settings/schedulling/{schedule_id}", "Settings\SchedullingController@schedullingDetails");
+Route::post("/settings/position/load_schedule_positions", "Settings\PositionController@loadTeamPositions");
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');

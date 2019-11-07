@@ -151,4 +151,36 @@ class PositionController extends Controller
         }
         //return ($request->all());
     }
+
+
+    /**
+     * @Function name : loadTeamPositions
+     * @Purpose : Load Team with Position
+     * @Added by : Sathish
+     * @Added Date : Nov 07, 2019
+     */
+    public function loadTeamPositions(Request $request)
+    {
+
+        // DB::beginTransaction();
+        // try {
+            $is_manual_schedule = $request->is_manual_schedule;
+            $team_id = $request->team_id;
+            
+            $whereLPUpdArray = array('team.id' => $team_id,'team.orgId' => $this->orgId);
+            $data['loadTeamPositions'] = Position::loadTeamPositions($whereLPUpdArray,null,null,null,null,null);
+            return view('settings.schedule.load_team_positions', $data);
+            
+        //     DB::commit();
+        //     return response()->json(['result_code' => 1, 'message' => 'Position Updated Successfully.'], 200);
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     DB::rollback();
+        //     return response()->json(['result_code' => 0, 'message' => "Sorry , Changes not updated. Please try again!!!!!"], 200);//$e->getMessage()
+        //     // something went wrong with the transaction, rollback
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(['result_code' => 0, 'message' => "Sorry , Changes not updated. Please try again!!!!!"], 200);
+        //     return Redirect::back()->withErrors($e->getMessage());
+        // }
+    }
 }
