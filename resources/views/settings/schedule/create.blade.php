@@ -60,14 +60,15 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Team</label>
                                             <div class="col-sm-10">
                                                 <select class="form-control" name="team_id" id="team_id">
                                                     <option value="">--Select-</option>
                                                     @foreach($team_id as $value)
-                                                    <!-- <option {{ (isset($user) && $user->team_id==$value->mldId)?'selected':''}} value="{{$value->mldId}}">{{$value->mldValue}}</option> -->
-                                                    <option {{ $value->id}} value="{{$value->id}}">{{$value->name}}</option>
+                                                    
+                                                    <option value="{{$value->id}}">{{$value->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

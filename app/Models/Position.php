@@ -167,7 +167,7 @@ class Position extends Model  {
     * @Added Date : Nov 07, 2018
     */
     public static function loadTeamPositions($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
-        $query = Position::select('team.name as team_name','team.id as team_id','position.name as position_name','users.id as usersid','users.fname');
+        $query = Position::select('scheduling_user.id as scheduling_user_id', 'team.name as team_name','team.id as team_id','position.name as position_name','users.id as usersid','users.first_name');
 
         $query->leftJoin('team_has_position', function($join) {
             $join->on("team_has_position.position_id", "=", "position.id");

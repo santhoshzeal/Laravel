@@ -168,7 +168,9 @@ class PositionController extends Controller
             $team_id = $request->team_id;
             
             $whereLPUpdArray = array('team.id' => $team_id,'team.orgId' => $this->orgId);
-            $data['loadTeamPositions'] = Position::loadTeamPositions($whereLPUpdArray,null,null,null,null,null);
+            $data['loadTeamPositions'] = Position::loadTeamPositions($whereLPUpdArray,null,null,null,null,null)->get();
+            //dd($data['loadTeamPositions']->count(),$whereLPUpdArray);
+            $data['testdd'] = "testdata";
             return view('settings.schedule.load_team_positions', $data);
             
         //     DB::commit();
