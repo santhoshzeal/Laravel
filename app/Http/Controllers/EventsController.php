@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Config;
 use App\Models\Events;
+use App\Models\Location;
 use App\Models\Rooms;
 use Illuminate\Http\Response;
 use DataTables;
@@ -30,6 +31,7 @@ class EventsController extends Controller
     public function createPage(Request $request){
          $data['title'] = $this->browserTitle . " - Create Event";
          $data['rooms'] = Rooms::listRooms("")->get();
+         $data['locations'] = Location::listLocations("")->get();
 
         return view('events.create_page',$data);
     }
@@ -95,7 +97,7 @@ class EventsController extends Controller
      public function edit($id) {
         $data['title'] = $this->browserTitle . " - Create Event";
         $event = Events::findOrFail($id);
-
+        $data['locations'] = Location::listLocations("")->get();
         $data['event'] = $event;
         $data['rooms'] = Rooms::listRooms("")->get();
         return view('events.create_page',$data);

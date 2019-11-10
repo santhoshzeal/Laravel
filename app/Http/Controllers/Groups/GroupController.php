@@ -14,6 +14,7 @@ use App\Models\GroupEventAttendance;
 use App\Models\GroupMember;
 use App\Models\GroupResource;
 use App\Models\GroupType;
+use App\Models\Location;
 use DB;
 use DataTables;
 use Auth;
@@ -112,6 +113,7 @@ class GroupController extends Controller
         $data['activeTab'] =$activeTab;
         $data['groupId'] =$id;
         $data['title'] = $this->browserTitle . " - Group Details";
+        $data['locations'] = Location::listLocations("")->get();
         $groupDetails->img = "https://groups-production.s3.amazonaws.com/uploads/group/header_image/defaults/medium_6.png";
 
         if($groupDetails->image_path!=""){

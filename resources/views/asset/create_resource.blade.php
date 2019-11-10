@@ -42,10 +42,12 @@
                                     <div class="col-sm-9">
                                         <select id="location_id" name="location_id" class="form-control" required="">
                                             <option value=""> -- Select -- </option>
-                                            <option value="locaion1" <?= isset($resource)?($resource->location_id=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
-                                            <option value="locaion2" <?= isset($resource)?($resource->location_id=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
-                                            <option value="locaion3" <?= isset($resource)?($resource->location_id=='locaion3')?'selected':'':'' ?>>Locaion 3</option>
-                                        </select>
+
+                                            @foreach($locations as $value)
+                                                <option value="{{$value->id}}" @if(isset($resource) &&  $resource->location_id == $value->id) selected @endif>{{$value->name}}</option>
+                                            @endforeach
+
+                                           </select>
 
                                     </div>
                                 </div>

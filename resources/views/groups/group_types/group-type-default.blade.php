@@ -38,8 +38,17 @@
                                         <div class="form-group row">
                                             <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control"  type="text" value="{{ isset($groupType)?$groupType->d_meeting_schedule:'' }}" id="d_location" name="d_location" >
-                                            </div>
+
+                                                    <select id="d_location" name="d_location" class="form-control" required="">
+                                                            <option value=""> -- Select -- </option>
+
+                                                            @foreach($locations as $value)
+                                                                <option value="{{$value->id}}" @if(isset($groupType) &&  $groupType->d_location == $value->id) selected @endif>{{$value->name}}</option>
+                                                            @endforeach
+
+                                                           </select>
+
+                                                  </div>
                                         </div>
 
 

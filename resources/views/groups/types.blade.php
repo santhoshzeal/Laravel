@@ -128,6 +128,7 @@
                    $("#create_group_type_form_status").html(data.message);
                    setTimeout(function(){
                     createGroupTypesDlg.close();
+
                     GroupTypesTable.draw(false);
                     },2000);
                 });
@@ -137,7 +138,7 @@
             }
 
             function groupDefaults(title,groupTypeId){
-                createPostDlg = BootstrapDialog.show({
+                createGroupTypesDlg = BootstrapDialog.show({
                     title:title+" Default settings",
                     size:"size-wide",
                     message: $('<div></div>').load(siteUrl+"/groups/types/defaults/"+groupTypeId),

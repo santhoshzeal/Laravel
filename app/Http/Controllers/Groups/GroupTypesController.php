@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Config;
 
 use App\Models\GroupType;
+use App\Models\Location;
 use Illuminate\Http\Response;
 use DataTables;
 use Auth;
@@ -62,6 +63,7 @@ class GroupTypesController extends Controller
 
     public function createGroupTypesPage(){
         $data['title'] = $this->browserTitle . " - ";
+        $data['locations'] = Location::listLocations("")->get();
         return view('groups.group_types.create');
     }
 
@@ -156,7 +158,7 @@ class GroupTypesController extends Controller
         $data['title'] = $this->browserTitle . " - ";
 
         $data['groupType'] = GroupType::find($groupTypeId);
-
+        $data['locations'] = Location::listLocations("")->get();
         return view('groups.group_types.group-type-default', $data);
     }
 

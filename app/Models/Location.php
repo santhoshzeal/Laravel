@@ -71,4 +71,6 @@ class Location extends Model {
 
 
 
+
+
 }

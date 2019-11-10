@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Location;
 use DB;
 use Config;
 use Illuminate\Http\Response;
@@ -37,6 +38,7 @@ class PastorBoardController extends Controller {
 
     public function createPostPage(Request $request) {
         $data['title'] = $this->browserTitle . " - Create Post";
+        $data['locations'] = Location::listLocations("")->get();
         $data['p_category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","room_group"]])->get();
         //$data['room_group'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","room_group"]])->get();
 
@@ -63,7 +65,7 @@ class PastorBoardController extends Controller {
             $image_path = $this->resourceFileUpload($request->image_path,$request->parent_type);
         }
 
-        $insertData = $request->except(['_token', 'location_id', 'postId','image_path']);
+        $insertData = $request->except(['_token', 'postId','image_path']);
 
         if ($image_path == "") {
             //$insertData->except(['item_photo']);
@@ -235,7 +237,7 @@ class PastorBoardController extends Controller {
         $post = PastorBoard::findOrFail($id);
 
         $data['post'] = $post;
-
+        $data['locations'] = Location::listLocations("")->get();
         return view('pasterBoard.create_post', $data);
 
     }

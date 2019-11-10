@@ -65,7 +65,17 @@
                                                                     <div class="form-group row">
                                                                         <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                                                         <div class="col-sm-9">
-                                                                            <input class="form-control"  type="text" value="{{ isset($groupDetails)?$groupDetails->location:'' }}" id="location" name="location" >
+
+                                                                                <select id="location" name="location" class="form-control" required="">
+                                                                                        <option value=""> -- Select -- </option>
+
+                                                                                        @foreach($locations as $value)
+                                                                                            <option value="{{$value->id}}" @if(isset($groupDetails) &&  $groupDetails->location == $value->id) selected @endif>{{$value->name}}</option>
+                                                                                        @endforeach
+
+                                                                                       </select>
+
+
                                                                         </div>
                                                                     </div>
 

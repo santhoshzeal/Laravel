@@ -82,10 +82,12 @@
                                     <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                     <div class="col-sm-9">
                                         <select id="eventLocation" name="eventLocation" class="form-control" required="">
+
                                             <option value=""> -- Select -- </option>
-                                            <option value="locaion1" <?= isset($event)?($event->eventFreq=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
-                                            <option value="locaion2" <?= isset($event)?($event->eventFreq=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
-                                            <option value="locaion3" <?= isset($event)?($event->eventFreq=='locaion3')?'selected':'':'' ?>>Locaion 3</option>
+                                            @foreach($locations as $value)
+                                            <option value="{{$value->id}}" @if(isset($event) &&  $event->eventLocation == $value->id) selected @endif>{{$value->name}}</option>
+                                            @endforeach
+
                                         </select>
 
                                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Location;
 use DB;
 use Config;
 use App\Models\Resources;
@@ -32,7 +33,7 @@ class AssetController extends Controller {
         $data['title'] = $this->browserTitle . " - Create Resource";
         $data['roles'] = Roles::selectFromRoles(['orgId'=>Auth::user()->orgId])->get();
         $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
-
+        $data['locations'] = Location::listLocations("")->get();
         return view('asset.create_resource', $data);
     }
 
@@ -55,7 +56,7 @@ class AssetController extends Controller {
             $item_photo = $this->resourceFileUpload($request->item_photo);
         }
 
-        $insertData = $request->except(['_token', 'location_id', 'resourceId','item_photo']);
+        $insertData = $request->except(['_token', 'resourceId','item_photo']);
 
         if ($item_photo == "") {
             //$insertData->except(['item_photo']);
@@ -113,7 +114,7 @@ class AssetController extends Controller {
         $data['category'] = \App\Models\MasterLookupData::selectFromMasterLookupData([["mldKey","=","resource_category"]])->get();
         $data['roles'] = Roles::selectFromRoles(['orgId'=>Auth::user()->orgId])->get();
         $resources = Resources::findOrFail($id);
-
+        $data['locations'] = Location::listLocations("")->get();
         $data['resource'] = $resources;
         return view('asset.create_resource', $data);
     }

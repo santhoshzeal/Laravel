@@ -160,7 +160,7 @@
             }
 
             function editResource(resourceId){
-                CreateEventsDlg = BootstrapDialog.show({
+                createResourceDlg = BootstrapDialog.show({
                     title:"Update Resource",
                     size:"size-wide",
                     message: $('<div></div>').load(siteUrl+"/resource/edit/"+resourceId),
