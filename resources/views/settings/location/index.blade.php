@@ -95,7 +95,7 @@
 
     function addLocation(){
         addLocationDlg = BootstrapDialog.show({
-                    title:"Create Resource",
+                    title:"Create Location",
                     size:"size-wide",
                     message: $('<div></div>').load(siteUrl+"/settings/location/addPage"),
                     buttons: [
@@ -131,17 +131,17 @@
                 $("#formSubmitBtn").click();
             }
 
-function editResource(resourceId){
-CreateEventsDlg = BootstrapDialog.show({
-    title:"Update Resource",
+function editLocation(locarionId){
+    addLocationDlg = BootstrapDialog.show({
+    title:"Update Location",
     size:"size-wide",
-    message: $('<div></div>').load(siteUrl+"/resource/edit/"+resourceId),
+    message: $('<div></div>').load(siteUrl+"/settings/location/edit/"+locarionId),
     buttons: [
         {
             label: 'Submit',
             cssClass: 'btn-primary',
             action: function(){
-                submitCreateResource();
+                submitCreateLocation();
             }
         },
         {

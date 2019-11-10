@@ -51,5 +51,52 @@ class LocationController extends Controller {
         return view('Settings.location.create', $data);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $insertData = $request->all();
 
+        $locationId = $request->locationId;
+
+        //validation rules
+
+        $insertData = $request->except(['locationId','_token']);
+
+        if($locationId > 0) { //update
+            $insertData['updatedBy']= Auth::id();
+
+
+            Location::where("id",$locationId)->update($insertData);
+        }
+        else { //insert
+            $insertData['createdBy']= Auth::id();
+            $insertData['orgId']= Auth::user()->orgId;
+
+            Location::create($insertData);
+        }
+
+       return response()->json(
+                    [
+                            'success' => '1',
+                            "message" => '<div class="alert alert-success">
+                                                                 <strong>Saved!</strong>
+                                                           </div>'
+                    ]
+						);
+
+    }
+
+    public function editLocation(Request $request,$locationId){
+        $data['title'] = $this->browserTitle . " - ";
+        $location = Location::findOrFail($locationId);
+
+        $data['location'] = $location;
+
+        return view('Settings.location.create',$data);
+    }
 }
