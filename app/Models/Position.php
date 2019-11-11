@@ -167,7 +167,7 @@ class Position extends Model  {
     * @Added Date : Nov 07, 2018
     */
     public static function loadTeamPositions($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
-        $query = Position::select('scheduling_user.id as scheduling_user_id', 'team.name as team_name','team.id as team_id','position.name as position_name','users.id as usersid','users.first_name');
+        $query = Position::select('scheduling_user.id as scheduling_user_id', 'team.name as team_name','team.id as team_id','position.id as positionid','position.name as position_name','users.id as usersid','users.first_name');
 
         $query->leftJoin('team_has_position', function($join) {
             $join->on("team_has_position.position_id", "=", "position.id");
@@ -212,6 +212,73 @@ class Position extends Model  {
             }
         }
         $query->groupBy("team_has_position.team_id","team_has_position.position_id");
+        return $query;
+    }
+
+
+    /**
+    * @Function name : loadMemberWithPositions
+    * @Purpose : crud account heads based on  array
+    * @Added by : Sathish
+    * @Added Date : Nov 07, 2018
+    */
+    public static function loadMemberWithPositions($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
+        DB::enableQueryLog();
+        $query = UserMaster::select('scheduling_user.id as scheduling_user_id', 'users.id as usersid','users.first_name','user_has_position.position_id');
+
+        $query->leftJoin('user_has_position', function($join) use($data) {
+            $join->on("user_has_position.user_id", "=", "users.id");
+            if($data['position_id'] != null){
+                //$join->on("user_has_position.position_id", "=", $data["position_id"]);
+                $join->where('user_has_position.position_id', '=', $data["position_id"]);
+            }
+        });
+
+
+        $query->leftJoin('scheduling_user', function($join) {
+            $join->on("scheduling_user.position_id", "=", "user_has_position.position_id");
+            $join->on("scheduling_user.user_id", "=", "users.id");
+        });
+ 
+
+        
+        if($whereArray){
+            $query->where($whereArray);
+        }
+        if($whereInArray){
+            foreach($whereInArray as $key=>$value){
+                $whereInFiltered = array_filter($value);
+                $query->whereIn($key,$whereInFiltered);
+            }
+        }
+        if($whereNotInArray){
+            foreach($whereNotInArray as $key=>$value){
+                $whereNotInFiltered = array_filter($value);
+                $query->whereNotIn($key,$whereNotInFiltered);
+            }
+        }
+        if($whereNotNullArray){
+            foreach($whereNotNullArray as $value){
+                $query->whereNotNull($value);
+            }
+        }
+        if($whereNullArray){
+            foreach($whereNullArray as $value){
+                $query->whereNull($value);
+            }
+        }
+        if($data['groupBy'] != null){
+            $query->groupBy($data['groupBy']);    
+        }
+        
+        if($data['orderBy'] != null){
+            foreach($data['orderBy'] as $key=>$value){
+                //$orderByFiltered = array_filter($value);
+                $query->orderBy($key,$value);
+            }
+        }
+        //dd(DB::getQueryLog($query->get()));
+        
         return $query;
     }
 }

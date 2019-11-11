@@ -26,7 +26,7 @@ class LocationController extends Controller {
 
         $data['title'] = $this->browserTitle . " - Location Management";
 
-        return view('Settings.location.index', $data);
+        return view('settings.location.index', $data);
     }
 
     public function list(Request $request){
@@ -48,7 +48,7 @@ class LocationController extends Controller {
     public function addPage(Request $request){
         $data['title'] = $this->browserTitle . " - Location Management";
 
-        return view('Settings.location.create', $data);
+        return view('settings.location.create', $data);
     }
 
     /**
@@ -97,6 +97,6 @@ class LocationController extends Controller {
 
         $data['location'] = $location;
 
-        return view('Settings.location.create',$data);
+        return view('settings.location.create',$data);
     }
 }

@@ -170,8 +170,60 @@ class PositionController extends Controller
             $whereLPUpdArray = array('team.id' => $team_id,'team.orgId' => $this->orgId);
             $data['loadTeamPositions'] = Position::loadTeamPositions($whereLPUpdArray,null,null,null,null,null)->get();
             //dd($data['loadTeamPositions']->count(),$whereLPUpdArray);
-            $data['testdd'] = "testdata";
+            
+
             return view('settings.schedule.load_team_positions', $data);
+            
+        //     DB::commit();
+        //     return response()->json(['result_code' => 1, 'message' => 'Position Updated Successfully.'], 200);
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     DB::rollback();
+        //     return response()->json(['result_code' => 0, 'message' => "Sorry , Changes not updated. Please try again!!!!!"], 200);//$e->getMessage()
+        //     // something went wrong with the transaction, rollback
+        // } catch (\Exception $e) {
+        //     DB::rollback();
+        //     return response()->json(['result_code' => 0, 'message' => "Sorry , Changes not updated. Please try again!!!!!"], 200);
+        //     return Redirect::back()->withErrors($e->getMessage());
+        // }
+    }
+
+    /**
+     * @Function name : loadMemberWithPositions
+     * @Purpose : Load Team with Position
+     * @Added by : Sathish
+     * @Added Date : Nov 07, 2019
+     */
+    public function loadMemberWithPositions(Request $request)
+    {
+
+        // DB::beginTransaction();
+        // try {
+            $user_pos_id = $request->user_pos_id;
+            $user_team_id = $request->user_team_id;
+            
+            $dataObj['position_id'] = $request->user_pos_id;
+            $dataObj['groupBy'] = array('users.id', 'user_has_position.position_id');
+            $dataObj['orderBy'] = array('user_has_position.position_id'=>'desc');
+
+            $whereLPUpdArray = array('users.orgId' => $this->orgId);
+            $loadMemberWithPositions = $data['loadMemberWithPositions'] = Position::loadMemberWithPositions($whereLPUpdArray,null,null,null,null,$dataObj)->get();
+
+            $html = "";
+
+            $html .= '<select name="" id="" class="form-control selectddmember" style="width: 300px !important;"><option value="">--Select--</option>';
+            if($loadMemberWithPositions->count() > 0){
+                foreach($loadMemberWithPositions as $loadMemberWithPositionsValue){
+                    $html .= '<option value='.$loadMemberWithPositionsValue->usersid.'>'.$loadMemberWithPositionsValue->first_name.'</option>';
+                }
+
+            }
+            $html .= "</select>";
+            return $html;
+            //dd($data['loadMemberWithPositions']->toArray(),$whereLPUpdArray);
+            
+
+            //return view('settings.schedule.load_member_team_positions', $data);
+                
             
         //     DB::commit();
         //     return response()->json(['result_code' => 1, 'message' => 'Position Updated Successfully.'], 200);

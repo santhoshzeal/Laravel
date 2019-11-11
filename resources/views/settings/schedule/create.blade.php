@@ -29,7 +29,7 @@
                                         <div class="form-group row">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Title</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                                                <input class="form-control" type="text" value="" id="example-text-input">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -98,7 +98,16 @@
 
                                         </div>
 
-
+                                        <div class="form-group">
+                                            <div>
+                                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                    Submit
+                                                </button>
+                                                <button type="reset" class="btn btn-secondary waves-effect m-l-5">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div> <!-- end col -->

@@ -767,3 +767,6 @@ COMMIT;
 ALTER TABLE `scheduling_user` CHANGE `service_id` `position_id` BIGINT(22) NULL DEFAULT NULL; 
 
 ALTER TABLE `scheduling_user` ADD `team_id` BIGINT(22) NULL DEFAULT NULL AFTER `scheduling_id`; 
+
+-- Sathish - Ananth forgot  - 10 Nov 2019
+ALTER TABLE `locations` ADD `orgId` BIGINT( 22 ) NULL DEFAULT NULL AFTER `id` ;
