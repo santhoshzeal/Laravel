@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 06, 2019 at 07:18 AM
+-- Generation Time: Nov 11, 2019 at 08:49 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -615,6 +615,34 @@ CREATE TABLE IF NOT EXISTS `household_user` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `locations`
+--
+
+CREATE TABLE IF NOT EXISTS `locations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `name` varchar(250) NOT NULL,
+  `latitude` varchar(100) NOT NULL,
+  `longitude` varchar(100) NOT NULL,
+  `createdBy` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` int(11) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `locations`
+--
+
+INSERT INTO `locations` (`id`, `orgId`, `name`, `latitude`, `longitude`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'Coimbatore', '11', '77', 1, '2019-11-10 12:32:05', NULL, '2019-11-10 12:32:05', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `master_lookup_data`
 --
 
@@ -819,11 +847,13 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('2d29e100b686baa8d92c5c7f10e3aa5b6cc5673dc59c8f052bcfb512c9d1b7b9c3e4751f2f9924da', 9, 1, 'dollar', '[]', 0, '2019-09-02 04:08:44', '2019-09-02 04:08:44', '2020-09-02 09:38:44'),
 ('302072937ee1300a17c3afe68ebeae90195aed4e5b0b1cb22073297aadda5becb67025e9fa511776', 1, 1, 'dollar', '[]', 0, '2019-09-18 09:16:55', '2019-09-18 09:16:55', '2020-09-18 14:46:55'),
 ('3456c9c15b71faa05813f8246f2f64979b4f875d22cd34abcfb66c509cca7fd477050272d351ab0f', 1, 1, 'dollar', '[]', 0, '2019-09-11 09:51:23', '2019-09-11 09:51:23', '2020-09-11 15:21:23'),
+('3795009633228fe374bc7d665db47f565d0978d2e602bc200bd9fa465e41333dfaca410668439550', 1, 1, 'dollar', '[]', 0, '2019-11-11 01:03:32', '2019-11-11 01:03:32', '2020-11-11 06:33:32'),
 ('3e676fe179c1c385fb08d43874b54c11f9ddbdb7b8292e3c180decfae8ccb3a577b096a1a3e31115', 1, 1, 'dollar', '[]', 0, '2019-11-03 11:10:08', '2019-11-03 11:10:08', '2020-11-03 16:40:08'),
 ('402ab601017494b14bc09382e0965ecd1e5e5e351aae8cd067ffb41f057e7f5232c7a9bb37348bc0', 8, 1, 'dollar', '[]', 0, '2019-09-02 04:07:33', '2019-09-02 04:07:33', '2020-09-02 09:37:33'),
 ('455877b653904f9c6048523a34715a018cef4d976c791e5f5cab7dfa5ce0409820ac15e772a3256d', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:53:49', '2019-09-01 23:53:49', '2020-09-02 05:23:49'),
 ('484c2f0d05df45e1762ccde22b02537e3c8f71098ab74f00c6ae2dda9e1a4da5057f56304d748509', 1, 1, 'dollar', '[]', 0, '2019-09-12 08:30:56', '2019-09-12 08:30:56', '2020-09-12 14:00:56'),
 ('52d72709bdb3cb942af56f0c73ec41da9cbfa9a3b58a106c6beb3bdc492f398847ead9ceac5d1832', 1, 1, 'dollar', '[]', 0, '2019-10-14 21:02:24', '2019-10-14 21:02:24', '2020-10-15 02:32:24'),
+('5413b97e87e9f8d5fc3fbfe4b68cc6ff4224ee2c74e68b5d52354a925f95a1be7696926e03ede7be', 1, 1, 'dollar', '[]', 0, '2019-11-10 09:08:31', '2019-11-10 09:08:31', '2020-11-10 14:38:31'),
 ('61acc42444269ef9391f7db16465b2d64bf943855c819290b0508258d970991c2149dfe737bc603e', 1, 1, 'dollar', '[]', 0, '2019-11-01 10:47:14', '2019-11-01 10:47:14', '2020-11-01 16:17:14'),
 ('63d403a69efeb2fccbbdef789856674b321f24aef840036ea3030030f39a602ddc2267adfac9edba', 1, 1, 'dollar', '[]', 0, '2019-09-29 21:44:32', '2019-09-29 21:44:32', '2020-09-30 03:14:32'),
 ('685dbfec990ed843e61c63b17448880dcb4c30d003612ed9122435006d78105d69a0b6ffd1d19ca6', 1, 1, 'dollar', '[]', 0, '2019-09-01 22:52:04', '2019-09-01 22:52:04', '2020-09-02 04:22:04'),
@@ -850,12 +880,15 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('b34efcdfcb37b3353e61a09b96361057120a73507f6316a67b5a3fe538d26ddb0defa980234f05b0', 1, 1, 'dollar', '[]', 0, '2019-10-19 21:40:11', '2019-10-19 21:40:11', '2020-10-20 03:10:11'),
 ('b593a2961f8deeeb1b42f9cc1059cfcc282975180c7d36577a4c7267def7548edb4a689ba9310c23', 1, 1, 'dollar', '[]', 0, '2019-09-29 06:31:56', '2019-09-29 06:31:56', '2020-09-29 12:01:56'),
 ('b5dbec6e13b7712c33b3443d43f2d12bfeea4b550b25f00fc7a5523c92a0790c01cd1ca4bbc25c28', 1, 1, 'dollar', '[]', 0, '2019-09-07 05:42:28', '2019-09-07 05:42:28', '2020-09-07 11:12:28'),
+('b6751dd3e68bd97f2d07773eb62efc593ac555096757953db6fd58dc8b6ca3624fd83db79839078b', 1, 1, 'dollar', '[]', 0, '2019-11-10 12:27:34', '2019-11-10 12:27:34', '2020-11-10 17:57:34'),
+('b7d844c9ea542f12e5f17fd03d8f2327a9b42fe31c1d289c15dadf26b9220421c465c443d26d1301', 1, 1, 'dollar', '[]', 0, '2019-11-09 12:13:09', '2019-11-09 12:13:09', '2020-11-09 17:43:09'),
 ('baefa5b4c70698404089905b8a498da903ef868d0708a4f5c62ab27878725eb6e1798fb5d8f0ae1f', 6, 1, 'dollar', '[]', 0, '2019-09-01 19:57:35', '2019-09-01 19:57:35', '2020-09-02 01:27:35'),
 ('bb86c418163c8e10f073be8612f60e48c490f37205ef83ff05ca6b84c36d2347c09088cd5d231691', 1, 1, 'dollar', '[]', 0, '2019-09-06 22:57:11', '2019-09-06 22:57:11', '2020-09-07 04:27:11'),
 ('bdbee6fbf6413649f5b101a7b75772b71cd19573c4c1d52d6e5f21260d257e134093f5489dba2a25', 1, 1, 'dollar', '[]', 0, '2019-09-27 20:05:43', '2019-09-27 20:05:43', '2020-09-28 01:35:43'),
 ('c0e5a304ed780d2527fc84dd133eccd41f96bb737e7c1ca1fea8b9eb03d801833d58aef76e7ce4db', 1, 1, 'dollar', '[]', 0, '2019-10-19 21:41:27', '2019-10-19 21:41:27', '2020-10-20 03:11:27'),
 ('d3f44601e7033f3c90e3c675e506c167edbea2893cdf5540bb8da8aa0d62a9d947f32e25ad679fb2', 1, 1, 'dollar', '[]', 0, '2019-11-02 01:08:13', '2019-11-02 01:08:13', '2020-11-02 06:38:13'),
 ('d5d68955d2f9f5b8660dd9cbd99713823622eed4cbafe6d3cc9499b4a72d77963315c57e7932bcce', 1, 1, 'dollar', '[]', 0, '2019-10-01 22:43:32', '2019-10-01 22:43:32', '2020-10-02 04:13:32'),
+('dad23036dc7a06ab71c114084d92e86ccef2bdac5d12bb5e0383c8b9e89069dba6e38f2e32a429b9', 1, 1, 'dollar', '[]', 0, '2019-11-07 02:27:24', '2019-11-07 02:27:24', '2020-11-07 07:57:24'),
 ('dc789000eadf2292f372c6932bbe9f21827a0df9f37cbf5c7a182e3a3d2728678deb686b150932f8', 1, 1, 'dollar', '[]', 0, '2019-09-25 08:36:39', '2019-09-25 08:36:39', '2020-09-25 14:06:39'),
 ('e5e5f02df407562e694b845def7471aaa7b947b0d8ab0fec0c21623f86136e0be0e0c37f9b196573', 1, 1, 'dollar', '[]', 0, '2019-10-19 21:40:36', '2019-10-19 21:40:36', '2020-10-20 03:10:36'),
 ('e614d6eed7b1aa2b66a03b38be1f4cc89ccd9db5677adadd04794245fe23a14a8fb2e538d82d189b', 1, 1, 'dollar', '[]', 0, '2019-11-06 00:56:07', '2019-11-06 00:56:07', '2020-11-06 06:26:07'),
@@ -1335,7 +1368,8 @@ CREATE TABLE IF NOT EXISTS `scheduling_user` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
   `orgId` bigint(22) NOT NULL,
   `scheduling_id` bigint(22) NOT NULL,
-  `service_id` bigint(22) DEFAULT NULL,
+  `team_id` bigint(22) DEFAULT NULL,
+  `position_id` bigint(22) DEFAULT NULL,
   `user_id` bigint(22) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Pending, 2=Accepted, 3=Decline',
   `token` varchar(255) DEFAULT NULL,
