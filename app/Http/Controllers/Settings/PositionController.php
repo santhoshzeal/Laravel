@@ -210,7 +210,7 @@ class PositionController extends Controller
 
             $html = "";
 
-            $html .= '<select name="" id="" class="form-control selectddmember" style="width: 300px !important;"><option value="">--Select--</option>';
+            $html .= '<select name="assign_user_id" id="assign_user_id" class="form-control selectddmember" style="width: 300px !important;"><option value="">--Select--</option>';
             if($loadMemberWithPositions->count() > 0){
                 foreach($loadMemberWithPositions as $loadMemberWithPositionsValue){
                     $html .= '<option value='.$loadMemberWithPositionsValue->usersid.'>'.$loadMemberWithPositionsValue->first_name.'</option>';
@@ -237,4 +237,6 @@ class PositionController extends Controller
         //     return Redirect::back()->withErrors($e->getMessage());
         // }
     }
+
+     
 }

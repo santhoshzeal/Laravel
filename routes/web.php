@@ -182,6 +182,10 @@ Route::post("/api/settings/schedule/storeOrUpdateSchedule", "Settings\Schedullin
 Route::get("/settings/schedulling/{schedule_id}", "Settings\SchedullingController@schedullingDetails");
 Route::post("/settings/position/load_schedule_positions", "Settings\PositionController@loadTeamPositions");
 Route::post("/settings/position/load_member_on_ass_schedule", "Settings\PositionController@loadMemberWithPositions");
+Route::post("/settings/position/manual_assign_user_schedule", "Settings\PositionController@manualAssignUserSchdule");
+
+//Route::post("/settings/schedulling/store", "Settings\PositionController@storeOrUpdateSchedule");
+Route::post('/settings/schedulling/store', 'Settings\SchedullingController@storeOrUpdateSchedule')->name('settings.schedulling.store');
 
 //checkin
 Route::get('checkin/{eventId}', 'CheckinController@index');
@@ -206,7 +210,7 @@ Route::get('events/create_page', 'EventsController@createPage');
 Route::post('events/store', 'EventsController@store')->name('events.store');
 Route::post('events/list', 'EventsController@listEvents');
 Route::get('events/edit/{id}', 'EventsController@edit');
-
+Route::get('events/get_events_upon_date/{eventDate}', 'EventsController@getEventsUponDate');
 
 
 Route::post('user_profile_file_upload', 'UserController@userProfileFileUpload');

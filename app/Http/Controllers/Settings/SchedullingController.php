@@ -80,6 +80,21 @@ class SchedullingController extends Controller
         $data['schedule_id'] =  $schedule_id;
         $whereTeamArray=array('orgId'=>$this->orgId);
         $data['team_id'] = Team::selectFromTeam($whereTeamArray)->get();
+
+        $whereUEArray=array('orgId'=>$this->orgId);
+        $eventsData = array();
+        $crudEvents = Events::crudEvents($whereUEArray,null,null,null,null,null,null,'1')->get();
+        //dd($crudEvents);
+        foreach ($crudEvents as $key=>$crudEventsvalue) {
+            if(strtotime($crudEventsvalue->eventCreatedDate) >= strtotime(date('Y-m-d')))
+            {
+                //dd($crudEventsvalue->eventCreatedDate);$key=>
+                $eventsData[] = $crudEventsvalue;
+            }
+            
+        }
+        //dd(count($eventsData));
+        $data['upcoming_events']=$eventsData;
         //dd($data['team_id']->get()->toArray(),$whereTeamArray);
         return view('settings.schedule.create', $data);
     }
@@ -90,7 +105,11 @@ class SchedullingController extends Controller
     }
 
     public function storeOrUpdateSchedule(Request $request){
-        $payload = json_decode(request()->getContent(), true);
+        //$payload = json_decode(request()->getContent(), true);
+        foreach($request->get('position_id_assign') as $posids){
+            echo $posids;
+        }
+        dd($request->all());
         $schedule = null;
         $isNewSchedule = true;
         if(isset($payload['id'])){

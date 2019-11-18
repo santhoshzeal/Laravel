@@ -11,6 +11,7 @@ use App\Models\Rooms;
 use Illuminate\Http\Response;
 use DataTables;
 use Auth;
+use Illuminate\Support\Facades\Session;
 class EventsController extends Controller
 {
 
@@ -18,6 +19,9 @@ class EventsController extends Controller
     {
         $this->middleware('auth');
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
+        $this->userSessionData = Session::get('userSessionData');
+        $this->orgId = $this->userSessionData['umOrgId'];
+        $this->authUserId = $this->userSessionData['umId'];
     }
     public function index()
     {
@@ -181,5 +185,34 @@ class EventsController extends Controller
     public function reportCheckin(Request $request) {
         $data['title'] = $this->browserTitle . " - Report Checkin";
         return view('checkin.report',$data);
+    }
+
+
+    /**
+     * @Function name : getEventsUponDate
+     * @Purpose : getEventsUponDate
+     * @Added by : Sathish
+     * @Added Date : Jun 12, 2019
+     */
+    public function getEventsUponDate($eventDate) {
+        $whereArray = array('eventCreatedDate'=>date('Y-m-d',strtotime($eventDate)),'orgId'=>$this->orgId);
+        //dd($whereArray);
+        $crudEvents = Events::crudEvents($whereArray,null,null,null,null,null,null,'1')->get();
+        //dd($crudEvents->toArray());
+        $html = "<select name='event_id' id='event_id' class='form-control' ><option>--Select--</option>";
+        if($crudEvents->count() > 0){
+            
+            foreach ($crudEvents as $crudEventsvalue) {
+                $html .= "<option value='".$crudEventsvalue->eventId."'>";
+                $html .= $crudEventsvalue->eventName;
+                $html .= "</option>";
+            }
+
+        }
+        $html .= "</select>";
+        return $html;
+        $data['event'] = $crudEvents;
+        
+        return view('events.create_page',$data);
     }
 }

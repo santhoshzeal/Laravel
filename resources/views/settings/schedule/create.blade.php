@@ -4,7 +4,13 @@
 <div style="width:100vw">
     @include('settings.schedule.header')
 
-    
+    <?php
+        $formUrl = "/settings/schedulling/store";
+        $schedule_id = isset(request()->route()->parameters['schedule_id'])? request()->route()->parameters['schedule_id'] : null;
+        if($schedule_id){
+            $formUrl = $formUrl ."/". $schedule_id;
+        }
+    ?>
     <div class="row">
         <div class="col-sm-0 col-md-1 col-lg-2"></div>
         <div class="col-sm-12 col-md-10 col-lg-8 card">
@@ -13,8 +19,11 @@
                 <h5 class="mt-0 pl-3"> {{($schedule_id)? 'Edit' : "Create" }} Schedule</h5>
                 <hr />
                 <div class="row p0 m-0">
-                    <input id="scheduleId" value="{{$schedule_id}}" class="d-none">
-                    <form id="scheduleForm" class="col-sm-12 card p-2">
+                    {!! Form::open(array('id'=>'scheduleForm','name'=>'scheduleForm','method' => 'post', 'url' => $formUrl, 'class' => 'col-sm-12 card p-2','files' => true)) !!}
+                    
+                    <!-- <form method="post" action="{{ route('settings.schedulling.store') }}" name="scheduleForm" id="scheduleForm" enctype="multipart/form-data" class="col-sm-12 card p-2"> -->
+                        <input id="scheduleId" value="{{$schedule_id}}" class="d-none">
+                        
                         <div class="row">
                             <div class="col-12">
                                 <div class="card m-b-30">
@@ -35,17 +44,21 @@
                                         <div class="form-group row">
                                             <label for="example-date-input" class="col-sm-2 col-form-label">Event Date</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" type="date" value="2011-08-19" id="example-date-input">
+                                                <input class="form-control selecteventdate" type="text" value="" id="example-date-input">
                                             </div>
+ 
+
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Select Event</label>
-                                            <div class="col-sm-10">
-                                                <select class="form-control">
-                                                    <option>Select</option>
-                                                    <option>Large select</option>
-                                                    <option>Small select</option>
-                                                </select>
+
+                                            <div class="col-sm-10 load_events" id="load_events">
+                                                
+                                                <select  name='event_id' id='event_id' class='form-control'>
+                                                    <option>--Select--</option>                        
+                                                </select>    
+                                                
+                                                
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -118,7 +131,63 @@
             <!-- </div> -->
         </div>
     </div>
+    
 </div>
 
+    <script type='text/javascript'>
+ /////////
+
+
+
+ /////////
+// An array of highlighting dates ( 'dd-mm-yyyy' )
+
+ 
+$(document).ready(function(){
+ 
+ var today               = new Date();
+        var today_formatted     = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+('0'+today.getDate()).slice(-2);
+        var user_busy_days      = <?php echo json_encode(array_unique((array_column($upcoming_events, 'eventCreatedDate'))));?>;//['2019-11-09','2019-11-16','2019-11-19'];
+
+
+
+        $('.selecteventdate').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            inline: true,
+            sideBySide: true,
+            beforeShowDay: function (date) {
+
+                calender_date = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+('0'+date.getDate()).slice(-2);
+
+                var search_index = $.inArray(calender_date, user_busy_days);
+
+                if (search_index > -1) {
+                    return {classes: 'non-highlighted-cal-dates', tooltip: 'User available on this day.'};
+                }else{
+                    return {classes: 'highlighted-cal-dates', tooltip: 'User not available on this day.'};
+                }
+
+            }
+            //datesDisabled: ['11/20/2019'],
+           // datesEnabled: ['11/22/2019'],
+            
+        }).change(eventDateChanged);;
+
+});
+</script>
+
+<style type="text/css"> 
+.highlighted-cal-dates
+{
+    pointer-events: none; 
+    cursor: default; 
+}
+.non-highlighted-cal-dates
+{
+    background-color: #29f274 !important;
+}
+
+</style>
 <script src="{{ URL:: asset('js/settings/schedule/schedule.js')}}"></script>
 @endsection

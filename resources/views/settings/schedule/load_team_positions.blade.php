@@ -17,7 +17,10 @@
             @foreach($loadTeamPositions as $loadTeamPositionsValues)
                 <tr>
                     <td>{{$loadTeamPositionsValues->position_name}}</td>
-                    <td>{{$loadTeamPositionsValues->first_name}}</td>
+                    <td><span class="position_id_assign_user_class_{{$loadTeamPositionsValues->positionid}}">{{$loadTeamPositionsValues->first_name}}</span>
+                        <input type="text" name="position_id_assign[]" id="position_id_assign" class="position_id_assign_{{$loadTeamPositionsValues->positionid}}" value="{{$loadTeamPositionsValues->positionid}}">
+                        <input type="text" name="position_id_user_id_assign_{{$loadTeamPositionsValues->positionid}}" id="position_id_user_id_assign" class="position_id_assign_user_{{$loadTeamPositionsValues->positionid}}" value="">
+                    </td>
                     <td>
                         <button onclick="javascript:onLoadModalMember({{$loadTeamPositionsValues->team_id}},{{$loadTeamPositionsValues->positionid}});" type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-schedule-assign"><i class='fa fa-pencil-square-o'></i>Assign</button></td>
                 </tr>
@@ -41,12 +44,12 @@
                 <div class="form-group no-bg">
                     <label for="" class="col-sm-10 control-label text_align_right" style="text-align: left !important;">Select Member</label>
                     <div class="col-sm-9">
-                        <input type="hidden" name="hidden_positionID" id="hidden_positionID" value="" />
+                        <input type="text" name="hidden_positionID" id="hidden_positionID" value="" />
                         <div id="loadmemberdropdown_div"></div>
                         
                     </div>
                 </div>
-                <button type="button" class="btn btn-success margin pull-left" id="btnCreatePosition">Save</button>
+                <button type="button" class="btn btn-success margin pull-left" id="btnSaveUserPosition" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-danger margin pull-right" data-dismiss="modal">Cancel</button>
                 <div class="clear"></div>
             </div>
@@ -75,14 +78,44 @@
             // processData: false,
             success: function (data)
             {
+                $("#hidden_positionID").val(posid);
                 $("#loadmemberdropdown_div").html(data);
 
                 $(".selectddmember").select2();
-                $(".selectddmember").val(1).change();
+                $(".selectddmember").val($(".position_id_assign_user_"+posid).val()).change();
             }
 
         }); 
     }
     
+    $("#btnSaveUserPosition").click(function () {
 
+        var assignhidden_positionID = $("#hidden_positionID").val();
+
+        var selectedAssignUser = $("#assign_user_id").children("option:selected").html();
+ 
+        var datastring = "hidden_positionID="+assignhidden_positionID+"&assign_user_id="+$("#assign_user_id").val();
+        //alert(datastring);
+        $(".position_id_assign_user_"+assignhidden_positionID).val($("#assign_user_id").val()).change();
+
+        $(".position_id_assign_user_class_"+assignhidden_positionID).html(selectedAssignUser).change();
+        /*
+        $.ajax({
+            url: siteUrl + '/settings/position/manual_assign_user_schedule',
+            async: true,
+            type: "POST",
+            data: datastring,
+            dataType: "html",
+            // contentType: false,
+            // cache: false,
+            // processData: false,
+            success: function (data)
+            {
+
+                $("#load_positions").html(data);
+            }
+
+        }); 
+        */
+    });
 </script>
