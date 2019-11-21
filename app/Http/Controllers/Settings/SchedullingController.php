@@ -107,9 +107,13 @@ class SchedullingController extends Controller
     public function storeOrUpdateSchedule(Request $request){
         //$payload = json_decode(request()->getContent(), true);
         foreach($request->get('position_id_assign') as $posids){
-            echo $posids;
+
+            $arraySUUpdate = array("orgId"=>$this->orgId,"scheduling_id"=>11,"team_id"=>$request->get('team_id'),"position_id"=>$posids,"user_id"=>$request->get('position_id_user_id_assign_'.$posids),"status"=>1);
+
+            SchedulingUser::updateOrCreate(array("orgId"=>$this->orgId,"scheduling_id"=>11,"team_id"=>$request->get('team_id'),"position_id"=>$posids,"user_id"=>$request->get('position_id_user_id_assign_'.$posids)), $arraySUUpdate);
+            //echo $posids;
         }
-        dd($request->all());
+        dd($arraySUUpdate,$request->all());
         $schedule = null;
         $isNewSchedule = true;
         if(isset($payload['id'])){

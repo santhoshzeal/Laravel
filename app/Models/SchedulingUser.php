@@ -9,8 +9,7 @@ class SchedulingUser extends Model
     protected $table = 'scheduling_user';
     protected $primaryKey = 'id';
     
-    protected $fillable = [  'id', 'orgId', 'scheduling_id', 'user_id', 'status', 'token', 
-                            'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = [  'id', 'orgId', 'scheduling_id', 'team_id', 'position_id', 'user_id', 'status', 'token', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
 
     // Created By Lokesh 25-09-2019
     public function schedule()

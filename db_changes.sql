@@ -770,3 +770,6 @@ ALTER TABLE `scheduling_user` ADD `team_id` BIGINT(22) NULL DEFAULT NULL AFTER `
 
 -- Sathish - Ananth forgot  - 10 Nov 2019
 ALTER TABLE `locations` ADD `orgId` BIGINT( 22 ) NULL DEFAULT NULL AFTER `id` ;
+
+--Sathish 21-Nov 2019
+ALTER TABLE `scheduling_user` CHANGE `user_id` `user_id` BIGINT( 22 ) NULL DEFAULT NULL ;
