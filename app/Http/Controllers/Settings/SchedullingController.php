@@ -96,6 +96,19 @@ class SchedullingController extends Controller
         //dd(count($eventsData));
         $data['upcoming_events']=$eventsData;
         //dd($data['team_id']->get()->toArray(),$whereTeamArray);
+        
+        if($schedule_id){
+            $whereSchArray = array('id'=>$schedule_id);
+            $crudSchedule = Schedule::crudSchedule($whereSchArray,null,null,null,null,null,null,'1')->get();
+            //$data['crudSchedule'] = $crudSchedule;
+            if($crudSchedule->count() > 0){
+                $data['crudSchedule'] = $crudSchedule[0];
+            }else{
+                return redirect('settings/schedulling');
+            }
+            
+        }
+        //dd($data['crudSchedule']->count());
         return view('settings.schedule.create', $data);
     }
 
