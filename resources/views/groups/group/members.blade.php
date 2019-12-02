@@ -7,7 +7,7 @@
             <div class="col-12">
                 <div class="row">
                         <div class="tab-content" id="v-pills-tabContent">
-                                <button class="btn btn-primary float-right"  style="margin-right: 40px" onclick="addMembers()">Add Member</button>
+                                <button class="btn btn-primary float-right"  style="margin-right: 40px" onclick="addMembers({{$groupId}})">Add Member</button>
 
 
                                 <table id="membersTable" class="table table-bordered">
@@ -82,7 +82,8 @@ $(document).ready(function() {
     }
 
 
-function addMembers(){
+function addMembers(grpId){
+
     addMemberDlg = BootstrapDialog.show({
         title:"Add Member",
         size:"size-wide",
@@ -106,6 +107,7 @@ function addMembers(){
 
     setTimeout(function(){
         var groupId = <?= $groupId ?>;
+        $(".groupIdAddMember").val(groupId);
         $('#user_id').autoComplete({
 					resolver: 'custom',
                     minLength:1,

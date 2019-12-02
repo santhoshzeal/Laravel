@@ -18,8 +18,8 @@
                 <tr>
                     <td>{{$loadTeamPositionsValues->position_name}}</td>
                     <td><span class="position_id_assign_user_class_{{$loadTeamPositionsValues->positionid}}">{{$loadTeamPositionsValues->first_name}}</span>
-                        <input type="text" name="position_id_assign[]" id="position_id_assign" class="position_id_assign_{{$loadTeamPositionsValues->positionid}}" value="{{$loadTeamPositionsValues->positionid}}">
-                        <input type="text" name="position_id_user_id_assign_{{$loadTeamPositionsValues->positionid}}" id="position_id_user_id_assign" class="position_id_assign_user_{{$loadTeamPositionsValues->positionid}}" value="">
+                        <input type="hidden" name="position_id_assign[]" id="position_id_assign" class="position_id_assign_{{$loadTeamPositionsValues->positionid}}" value="{{$loadTeamPositionsValues->positionid}}">
+                        <input type="hidden" name="position_id_user_id_assign_{{$loadTeamPositionsValues->positionid}}" id="position_id_user_id_assign" class="position_id_assign_user_{{$loadTeamPositionsValues->positionid}}" value="{{$loadTeamPositionsValues->usersid}}">
                     </td>
                     <td>
                         <button onclick="javascript:onLoadModalMember({{$loadTeamPositionsValues->team_id}},{{$loadTeamPositionsValues->positionid}});" type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal-schedule-assign"><i class='fa fa-pencil-square-o'></i>Assign</button></td>
@@ -44,7 +44,7 @@
                 <div class="form-group no-bg">
                     <label for="" class="col-sm-10 control-label text_align_right" style="text-align: left !important;">Select Member</label>
                     <div class="col-sm-9">
-                        <input type="text" name="hidden_positionID" id="hidden_positionID" value="" />
+                        <input type="hidden" name="hidden_positionID" id="hidden_positionID" value="" />
                         <div id="loadmemberdropdown_div"></div>
                         
                     </div>

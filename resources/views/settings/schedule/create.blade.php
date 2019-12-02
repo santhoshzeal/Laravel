@@ -8,7 +8,7 @@
         $formUrl = "/settings/schedulling/store";
         $schedule_id = isset(request()->route()->parameters['schedule_id'])? request()->route()->parameters['schedule_id'] : null;
         if($schedule_id){
-            $formUrl = $formUrl ."/". $schedule_id;
+            //$formUrl = $formUrl ."/". $schedule_id;
         }
     ?>
     <div class="row">
@@ -22,7 +22,7 @@
                     {!! Form::open(array('id'=>'scheduleForm','name'=>'scheduleForm','method' => 'post', 'url' => $formUrl, 'class' => 'col-sm-12 card p-2','files' => true)) !!}
                     
                     <!-- <form method="post" action="{{ route('settings.schedulling.store') }}" name="scheduleForm" id="scheduleForm" enctype="multipart/form-data" class="col-sm-12 card p-2"> -->
-                        <input id="scheduleId" value="{{$schedule_id}}" class="d-none">
+                        <input type="text" id="scheduleId" name="scheduleId" value="{{$schedule_id}}" class="d-none">
                         
                         <div class="row">
                             <div class="col-12">
@@ -44,7 +44,9 @@
                                         <div class="form-group row">
                                             <label for="example-date-input" class="col-sm-2 col-form-label">Event Date</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control selecteventdate" type="text" value="" id="example-date-input">
+                                                <input class="form-control selecteventdate" type="text" value="{{ old('event_date', isset($crudSchedule) ? $crudSchedule->event_date : '') }}" name="event_date" id="example-date-input">
+
+                                                <input class="form-control" type="hidden" value="{{ old('event_id_hidden', isset($crudSchedule) ? $crudSchedule->event_id : '') }}" name="event_id_hidden" id="event_id_hidden">
                                             </div>
  
 
@@ -64,12 +66,12 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Notification Flag</label>
                                             <div class="col-sm-10">
-                                                <select class="form-control">
+                                                <select class="form-control" name="notification_flag" id="notification_flag">
                                                     <option>Select</option>
-                                                    <option value="1">None</option>
-                                                    <option value="2">SMS</option>
-                                                    <option value="3">Email</option>
-                                                    <option value="4">Both</option>
+                                                    <option value="1" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='1')?'selected':'':'' ?>>None</option>
+                                                    <option value="2" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='2')?'selected':'':'' ?>>SMS</option>
+                                                    <option value="3" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='3')?'selected':'':'' ?>>Email</option>
+                                                    <option value="4" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='4')?'selected':'':'' ?>>Both</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -81,7 +83,7 @@
                                                     <option value="">--Select-</option>
                                                     @foreach($team_id as $value)
                                                     
-                                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                                    <option <?= isset($crudSchedule)?($crudSchedule->team_id==$value->id)?'selected':'':'' ?> value="{{$value->id}}">{{$value->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -89,15 +91,16 @@
                                         <div class="form-group row">
                                             <label for="example-url-input" class="col-sm-2 col-form-label">Assign Type</label>
                                             <div class="col-sm-10">
+                                                
                                                 <div>
                                                     <!--class="btn-group btn-group-toggle" data-toggle="buttons"-->
                                                     <!-- <label class="btn btn-info  active"> -->
                                                     <label>
-                                                        <input type="radio" name="is_manual_schedule" id="is_manual_schedule" autocomplete="off" checked value="2"> Manual
+                                                        <input type="radio" name="is_manual_schedule" id="is_manual_schedule" autocomplete="off"  value="2" <?= isset($crudSchedule)?($crudSchedule->is_manual_schedule=="2")?'checked':'':'' ?>> Manual
                                                     </label>
                                                     <!-- <label class="btn btn-info "> -->
                                                     <label>
-                                                        <input type="radio" name="is_manual_schedule" id="is_manual_schedule" autocomplete="off" value="1"> Auto
+                                                        <input type="radio" name="is_manual_schedule" id="is_manual_schedule" autocomplete="off" value="1" <?= isset($crudSchedule)?($crudSchedule->is_manual_schedule=="1")?'checked':'':'' ?>> Auto
                                                     </label>
 
                                                     <button style="margin-left:50px;" type="button" class="btn btn-warning btnAssignFlag" id="btnAssignFlag" <i class="fa fa-check"></i> Assign</button>
@@ -141,11 +144,28 @@
 
  /////////
 // An array of highlighting dates ( 'dd-mm-yyyy' )
+setTimeout(function(){ 
 
- 
+    var selecteventdate = $(".selecteventdate").val();
+    //alert(selecteventdate);
+    if(selecteventdate){
+        //alert(selecteventdate);
+        //$('.selecteventdate').datepicker().change(eventDateChanged);
+        //$('.selecteventdate').datepicker().click();
+        $(".selecteventdate").datepicker("setDate", "<?php echo isset($crudSchedule) ? $crudSchedule->event_date : '';?>").change(eventDateChanged);
+
+        //call team dropdown
+        $('#btnAssignFlag').trigger('click');
+
+    }
+}, 1000);
+
+  
+
 $(document).ready(function(){
  
- var today               = new Date();
+      
+        var today               = new Date();
         var today_formatted     = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+('0'+today.getDate()).slice(-2);
         var user_busy_days      = <?php echo json_encode(array_unique((array_column($upcoming_events, 'eventCreatedDate'))));?>;//['2019-11-09','2019-11-16','2019-11-19'];
 
@@ -172,7 +192,9 @@ $(document).ready(function(){
             //datesDisabled: ['11/20/2019'],
            // datesEnabled: ['11/22/2019'],
             
-        }).change(eventDateChanged);;
+        }).change(eventDateChanged);
+
+    
 
 });
 </script>

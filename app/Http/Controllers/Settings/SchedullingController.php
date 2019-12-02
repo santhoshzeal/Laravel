@@ -118,36 +118,40 @@ class SchedullingController extends Controller
     }
 
     public function storeOrUpdateSchedule(Request $request){
-        //$payload = json_decode(request()->getContent(), true);
-        foreach($request->get('position_id_assign') as $posids){
-
-            $arraySUUpdate = array("orgId"=>$this->orgId,"scheduling_id"=>11,"team_id"=>$request->get('team_id'),"position_id"=>$posids,"user_id"=>$request->get('position_id_user_id_assign_'.$posids),"status"=>1);
-
-            SchedulingUser::updateOrCreate(array("orgId"=>$this->orgId,"scheduling_id"=>11,"team_id"=>$request->get('team_id'),"position_id"=>$posids,"user_id"=>$request->get('position_id_user_id_assign_'.$posids)), $arraySUUpdate);
-            //echo $posids;
-        }
-        dd($arraySUUpdate,$request->all());
+        $payload = $request->all();
+        //dd($payload);
+        //dd($arraySUUpdate,$request->all());
         $schedule = null;
         $isNewSchedule = true;
-        if(isset($payload['id'])){
-            $schedule = Schedule::where("id", $payload["id"])->first();
+        if(isset($payload['scheduleId'])){
+            $schedule = Schedule::where("id", $payload["scheduleId"])->first();
             $isNewSchedule = false;
         }else{
             $schedule = new Schedule();
             $schedule->orgId = $this->orgId;
-        }
-        if($payload["building_block"] == ""){ 
-            $payload["building_block"] = 99999999;
-        }
+        } 
+        //dd($schedule);
         // return $payload;
-        $fields = ['title', 'date', 'time', 'event_id', 'location_id', 'building_block', 'type_of_volunteer', 'checker_count', 'is_manual_schedule', 'notification_flag'];
+        $fields = ['title', 'event_id', 'is_manual_schedule', 'notification_flag', 'team_id', 'event_date'];
         foreach($fields as $field){
             $schedule[$field] = $payload[$field];
         }
-        $schedule->assign_ids = serialize($payload["assign_ids"]);
+        //dd($schedule);
+        //$schedule->assign_ids = serialize($payload["assign_ids"]);
         $schedule->save();
+        if($request->get('position_id_assign') != null || $request->get('position_id_assign') != ""){
+            foreach($request->get('position_id_assign') as $posids){
 
-        $this->generateCommunication($this->orgId, $this->authUserId, $payload["assign_ids"], $schedule, $isNewSchedule);
+                $arraySUUpdate = array("orgId"=>$this->orgId,"scheduling_id"=>$schedule->id,"team_id"=>$request->get('team_id'),"position_id"=>$posids,"user_id"=>$request->get('position_id_user_id_assign_'.$posids),"status"=>1);
+
+                SchedulingUser::updateOrCreate(array("orgId"=>$this->orgId,"scheduling_id"=>$schedule->id,"team_id"=>$request->get('team_id'),"position_id"=>$posids), $arraySUUpdate);
+                //echo $posids;,"user_id"=>$request->get('position_id_user_id_assign_'.$posids)
+            }    
+        }
+        
+
+        //$this->generateCommunication($this->orgId, $this->authUserId, $payload["assign_ids"], $schedule, $isNewSchedule);
+        return redirect('settings/schedulling/');
         return ["message"=> "Schedule has been successfully stored or updated"];
     }
 

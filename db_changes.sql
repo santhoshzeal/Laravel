@@ -773,3 +773,6 @@ ALTER TABLE `locations` ADD `orgId` BIGINT( 22 ) NULL DEFAULT NULL AFTER `id` ;
 
 --Sathish 21-Nov 2019
 ALTER TABLE `scheduling_user` CHANGE `user_id` `user_id` BIGINT( 22 ) NULL DEFAULT NULL ;
+
+--Sathish 01-Dec-2019
+ALTER TABLE `scheduling` ADD `event_date` DATE NULL DEFAULT NULL AFTER `orgId` ;

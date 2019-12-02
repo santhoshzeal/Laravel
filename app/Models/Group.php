@@ -117,7 +117,7 @@ class Group extends Model
 
 
     public static function getUserListForAutocomplete($search, $groupId = "") {
-        $user = UserMaster::select('users.id', 'users.first_name', 'users.last_name')
+        $user = UserMaster::select('users.id', 'users.first_name', 'users.last_name','group_members.group_id as user_grp_id')
                 ->addSelect("group_members.id as group_members_id")
                 ->leftJoin("group_members", "group_members.user_id", '=', "users.id")
                 ->where(function($query)use($search) {

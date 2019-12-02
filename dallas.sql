@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2019 at 09:33 AM
+-- Generation Time: Dec 02, 2019 at 08:16 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `events`
@@ -232,7 +232,10 @@ INSERT INTO `events` (`eventId`, `orgId`, `eventName`, `eventFreq`, `eventDesc`,
 (1, 1, 'Fiest', 'Daily', 'asdad asdsasdas adad', '2019-09-07', NULL, '08:00:00', '14:00:00', '15:00:00', 'locaion1', NULL, NULL, '1', '2019-09-05 20:17:23', NULL, '2019-09-05 20:17:23', NULL, NULL),
 (2, 1, 'Masson', 'Daily', 'Masson', '2019-11-20', NULL, '11:00:00', '11:00:00', '12:00:00', '1', 1, NULL, '1', '2019-11-17 14:51:41', NULL, '2019-11-17 14:51:41', NULL, NULL),
 (3, 1, 'Regel', 'Daily', 'Regel', '2019-11-26', NULL, '07:00:00', '13:00:00', '18:00:00', '1', NULL, NULL, '1', '2019-11-17 15:43:06', NULL, '2019-11-17 15:43:06', NULL, NULL),
-(4, 1, 'Maran', 'Daily', 'Maran', '2019-11-20', NULL, '06:00:00', '11:00:00', '14:00:00', '1', NULL, NULL, '1', '2019-11-17 16:17:41', NULL, '2019-11-17 16:17:41', NULL, NULL);
+(4, 1, 'Maran', 'Daily', 'Maran', '2019-11-20', NULL, '06:00:00', '11:00:00', '14:00:00', '1', NULL, NULL, '1', '2019-11-17 16:17:41', NULL, '2019-11-17 16:17:41', NULL, NULL),
+(5, 1, 'Dec 10 Event', 'Daily', 'Dec 10 Event desc', '2019-12-10', NULL, '06:00:00', '10:00:00', '12:00:00', '1', 1, NULL, '1', '2019-12-01 01:15:15', NULL, '2019-12-01 01:15:15', NULL, NULL),
+(6, 1, 'Dec 15 Event', 'Daily', 'Dec 15 Event desc', '2019-12-15', NULL, '09:00:00', '16:00:00', '20:00:00', '1', 1, NULL, '1', '2019-12-01 01:16:10', NULL, '2019-12-01 01:16:10', NULL, NULL),
+(7, 1, 'Dec 10 Event Sec 2', 'Daily', 'Dec 10 Event Sec 2 descc', '2019-12-10', NULL, '04:00:00', '07:00:00', '10:00:00', '1', 1, NULL, '1', '2019-12-01 13:58:01', NULL, '2019-12-01 13:58:01', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -337,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `groups`
@@ -357,7 +360,8 @@ INSERT INTO `groups` (`id`, `orgId`, `groupType_id`, `name`, `description`, `not
 (11, 1, 1, 'ten', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (12, 1, 1, 'eleven', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (13, 1, 1, 'tweleve', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(14, 1, 1, 'thirteen', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL);
+(14, 1, 1, 'thirteen', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(15, 1, 3, 'Chennai Heavy Rain Dec1', NULL, NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-02 00:40:41', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -467,14 +471,16 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `group_members`
 --
 
 INSERT INTO `group_members` (`id`, `orgId`, `group_id`, `isUser`, `user_id`, `role`, `email`, `first_name`, `middle_name`, `last_name`, `full_name`, `mobile_no`, `message`, `member_since`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 1, 1, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-10-15 02:36:31', '1', '2019-10-14 21:06:31', NULL, '2019-10-14 21:06:31', NULL, NULL);
+(6, 1, 15, 1, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 01:58:49', '1', '2019-12-02 01:58:49', NULL, '2019-12-02 01:58:49', NULL, NULL),
+(7, 1, 15, 1, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 02:41:15', '1', '2019-12-02 02:41:15', NULL, '2019-12-02 02:41:15', NULL, NULL),
+(8, 1, 14, 1, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 02:44:32', '1', '2019-12-02 02:44:32', NULL, '2019-12-02 02:44:32', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -565,15 +571,16 @@ CREATE TABLE IF NOT EXISTS `group_types` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `group_types`
 --
 
 INSERT INTO `group_types` (`id`, `orgId`, `name`, `description`, `isPublic`, `d_isPublic`, `d_meeting_schedule`, `d_description`, `d_location`, `d_contact_email`, `d_visible_leaders_fields`, `d_visible_members_fields`, `d_is_enroll_autoClose`, `d_enroll_autoClose_on`, `d_is_enroll_autoClose_count`, `d_enroll_autoClose_count`, `d_is_enroll_notify_count`, `d_enroll_notify_count`, `d_can_leaders_search_people`, `d_is_event_public`, `d_is_event_remind`, `d_event_remind_before`, `d_can_leaders_take_attendance`, `d_enroll_status`, `d_enroll_msg`, `d_leader_visibility_publicly`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'Small groups', NULL, 1, 1, 'my meeting desc is here schedule', 'i all', '2222', 'asd@asda.com', '["name","phone"]', '["photo","email"]', 1, '1970-01-01', 1, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', '1', '2019-09-29 06:35:48', NULL, NULL),
-(2, 1, 'Unique', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', NULL, '2019-09-15 08:19:10', NULL, NULL);
+(1, 1, 'Small groups', NULL, 1, 1, 'my meeting desc is here schedule', 'i all', '1', 'asd@asda.com', '["name","phone"]', '["photo","email"]', 1, '1970-01-01', 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', '1', '2019-12-02 00:38:17', NULL, NULL),
+(2, 1, 'Unique', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', NULL, '2019-09-15 08:19:10', NULL, NULL),
+(3, 1, 'Chennai Grp', 'Chennai Grp desc', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-12-02 00:38:57', NULL, '2019-12-02 00:38:57', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -634,14 +641,15 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `deletedBy` int(11) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `locations`
 --
 
 INSERT INTO `locations` (`id`, `orgId`, `name`, `latitude`, `longitude`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'Coimbatore', '11', '77', 1, '2019-11-10 12:32:05', NULL, '2019-11-10 12:32:05', NULL, NULL);
+(1, 1, 'Coimbatore', '11', '77', 1, '2019-11-10 12:32:05', NULL, '2019-11-10 12:32:05', NULL, NULL),
+(2, 1, 'Chennai', '11', '22', 1, '2019-12-02 00:36:27', NULL, '2019-12-02 00:36:27', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -845,6 +853,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('16339df9f48f5305d4efca4a4a013ea82dfaf0e1e669c48744b0918fe9049da5e09835e4ae5ba60e', 1, 1, 'dollar', '[]', 0, '2019-09-12 18:39:41', '2019-09-12 18:39:41', '2020-09-13 00:09:41'),
 ('17dd8bbcecc3613454cc8b67f84c85d92cb1794fb88355a7c6a5af98b7f68c407208862ba2fd24e8', 1, 1, 'dollar', '[]', 0, '2019-10-19 18:48:41', '2019-10-19 18:48:41', '2020-10-20 00:18:41'),
 ('19272c2e52d3f4bf9c452415fef1cc3e2a23e3ddf2bb36eb4955393b6b5399abe289bec13b157272', 1, 1, 'dollar', '[]', 0, '2019-08-24 20:14:52', '2019-08-24 20:14:52', '2020-08-25 01:44:52'),
+('1f8f931bb955fb6edba1dd8085892816a7d94a3cb260bb6771b77744915373e1005c47c536aca82a', 1, 1, 'dollar', '[]', 0, '2019-12-01 13:02:14', '2019-12-01 13:02:14', '2020-12-01 18:32:14'),
 ('241bfe2b193c90a379e011ed6c1389ffa45e69debf4ebae8c6451cdde610c1408b9b5ce6d675e21e', 1, 1, 'dollar', '[]', 0, '2019-11-02 11:16:29', '2019-11-02 11:16:29', '2020-11-02 16:46:29'),
 ('283d82cd1c526e52825dbf5ce6900872d84645596ba30c7abb3fbe010deb4472f17b53086b3f477a', 1, 1, 'dollar', '[]', 0, '2019-10-28 20:24:01', '2019-10-28 20:24:01', '2020-10-29 01:54:01'),
 ('2b5b2a114f5619b35b7f0081d83352923291545401dd5edec4fd599456d4fd5b28adc8b56ffab822', 1, 1, 'dollar', '[]', 0, '2019-11-03 15:44:27', '2019-11-03 15:44:27', '2020-11-03 21:14:27'),
@@ -876,6 +885,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('7f54116e712f21763e76a4e50ef9b71f18e9c8bcac89fca76e38e2864ae38faee204dda6971d4bf6', 1, 1, 'dollar', '[]', 0, '2019-11-16 13:46:31', '2019-11-16 13:46:31', '2020-11-16 19:16:31'),
 ('8407ae545b6bf07952355ec3447c6a80208c6e8b09a7637f7bf5f4ddb6c9dcb99ce3d1fa4050098a', 1, 1, 'dollar', '[]', 0, '2019-08-24 22:05:54', '2019-08-24 22:05:54', '2020-08-25 03:35:54'),
 ('8ec2222cbf759e82025013ff99f3357db0ee7c087e8cfadcfa4cffb684c0f3eb4b47491b8331722f', 1, 1, 'dollar', '[]', 0, '2019-09-15 08:03:24', '2019-09-15 08:03:24', '2020-09-15 13:33:24'),
+('90b0cf280b5b6a0da5ea420615dcb6146aa868cb2914e4771a960173f6c609902ace470ad12a3936', 1, 1, 'dollar', '[]', 0, '2019-11-24 04:35:34', '2019-11-24 04:35:34', '2020-11-24 10:05:34'),
 ('94bf3108327fb1a09f2193a0854c5294392373407c6290d0c9077d36fa367452c87795cee0b2d64f', 1, 1, 'dollar', '[]', 0, '2019-09-02 01:59:19', '2019-09-02 01:59:19', '2020-09-02 07:29:19'),
 ('97f521aec71958cbccecb51177a68f785b3186d69da5f9e8c58d67b83f0d87835a8859113d70e0c9', 1, 1, 'dollar', '[]', 0, '2019-09-18 10:33:46', '2019-09-18 10:33:46', '2020-09-18 16:03:46'),
 ('9dba0135ebb9641494e1d97e59f4354e3c1d5b07f1d7590f8f583c43b822dbb715d93af07e50dd60', 1, 1, 'dollar', '[]', 0, '2019-09-28 09:57:11', '2019-09-28 09:57:11', '2020-09-28 15:27:11'),
@@ -897,6 +907,8 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('bb86c418163c8e10f073be8612f60e48c490f37205ef83ff05ca6b84c36d2347c09088cd5d231691', 1, 1, 'dollar', '[]', 0, '2019-09-06 22:57:11', '2019-09-06 22:57:11', '2020-09-07 04:27:11'),
 ('bdbee6fbf6413649f5b101a7b75772b71cd19573c4c1d52d6e5f21260d257e134093f5489dba2a25', 1, 1, 'dollar', '[]', 0, '2019-09-27 20:05:43', '2019-09-27 20:05:43', '2020-09-28 01:35:43'),
 ('c0e5a304ed780d2527fc84dd133eccd41f96bb737e7c1ca1fea8b9eb03d801833d58aef76e7ce4db', 1, 1, 'dollar', '[]', 0, '2019-10-19 21:41:27', '2019-10-19 21:41:27', '2020-10-20 03:11:27'),
+('c37891b4cc879992449c031bf0278da0d794354361adfd56a987800d04fe784a2b960f343cce41e7', 1, 1, 'dollar', '[]', 0, '2019-12-01 23:58:22', '2019-12-01 23:58:22', '2020-12-02 05:28:22'),
+('cc2bce10f5c988042e1f18862a7bb4d145d5561d705cc025ab519d14ea4dc3e46f72a1755cff87a0', 1, 1, 'dollar', '[]', 0, '2019-12-01 01:11:16', '2019-12-01 01:11:16', '2020-12-01 06:41:16'),
 ('d3f44601e7033f3c90e3c675e506c167edbea2893cdf5540bb8da8aa0d62a9d947f32e25ad679fb2', 1, 1, 'dollar', '[]', 0, '2019-11-02 01:08:13', '2019-11-02 01:08:13', '2020-11-02 06:38:13'),
 ('d5d68955d2f9f5b8660dd9cbd99713823622eed4cbafe6d3cc9499b4a72d77963315c57e7932bcce', 1, 1, 'dollar', '[]', 0, '2019-10-01 22:43:32', '2019-10-01 22:43:32', '2020-10-02 04:13:32'),
 ('dad23036dc7a06ab71c114084d92e86ccef2bdac5d12bb5e0383c8b9e89069dba6e38f2e32a429b9', 1, 1, 'dollar', '[]', 0, '2019-11-07 02:27:24', '2019-11-07 02:27:24', '2020-11-07 07:57:24'),
@@ -1348,6 +1360,7 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
   `id` bigint(22) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `orgId` bigint(22) NOT NULL,
+  `event_date` date DEFAULT NULL,
   `event_id` bigint(22) DEFAULT NULL,
   `is_manual_schedule` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1=Auto scheduling, 2=Manual Scheduling',
   `assign_ids` text,
@@ -1366,8 +1379,8 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
 -- Dumping data for table `scheduling`
 --
 
-INSERT INTO `scheduling` (`id`, `title`, `orgId`, `event_id`, `is_manual_schedule`, `assign_ids`, `notification_flag`, `team_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 'aturday Sch', 1, 1, 2, 'a:1:{i:0;i:1;}', 4, NULL, NULL, '2019-09-27 20:07:02', NULL, '2019-09-27 20:07:02', NULL, NULL);
+INSERT INTO `scheduling` (`id`, `title`, `orgId`, `event_date`, `event_id`, `is_manual_schedule`, `assign_ids`, `notification_flag`, `team_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 'Sathish gtgt', 1, '2019-12-10', 5, 2, NULL, 2, 7, NULL, '2019-12-01 02:45:22', NULL, '2019-12-02 00:10:50', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1391,15 +1404,16 @@ CREATE TABLE IF NOT EXISTS `scheduling_user` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `scheduling_user`
 --
 
 INSERT INTO `scheduling_user` (`id`, `orgId`, `scheduling_id`, `team_id`, `position_id`, `user_id`, `status`, `token`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 11, 6, 2, 2, 1, NULL, NULL, '2019-11-21 01:51:41', NULL, '2019-11-21 01:51:41', NULL, NULL),
-(2, 1, 11, 6, 4, NULL, 1, NULL, NULL, '2019-11-21 01:52:26', NULL, '2019-11-21 01:52:26', NULL, NULL);
+(1, 1, 1, 7, 3, NULL, 1, NULL, NULL, '2019-12-02 00:12:12', NULL, '2019-12-02 00:19:15', NULL, NULL),
+(2, 1, 1, 7, 4, 2, 1, NULL, NULL, '2019-12-02 00:12:12', NULL, '2019-12-02 00:18:59', NULL, NULL),
+(3, 1, 1, 7, 5, 1, 1, NULL, NULL, '2019-12-02 00:12:12', NULL, '2019-12-02 00:18:59', NULL, NULL);
 
 -- --------------------------------------------------------
 

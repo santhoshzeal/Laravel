@@ -9,9 +9,7 @@ class Schedule extends Model
     protected $table = 'scheduling';
     protected $primaryKey = 'id';
 
-    protected $fillable = [  'id', 'orgId', 'title', 'event_id',
-                        'assign_ids',
-                        'notification_flag', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['id', 'title', 'orgId', 'event_date', 'event_id', 'is_manual_schedule', 'assign_ids', 'notification_flag', 'team_id', 'createdBy', 'created_at', 'updatedBy'];
 
     // Created By Lokesh 19-09-2019
     public function event()

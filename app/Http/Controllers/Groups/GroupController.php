@@ -166,7 +166,7 @@ class GroupController extends Controller
     public function addMembers(Request $request){
 
         $data['title'] = $this->browserTitle . " - Groups List";
-        $data['groupId'] = 1;
+        // $data['groupId'] = 1;
         return view('groups.group.add_members', $data);
     }
 

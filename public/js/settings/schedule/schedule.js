@@ -32,7 +32,6 @@ $("#btnAssignFlag").click(function () {
 function eventDateChanged(ev) {
 
     //alert("selecteventdate2"+ev.target.value);
-
     var datastring = "event_date="+ev.target.value;
     //alert(datastring+"--"+siteUrl);
     $.ajax({
@@ -49,6 +48,8 @@ function eventDateChanged(ev) {
             //alert("s");
             console.log(data);
             $("#load_events").html(data);
+
+            $("#event_id").val($("#event_id_hidden").val()).change();
         }
 
     }); 
