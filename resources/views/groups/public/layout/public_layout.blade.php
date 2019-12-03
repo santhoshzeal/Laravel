@@ -20,7 +20,7 @@
         <input type="text" class="d-none" id="orgObj" data-org="{{$org}}">
         <div class="container-fluid d-flex justify-content-center bg-light" style="min-height:80vh">
             <div class="row p-4 bg-white" >
-                <div class="col-sm-12 col-md-6" style="min-width:60vw;">
+                <div class="col-sm-12 " style="min-width:60vw;">
                     @yield("content")
                 </div>
             </div>

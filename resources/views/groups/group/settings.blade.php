@@ -220,7 +220,7 @@
                                                    </div> <!-- end col -->
                                                </div>
                                             <input type="hidden" name="groupId" value="{{$groupId}}" />
-                                <input type="submit" class="btn btn-primary" id="formSubmitBtn" style="display: block;" />
+                                <input type="submit" value="Save" class="btn btn-primary" id="formSubmitBtn" style="display: block;" />
                                </form>
 
                                <form style="display: none" method="post" action="{{ route('group_settings.image.store') }}" class="d_form" name="group_settings_image_form" id="group_settings_image_form" enctype="multipart/form-data">

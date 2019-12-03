@@ -30,7 +30,6 @@ class PublicController extends Controller
                 $data['title'] = $this->browserTitle . " - Groups List";
                 $data['gType'] = "all";
             }
-            //dd($data);
             return view("groups.public.groups_list", $data);
         }else {
             abort(404, 'Organization not present.');

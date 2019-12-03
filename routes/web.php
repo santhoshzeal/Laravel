@@ -301,8 +301,10 @@ Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEven
 
 
 //Groups publishing publicly
-Route::get("/{orgDomain}/hosting/groups/{group_type?}", "Groups\PublicController@getGroupsListTemplate");
-Route::post("/api/hosting/groups/typesList", "Groups\PublicController@getGroupsLists");
+//OLD Route::get("/{orgDomain}/hosting/groups/{group_type?}", "Groups\PublicController@getGroupsListTemplate");
+//OLD Route::post("/api/hosting/groups/typesList", "Groups\PublicController@getGroupsLists");
+Route::get("/{orgDomain}/groups", "Groups\PublicController@getGroupsListTemplate");
+
 
 //Positions
 Route::get("/settings/position", "Settings\PositionController@positionIndex")->name('position.list');
