@@ -40,4 +40,17 @@ class GroupType extends Model
 
         return $result;
     }
+	
+	/**
+     * @Function name : selectFromGroupType
+     * @Purpose : Select from GroupType data based on where array
+     * @Added by : Santhosh
+     * @Added Date : Dec 03, 2019
+     */
+    public static function selectFromGroupType($whereArray) {
+        $query = GroupType::where($whereArray);
+        return $query;
+    }
+
+
 }

@@ -130,4 +130,67 @@ class Group extends Model
                 ->get();
         return $user;
     }
+	
+	
+	/**
+     * @Function name : selectFromGroup
+     * @Purpose : Select from Group data based on where array
+     * @Added by : Santhosh
+     * @Added Date : Dec 03, 2019
+     */
+    public static function selectFromGroup($whereArray) {
+		
+		//DB::enableQueryLog();
+		
+        $query = Group::where($whereArray);
+        
+		//dd(DB::getQueryLog($query->get())); 
+		
+		return $query;
+    }
+	
+	
+	/**
+    * @Function name : crudGroup
+    * @Purpose : crud account heads based on  array
+    * @Added by : Santhosh
+     * @Added Date : Dec 03, 2019
+    */
+    public static function crudGroup($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null) {
+		
+		//DB::enableQueryLog();
+		
+        $query = Group::query();
+        if($whereArray){
+            $query->where($whereArray);
+        }
+        if($whereInArray){
+            foreach($whereInArray as $key=>$value){
+                $whereInFiltered = array_filter($value);
+                $query->whereIn($key,$whereInFiltered);
+            }
+        }
+        if($whereNotInArray){
+            foreach($whereNotInArray as $key=>$value){
+                $whereNotInFiltered = array_filter($value);
+                $query->whereNotIn($key,$whereNotInFiltered);
+            }
+        }
+        if($whereNotNullArray){
+            foreach($whereNotNullArray as $value){
+                $query->whereNotNull($value);
+            }
+        }
+        if($whereNullArray){
+            foreach($whereNullArray as $value){
+                $query->whereNull($value);
+            }
+        }
+
+        //dd(DB::getQueryLog($query->get()));
+		
+        return $query;
+    }
+	
+	
 }

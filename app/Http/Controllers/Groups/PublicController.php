@@ -9,6 +9,7 @@ use Config;
 
 use App\Models\Organization;
 use App\Models\GroupType;
+use App\Models\Group;
 use App\Models\TagGroup;
 
 class PublicController extends Controller
@@ -30,7 +31,22 @@ class PublicController extends Controller
                 $data['title'] = $this->browserTitle . " - Groups List";
                 $data['gType'] = "all";
             }
-            //dd($data);
+            
+			$whereArray = array();			
+			$data['group_types'] = GroupType::selectFromGroupType($whereArray,null,null,null,null,null,null,'1')->get();
+			
+			
+			if (\Request::route('orgDomain')) {
+				
+            $data['org'] = \Request::route('orgDomain');
+        } else {
+			
+            $data['org'] =  \Request::segment(3);
+        }	
+		
+			//dd($data);
+			//dd($data['group_types']);
+			
             return view("groups.public.groups_list", $data);
         }else {
             abort(404, 'Organization not present.');
@@ -60,4 +76,36 @@ class PublicController extends Controller
                                     }])->orderBy('order')->get();
         return $resData;
     }
+	
+	
+	public function getAllGroups(Request $request) {
+		
+        $data['title'] = $this->browserTitle." - Groups List";
+        
+		
+		if (\Request::route('orgDomain')) {
+            $data['org'] = \Request::route('orgDomain');
+        } else {
+            $data['org'] = \Request::segment(3);
+        }
+		
+		//dd($data['domain']);
+		//dd($request->segment(4));
+		
+		$group_id = $request->segment(4);
+		
+        $whereArray = array('groups.groupType_id' => $group_id);	
+		
+	    $data['list_all_group_types'] = Group::selectFromGroup($whereArray,null,null,null,null,null,null,'1')->get();
+	    //$data['list_all_group_types'] = Group::crudGroup($whereArray,null,null,null,null,'1')->get();
+		
+		//print_r($data['list_all_group_types']);
+		//dd($data['list_all_group_types']);
+        
+        return view('groups.public.groups_list_all',$data);
+    }
+	
+	
+	
+	
 }
