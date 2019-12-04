@@ -114,6 +114,7 @@
 
 @include('popup.household')
 
+@include('popup.modal_popup_member')
 
 <script type="text/javascript">
     $uploadCrop = $('#upload-demo').croppie({
