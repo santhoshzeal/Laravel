@@ -57,4 +57,47 @@ class GroupEvent extends Model
         //$result->where('group_events.orgId', '=', Auth::user()->orgId)->get();
         return $result->get();
     }
+
+
+    /**
+    * @Function name : crudGroupEvent
+    * @Purpose : crud account heads based on  array
+    * @Added by : Santhosh
+     * @Added Date : Dec 04, 2019
+    */
+    public static function crudGroupEvent($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null) {
+		
+		//DB::enableQueryLog();
+		
+        $query = GroupEvent::query();
+        if($whereArray){
+            $query->where($whereArray);
+        }
+        if($whereInArray){
+            foreach($whereInArray as $key=>$value){
+                $whereInFiltered = array_filter($value);
+                $query->whereIn($key,$whereInFiltered);
+            }
+        }
+        if($whereNotInArray){
+            foreach($whereNotInArray as $key=>$value){
+                $whereNotInFiltered = array_filter($value);
+                $query->whereNotIn($key,$whereNotInFiltered);
+            }
+        }
+        if($whereNotNullArray){
+            foreach($whereNotNullArray as $value){
+                $query->whereNotNull($value);
+            }
+        }
+        if($whereNullArray){
+            foreach($whereNullArray as $value){
+                $query->whereNull($value);
+            }
+        }
+
+        //dd(DB::getQueryLog($query->get()));
+		
+        return $query;
+    }
 }

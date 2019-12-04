@@ -295,6 +295,10 @@ Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController
 Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
 
+Route::get("/groups/join_group", "Groups\GroupTypesController@JoinGroupPage");
+Route::post('groups/storejoinGroup', 'Groups\GroupTypesController@storeJoinGroup')->name('groups.storejoinGroup');
+
+
 //group attedence
 Route::post("/groups/attedence/list", "Groups\GroupController@attedenceList");
 Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEventDates");
@@ -306,7 +310,7 @@ Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEven
 
 Route::get("/{orgDomain}/groups", "Groups\PublicController@getGroupsListTemplate");
 Route::get("/{orgDomain}/groups/list/{group_id}", "Groups\PublicController@getAllGroups");
-
+Route::get("/{orgDomain}/groups/list/{group_id}/{group_name}", "Groups\PublicController@getAllGroupsDetail");
 
 
 //Positions

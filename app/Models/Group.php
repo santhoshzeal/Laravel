@@ -191,6 +191,27 @@ class Group extends Model
 		
         return $query;
     }
-	
+
+    
+	/**
+    * @Function name : getGroupCount
+    * @Added by : Santhosh
+    * @Added Date : Dec 04, 2019
+    */
+
+    public static function getGroupCount($groupType_id) {
+
+        $result = array();
+        $groupMemebrCount =  Group::select(DB::raw("count(*) as group_count"))
+                            ->join("group_types","group_types.id","=","groups.groupType_id")
+                            ->where("groups.groupType_id",$groupType_id)
+                            ->first();
+        $result["group_count"] = $groupMemebrCount->group_count; 
+
+        //print_r($result); exit();
+        
+
+        return $result;                   
+    }
 	
 }

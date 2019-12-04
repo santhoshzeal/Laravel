@@ -201,4 +201,22 @@ class GroupTypesController extends Controller
         $groupType->save();
         return ["id" => $groupType->id, "name" => $groupType->name];
     }
+
+
+    // Created By Santhosh 
+    public function JoinGroupPage(Request $request) {
+
+        $data['title'] = $this->browserTitle . " - Join Group";
+        return view('groups.public.join_group', $data);
+
+    }
+
+
+    public function storeJoinGroup(Request $request) {
+
+        $insertData = $request->all();
+        $insertData = $request->except(['_token']);
+
+    }
+
 }

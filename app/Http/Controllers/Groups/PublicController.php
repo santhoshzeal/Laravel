@@ -11,6 +11,7 @@ use App\Models\Organization;
 use App\Models\GroupType;
 use App\Models\Group;
 use App\Models\TagGroup;
+use App\Models\GroupEvent;
 
 class PublicController extends Controller
 {
@@ -32,10 +33,11 @@ class PublicController extends Controller
                 $data['gType'] = "all";
             }
             
-			$whereArray = array();			
-			$data['group_types'] = GroupType::selectFromGroupType($whereArray,null,null,null,null,null,null,'1')->get();
-			
-			
+            $whereArray = array();
+            			
+            $data['group_types'] = GroupType::selectFromGroupType($whereArray,null,null,null,null,null,null,'1')->get();
+            
+   			
 			if (\Request::route('orgDomain')) {
 				
             $data['org'] = \Request::route('orgDomain');
@@ -103,6 +105,34 @@ class PublicController extends Controller
 		//dd($data['list_all_group_types']);
         
         return view('groups.public.groups_list_all',$data);
+    }
+
+
+    public function getAllGroupsDetail(Request $request) {
+		
+        $data['title'] = $this->browserTitle." - Groups Event List";
+        
+		
+		if (\Request::route('orgDomain')) {
+            $data['org'] = \Request::route('orgDomain');
+        } else {
+            $data['org'] = \Request::segment(3);
+        }
+		
+	
+		$group_id = $request->segment(4);
+		
+        $whereArray = array('group_events.group_id' => $group_id);
+        
+        //dd($group_id);
+		        
+	    $data['list_all_group_events'] = GroupEvent::crudGroupEvent($whereArray,null,null,null,null,null,null,'1')->get();
+	    //$data['list_all_group_types'] = Group::crudGroup($whereArray,null,null,null,null,'1')->get();
+		
+		//print_r($data['list_all_group_events']);
+		//dd($data['list_all_group_events']);
+        
+        return view('groups.public.groups_list_all_events',$data);
     }
 	
 	
