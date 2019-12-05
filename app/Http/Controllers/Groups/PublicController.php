@@ -119,7 +119,7 @@ class PublicController extends Controller
             $data['org'] = \Request::segment(3);
         }
 		
-	
+        $data['group_id'] = $request->segment(4);
 		$group_id = $request->segment(4);
 		
         $whereArray = array('group_events.group_id' => $group_id);
@@ -127,9 +127,7 @@ class PublicController extends Controller
         //dd($group_id);
 		        
 	    $data['list_all_group_events'] = GroupEvent::crudGroupEvent($whereArray,null,null,null,null,null,null,'1')->get();
-	    //$data['list_all_group_types'] = Group::crudGroup($whereArray,null,null,null,null,'1')->get();
-		
-		//print_r($data['list_all_group_events']);
+	
 		//dd($data['list_all_group_events']);
         
         return view('groups.public.groups_list_all_events',$data);

@@ -1,21 +1,45 @@
-@extends("groups.public.layout.public_layout")
+
+
+@extends('layouts.default') 
 
 @section("content")
-			
-    <div class="row">
-       <p class="card-text">
-            <button type="button" onclick="createGroupJoinDialog()" class="btn btn-primary waves-effect waves-light">Join this Group</button>            
-	   </p>
-	    @foreach ($list_all_group_events as $events)
-      <div class="col-md-6 col-xl-3">
-    	
-		 <div class="card m-b-30 card-body">
-			<h4 class="card-title font-20 mt-0">{{ $events->title }}</h4>
-		</div>	
-            
-       </div>
-	   @endforeach
-	</div>
+
+   
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-lg-6">
+            <input class="form-control" type="text" value="<?php echo $group_id ?>" id="group_id" name="group_id">
+            <div class="demo-content">This group is open to new members.</div>
+            </div>
+            <div class="col-lg-6">
+                <div class="demo-content bg-alt"><button type="button" onclick="createGroupJoinDialog()" class="btn btn-primary waves-effect waves-light">Join this group</button></div>
+            </div>
+         </div>
+   </div>	
+   
+	<hr>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="demo-content">Upcoming events</div>
+            </div>
+        </div>
+        <hr>
+        
+        <div class="row">
+           @if(count($list_all_group_events) > 0) 
+            <div class="col-xs-12">
+                @foreach ($list_all_group_events as $events)
+                <div class="demo-content bg-alt">{{ $events->title }}</div>
+                @endforeach
+            </div>
+            @else 
+            <div class="col-xs-12">
+                <div class="demo-content bg-alt">There are no events currently scheduled.</div>
+            </div>            
+            @endif
+        </div>
 					
 @endsection
 
@@ -23,11 +47,14 @@
 
     var siteUrl = '<?php echo url('/'); ?>';
 
-    function createGroupJoinDialog(){        
+    function createGroupJoinDialog(){ 
+            //alert($('#group_id').val());       
+            var groupid = $('#group_id').val();
+            //alert(groupid);
             groupJoinDlg = BootstrapDialog.show({
             title:"Join Group",
             size:"size-wide",
-            message: $('<div></div>').load(siteUrl+"/groups/join_group"),
+            message: $('<div></div>').load(siteUrl+"/groups/join_group?groupid="+groupid),
             buttons: [
                 {
                     label: 'Submit',
@@ -53,7 +80,6 @@
         $("#create_join_group_status").html(data.message);
         setTimeout(function(){
             groupJoinDlg.close();
-                postTable.draw(false);
             },2000);
         });
 

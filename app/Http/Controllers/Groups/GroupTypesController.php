@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use Config;
 
 use App\Models\GroupType;
+use App\Models\GroupJoinRequest;
+use App\Models\GroupMember;
 use App\Models\Location;
 use Illuminate\Http\Response;
 use DataTables;
@@ -207,15 +209,32 @@ class GroupTypesController extends Controller
     public function JoinGroupPage(Request $request) {
 
         $data['title'] = $this->browserTitle . " - Join Group";
+        $data['orgID'] = $this->userSessionData['umOrgId'];
+        $data['groupid'] = $request->groupid;
+       
+    
         return view('groups.public.join_group', $data);
 
     }
 
 
-    public function storeJoinGroup(Request $request) {
+    public function storeJoinGroupRequest(Request $request) {
+
+        //dd($request);
 
         $insertData = $request->all();
         $insertData = $request->except(['_token']);
+
+        //print_r($insertData);
+
+        GroupMember::create($insertData);
+
+        return response()->json(
+            [
+                'success' => '1',
+                "message" => '<div class="alert alert-success"> <strong>The group leader or the Groups administrator will get back to you as soon as they can. Thank you!</strong> </div>'
+            ]
+         );
 
     }
 

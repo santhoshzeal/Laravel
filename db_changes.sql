@@ -815,3 +815,14 @@ COMMIT;
 
 
 ALTER TABLE `group_join_request` ADD `group_id` INT(11) NOT NULL AFTER `id`;
+
+
+--Santhosh 05-Dec-2019
+
+ALTER TABLE `group_join_request` CHANGE `group_id` `group_id` INT(11) NULL;
+
+ALTER TABLE `group_join_request` ADD `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+
+ALTER TABLE `group_join_request` CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE `group_join_request` CHANGE `contact_email` `contact_email` VARCHAR(150) NOT NULL;

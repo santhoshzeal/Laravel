@@ -296,7 +296,7 @@ Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("g
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
 
 Route::get("/groups/join_group", "Groups\GroupTypesController@JoinGroupPage");
-Route::post('groups/storejoinGroup', 'Groups\GroupTypesController@storeJoinGroup')->name('groups.storejoinGroup');
+Route::post('groups/storejoinGroup', 'Groups\GroupTypesController@storeJoinGroupRequest')->name('groups.storejoinGroup');
 
 
 //group attedence

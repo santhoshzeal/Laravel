@@ -23,7 +23,7 @@ class GroupJoinRequest extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'group_id', 'contact_name', 'contact_email', 'contact_phone','created_at'];
+    protected $fillable = ['id', 'group_id', 'contact_name', 'contact_email', 'contact_phone','created_at', 'updated_at'];
 	
 	
 	/**
@@ -38,14 +38,6 @@ class GroupJoinRequest extends Model
      *
      * @var array
      */
-    protected $casts = [];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['created_at'];
-	
+    protected $casts = [];	
 	
 }
