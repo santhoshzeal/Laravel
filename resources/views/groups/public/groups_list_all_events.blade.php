@@ -9,7 +9,7 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-lg-6">
-            <input class="form-control" type="text" value="<?php echo $group_id ?>" id="group_id" name="group_id">
+            <input class="form-control" type="hidden" value="<?php echo $group_id ?>" id="group_id" name="group_id">
             <div class="demo-content">This group is open to new members.</div>
             </div>
             <div class="col-lg-6">
