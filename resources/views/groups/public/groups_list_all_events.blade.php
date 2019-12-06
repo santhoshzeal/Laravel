@@ -1,10 +1,24 @@
 
-
 @extends("groups.public.layout.public_layout")
 
 @section("content")
-
    
+    <div class="row">
+    <div class="col-12">
+    <div class="card m-b-30">
+        <div class="card-body">
+            <div class="media m-b-30">
+                
+                <div class="media-body">    
+                    <h3 class="mt-0 font-18">{{ $get_all_group_details->name }}</h3>
+                    <p>{{ $get_all_group_details->description  }}</p>                    
+                </div>
+                     
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
 
     <div class="container mt-3">
         <div class="row">
@@ -22,10 +36,9 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <div class="demo-content">Upcoming events</div>
+                <div class="demo-content"><h4>Upcoming events</h4></div>
             </div>
-        </div>
-        <hr>
+        </div>        
         
         <div class="row">
            @if(count($list_all_group_events) > 0) 
@@ -40,6 +53,16 @@
             </div>            
             @endif
         </div>
+
+        
+        <!--<div class="row">
+            <div class="col-xs-12">
+               <div class="demo-content"><h5>Questions?</h5></div>
+               <div class="demo-content">Send an email to the contact person for the group.</div>
+               <div class="demo-content bg-alt"><button type="button" onclick="contactFormGroupDialog()" class="btn btn-primary waves-effect waves-light">Contact</button></div>
+            </div>           
+        </div>-->
+     	
 					
 @endsection
 
@@ -80,10 +103,10 @@
         $("#create_join_group_status").html(data.message);
         setTimeout(function(){
             groupJoinDlg.close();
-            },2000);
+            },3000);
         });
 
         $("#formSubmitBtn").click();
-}
+    }
 
 </script>

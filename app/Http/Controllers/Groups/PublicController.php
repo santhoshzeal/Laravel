@@ -47,7 +47,10 @@ class PublicController extends Controller
         }	
 		
 			//dd($data);
-			//dd($data['group_types']);
+            //dd($data['group_types']);
+            //$group_id = '1';
+            //$data['get_count'] = Group::getGroupCount($group_id);
+
 			
             return view("groups.public.groups_list", $data);
         }else {
@@ -127,8 +130,11 @@ class PublicController extends Controller
         //dd($group_id);
 		        
 	    $data['list_all_group_events'] = GroupEvent::crudGroupEvent($whereArray,null,null,null,null,null,null,'1')->get();
-	
-		//dd($data['list_all_group_events']);
+	    //dd($data['list_all_group_events']);
+
+        $data['get_all_group_details'] = Group::getGroupTypesDetails($group_id);
+        //dd($data['get_all_group_details']);  
+                 
         
         return view('groups.public.groups_list_all_events',$data);
     }

@@ -201,17 +201,44 @@ class Group extends Model
 
     public static function getGroupCount($groupType_id) {
 
-        $result = array();
+        //DB::enableQueryLog();
+
+        //$result = array();
         $groupMemebrCount =  Group::select(DB::raw("count(*) as group_count"))
                             ->join("group_types","group_types.id","=","groups.groupType_id")
                             ->where("groups.groupType_id",$groupType_id)
                             ->first();
-        $result["group_count"] = $groupMemebrCount->group_count; 
+        //$result["group_count"] = $groupMemebrCount->group_count; 
 
         //print_r($result); exit();
         
+        //dd(DB::getQueryLog($groupMemebrCount->get()));
 
-        return $result;                   
+        return $groupMemebrCount;                   
     }
+
+    /**
+    * @Function name : getGroupCount
+    * @Added by : Santhosh
+    * @Added Date : Dec 06, 2019
+    */
+
+    public static function getGroupTypesDetails($id) {
+        
+        //DB::enableQueryLog();
+
+        $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path', 'groups.meeting_schedule', 'groups.isPublic')
+                            ->addSelect("group_types.name as group_type_name")
+                            ->addSelect("groups.location",'groups.is_enroll_autoClose','groups.enroll_autoClose_on','groups.is_enroll_autoClose_count','groups.enroll_autoClose_count','groups.is_enroll_notify_count')
+                            ->addSelect("groups.enroll_notify_count","groups.contact_email","groups.visible_leaders_fields","groups.visible_members_fields")
+                            ->join("group_types","group_types.id","=","groups.groupType_id")
+                            ->where("groups.id",$id)                        
+                            ->first();
+
+        //dd(DB::getQueryLog($groupDetails->get()));
+
+        return $groupDetails;
+    }
+
 	
 }

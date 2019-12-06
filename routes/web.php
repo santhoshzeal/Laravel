@@ -300,6 +300,7 @@ Route::get("/groups/join_group", "Groups\GroupTypesController@JoinGroupPage");
 Route::post('groups/storejoinGroup', 'Groups\GroupTypesController@storeJoinGroupRequest')->name('groups.storejoinGroup');
 
 
+
 //group attedence
 Route::post("/groups/attedence/list", "Groups\GroupController@attedenceList");
 Route::post("/groups/attedence/get_event_dates", "Groups\GroupController@getEventDates");
