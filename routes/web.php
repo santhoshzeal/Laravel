@@ -250,6 +250,7 @@ Route::get("/groups/resources", "Groups\GroupTypesController@resources")->name('
 Route::get("/groups/types", "Groups\GroupTypesController@groupTypes")->name("groups.types");
 Route::get("/groups/tags", "Groups\TagsController@tagsIndex")->name("groups.tags");
 Route::get("/groups/people", "Groups\PeopleController@peopleIndex")->name("groups.people");
+Route::get("/groups/people/list", "Groups\PeopleController@peopleList")->name("groups.people.list");
 Route::get("/api/groups/typesList", "Groups\GroupTypesController@apiGetTypes");
 Route::get("/api/groups/tagsListWithGroups", "Groups\TagsController@getGroupsListWithTags");
 Route::post("/api/groups/createOrUpdateTagGroup", "Groups\TagsController@createOrUpdateTagGroup");

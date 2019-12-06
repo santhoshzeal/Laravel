@@ -1,4 +1,4 @@
-<div class="container py-4 bg-light border broder-bottom-2">
+<div class="container py-4 bg-light border broder-bottom-2" style="max-width: 100% !important;">
     <div class="row justify-content-center">
         <!-- <div class="col-sm-12"> -->
             <!-- <div class="row"> -->

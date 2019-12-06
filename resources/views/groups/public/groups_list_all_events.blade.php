@@ -1,6 +1,6 @@
 
 
-@extends('layouts.default') 
+@extends("groups.public.layout.public_layout")
 
 @section("content")
 
