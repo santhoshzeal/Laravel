@@ -36,13 +36,21 @@ class GroupController extends Controller
         return view('groups.list', $data);
     }
 
-    public function groupsListPagination(){
-        $groupList = Group::getGroups("")->orderBy("id","desc")->get();
+    public function groupsListPagination(Request $request){
+        $pageSize = $request->pageSize;
+        $pageNumber = $request->pageNumber;
+        $groupType = $request->groupType;
+        $groupList = Group::getGroups($groupType)
+                    ->orderBy("id","desc")
+                    ->limit($pageSize)
+                    ->offset($pageSize* ($pageNumber-1))
+                    ->get();
         $count =DB::select('SELECT FOUND_ROWS() as record_count');
         $count = $count[0]->record_count;
 
         $items = array();
         foreach($groupList as $item) {
+            //echo $item->last_meeting; exit();
             $html=' <div class="card m-b-5 border border-primary group p-0">
             <a href="'.url("groups/details/".$item->id).'" class="wrapper-link">
 
@@ -67,21 +75,26 @@ class GroupController extends Controller
                              <div class="card-body">
                                 <div class="row text-center">
                                     <div class="col-md-6">Last Meeting</div>
-                                    <div class="col-md-6">Last Meeting</div>
-                                    <div class="col-md-6">None</div>
-                                    <div class="col-md-6">None</div>
+                                    <div class="col-md-6">Next Meeting</div>
+                                    <div class="col-md-6">'.(($item->last_meeting!=null)?$item->last_meeting:'None').'</div>
+                                    <div class="col-md-6">'.(($item->next_meeting!=null)?$item->next_meeting:'None').'</div>
                                 </div>
                             </div>
                             <div class="card-body">
                             <div class="row text-center">
                                 <div class="col-md-12">Members</div>
-                                <div class="col-md-12">0</div>
+                                <div class="col-md-12">'.$item->memberCount.'</div>
 
                             </div>
                         </div> </a>
                              </div>';
             $items[] = $html;
         }
+
+        if(count($items) < 1) {
+            $items[]=  "No Records";
+        }
+
         return response()->json(
             [
                 'success' => '1',
@@ -248,6 +261,7 @@ class GroupController extends Controller
 
         $data['title'] = $this->browserTitle . " - ";
         $data['groupId'] = $request->groupId;
+        $data['locations'] = Location::listLocations("")->get();
         return view('groups.group.add_events', $data);
     }
 
@@ -345,6 +359,7 @@ class GroupController extends Controller
         $data['title'] = $this->browserTitle . " - ";
         $data['groupId'] = $request->groupId;
         $data['event'] = GroupEvent::find($eventId);
+        $data['locations'] = Location::listLocations("")->get();
         return view('groups.group.add_events', $data);
     }
 

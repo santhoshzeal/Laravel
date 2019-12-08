@@ -80,12 +80,16 @@
                                    <div class="form-group row">
                                        <label for="example-date-input" class="col-sm-3 col-form-label">Location</label>
                                        <div class="col-sm-9">
-                                           <select id="location" name="location" class="form-control" required="">
-                                               <option value=""> -- Select -- </option>
-                                               <option value="locaion1" <?= isset($event)?($event->location=='locaion1')?'selected':'':'' ?>>Locaion 1</option>
-                                               <option value="locaion2" <?= isset($event)?($event->location=='locaion2')?'selected':'':'' ?>>Locaion 2</option>
-                                               <option value="locaion3" <?= isset($event)?($event->location=='locaion3')?'selected':'':'' ?>>Locaion 3</option>
-                                           </select>
+
+                                            <select id="location" name="location" class="form-control" required="">
+
+                                                    <option value=""> -- Select -- </option>
+                                                    @foreach($locations as $value)
+                                                    <option value="{{$value->id}}" @if(isset($event) &&  $event->location == $value->id) selected @endif>{{$value->name}}</option>
+                                                    @endforeach
+
+                                                </select>
+
 
                                        </div>
                                    </div>

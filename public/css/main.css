@@ -325,7 +325,7 @@ color: #FB7642;
     font-size: 1.2rem;
 }
 .dataTable td {
-    overflow: hidden; /* this is what fixes the expansion */
+   /* overflow: hidden; */ /* this is what fixes the expansion */
     text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
     white-space: nowrap;
   }

@@ -44,23 +44,40 @@ class Group extends Model
     }
 
 
-    public static function getGroups($search){
-        $result = self::select(DB::raw('SQL_CALC_FOUND_ROWS  id'), 'name', 'description','created_at')
-        /* ->orderBy("created_at","desc") */;
+    public static function getGroups($groupType,$search=""){
+        $result = self::select(DB::raw('SQL_CALC_FOUND_ROWS  groups.id'), 'groups.name', 'groups.description','groups.created_at')
+                        ->addSelect(DB::raw("COUNT(group_members.id) as memberCount"))
+                        ->addSelect(DB::raw("MAX(group_events.end_date) as last_meeting"))
+                        ->addSelect(DB::raw("MIN(ge2.start_date) as next_meeting"))
+                        ->leftJoin("group_members","group_members.group_id","=","groups.id")
+                        ->leftJoin('group_events', function($join)
+                                    {
+                                    $join->on('group_events.group_id', '=', 'groups.id')
+                                    ->where(DB::raw("DATE(group_events.end_date)"),"<",date("Y-m-d"));
+                                    })
+                        ->leftJoin('group_events as ge2', function($join)
+                                    {
+                                    $join->on('ge2.group_id', '=', 'groups.id')
+                                    ->where(DB::raw("DATE(ge2.end_date)"),">=",date("Y-m-d"));
+                                    });
+        if($groupType!="") {
+            $result->where("groupType_id","=",$groupType);
+        }
         if ($search != "") {
             $result->where(function($query)use($search) {
 
 
 
-                return $query->where('p_title', 'name', "%$search%")
-                                ->orWhere('description', 'LIKE', "%$search%");
+                return $query->where('groups.p_title', 'name', "%$search%")
+                                ->orWhere('groups.description', 'LIKE', "%$search%");
 
                 //echo date("d m y",(int)$search);
             });
         }
 
+        $result->groupBy('groups.id');
 
-        $result->where('orgId', '=', Auth::user()->orgId);
+        $result->where('groups.orgId', '=', Auth::user()->orgId);
 
         return $result;
     }
@@ -119,7 +136,11 @@ class Group extends Model
     public static function getUserListForAutocomplete($search, $groupId = "") {
         $user = UserMaster::select('users.id', 'users.first_name', 'users.last_name','group_members.group_id as user_grp_id')
                 ->addSelect("group_members.id as group_members_id")
-                ->leftJoin("group_members", "group_members.user_id", '=', "users.id")
+                ->leftJoin('group_members', function($join)use($groupId)
+                            {
+                            $join->on('group_members.user_id', '=', 'users.id')
+                            ->where("group_id","=",$groupId);
+                            })
                 ->where(function($query)use($search) {
                     /** @var $query Illuminate\Database\Query\Builder  */
                     return $query->where('users.first_name', 'LIKE', '%' . $search . '%')
@@ -130,8 +151,8 @@ class Group extends Model
                 ->get();
         return $user;
     }
-	
-	
+
+
 	/**
      * @Function name : selectFromGroup
      * @Purpose : Select from Group data based on where array
@@ -139,17 +160,17 @@ class Group extends Model
      * @Added Date : Dec 03, 2019
      */
     public static function selectFromGroup($whereArray) {
-		
+
 		//DB::enableQueryLog();
-		
+
         $query = Group::where($whereArray);
-        
-		//dd(DB::getQueryLog($query->get())); 
-		
+
+		//dd(DB::getQueryLog($query->get()));
+
 		return $query;
     }
-	
-	
+
+
 	/**
     * @Function name : crudGroup
     * @Purpose : crud account heads based on  array
@@ -157,9 +178,9 @@ class Group extends Model
      * @Added Date : Dec 03, 2019
     */
     public static function crudGroup($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null) {
-		
+
 		//DB::enableQueryLog();
-		
+
         $query = Group::query();
         if($whereArray){
             $query->where($whereArray);
@@ -188,11 +209,11 @@ class Group extends Model
         }
 
         //dd(DB::getQueryLog($query->get()));
-		
+
         return $query;
     }
 
-    
+
 	/**
     * @Function name : getGroupCount
     * @Added by : Santhosh
@@ -208,13 +229,13 @@ class Group extends Model
                             ->join("group_types","group_types.id","=","groups.groupType_id")
                             ->where("groups.groupType_id",$groupType_id)
                             ->first();
-        //$result["group_count"] = $groupMemebrCount->group_count; 
+        //$result["group_count"] = $groupMemebrCount->group_count;
 
         //print_r($result); exit();
-        
+
         //dd(DB::getQueryLog($groupMemebrCount->get()));
 
-        return $groupMemebrCount;                   
+        return $groupMemebrCount;
     }
 
     /**
@@ -224,7 +245,7 @@ class Group extends Model
     */
 
     public static function getGroupTypesDetails($id) {
-        
+
         //DB::enableQueryLog();
 
         $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path', 'groups.meeting_schedule', 'groups.isPublic')
@@ -232,7 +253,7 @@ class Group extends Model
                             ->addSelect("groups.location",'groups.is_enroll_autoClose','groups.enroll_autoClose_on','groups.is_enroll_autoClose_count','groups.enroll_autoClose_count','groups.is_enroll_notify_count')
                             ->addSelect("groups.enroll_notify_count","groups.contact_email","groups.visible_leaders_fields","groups.visible_members_fields")
                             ->join("group_types","group_types.id","=","groups.groupType_id")
-                            ->where("groups.id",$id)                        
+                            ->where("groups.id",$id)
                             ->first();
 
         //dd(DB::getQueryLog($groupDetails->get()));
@@ -240,5 +261,5 @@ class Group extends Model
         return $groupDetails;
     }
 
-	
+
 }

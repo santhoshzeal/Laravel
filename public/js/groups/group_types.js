@@ -38,6 +38,7 @@ function gTypeChanged() {
     queries.groupType = selectedGType;
     updateQueryString(queries);
     updateTabUrlLinks();
+    listGroups(selectedGType);
 }
 
 function updateTabUrlLinks() {

@@ -26,8 +26,9 @@
                         pageSize: 8,
                         ajax: {
                             method:"post",
+                            data: {groupType:groupType},
                             beforeSend: function() {
-                                $('#data-container').html('Loading data from flickr.com ...');
+                                $('#data-container').html('Loading Groups');
                             }
                         },
                         callback: function(data, pagination) {

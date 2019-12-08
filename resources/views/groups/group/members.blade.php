@@ -245,7 +245,8 @@ function memberAction(action,memberId){
       data: {action:action,memberId:memberId,notify_member:notify_member,member_since:member_since_dlg,notify_member_role:notify_member_role},
 
       success: function(resultData) {
-        //actionDlg.close();
+        actionDlg.close();
+        membersTable.draw(false);
        }
 });
 }
