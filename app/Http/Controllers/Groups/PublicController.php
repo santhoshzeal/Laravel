@@ -12,6 +12,7 @@ use App\Models\GroupType;
 use App\Models\Group;
 use App\Models\TagGroup;
 use App\Models\GroupEvent;
+use App\Models\GroupMember;
 
 class PublicController extends Controller
 {
@@ -139,7 +140,39 @@ class PublicController extends Controller
         return view('groups.public.groups_list_all_events',$data);
     }
 	
-	
+    // Created By Santhosh 
+    public function JoinGroupPage(Request $request) {
+
+        $data['title'] = $this->browserTitle . " - Join Group";
+        $data['orgID'] = $request->orgId;
+        $data['groupid'] = $request->groupid;
+       
+    
+        return view('groups.public.join_group', $data);
+
+    }
+
+
+    public function storeJoinGroupRequest(Request $request) {
+
+        //dd($request);
+
+        $insertData = $request->all();
+        $insertData = $request->except(['_token']);
+        $insertData['first_name'] = $request->full_name;
+        $insertData['isUser'] = '2';
+        //dd($insertData);
+
+        GroupMember::create($insertData);
+
+        return response()->json(
+            [
+                'success' => '1',
+                "message" => '<div class="alert alert-success"> <strong>The group leader or the Groups administrator will get back to you as soon as they can. Thank you!</strong> </div>'
+            ]
+         );
+
+    }	
 	
 	
 }

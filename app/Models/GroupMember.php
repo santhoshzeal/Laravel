@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use DB;
 class GroupMember extends Model
 {
     protected $table = 'group_members';
@@ -17,7 +18,9 @@ class GroupMember extends Model
     }
 
     public static function membersList($groupId,$search){
-        $result = self::select('group_members.id', 'users.id as user_id','users.first_name','users.last_name','users.email','users.mobile_no')
+        $result = self::select('group_members.id', 'users.id as user_id',
+          DB::raw("(CASE group_members.isUser WHEN '1' THEN users.first_name ELSE group_members.first_name  END)  as first_name"),
+          'users.last_name','users.email','users.mobile_no')
                         ->addSelect("member_since","group_members.role")
                   ->leftJoin("users","users.id","=","group_members.user_id")
         /* ->orderBy("created_at","desc") */;

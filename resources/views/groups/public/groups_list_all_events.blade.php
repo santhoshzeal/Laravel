@@ -24,6 +24,7 @@
         <div class="row">
             <div class="col-lg-6">
             <input class="form-control" type="hidden" value="<?php echo $group_id ?>" id="group_id" name="group_id">
+            <input class="form-control" type="hidden" value="<?php echo $get_all_group_details->orgId ?>" id="orgId" name="orgId">
             <div class="demo-content">This group is open to new members.</div>
             </div>
             <div class="col-lg-6">
@@ -73,11 +74,12 @@
     function createGroupJoinDialog(){ 
             //alert($('#group_id').val());       
             var groupid = $('#group_id').val();
+            var orgId = $('#orgId').val();
             //alert(groupid);
             groupJoinDlg = BootstrapDialog.show({
             title:"Join Group",
             size:"size-wide",
-            message: $('<div></div>').load(siteUrl+"/groups/join_group?groupid="+groupid),
+            message: $('<div></div>').load(siteUrl+"/groups/join_group?groupid="+groupid+"&orgId="+orgId),
             buttons: [
                 {
                     label: 'Submit',

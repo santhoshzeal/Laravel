@@ -777,52 +777,6 @@ ALTER TABLE `scheduling_user` CHANGE `user_id` `user_id` BIGINT( 22 ) NULL DEFAU
 --Sathish 01-Dec-2019
 ALTER TABLE `scheduling` ADD `event_date` DATE NULL DEFAULT NULL AFTER `orgId` ;
 
+-- Sathish 09 Dec 2019
 
---Santhosh 04-Dec-2019
-
---
--- Table structure for table `group_join_request`
---
-
-CREATE TABLE `group_join_request` (
-  `id` bigint(22) NOT NULL,
-  `contact_name` varchar(250) NOT NULL,
-  `contact_email` int(150) NOT NULL,
-  `contact_phone` varchar(25) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `group_join_request`
---
-ALTER TABLE `group_join_request`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `group_join_request`
---
-ALTER TABLE `group_join_request`
-  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
-
-ALTER TABLE `group_join_request` ADD `group_id` INT(11) NOT NULL AFTER `id`;
-
-
---Santhosh 05-Dec-2019
-
-ALTER TABLE `group_join_request` CHANGE `group_id` `group_id` INT(11) NULL;
-
-ALTER TABLE `group_join_request` ADD `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
-
-ALTER TABLE `group_join_request` CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
-
-ALTER TABLE `group_join_request` CHANGE `contact_email` `contact_email` VARCHAR(150) NOT NULL;
+ALTER TABLE `group_members` CHANGE `mobile_no` `mobile_no` VARCHAR( 15 ) NULL DEFAULT NULL ;

@@ -296,8 +296,8 @@ Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController
 Route::post("/groups/types/store", "Groups\GroupTypesController@store")->name("group_type.store");
 Route::get("/groups/types/defaults/{id}", "Groups\GroupTypesController@groupDefaults");
 
-Route::get("/groups/join_group", "Groups\GroupTypesController@JoinGroupPage");
-Route::post('groups/storejoinGroup', 'Groups\GroupTypesController@storeJoinGroupRequest')->name('groups.storejoinGroup');
+Route::get("/groups/join_group", "Groups\PublicController@JoinGroupPage");
+Route::post('groups/storejoinGroup', 'Groups\PublicController@storeJoinGroupRequest')->name('groups.storejoinGroup');
 
 
 
