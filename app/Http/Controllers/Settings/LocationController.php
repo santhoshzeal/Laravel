@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
@@ -12,6 +13,9 @@ use App\Models\Roles;
 use Illuminate\Http\Response;
 use DataTables;
 use Auth;
+use App\Models\Organization;
+use Illuminate\Support\Facades\Session;
+
 
 class LocationController extends Controller {
 
@@ -20,6 +24,7 @@ class LocationController extends Controller {
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->common_file_upload_path = Config::get('constants.FILE_UPLOAD_PATH');
         $this->common_file_download_path = Config::get('constants.FILE_DOWNLOAD_PATH');
+        $this->userSessionData = Session::get('userSessionData');
     }
 
     public function index() {
@@ -99,4 +104,76 @@ class LocationController extends Controller {
 
         return view('settings.location.create',$data);
     }
+
+    // Created By Santhosh 
+    public function churchSettingss(Request $request)
+    {
+        $data['title'] = $this->browserTitle . " - Church Settings Management";       
+        
+        $data['orgId'] =  Auth::user()->orgId;
+
+        $orgId =  Auth::user()->orgId;
+             
+        $whereArray = array('organization.orgId' => $orgId);
+
+
+        //$data['list_church_data'] = Organization::crudOrganization($whereArray,null,null,null,null,null,null,'1')->get();
+
+        $data['list_church_data'] = Organization::selectFromOrganization($whereArray,null,null,null,null,null,null,'1')->get()[0];
+        //dd($data['list_church_data']);
+       
+
+        return view('settings.church_settings', $data);
+    }
+
+    
+    public function storeChurchSettings(Request $request)
+    {
+       
+        $insertData = $request->all();
+
+        $orgId = $request->orgId;
+
+        $orgLogo = "";
+
+        if (isset($request->orgLogo) && $request->orgLogo != "") {
+            $orgLogo = $this->resourceFileUpload($request->orgLogo,$request->parent_type);
+        }
+
+        $insertData = $request->except(['_token']);
+
+        $insertData['orgLogo'] = $orgLogo;
+
+        Organization::where("orgId",$orgId)->update($insertData);
+
+        Session::flash('message', 'Church Settings has been updated successfully');
+
+        return redirect('settings/church_settings');
+
+    }
+
+    private function resourceFileUpload($file,$parent_type) {
+
+        $extension = $file->getClientOriginalExtension();
+
+        $imageName = basename($file->getClientOriginalName(), ("." . $extension));
+
+        $imageName .= "_" . time() . '.' . $extension;
+        
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "orglogo" . DIRECTORY_SEPARATOR. $parent_type. DIRECTORY_SEPARATOR;
+
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "orglogo" . '/'.$parent_type.'/';
+
+        $file->move(
+                $destinationPath, $imageName
+        );
+
+        $upload_data = array('uploaded_path' => $destinationPath, 'download_path' => $downloadPath, 'uploaded_file_name' => $imageName, 'original_filename' => $imageName, 'upload_file_extension' => $extension, 'file_size' => 0);
+        $jsonformat = serialize(json_encode($upload_data));
+
+        return $jsonformat;
+    }
+
+
+
 }

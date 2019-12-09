@@ -335,4 +335,6 @@ Route::post("/settings/location/list", "Settings\LocationController@list");
 Route::get("/settings/location/addPage", "Settings\LocationController@addPage");
 Route::post("/settings/location/store", "Settings\LocationController@store")->name('location.store');
 Route::get('settings/location/edit/{id}', 'Settings\LocationController@editLocation');
+Route::get('settings/church_settings', 'Settings\LocationController@churchSettingss');
+Route::post('settings/store_church_settings', 'Settings\LocationController@storeChurchSettings')->name('church.store');
 
