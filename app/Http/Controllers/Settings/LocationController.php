@@ -106,7 +106,7 @@ class LocationController extends Controller {
     }
 
     // Created By Santhosh 
-    public function churchSettingss(Request $request)
+    public function churchSettings(Request $request)
     {
         $data['title'] = $this->browserTitle . " - Church Settings Management";       
         
@@ -126,7 +126,7 @@ class LocationController extends Controller {
         return view('settings.church_settings', $data);
     }
 
-    
+     // Created By Santhosh 
     public function storeChurchSettings(Request $request)
     {
        
@@ -136,8 +136,18 @@ class LocationController extends Controller {
 
         $orgLogo = "";
 
+        $whereArray = array('organization.orgId' => $orgId);
+
+        $list_church_data = Organization::selectFromOrganization($whereArray,null,null,null,null,null,null,'1')->get()[0];
+
+
         if (isset($request->orgLogo) && $request->orgLogo != "") {
-            $orgLogo = $this->resourceFileUpload($request->orgLogo,$request->parent_type);
+
+            $orgLogo = $this->resourceFileUpload($request->orgLogo);
+
+        } else {
+
+            $orgLogo = $list_church_data->orgLogo;
         }
 
         $insertData = $request->except(['_token']);
@@ -152,7 +162,8 @@ class LocationController extends Controller {
 
     }
 
-    private function resourceFileUpload($file,$parent_type) {
+     // Created By Santhosh  
+    private function resourceFileUpload($file) {
 
         $extension = $file->getClientOriginalExtension();
 
@@ -160,9 +171,9 @@ class LocationController extends Controller {
 
         $imageName .= "_" . time() . '.' . $extension;
         
-        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "orglogo" . DIRECTORY_SEPARATOR. $parent_type. DIRECTORY_SEPARATOR;
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "orglogo" . DIRECTORY_SEPARATOR;
 
-        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "orglogo" . '/'.$parent_type.'/';
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "orglogo" . '/';
 
         $file->move(
                 $destinationPath, $imageName

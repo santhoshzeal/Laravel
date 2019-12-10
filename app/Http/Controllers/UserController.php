@@ -19,6 +19,7 @@ use App\Models\Households;
 use App\Models\HouseholdDetails;
 use Illuminate\Http\Response;
 
+
 class UserController extends Controller {
 
     /**
@@ -328,5 +329,100 @@ class UserController extends Controller {
 							   $users
 						);
 	}
+
+
+     // Created By Santhosh 
+
+    public function userProfilePage() {
+
+        $data['title'] = $this->browserTitle . " - Profile";
+    
+        $user_id= Auth::id();
+
+        $whereArray = array('users.id' => $user_id);       
+     		        
+        $data['get_profile_info'] = UserMaster::selectFromUserMaster($whereArray,null,null,null,null,null,null,'1')->get()[0];
+        
+        $file = json_decode(unserialize($data['get_profile_info']->profile_pic));
+
+        $data['profile_image'] = $file->uploaded_file_name;
+
+        return view('users.profile_settings', $data);
+        
+        
+    }
+
+    // Created By Santhosh 
+    public function userProfileUpdate(Request $request) {
+
+        $data['title'] = $this->browserTitle . " - Update Profile";
+        $data['userid'] = $request->userid;
+
+        $whereArray = array('users.id' => $request->userid);
+        $data['get_profile_info'] = UserMaster::selectFromUserMaster($whereArray,null,null,null,null,null,null,'1')->get()[0];
+
+        return view('users.profile_update',$data);
+   }
+
+   
+   // Created By Santhosh 
+   public function storeUserProfile(Request $request)
+   {
+      
+        $insertData = $request->all();
+
+        $userid = $request->userid;
+
+        $profile_pic = "";
+
+        $whereArray = array('users.id' => $userid);
+
+        $get_profile_info = UserMaster::selectFromUserMaster($whereArray,null,null,null,null,null,null,'1')->get()[0];
+
+        if (isset($request->profile_pic) && $request->profile_pic != "") {
+            
+            $profile_pic = $this->resourceFileUpload($request->profile_pic);
+
+        } else {
+
+            $profile_pic = $get_profile_info->profile_pic;
+        }
+
+        $insertData = $request->except(['_token','userid']);
+
+        $insertData['profile_pic'] = $profile_pic;
+
+        UserMaster::where("id",$userid)->update($insertData);
+
+        Session::flash('message', 'Profile has been updated successfully');
+
+        return redirect('people/profile_list');
+
+   }
+
+
+   // Created By Santhosh 
+   private function resourceFileUpload($file) {
+
+        $extension = $file->getClientOriginalExtension();
+
+        $imageName = basename($file->getClientOriginalName(), ("." . $extension));
+
+        $imageName .= "_" . time() . '.' . $extension;
+        
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "profile" . DIRECTORY_SEPARATOR;
+
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "profile" . '/';
+
+        $file->move(
+                $destinationPath, $imageName
+        );
+
+        $upload_data = array('uploaded_path' => $destinationPath, 'download_path' => $downloadPath, 'uploaded_file_name' => $imageName, 'original_filename' => $imageName, 'upload_file_extension' => $extension, 'file_size' => 0);
+        $jsonformat = serialize(json_encode($upload_data));
+
+        return $jsonformat;
+   }
+
 
 }

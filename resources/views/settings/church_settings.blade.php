@@ -1,9 +1,21 @@
 @extends('layouts.default')
 
 @section('content')
-<form method="post" action="{{ route('church.store') }}" name="update_church_form" id="update_church_form" enctype="multipart/form-data">
 
-    <div class="wrapper">
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="btn-group pull-right">
+                <ol class="breadcrumb hide-phone p-0 m-0">
+                    <li class="breadcrumb-item active">Church Settings</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" action="{{ route('church.store') }}" name="update_church_form" id="update_church_form" enctype="multipart/form-data">
               <div class="row">
                 <div class="col-12">
                     <div class="card m-b-30">
@@ -58,6 +70,16 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="example-date-input" class="col-sm-2 col-form-label">Country</label>
+                                <div class="col-sm-10">
+                                <select class="form-control" name="orgTimeCountry" id="orgTimeCountry">
+                                    <option {{ (isset($list_church_data) && $list_church_data->orgTimeCountry==1)?'selected':''}}  value="1">India</option>
+                                    <option {{ (isset($list_church_data) && $list_church_data->orgTimeCountry==2)?'selected':''}}  value="2">USA</option>                                 
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="example-search-input" class="col-sm-2 col-form-label">Pincode</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" type="search" value="{{ isset($list_church_data)?$list_church_data->orgPincode:'' }}" id="orgPincode" name="orgPincode">
@@ -75,7 +97,7 @@
                     </div>
                 </div> <!-- end col -->
             </div> <!-- end row -->
-    </div>
+
     <input type="hidden" name="orgId" value="{{ isset($orgId)?$orgId:'' }}" />
     <div class="col-sm-12 col-lg-12 col-md-12 divcols" >
         <div class="form-group">

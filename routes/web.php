@@ -112,15 +112,21 @@ Route::group( ['middleware' => ['auth','App\Http\Middleware\PermissionMiddleware
    Route::resource('posts', 'PostController');
 });
 
+
 //people
+
+Route::get('people/profile_list', 'UserController@userProfilePage');
+Route::get('people/profile_update', 'UserController@userProfileUpdate');
 Route::get('people/member_directory', 'UserController@index');
 Route::get('people/member_create', 'UserController@create');
 Route::get('people/{personal_id}', 'UserController@view');
 Route::get('people/{personal_id}/messages', 'CommunicationController@messages');
-
 Route::get('get_usermaster_data', 'UserController@getUserData');
-
+Route::post('store_update', 'UserController@storeUserProfile')->name('profile.store');
 Route::post('store', 'UserController@userMasterStore');
+
+
+
 
 // Members Directory
 Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
@@ -335,6 +341,8 @@ Route::post("/settings/location/list", "Settings\LocationController@list");
 Route::get("/settings/location/addPage", "Settings\LocationController@addPage");
 Route::post("/settings/location/store", "Settings\LocationController@store")->name('location.store');
 Route::get('settings/location/edit/{id}', 'Settings\LocationController@editLocation');
-Route::get('settings/church_settings', 'Settings\LocationController@churchSettingss');
+
+// settings - organization
+Route::get('settings/church_settings', 'Settings\LocationController@churchSettings');
 Route::post('settings/store_church_settings', 'Settings\LocationController@storeChurchSettings')->name('church.store');
 
