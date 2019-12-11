@@ -272,7 +272,7 @@ class Group extends Model
 
         //DB::enableQueryLog();
 		
-        // SELECT `groups`.`name`, `groups`.`description`, `groups`.`image_path`, `groups`.`groupType_id`, `group_types`.`name` as group_type_name FROM `groups` LEFT JOIN group_types on `groups`.`groupType_id` = `group_types`.`id` where `groups`.`image_path` IS NOT NULL group by `groups`.`groupType_id`
+        //SELECT groups.id, `groups`.`name`, `groups`.`description`, `groups`.`image_path`, `groups`.`groupType_id`, `group_types`.`name` as group_type_name FROM `groups` LEFT JOIN group_types on `groups`.`groupType_id` = `group_types`.`id` where `groups`.`image_path` !='' group by `groups`.`groupType_id`
 
         $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path')
                             ->addSelect("group_types.name as group_type_name")                            
