@@ -239,7 +239,7 @@ class Group extends Model
     }
 
     /**
-    * @Function name : getGroupCount
+    * @Function name : getGroupTypesDetails
     * @Added by : Santhosh
     * @Added Date : Dec 06, 2019
     */
@@ -255,6 +255,29 @@ class Group extends Model
                             ->join("group_types","group_types.id","=","groups.groupType_id")
                             ->where("groups.id",$id)
                             ->first();
+
+        //dd(DB::getQueryLog($groupDetails->get()));
+
+        return $groupDetails;
+    }
+
+
+    /**
+    * @Function name : getallGroupTypesDetails
+    * @Added by : Santhosh
+    * @Added Date : Dec 11, 2019
+    */
+
+    public static function getallGroupTypesDetails() {
+
+        //DB::enableQueryLog();
+		
+        // SELECT `groups`.`name`, `groups`.`description`, `groups`.`image_path`, `groups`.`groupType_id`, `group_types`.`name` as group_type_name FROM `groups` LEFT JOIN group_types on `groups`.`groupType_id` = `group_types`.`id` where `groups`.`image_path` IS NOT NULL group by `groups`.`groupType_id`
+
+        $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path')
+                            ->addSelect("group_types.name as group_type_name")                            
+                            ->join("group_types","group_types.id","=","groups.groupType_id")
+                            ->where("groups.image_path","IS NOT NULL");				
 
         //dd(DB::getQueryLog($groupDetails->get()));
 

@@ -52,6 +52,9 @@ class PublicController extends Controller
             //$group_id = '1';
             //$data['get_count'] = Group::getGroupCount($group_id);
 
+            $data['get_all_group_types'] = Group::getallGroupTypesDetails();
+            //dd($data['get_all_group_types']); 
+
 			
             return view("groups.public.groups_list", $data);
         }else {
@@ -135,7 +138,7 @@ class PublicController extends Controller
 
         $data['get_all_group_details'] = Group::getGroupTypesDetails($group_id);
         //dd($data['get_all_group_details']);  
-                 
+                        
         
         return view('groups.public.groups_list_all_events',$data);
     }
