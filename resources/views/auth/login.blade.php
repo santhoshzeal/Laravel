@@ -5,15 +5,23 @@
 
 <div class="card">
     <div class="card-body">
-
         <h3 class="text-center mt-0 m-b-15">
             @if ($crudOrganizationData->count() > 0)
                 @if($crudOrganizationData[0]->orgLogo == "")
                     @php ($orgLogoName = 'assets/uploads/organizations/bible-cross-logo.png')
                 @else
-                    @php ($orgLogoName = 'assets/uploads/organizations/'.$crudOrganizationData[0]->orgId.'/org_logo/'.$crudOrganizationData[0]->orgLogo)
-                @endif
 
+                    <?php
+                    $orgLogo_json = json_decode(unserialize($crudOrganizationData[0]->orgLogo));
+                    $orguploaded_file_name = $orgLogo_json->uploaded_file_name;
+                    $orguploaded_path = $orgLogo_json->uploaded_path;
+                    $orgdownload_path = $orgLogo_json->download_path;
+                    $orgLogo = $orgdownload_path.$orguploaded_file_name;
+                    //dd($orguploaded_file_name,$orgdownload_path);
+                    ?>
+                    
+                    @php ($orgLogoName = 'assets/uploads/organizations/'.$crudOrganizationData[0]->orgId.'/org_logo/'.$orguploaded_file_name)
+                @endif
                 <a href="" class="logo logo-admin"><img src="{{ URL::asset($orgLogoName)}}" alt="" height="55" class="logo-large"></a>
             @else
                 <a href="" class="logo logo-admin"><img src="{{ URL::asset('assets/theme/images/bible-cross-logo.png')}}" alt="" height="55" class="logo-large"></a>

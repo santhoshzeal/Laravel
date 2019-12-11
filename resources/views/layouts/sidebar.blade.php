@@ -22,7 +22,15 @@
                             @if($crudOrganization[0]->orgLogo == "")
                                 @php ($orgLogoName = "bible-cross-logo.png")
                             @else
-                                @php ($orgLogoName = $crudOrganization[0]->orgId.'/org_logo/'.$crudOrganization[0]->orgLogo)
+                                <?php
+                                $orgLogo_json = json_decode(unserialize($crudOrganization[0]->orgLogo));
+                                $orguploaded_file_name = $orgLogo_json->uploaded_file_name;
+                                $orguploaded_path = $orgLogo_json->uploaded_path;
+                                $orgdownload_path = $orgLogo_json->download_path;
+                                $orgLogo = $orgdownload_path.$orguploaded_file_name;
+                                //dd($orguploaded_file_name,$orgdownload_path);
+                                ?>
+                                @php ($orgLogoName = $crudOrganization[0]->orgId.'/org_logo/'.$orguploaded_file_name)
                             @endif
 
                             <a href="" class="logo"><img src="{{ URL::asset('assets/uploads/organizations/'.$orgLogoName)}}" alt="" height="55" class="logo-large"></a>

@@ -343,10 +343,6 @@ class UserController extends Controller {
      		        
         $data['get_profile_info'] = UserMaster::selectFromUserMaster($whereArray,null,null,null,null,null,null,'1')->get()[0];
         
-        $file = json_decode(unserialize($data['get_profile_info']->profile_pic));
-
-        $data['profile_image'] = $file->uploaded_file_name;
-
         return view('users.profile_settings', $data);
         
         

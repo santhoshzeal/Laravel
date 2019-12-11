@@ -44,10 +44,18 @@
                         
                         <div class="form-group row">
                             <label for="example-url-input" class="col-sm-2 col-form-label">Profile Image</label>                                
-                            <div class="card-body">                               
-                                   @php ($profLogoName = $get_profile_info->orgId.'/profile/'.$profile_image)
+                            <div class="card-body">
+                                    <?php
+
+                                    $profile_pic_image= URL::asset('/assets/uploads/organizations/avatar.png');
+                                    if(isset($get_profile_info->profile_pic)){
+                                        $profile_pic_image_json = json_decode(unserialize($get_profile_info->profile_pic));
+                                        $profile_pic_image = $profile_pic_image_json->download_path.$profile_pic_image_json->uploaded_file_name;
+                                    }
+                                    ?>         
+                                   
                                 <div class="">
-                                    <img class="img-thumbnail" alt="200x200" style="width: 200px; height: 200px;" src="{{ URL::asset('assets/uploads/organizations/'.$profLogoName)}}" data-holder-rendered="true">
+                                    <img class="img-thumbnail" alt="200x200" style="width: 200px; height: 200px;" src="{{ $profile_pic_image }}" data-holder-rendered="true">
                                 </div>
                             </div>
                         </div>
@@ -96,8 +104,9 @@ function submitUpdateProfile(){
     $('#profile_update_form').ajaxForm(function(data) {
         $("#cprofile_update_form_status").html(data.message);
         setTimeout(function(){
-            createProfileDlg.close();            
-        },2000);
+            createProfileDlg.close();   
+            location.reload();         
+        },1000);
     });
 
     $("#formSubmitBtn").click();

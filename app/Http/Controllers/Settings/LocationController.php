@@ -171,9 +171,9 @@ class LocationController extends Controller {
 
         $imageName .= "_" . time() . '.' . $extension;
         
-        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "orglogo" . DIRECTORY_SEPARATOR;
+        $destinationPath = $this->common_file_upload_path['PROFILE_PIC_UPLOAD_PATH'] . DIRECTORY_SEPARATOR . Auth::user()->orgId . DIRECTORY_SEPARATOR . "org_logo" . DIRECTORY_SEPARATOR;
 
-        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "orglogo" . '/';
+        $downloadPath = $this->common_file_download_path['PROFILE_PIC_DOWNLOAD_PATH'] . '/' . Auth::user()->orgId . '/' . "org_logo" . '/';
 
         $file->move(
                 $destinationPath, $imageName
