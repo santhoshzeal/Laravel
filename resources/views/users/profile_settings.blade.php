@@ -56,9 +56,11 @@
                                    
                                 <div class="">
                                     <img class="img-thumbnail" alt="200x200" style="width: 200px; height: 200px;" src="{{ $profile_pic_image }}" data-holder-rendered="true">
+                                    <a href="" class="btnProfilePicEdit"  data-toggle="modal" data-target="#profilePicModal" style="text-align: right;"><i class="fa fa-edit"></i> Update Profile Image</a> 
                                 </div>
                             </div>
                         </div>
+                        
                 </div>
         </div>
     </div> <!-- end col -->
@@ -67,10 +69,70 @@
 <div class="button-items col-md-6">
       <input class="form-control" type="hidden" value="<?php echo $get_profile_info->id; ?>" id="userid" name="userid">
        <button type="button" onclick="createProfileDialog()" class="btn btn-primary waves-effect waves-light">Update Profile</button>
+
 </div>
 
 
-<script>
+<script src="{{ URL::asset('assets/crop/croppie.js') }}"></script>
+
+<link rel="stylesheet" href="{{ URL::asset('assets/crop/croppie.css') }}">
+
+
+@include('popup.household')
+
+@include('popup.modal_popup_member')
+
+
+<script type="text/javascript">
+
+$uploadCrop = $('#upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+            width: 128,
+            height: 128,
+            type: 'circle'
+        },
+        boundary: {
+            width: 300,
+            height: 300
+        }
+    });
+
+
+    $('#upload').on('change', function () { 
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $uploadCrop.croppie('bind', {
+                url: e.target.result
+            }).then(function(){
+                console.log('jQuery bind complete');
+            });
+            
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+
+
+    $('.upload-result').on('click', function (ev) {
+        $uploadCrop.croppie('result', {
+            type: 'canvas',
+            size: 'viewport'
+        }).then(function (resp) {
+
+
+            $.ajax({
+                url: siteUrl+'/user_profile_file_upload',
+                type: "POST",
+                data: {"image":resp,"user_id":$("#userid").val()},
+                success: function (data) {
+                    html = '<img src="' + resp + '" />';
+                    $("#upload-demo-i").html(html);
+                }
+            });
+        });
+    });
+
+
 
 function createProfileDialog() {
 

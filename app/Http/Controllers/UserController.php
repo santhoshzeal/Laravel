@@ -339,7 +339,9 @@ class UserController extends Controller {
     
         $user_id= Auth::id();
 
-        $whereArray = array('users.id' => $user_id);       
+        $whereArray = array('users.id' => $user_id);   
+        
+        $data['user'] = $user_id;
      		        
         $data['get_profile_info'] = UserMaster::selectFromUserMaster($whereArray,null,null,null,null,null,null,'1')->get()[0];
         
@@ -369,24 +371,24 @@ class UserController extends Controller {
 
         $userid = $request->userid;
 
-        $profile_pic = "";
+        //$profile_pic = "";
 
         $whereArray = array('users.id' => $userid);
 
         $get_profile_info = UserMaster::selectFromUserMaster($whereArray,null,null,null,null,null,null,'1')->get()[0];
 
-        if (isset($request->profile_pic) && $request->profile_pic != "") {
+       /*if (isset($request->profile_pic) && $request->profile_pic != "") {
             
             $profile_pic = $this->resourceFileUpload($request->profile_pic);
 
         } else {
 
             $profile_pic = $get_profile_info->profile_pic;
-        }
+        }*/
 
         $insertData = $request->except(['_token','userid']);
 
-        $insertData['profile_pic'] = $profile_pic;
+        //$insertData['profile_pic'] = $profile_pic;
 
         UserMaster::where("id",$userid)->update($insertData);
 

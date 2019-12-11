@@ -6,7 +6,6 @@
 </div> -->
 
 
-
 <!--  Modal Profile pic upload -->
 <div id="profilePicModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="profilePicModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
