@@ -54,7 +54,7 @@
                                     }
                                     ?>         
                                    
-                                <div class="">
+                                <div class="" id="upload-demo-i">
                                     <img class="img-thumbnail" alt="200x200" style="width: 200px; height: 200px;" src="{{ $profile_pic_image }}" data-holder-rendered="true">
                                     <a href="" class="btnProfilePicEdit"  data-toggle="modal" data-target="#profilePicModal" style="text-align: right;"><i class="fa fa-edit"></i> Update Profile Image</a> 
                                 </div>

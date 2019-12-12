@@ -63,3 +63,67 @@ After event
 3. Change serrvice to Position
 4. Scheduling change service->position in all places
 5. Add new tab scheduling in member profile and show the schedulin details and also with accept / decline
+
+12-Dec-2019
+
+1. Color coding for group members 
+2. Profile redirect to ->http://localhost/dallas/public/people/member/0000000003
+3. CHnage  Dallas -> respective church name
+4. Giving
+	->
+	Type of giving
+		Admin only
+		a.Cash/Cheque
+		b.Online
+		c.TexttoGive
+
+
+		1. Giving setup page for admin
+			->stripe -> plugin (paypal)
+			-> TexttoGive check for texttogive option
+			
+		2.Giving Payment transaction details page	
+
+			Accounting module:
+
+			Form with name search, sub type of giving(Cash/Cheque) , cheque details(no,date,bank),Amount, Description, Event, 
+
+			Giving reports=>
+				Name, Payment mode, Sub type payment, event/purpose, Amount ->click here show more details
+
+
+			Church expenses/donation=>
+				Expenses/donation purpose, Payment mode,Sub type payment, Amount , Credit/Debit
+
+		3. Giving page in members
+			-> They can choose event
+			-> As Donation without event
+			-> Page -> 
+			Type => Donation,Events
+				a.Donation=> Amount=>Stripe details=> confiormation
+				b.Events=>Select date=>events listing=>choose an event=>Amount to be entered from member=>stripe details=>payment confiormation
+
+	
+5. Attendance		
+	Pastors to show reports
+	Admin to log the attendance
+	Attendacnce tab in events
+		Admin can select date( Create Schedule)Select Date(Default todays date)=> select event=>Male/Female=> Any Name can be added=> submit
+	Attendance report
+		Date and event filter
+
+6. Group admin will add attendance seperate module for groups
+
+7. Insights
+	Superadmin can 
+	(same like resource from group)upload a doc=>name=>desc
+	Superadmin reports like how many of them viewed 
+	Pastors/Admin can view insights
+8. Serve Team Chat Board (Band)
+	-> configurable option from superadmin to enable disable chat box for roles each organization level
+	Only for volunteer role chat box within orgnazation level	
+	
+9. Communication templates details documented
+			
+
+
