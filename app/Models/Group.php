@@ -270,19 +270,41 @@ class Group extends Model
 
     public static function getallGroupTypesDetails() {
 
-        //DB::enableQueryLog();
-		
-        //SELECT groups.id, `groups`.`name`, `groups`.`description`, `groups`.`image_path`, `groups`.`groupType_id`, `group_types`.`name` as group_type_name FROM `groups` LEFT JOIN group_types on `groups`.`groupType_id` = `group_types`.`id` where `groups`.`image_path` !='' group by `groups`.`groupType_id`
+        //DB::enableQueryLog();		
+     				
+		//SELECT `group_types`.`id`, `group_types`.`name`, `group_types`.`description`, `groups`.`image_path` FROM `group_types` LEFT JOIN `groups`  ON `groups`.`groupType_id` = `group_types`.`id` group by `group_types`.`id`
 
         $groupDetails = self::select('groups.id', 'groups.orgId', 'groups.groupType_id', 'groups.name', 'groups.description', 'groups.notes', 'groups.image_path')
                             ->addSelect("group_types.name as group_type_name")                            
-                            ->join("group_types","group_types.id","=","groups.groupType_id")
-                            ->where("groups.image_path","IS NOT NULL");				
+                            ->leftJoin("group_types","group_types.id","=","groups.groupType_id")
+                            ->groupBy("group_types.id");						
 
         //dd(DB::getQueryLog($groupDetails->get()));
 
         return $groupDetails;
     }
+	
+	
+	/**
+     * @Function name : selectFromGroupCondition
+     * @Purpose : Select from Group data based on where array
+     * @Added by : Santhosh
+     * @Added Date : Dec 12, 2019
+     */
+    public static function selectFromGroupCondition($whereArray) {
+
+		//DB::enableQueryLog();
+		
+        $image_path = array("");
+		
+        $query = Group::where($whereArray)->whereNotIn('image_path', $image_path)->limit(3);
+
+		//dd(DB::getQueryLog($query->get()));
+
+		return $query;
+    }
+	
+	
 
 
 }

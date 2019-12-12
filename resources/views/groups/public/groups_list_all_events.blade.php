@@ -11,8 +11,27 @@
                 
                 <div class="media-body">    
                     <h3 class="mt-0 font-18">{{ $get_all_group_details->name }}</h3>
-                    <p>{{ $get_all_group_details->description  }}</p>                    
+                    <p>{{ $get_all_group_details->description  }}</p> 
+                    <p class="card-text">
+			        @if(isset($get_all_group_details->image_path))
+                      <?php
+					      $group_image_json = json_decode(unserialize($get_all_group_details->image_path));
+					      $profile_pic_image = $group_image_json->original_filename;
+					  ?>
+
+					    @php ($groupImg = $get_all_group_details->orgId.'/group/'.$get_all_group_details->id.'/'.$profile_pic_image)
+					
+					  @else 
+                     
+					    @php ($groupImg = " ")
+
+					  @endif
+	            	<span class="pull-left">	            		
+	            			<img class="d-flex mr-3 rounded-square" src="{{ URL::asset('assets/uploads/organizations/'.$groupImg)}}" alt="Group image" height="100" />
+	            	</span>
+                    </p>                   
                 </div>
+                
                      
             </div>
         </div>

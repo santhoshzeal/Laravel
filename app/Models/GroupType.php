@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use DB;
+
 class GroupType extends Model
 {
     protected $table = 'group_types';
@@ -50,6 +52,31 @@ class GroupType extends Model
     public static function selectFromGroupType($whereArray) {
         $query = GroupType::where($whereArray);
         return $query;
+    }
+	
+	
+	 /**
+    * @Function name : getallGroupTypesDetails
+    * @Added by : Santhosh
+    * @Added Date : Dec 12, 2019
+    */
+
+    public static function getallGroupTypesDetails() {
+
+        //DB::enableQueryLog();
+     				
+		//select `group_types`.`id`,`group_types`.`name` as `group_type_name`, `groups`.`id`, `groups`.`groupType_id`, `groups`.`name`, `groups`.`description`, `groups`.`image_path` from `group_types` left join `groups` on `group_types`.`id` = `groups`.`groupType_id` group by `group_types`.`id`
+
+        $groupDetails = self::select('group_types.id', 'group_types.name as group_type_name', 'group_types.description as group_type_description')
+                            ->addSelect("groups.image_path as group_img","groups.id as groupid","groups.orgId as orgid")                            
+                            ->leftJoin("groups","groups.groupType_id","=","group_types.id")
+                            //->where("groups.image_path","IS NOT NULL");				
+                            //->where("groups.image_path","!=","")
+                            ->groupBy("group_types.id");						
+
+        //dd(DB::getQueryLog($groupDetails->get()));
+
+        return $groupDetails;
     }
 
 

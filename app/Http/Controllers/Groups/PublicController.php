@@ -47,16 +47,14 @@ class PublicController extends Controller
             $data['org'] =  \Request::segment(3);
         }	
 		
-			//dd($data);
-            //dd($data['group_types']);
-            //$group_id = '1';
+	
             //$data['get_count'] = Group::getGroupCount($group_id);
 
-            $data['get_all_group_types'] = Group::getallGroupTypesDetails();
-            //dd($data['get_all_group_types']); 
+            $data['get_all_group_types'] = GroupType::getallGroupTypesDetails()->get();
 
+            //dd($data['get_all_group_types']); 
 			
-            return view("groups.public.groups_list", $data);
+            return view("groups.public.groups_list", $data);            
         }else {
             abort(404, 'Organization not present.');
         }
@@ -108,7 +106,6 @@ class PublicController extends Controller
 	    $data['list_all_group_types'] = Group::selectFromGroup($whereArray,null,null,null,null,null,null,'1')->get();
 	    //$data['list_all_group_types'] = Group::crudGroup($whereArray,null,null,null,null,'1')->get();
 		
-		//print_r($data['list_all_group_types']);
 		//dd($data['list_all_group_types']);
         
         return view('groups.public.groups_list_all',$data);
