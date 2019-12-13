@@ -64,7 +64,7 @@ After event
 4. Scheduling change service->position in all places
 5. Add new tab scheduling in member profile and show the schedulin details and also with accept / decline
 
-12-Dec-2019
+12-Dec-2019 Phase-3
 
 1. Color coding for group members 
 2. Profile redirect to ->http://localhost/dallas/public/people/member/0000000003

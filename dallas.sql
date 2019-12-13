@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2019 at 08:16 AM
+-- Generation Time: Dec 13, 2019 at 07:04 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `comm_details` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `comm_details`
@@ -111,7 +111,10 @@ CREATE TABLE IF NOT EXISTS `comm_details` (
 
 INSERT INTO `comm_details` (`id`, `comm_master_id`, `to_user_id`, `read_status`, `delete_status`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 1, 2, 'UNREAD', 'UNDELETED', NULL, '2019-09-05 20:18:05', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(2, 2, 1, 'UNREAD', 'UNDELETED', NULL, '2019-09-27 20:07:02', NULL, '0000-00-00 00:00:00', NULL, NULL);
+(2, 2, 1, 'UNREAD', 'UNDELETED', NULL, '2019-09-27 20:07:02', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(3, 3, 2, 'UNREAD', 'UNDELETED', NULL, '2019-12-04 00:42:22', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(4, 3, 1, 'UNREAD', 'UNDELETED', NULL, '2019-12-04 00:42:22', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(5, 4, 3, 'UNREAD', 'UNDELETED', NULL, '2019-12-05 01:44:57', NULL, '0000-00-00 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -137,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `comm_masters` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `comm_masters`
@@ -145,7 +148,9 @@ CREATE TABLE IF NOT EXISTS `comm_masters` (
 
 INSERT INTO `comm_masters` (`id`, `comm_template_id`, `org_id`, `type`, `tag`, `name`, `subject`, `body`, `from_user_id`, `related_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 4, 1, 1, 'welcome', NULL, 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, NULL, '2019-09-05 20:18:05', NULL, '2019-09-05 20:18:05', NULL, NULL),
-(2, 14, 1, 1, 'schedule_manual_notify', 'Scheduling event', 'Event Scheduled', 'Your Event has been scheduled, please follow the below mentioned details.', 1, 1, NULL, '2019-09-27 20:07:02', NULL, '2019-09-27 20:07:02', NULL, NULL);
+(2, 14, 1, 1, 'schedule_manual_notify', 'Scheduling event', 'Event Scheduled', 'Your Event has been scheduled, please follow the below mentioned details.', 1, 1, NULL, '2019-09-27 20:07:02', NULL, '2019-09-27 20:07:02', NULL, NULL),
+(3, 5, 1, 2, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, NULL, '2019-12-04 00:42:22', NULL, '2019-12-04 00:42:22', NULL, NULL),
+(4, 4, 1, 1, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, NULL, '2019-12-05 01:44:57', NULL, '2019-12-05 01:44:57', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -302,6 +307,18 @@ INSERT INTO `form_submissions` (`id`, `orgId`, `form_id`, `profile_fields`, `gen
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `giving`
+--
+
+CREATE TABLE IF NOT EXISTS `giving` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `groups`
 --
 
@@ -340,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data for table `groups`
@@ -361,7 +378,12 @@ INSERT INTO `groups` (`id`, `orgId`, `groupType_id`, `name`, `description`, `not
 (12, 1, 1, 'eleven', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (13, 1, 1, 'tweleve', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (14, 1, 1, 'thirteen', 'dada', NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, 0, 1, '', 1, 1, NULL, '2019-09-27 20:09:00', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(15, 1, 3, 'Chennai Heavy Rain Dec1', NULL, NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-02 00:40:41', NULL, NULL, NULL, NULL);
+(15, 1, 3, 'Chennai Heavy Rain Dec1', 'Dec 5 desc', NULL, 's:386:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/15\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/15\\/","uploaded_file_name":"list-of-all-prime-minister-india_1575336075.jpg","original_filename":"list-of-all-prime-minister-india_1575336075.jpg","upload_file_extension":"jpg","file_size":0}";', 'Dec 5 rrrr', 1, '1', 1, '2019-12-05', 1, 6, 0, NULL, NULL, '["name","photo","email"]', '["name","photo"]', 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-02 00:40:41', '1', '2019-12-03 01:36:08', NULL, NULL),
+(16, 1, 3, 'Pallavaram', NULL, NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-13 00:30:10', NULL, NULL, NULL, NULL),
+(17, 1, 3, 'Pallavaram', NULL, NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-13 00:30:22', NULL, NULL, NULL, NULL),
+(18, 1, 3, 'Pallavaram', NULL, NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-13 00:30:55', NULL, NULL, NULL, NULL),
+(19, 1, 3, 'Manali', 'Coimbatore desc', NULL, 's:334:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/19\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/19\\/","uploaded_file_name":"instwo_1576197187.png","original_filename":"instwo_1576197187.png","upload_file_extension":"png","file_size":0}";', 'Coimbatore', 1, '2', 0, NULL, 0, NULL, 0, NULL, NULL, '', '', 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-13 00:31:20', '1', '2019-12-13 00:33:09', NULL, NULL),
+(20, 1, 3, 'Tiruppur', NULL, NULL, NULL, NULL, 1, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, 1, NULL, 1, 1, '1', '2019-12-13 00:31:33', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -415,14 +437,16 @@ CREATE TABLE IF NOT EXISTS `group_events` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `group_events`
 --
 
 INSERT INTO `group_events` (`id`, `group_id`, `title`, `isMutiDay_event`, `start_date`, `end_date`, `start_time`, `end_time`, `repeat`, `location`, `description`, `is_event_remind`, `event_remind_before`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'Event', 0, '2019-10-23', '2019-10-30', '09:00:00', '21:00:00', 'never', 'locaion1', 'asdada', 1, NULL, NULL, '2019-10-14 21:07:25', NULL, '2019-10-14 21:07:25', NULL, NULL);
+(1, 1, 'Event', 0, '2019-10-23', '2019-10-30', '09:00:00', '21:00:00', 'never', 'locaion1', 'asdada', 1, NULL, NULL, '2019-10-14 21:07:25', NULL, '2019-10-14 21:07:25', NULL, NULL),
+(2, 15, 'Dec 5', 0, '2019-12-05', '2019-12-05', '11:00:00', '12:00:00', 'never', 'locaion1', 'asdad', 1, NULL, NULL, '2019-12-03 01:20:22', NULL, '2019-12-03 01:20:22', NULL, NULL),
+(3, 15, 'Todayas events', 0, '2019-12-11', '2019-12-11', '11:00:00', '12:00:00', 'never', '1', 'Todayas events desc', 1, NULL, NULL, '2019-12-10 05:43:04', NULL, '2019-12-10 05:43:04', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -461,7 +485,7 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `middle_name` varchar(100) DEFAULT NULL,
   `last_name` varchar(100) DEFAULT NULL,
   `full_name` varchar(255) DEFAULT NULL,
-  `mobile_no` int(15) DEFAULT NULL,
+  `mobile_no` varchar(15) DEFAULT NULL,
   `message` text,
   `member_since` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createdBy` text,
@@ -471,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `group_members`
@@ -479,8 +503,13 @@ CREATE TABLE IF NOT EXISTS `group_members` (
 
 INSERT INTO `group_members` (`id`, `orgId`, `group_id`, `isUser`, `user_id`, `role`, `email`, `first_name`, `middle_name`, `last_name`, `full_name`, `mobile_no`, `message`, `member_since`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (6, 1, 15, 1, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 01:58:49', '1', '2019-12-02 01:58:49', NULL, '2019-12-02 01:58:49', NULL, NULL),
-(7, 1, 15, 1, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 02:41:15', '1', '2019-12-02 02:41:15', NULL, '2019-12-02 02:41:15', NULL, NULL),
-(8, 1, 14, 1, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 02:44:32', '1', '2019-12-02 02:44:32', NULL, '2019-12-02 02:44:32', NULL, NULL);
+(7, 1, 15, 1, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 02:41:15', '1', '2019-12-02 02:41:15', '1', '2019-12-12 00:57:54', NULL, NULL),
+(8, 1, 14, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-02 02:44:32', '1', '2019-12-02 02:44:32', '1', '2019-12-09 02:01:43', NULL, NULL),
+(9, 1, 1, 2, NULL, 2, 'sathishs1@yahoo.co.in', 'Murali', NULL, NULL, 'Sathish Kumar', '08088231481', NULL, '2019-12-09 00:13:53', NULL, '2019-12-09 00:13:53', NULL, '2019-12-12 01:52:13', NULL, NULL),
+(10, 1, 1, 2, NULL, 2, 'de@asda.com', 'Raju', NULL, NULL, 'asda asdsada', '1222111', NULL, '2019-12-09 00:14:26', NULL, '2019-12-09 00:14:26', NULL, '2019-12-12 01:52:17', NULL, NULL),
+(11, 1, 1, 2, NULL, 2, 'sathishs1@yahoo.co.in', 'Sathish Kumar', NULL, NULL, 'Sathish Kumar', '08088231481', NULL, '2019-12-09 00:16:31', NULL, '2019-12-09 00:16:31', NULL, '2019-12-09 00:22:23', NULL, NULL),
+(12, 1, 15, 2, NULL, 2, 'sathishs1@yahoo.co.in', 'Sathish Kumar', NULL, NULL, 'Sathish Kumar', '08088231481', NULL, '2019-12-09 00:28:42', NULL, '2019-12-09 00:28:42', NULL, '2019-12-09 00:28:42', NULL, NULL),
+(13, 1, 7, 2, NULL, 2, 'sathishs1@yahoo.co.in', 'Sathish Kumar', NULL, NULL, 'Sathish Kumar', '08088231481', NULL, '2019-12-09 00:29:08', NULL, '2019-12-09 00:29:08', NULL, '2019-12-09 00:29:08', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -503,14 +532,15 @@ CREATE TABLE IF NOT EXISTS `group_resources` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `group_resources`
 --
 
 INSERT INTO `group_resources` (`id`, `group_id`, `name`, `type`, `source`, `description`, `visibility`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'asdd', 1, 's:352:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/resource\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/resource\\/","uploaded_file_name":"iglowlogo_1571107063.png","original_filename":"iglowlogo_1571107063.png","upload_file_extension":"png","file_size":0}";', 'adada', 1, '1', '2019-10-14 21:07:43', NULL, '2019-10-14 21:07:43', NULL, NULL);
+(1, 1, 'asdd', 1, 's:352:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/resource\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/resource\\/","uploaded_file_name":"iglowlogo_1571107063.png","original_filename":"iglowlogo_1571107063.png","upload_file_extension":"png","file_size":0}";', 'adada', 1, '1', '2019-10-14 21:07:43', NULL, '2019-10-14 21:07:43', NULL, NULL),
+(2, 15, 'Dec 5', 1, 's:368:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/15\\/resource\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/group\\/15\\/resource\\/","uploaded_file_name":"cobratechlogo_1575336050.png","original_filename":"cobratechlogo_1575336050.png","upload_file_extension":"png","file_size":0}";', 'Dec 5', 2, '1', '2019-12-03 01:20:50', NULL, '2019-12-03 01:20:50', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -571,7 +601,7 @@ CREATE TABLE IF NOT EXISTS `group_types` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `group_types`
@@ -580,7 +610,8 @@ CREATE TABLE IF NOT EXISTS `group_types` (
 INSERT INTO `group_types` (`id`, `orgId`, `name`, `description`, `isPublic`, `d_isPublic`, `d_meeting_schedule`, `d_description`, `d_location`, `d_contact_email`, `d_visible_leaders_fields`, `d_visible_members_fields`, `d_is_enroll_autoClose`, `d_enroll_autoClose_on`, `d_is_enroll_autoClose_count`, `d_enroll_autoClose_count`, `d_is_enroll_notify_count`, `d_enroll_notify_count`, `d_can_leaders_search_people`, `d_is_event_public`, `d_is_event_remind`, `d_event_remind_before`, `d_can_leaders_take_attendance`, `d_enroll_status`, `d_enroll_msg`, `d_leader_visibility_publicly`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 1, 'Small groups', NULL, 1, 1, 'my meeting desc is here schedule', 'i all', '1', 'asd@asda.com', '["name","phone"]', '["photo","email"]', 1, '1970-01-01', 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', '1', '2019-12-02 00:38:17', NULL, NULL),
 (2, 1, 'Unique', NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-09-15 08:19:10', NULL, '2019-09-15 08:19:10', NULL, NULL),
-(3, 1, 'Chennai Grp', 'Chennai Grp desc', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-12-02 00:38:57', NULL, '2019-12-02 00:38:57', NULL, NULL);
+(3, 1, 'Chennai Grp', 'Chennai Grp desc', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-12-02 00:38:57', NULL, '2019-12-02 00:38:57', NULL, NULL),
+(4, 1, 'Grp Type details', 'Grp Type details', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-12-10 05:31:59', NULL, '2019-12-10 05:31:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -600,7 +631,14 @@ CREATE TABLE IF NOT EXISTS `households` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `households`
+--
+
+INSERT INTO `households` (`id`, `orgId`, `hhPrimaryUserId`, `name`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 2, 'ramesg de f Household', NULL, '2019-12-04 00:42:22', NULL, '2019-12-04 00:42:22', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -620,7 +658,15 @@ CREATE TABLE IF NOT EXISTS `household_user` (
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `household_user`
+--
+
+INSERT INTO `household_user` (`id`, `household_id`, `user_id`, `isPrimary`, `createdBy`, `updatedBy`, `deletedBy`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 1, 2, 1, NULL, NULL, NULL, '2019-12-04 00:42:28', NULL, NULL),
+(4, 1, 1, 2, NULL, NULL, NULL, '2019-12-04 00:42:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -814,7 +860,8 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (13, 'App\\User', 1),
-(14, 'App\\User', 2);
+(14, 'App\\User', 2),
+(14, 'App\\User', 3);
 
 -- --------------------------------------------------------
 
@@ -841,6 +888,7 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
 --
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('01b54bae27d01107095834b45b6d5b9d7fae4b8d8c0b9c015e68260d7c5e8d9a90ec0a99eebf5b67', 1, 1, 'dollar', '[]', 0, '2019-12-04 00:32:41', '2019-12-04 00:32:41', '2020-12-04 06:02:41'),
 ('02011951bb61cffaf3cb8034cde8d2a6aba669c62838cfa3ec7296de8d2b176d7dabd391b40045b9', 1, 1, 'dollar', '[]', 0, '2019-09-29 19:46:32', '2019-09-29 19:46:32', '2020-09-30 01:16:32'),
 ('054e8ce59e69dbca4363652dd1b59377156ca1cfe6150acf10707c49ffb2e24845a2283b34b2ef81', 1, 1, 'dollar', '[]', 0, '2019-09-27 22:35:46', '2019-09-27 22:35:46', '2020-09-28 04:05:46'),
 ('06b92c66f47f1b09e8cb6e1ee32778a80108bdb62e83718771fd3b2163b707491784dba739514418', 1, 1, 'dollar', '[]', 0, '2019-08-28 18:43:18', '2019-08-28 18:43:18', '2020-08-29 00:13:18'),
@@ -852,15 +900,21 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('158263b6d99cbb33665d910d839f1d57ce572a49a49efba04c6442c289828af8b7396c0910c88a79', 1, 1, 'dollar', '[]', 0, '2019-09-10 21:40:53', '2019-09-10 21:40:53', '2020-09-11 03:10:53'),
 ('16339df9f48f5305d4efca4a4a013ea82dfaf0e1e669c48744b0918fe9049da5e09835e4ae5ba60e', 1, 1, 'dollar', '[]', 0, '2019-09-12 18:39:41', '2019-09-12 18:39:41', '2020-09-13 00:09:41'),
 ('17dd8bbcecc3613454cc8b67f84c85d92cb1794fb88355a7c6a5af98b7f68c407208862ba2fd24e8', 1, 1, 'dollar', '[]', 0, '2019-10-19 18:48:41', '2019-10-19 18:48:41', '2020-10-20 00:18:41'),
+('1873c7183e374f5e07e95f84c40d1dcd8551392fb14812e3cfed30157730e5951472070b8fa0999e', 1, 1, 'dollar', '[]', 0, '2019-12-03 00:56:54', '2019-12-03 00:56:54', '2020-12-03 06:26:54'),
+('18a2f9ac3a1ea3a028add989b416007711cba5ef915f106c995e7a643db921892543946eeb65aac7', 1, 1, 'dollar', '[]', 0, '2019-12-04 00:15:46', '2019-12-04 00:15:46', '2020-12-04 05:45:46'),
 ('19272c2e52d3f4bf9c452415fef1cc3e2a23e3ddf2bb36eb4955393b6b5399abe289bec13b157272', 1, 1, 'dollar', '[]', 0, '2019-08-24 20:14:52', '2019-08-24 20:14:52', '2020-08-25 01:44:52'),
 ('1f8f931bb955fb6edba1dd8085892816a7d94a3cb260bb6771b77744915373e1005c47c536aca82a', 1, 1, 'dollar', '[]', 0, '2019-12-01 13:02:14', '2019-12-01 13:02:14', '2020-12-01 18:32:14'),
 ('241bfe2b193c90a379e011ed6c1389ffa45e69debf4ebae8c6451cdde610c1408b9b5ce6d675e21e', 1, 1, 'dollar', '[]', 0, '2019-11-02 11:16:29', '2019-11-02 11:16:29', '2020-11-02 16:46:29'),
 ('283d82cd1c526e52825dbf5ce6900872d84645596ba30c7abb3fbe010deb4472f17b53086b3f477a', 1, 1, 'dollar', '[]', 0, '2019-10-28 20:24:01', '2019-10-28 20:24:01', '2020-10-29 01:54:01'),
+('293c125b8d400630d295dc297f13d9471133e30976e381d9ccc984e1670c0e9bac30979e7edc3ffb', 1, 1, 'dollar', '[]', 0, '2019-12-10 00:40:59', '2019-12-10 00:40:59', '2020-12-10 06:10:59'),
 ('2b5b2a114f5619b35b7f0081d83352923291545401dd5edec4fd599456d4fd5b28adc8b56ffab822', 1, 1, 'dollar', '[]', 0, '2019-11-03 15:44:27', '2019-11-03 15:44:27', '2020-11-03 21:14:27'),
 ('2d29e100b686baa8d92c5c7f10e3aa5b6cc5673dc59c8f052bcfb512c9d1b7b9c3e4751f2f9924da', 9, 1, 'dollar', '[]', 0, '2019-09-02 04:08:44', '2019-09-02 04:08:44', '2020-09-02 09:38:44'),
 ('302072937ee1300a17c3afe68ebeae90195aed4e5b0b1cb22073297aadda5becb67025e9fa511776', 1, 1, 'dollar', '[]', 0, '2019-09-18 09:16:55', '2019-09-18 09:16:55', '2020-09-18 14:46:55'),
+('30866b419a2c95e036075a0232e068200f69884f631da84cb4a8c6540e25ed45d8ac85f043f2df58', 3, 1, 'dollar', '[]', 0, '2019-12-05 01:45:11', '2019-12-05 01:45:11', '2020-12-05 07:15:11'),
+('31864836a7b98d165ff965efce9a2eea7776607fc3f71d2797f98424c29b0532a3da4a1590dadf45', 1, 1, 'dollar', '[]', 0, '2019-12-13 00:29:08', '2019-12-13 00:29:08', '2020-12-13 05:59:08'),
 ('3456c9c15b71faa05813f8246f2f64979b4f875d22cd34abcfb66c509cca7fd477050272d351ab0f', 1, 1, 'dollar', '[]', 0, '2019-09-11 09:51:23', '2019-09-11 09:51:23', '2020-09-11 15:21:23'),
 ('3795009633228fe374bc7d665db47f565d0978d2e602bc200bd9fa465e41333dfaca410668439550', 1, 1, 'dollar', '[]', 0, '2019-11-11 01:03:32', '2019-11-11 01:03:32', '2020-11-11 06:33:32'),
+('3d0e5fc3fae705c3fd7d0a28b3058ab40c55f54aaa73b82c2b527f1dbaf7c4517e495958e6762ffd', 1, 1, 'dollar', '[]', 0, '2019-12-10 05:26:52', '2019-12-10 05:26:52', '2020-12-10 10:56:52'),
 ('3e676fe179c1c385fb08d43874b54c11f9ddbdb7b8292e3c180decfae8ccb3a577b096a1a3e31115', 1, 1, 'dollar', '[]', 0, '2019-11-03 11:10:08', '2019-11-03 11:10:08', '2020-11-03 16:40:08'),
 ('402ab601017494b14bc09382e0965ecd1e5e5e351aae8cd067ffb41f057e7f5232c7a9bb37348bc0', 8, 1, 'dollar', '[]', 0, '2019-09-02 04:07:33', '2019-09-02 04:07:33', '2020-09-02 09:37:33'),
 ('455877b653904f9c6048523a34715a018cef4d976c791e5f5cab7dfa5ce0409820ac15e772a3256d', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:53:49', '2019-09-01 23:53:49', '2020-09-02 05:23:49'),
@@ -869,6 +923,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('52d72709bdb3cb942af56f0c73ec41da9cbfa9a3b58a106c6beb3bdc492f398847ead9ceac5d1832', 1, 1, 'dollar', '[]', 0, '2019-10-14 21:02:24', '2019-10-14 21:02:24', '2020-10-15 02:32:24'),
 ('5413b97e87e9f8d5fc3fbfe4b68cc6ff4224ee2c74e68b5d52354a925f95a1be7696926e03ede7be', 1, 1, 'dollar', '[]', 0, '2019-11-10 09:08:31', '2019-11-10 09:08:31', '2020-11-10 14:38:31'),
 ('5a40acb0ccb193c183e42b26b675befebe9ff4c137fd03e23f143139a183f258ef52d164d23151ac', 1, 1, 'dollar', '[]', 0, '2019-11-17 05:30:50', '2019-11-17 05:30:50', '2020-11-17 11:00:50'),
+('5e8b7cd26450e0c5759442ce7253f18a120db2328180d9d5b8f6a6fe80da37d05bed9648faabc11b', 1, 1, 'dollar', '[]', 0, '2019-12-11 02:00:52', '2019-12-11 02:00:52', '2020-12-11 07:30:52'),
 ('61acc42444269ef9391f7db16465b2d64bf943855c819290b0508258d970991c2149dfe737bc603e', 1, 1, 'dollar', '[]', 0, '2019-11-01 10:47:14', '2019-11-01 10:47:14', '2020-11-01 16:17:14'),
 ('63d403a69efeb2fccbbdef789856674b321f24aef840036ea3030030f39a602ddc2267adfac9edba', 1, 1, 'dollar', '[]', 0, '2019-09-29 21:44:32', '2019-09-29 21:44:32', '2020-09-30 03:14:32'),
 ('685dbfec990ed843e61c63b17448880dcb4c30d003612ed9122435006d78105d69a0b6ffd1d19ca6', 1, 1, 'dollar', '[]', 0, '2019-09-01 22:52:04', '2019-09-01 22:52:04', '2020-09-02 04:22:04'),
@@ -881,20 +936,27 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('7a64927dc3d31e440440f694937044c0ae4c529e8cfb58925066fe36c142d7b36c26fc2e372e8145', 1, 1, 'dollar', '[]', 0, '2019-09-03 10:56:57', '2019-09-03 10:56:57', '2020-09-03 16:26:57'),
 ('7ba3d1d0f79eb4e3f1869bc3bfa90a08d5e34d9220bdbe3adda6691c7796acc6b011f866bd145467', 1, 1, 'dollar', '[]', 0, '2019-11-17 12:30:22', '2019-11-17 12:30:22', '2020-11-17 18:00:22'),
 ('7c30cbce0a6743331c674d86f532f65cafe3ce5fa871de7483d2eaccf55c9a42c14bb0674909b1d3', 1, 1, 'dollar', '[]', 0, '2019-08-25 07:30:40', '2019-08-25 07:30:40', '2020-08-25 13:00:40'),
+('7cabcf95782f5912e7459778b4e5db4a266c72203e5e7e0f5c106088d5362b2d0755fb2073105846', 1, 1, 'dollar', '[]', 0, '2019-12-12 04:33:18', '2019-12-12 04:33:18', '2020-12-12 10:03:18'),
 ('7e1d70bf3f288eb4c2f815d57e93290abd3f41fdda886045c1a0c4446e53008ffb1d1b0a263ddafb', 1, 1, 'dollar', '[]', 0, '2019-09-01 23:54:46', '2019-09-01 23:54:46', '2020-09-02 05:24:46'),
 ('7f54116e712f21763e76a4e50ef9b71f18e9c8bcac89fca76e38e2864ae38faee204dda6971d4bf6', 1, 1, 'dollar', '[]', 0, '2019-11-16 13:46:31', '2019-11-16 13:46:31', '2020-11-16 19:16:31'),
 ('8407ae545b6bf07952355ec3447c6a80208c6e8b09a7637f7bf5f4ddb6c9dcb99ce3d1fa4050098a', 1, 1, 'dollar', '[]', 0, '2019-08-24 22:05:54', '2019-08-24 22:05:54', '2020-08-25 03:35:54'),
+('8bc7096ba857d74e088ef92065c7a14db24e45c1c4f18255e1d39607e45265f1705c7a3e7002b20c', 1, 1, 'dollar', '[]', 0, '2019-12-09 00:16:57', '2019-12-09 00:16:57', '2020-12-09 05:46:57'),
 ('8ec2222cbf759e82025013ff99f3357db0ee7c087e8cfadcfa4cffb684c0f3eb4b47491b8331722f', 1, 1, 'dollar', '[]', 0, '2019-09-15 08:03:24', '2019-09-15 08:03:24', '2020-09-15 13:33:24'),
 ('90b0cf280b5b6a0da5ea420615dcb6146aa868cb2914e4771a960173f6c609902ace470ad12a3936', 1, 1, 'dollar', '[]', 0, '2019-11-24 04:35:34', '2019-11-24 04:35:34', '2020-11-24 10:05:34'),
+('93d3eeee7090ae2cc90f7e07eb740e86eac3708e8589db06728ea8f111be54e786b2efbe7107ebba', 1, 1, 'dollar', '[]', 0, '2019-12-11 02:00:13', '2019-12-11 02:00:13', '2020-12-11 07:30:13'),
 ('94bf3108327fb1a09f2193a0854c5294392373407c6290d0c9077d36fa367452c87795cee0b2d64f', 1, 1, 'dollar', '[]', 0, '2019-09-02 01:59:19', '2019-09-02 01:59:19', '2020-09-02 07:29:19'),
 ('97f521aec71958cbccecb51177a68f785b3186d69da5f9e8c58d67b83f0d87835a8859113d70e0c9', 1, 1, 'dollar', '[]', 0, '2019-09-18 10:33:46', '2019-09-18 10:33:46', '2020-09-18 16:03:46'),
+('9a99ba39e761dbc17ca18e0fe37ffcf0f1335a8ddbb6d64be4e7118b5e94de911eb05d85d1168967', 1, 1, 'dollar', '[]', 0, '2019-12-12 04:32:20', '2019-12-12 04:32:20', '2020-12-12 10:02:20'),
+('9bcbc32af194f2eab4b21f14a59acf0231bbdb03f1457a83b5d97aaf939fa1a1260cf08515848b91', 1, 1, 'dollar', '[]', 0, '2019-12-06 00:09:39', '2019-12-06 00:09:39', '2020-12-06 05:39:39'),
 ('9dba0135ebb9641494e1d97e59f4354e3c1d5b07f1d7590f8f583c43b822dbb715d93af07e50dd60', 1, 1, 'dollar', '[]', 0, '2019-09-28 09:57:11', '2019-09-28 09:57:11', '2020-09-28 15:27:11'),
+('9f9de72198538823644224f43d402c81af22990b675e241a0c733ccd9d0c8b69ffe60aa3aee8f914', 1, 1, 'dollar', '[]', 0, '2019-12-10 05:26:53', '2019-12-10 05:26:53', '2020-12-10 10:56:53'),
 ('a0412fd16b217606bb25b74ecb9423069d0c6da3c0ab60a3809cbe7e38a667d4e149ddb4bda08da2', 1, 1, 'dollar', '[]', 0, '2019-11-18 03:08:09', '2019-11-18 03:08:09', '2020-11-18 08:38:09'),
 ('a1723d73c4fff1baa97084ae43e45452e7397e24b863cda5950b203ba50101d201f5d4c7dabc195c', 1, 1, 'dollar', '[]', 0, '2019-08-27 21:12:17', '2019-08-27 21:12:17', '2020-08-28 02:42:17'),
 ('a452aa737592a936ca377b140911ad676087e71b4078d783390f397042adc3c04b8445164e721213', 1, 1, 'dollar', '[]', 0, '2019-11-03 00:30:33', '2019-11-03 00:30:33', '2020-11-03 06:00:33'),
 ('a7289273947fb30912e96af73341d2a4df9f451979d18dbdaa40962783ed62ff7190eff5938b4c90', 1, 1, 'dollar', '[]', 0, '2019-08-31 04:16:35', '2019-08-31 04:16:35', '2020-08-31 09:46:35'),
 ('a8a5bbdbf236edebe4b3ac0a1c4bae9fe336830cf822843729123a0d05b9ac6b29cfa4f9198dce21', 1, 1, 'dollar', '[]', 0, '2019-09-17 19:33:41', '2019-09-17 19:33:41', '2020-09-18 01:03:41'),
 ('a9de36c574966338c0fce32a54d31c04a2aeb0898acad2bf85dcec9b56bebeab651f9876586ff50a', 1, 1, 'dollar', '[]', 0, '2019-10-28 04:20:21', '2019-10-28 04:20:21', '2020-10-28 09:50:21'),
+('ad3fdff2f7e83b37d3ca7928e30e87cbf87b8bef8289a99694df154f6f28fe63570da630bc22ab22', 1, 1, 'dollar', '[]', 0, '2019-12-11 00:30:37', '2019-12-11 00:30:37', '2020-12-11 06:00:37'),
 ('adcde0b137b07760d67aee5d0f00ba3088ad27c743c870df9088b4a769af7928c6f9676372300a1a', 1, 1, 'dollar', '[]', 0, '2019-10-23 19:12:50', '2019-10-23 19:12:50', '2020-10-24 00:42:50'),
 ('afb7ecf322cce1c0b02f09bad72eae1ffd15949ff145139e04bb79fd29ee6639744a1cacb15e45dd', 1, 1, 'dollar', '[]', 0, '2019-10-19 05:57:26', '2019-10-19 05:57:26', '2020-10-19 11:27:26'),
 ('b3211c42f7084ead2ecc214ce30761795364de62b3ae55ad2fa352a182591fd465eced8461d20505', 1, 1, 'dollar', '[]', 0, '2019-10-28 00:20:41', '2019-10-28 00:20:41', '2020-10-28 05:50:41'),
@@ -907,8 +969,12 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('bb86c418163c8e10f073be8612f60e48c490f37205ef83ff05ca6b84c36d2347c09088cd5d231691', 1, 1, 'dollar', '[]', 0, '2019-09-06 22:57:11', '2019-09-06 22:57:11', '2020-09-07 04:27:11'),
 ('bdbee6fbf6413649f5b101a7b75772b71cd19573c4c1d52d6e5f21260d257e134093f5489dba2a25', 1, 1, 'dollar', '[]', 0, '2019-09-27 20:05:43', '2019-09-27 20:05:43', '2020-09-28 01:35:43'),
 ('c0e5a304ed780d2527fc84dd133eccd41f96bb737e7c1ca1fea8b9eb03d801833d58aef76e7ce4db', 1, 1, 'dollar', '[]', 0, '2019-10-19 21:41:27', '2019-10-19 21:41:27', '2020-10-20 03:11:27'),
+('c1b57bec5a52f74476d01a661bc4aef00e8aefa9b9241b646b756c3435662aa330fa71e46c077446', 1, 1, 'dollar', '[]', 0, '2019-12-05 03:02:18', '2019-12-05 03:02:18', '2020-12-05 08:32:18'),
 ('c37891b4cc879992449c031bf0278da0d794354361adfd56a987800d04fe784a2b960f343cce41e7', 1, 1, 'dollar', '[]', 0, '2019-12-01 23:58:22', '2019-12-01 23:58:22', '2020-12-02 05:28:22'),
+('c3adc6ea3293948bf9b280d18a251bdd42cf5d1101fa17f128ae067c3417b40384aa3265aa6639b5', 1, 1, 'dollar', '[]', 0, '2019-12-08 14:00:44', '2019-12-08 14:00:44', '2020-12-08 19:30:44'),
+('ca3a7a7deaa167791cb684c7d061e688761c917b4ab6d0ad3103dc06834a467027072befef2b27a6', 1, 1, 'dollar', '[]', 0, '2019-12-05 00:25:29', '2019-12-05 00:25:29', '2020-12-05 05:55:29'),
 ('cc2bce10f5c988042e1f18862a7bb4d145d5561d705cc025ab519d14ea4dc3e46f72a1755cff87a0', 1, 1, 'dollar', '[]', 0, '2019-12-01 01:11:16', '2019-12-01 01:11:16', '2020-12-01 06:41:16'),
+('ce7a5f1c6386cdacc36e14b724ff76a1a101c7bc30cc1440904fdb6d1c9fb28eefb2b783fb7f001a', 1, 1, 'dollar', '[]', 0, '2019-12-04 15:11:09', '2019-12-04 15:11:09', '2020-12-04 20:41:09'),
 ('d3f44601e7033f3c90e3c675e506c167edbea2893cdf5540bb8da8aa0d62a9d947f32e25ad679fb2', 1, 1, 'dollar', '[]', 0, '2019-11-02 01:08:13', '2019-11-02 01:08:13', '2020-11-02 06:38:13'),
 ('d5d68955d2f9f5b8660dd9cbd99713823622eed4cbafe6d3cc9499b4a72d77963315c57e7932bcce', 1, 1, 'dollar', '[]', 0, '2019-10-01 22:43:32', '2019-10-01 22:43:32', '2020-10-02 04:13:32'),
 ('dad23036dc7a06ab71c114084d92e86ccef2bdac5d12bb5e0383c8b9e89069dba6e38f2e32a429b9', 1, 1, 'dollar', '[]', 0, '2019-11-07 02:27:24', '2019-11-07 02:27:24', '2020-11-07 07:57:24'),
@@ -917,6 +983,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('e614d6eed7b1aa2b66a03b38be1f4cc89ccd9db5677adadd04794245fe23a14a8fb2e538d82d189b', 1, 1, 'dollar', '[]', 0, '2019-11-06 00:56:07', '2019-11-06 00:56:07', '2020-11-06 06:26:07'),
 ('e8b4919c5f2c1444ec6cef5678f08b156b18fcbdfb01aba304facbeadb7cdb496c48ec5e0b62f00f', 1, 1, 'dollar', '[]', 0, '2019-09-29 21:46:17', '2019-09-29 21:46:17', '2020-09-30 03:16:17'),
 ('e8d01693d0bd9efa55371ab1716c693709e579d3e99eedd27d62809cf4bf90603600b3d486fff491', 1, 1, 'dollar', '[]', 0, '2019-09-20 20:00:21', '2019-09-20 20:00:21', '2020-09-21 01:30:21'),
+('f2aa3d14801a0cdd6db26192e6b6b2575083e068727c5b70e529eca0129c1d87ef04f7d8590ee383', 1, 1, 'dollar', '[]', 0, '2019-12-12 00:33:23', '2019-12-12 00:33:23', '2020-12-12 06:03:23'),
 ('f565875e7d6449c2a9dd4feb381b254b8217ea04fc94c1ce362ead76e378124ecf97ff0efb3e0234', 1, 1, 'dollar', '[]', 0, '2019-09-08 19:26:11', '2019-09-08 19:26:11', '2020-09-09 00:56:11');
 
 -- --------------------------------------------------------
@@ -1040,7 +1107,7 @@ CREATE TABLE IF NOT EXISTS `organization` (
 --
 
 INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `orgCity`, `orgState`, `orgPincode`, `orgPhone`, `orgLogo`, `orgTimeZone`, `orgTimeCountry`, `orgTimeFormat`, `orgDateFormat`, `orgCurrency`, `orgEmail`, `orgWebsite`, `orgTaxIdNo`, `orgDomain`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 'stpaul church', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pacific/Samoa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stpaul', NULL, '2019-09-02 08:45:03', NULL, '2019-09-02 08:45:03', NULL, NULL);
+(1, 'stpaul church', '1st Main road', NULL, 'Coimbatore', 'Karnataka', '600028', '1290', 's:384:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/org_logo\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/org_logo\\/","uploaded_file_name":"list-of-all-prime-minister-india_1576125158.jpg","original_filename":"list-of-all-prime-minister-india_1576125158.jpg","upload_file_extension":"jpg","file_size":0}";', 'Pacific/Samoa', 1, NULL, NULL, NULL, 'stpaulchurchemail@gmail.com', 'http://www.st.com', NULL, 'stpaul', NULL, '2019-09-02 08:45:03', NULL, '2019-12-12 04:32:38', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1102,6 +1169,20 @@ INSERT INTO `pastor_board` (`id`, `orgId`, `parent_type`, `p_title`, `p_descript
 (9, 1, 1, 'nine', 'nine desc', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 02:34:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
 (10, 1, 1, 'tne', 'tne', 1, NULL, NULL, 'Sathish', 'sat@asda.com', '918181', NULL, 's:328:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/1\\/","uploaded_file_name":"ambed_1568554445.png","original_filename":"ambed_1568554445.png","upload_file_extension":"png","file_size":0}";', NULL, 1, 1, '2019-09-15 02:34:05', NULL, '2019-09-15 13:34:05', NULL, NULL),
 (11, 1, 3, 'Pastor board Example', 'Pastor board Example desc', 2, 59, NULL, 'My name', 'myemail@gmail.com', '98765432', '2000', 's:362:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/3\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/post\\/3\\/","uploaded_file_name":"indian-national-emblem_1569813561.jpg","original_filename":"indian-national-emblem_1569813561.jpg","upload_file_extension":"jpg","file_size":0}";', NULL, 1, 1, '2019-09-29 21:49:21', NULL, '2019-09-30 08:50:16', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_mode`
+--
+
+CREATE TABLE IF NOT EXISTS `payment_mode` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `pm_name` varchar(255) DEFAULT NULL,
+  `pm_desc` text,
+  `pm_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Inactive',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1404,7 +1485,7 @@ CREATE TABLE IF NOT EXISTS `scheduling_user` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `scheduling_user`
@@ -1577,15 +1658,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'stpaul name''s household', '0000000001', NULL, NULL, 'stpaul name', NULL, NULL, NULL, 'stpaul name', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$o9KLhUJSz5S7tn20C6BhlOGaQq6sV0dfodXFAEhkLBVJPEn1fYSge', NULL, 'stpa6pnp', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-02 08:45:03', '2019-09-02 08:45:03', NULL, NULL),
-(2, 1, 'ramesg''s household', '0000000002', '36', NULL, 'ramesg', 'f', 'de', NULL, 'ramesg de f', NULL, 'asd@asda.ocm', NULL, NULL, '$2y$10$K6n4YZZ4veda5Xq0UiONmutMGwzPcE5cWWHqYjwY2sA7gRcUACA5y', NULL, 'rameufk1', '41', 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1568818124.png","original_filename":"1568818124.png","upload_file_extension":"png","file_size":0}";', '1970-01-01', '1970-01-01', '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-09-05 20:18:05', '2019-09-18 09:18:44', NULL, NULL);
+(1, 1, 'stpaul name''s household', '0000000001', NULL, NULL, 'stpaul name', NULL, NULL, NULL, 'stpaul name coim', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$o9KLhUJSz5S7tn20C6BhlOGaQq6sV0dfodXFAEhkLBVJPEn1fYSge', NULL, 'stpa6pnp', NULL, 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1576112227.png","original_filename":"1576112227.png","upload_file_extension":"png","file_size":0}";', NULL, NULL, NULL, NULL, 'Adult', '98111', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-02 08:45:03', '2019-12-12 00:57:07', NULL, NULL),
+(2, 1, 'ramesg''s household', '0000000002', '36', NULL, 'ramesg', 'f', 'de', NULL, 'ramesg de f', NULL, 'asd@asda.ocm', NULL, NULL, '$2y$10$K6n4YZZ4veda5Xq0UiONmutMGwzPcE5cWWHqYjwY2sA7gRcUACA5y', NULL, 'rameufk1', '41', 's:316:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/organizations\\/1\\/profile\\/","uploaded_file_name":"1575420319.png","original_filename":"1575420319.png","upload_file_extension":"png","file_size":0}";', '1970-01-01', '1970-01-01', '30', 56, 'Adult', NULL, NULL, 'Male', NULL, '47', '////////////', NULL, NULL, '2019-09-05 20:18:05', '2019-12-04 00:45:19', NULL, NULL),
+(3, 1, 'rahulr''s household', '0000000003', '36', 'rahulr', 'rahulr', 'd', 's', 'rahulr neick', 'rahulr s d', NULL, 'rahulr@g.com', NULL, NULL, '$2y$10$Ugdh0xsm6bTQU8cEjU5OHubya1R0I0OIgt.NGlvE/wtOXUDHL/hFW', NULL, 'rahugc4k', '41', NULL, '1988-12-26', '1970-01-01', '30', 55, 'Adult', NULL, NULL, 'Female', NULL, '46', '////////////', 'asd asdada', NULL, '2019-12-05 01:44:56', '2019-12-05 01:44:56', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1605,7 +1687,7 @@ CREATE TABLE IF NOT EXISTS `user_has_position` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user_has_position`
@@ -1613,7 +1695,9 @@ CREATE TABLE IF NOT EXISTS `user_has_position` (
 
 INSERT INTO `user_has_position` (`id`, `orgId`, `user_id`, `position_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 1, 2, 2, NULL, '2019-10-28 13:10:41', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(2, 1, 2, 3, NULL, '2019-10-28 13:10:41', NULL, '2019-10-28 13:18:52', NULL, NULL);
+(2, 1, 2, 3, NULL, '2019-10-28 13:10:41', NULL, '2019-10-28 13:18:52', NULL, NULL),
+(3, 1, 3, 2, '1', '2019-12-10 05:28:25', NULL, '2019-12-10 05:28:25', NULL, NULL),
+(4, 1, 3, 4, '1', '2019-12-10 05:28:25', NULL, '2019-12-10 05:28:25', NULL, NULL);
 
 --
 -- Constraints for dumped tables

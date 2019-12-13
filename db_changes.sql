@@ -780,3 +780,28 @@ ALTER TABLE `scheduling` ADD `event_date` DATE NULL DEFAULT NULL AFTER `orgId` ;
 -- Sathish 09 Dec 2019
 
 ALTER TABLE `group_members` CHANGE `mobile_no` `mobile_no` VARCHAR( 15 ) NULL DEFAULT NULL ;
+
+--Sathish 12-Dec 2019
+
+--
+-- Table structure for table `payment_mode`
+--
+
+CREATE TABLE IF NOT EXISTS `payment_mode` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `pm_name` varchar(255) DEFAULT NULL,
+  `pm_desc` text,
+  `pm_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Inactive',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+--
+-- Table structure for table `giving`
+--
+
+CREATE TABLE IF NOT EXISTS `giving` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
