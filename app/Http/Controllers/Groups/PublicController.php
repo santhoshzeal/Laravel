@@ -48,8 +48,6 @@ class PublicController extends Controller
         }	
 		
 	
-            //$data['get_count'] = Group::getGroupCount($group_id);
-
             $data['get_all_group_types'] = GroupType::getallGroupTypesDetails()->get();
 
             //dd($data['get_all_group_types']); 

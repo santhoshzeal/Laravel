@@ -224,15 +224,9 @@ class Group extends Model
 
         //DB::enableQueryLog();
 
-        //$result = array();
         $groupMemebrCount =  Group::select(DB::raw("count(*) as group_count"))
-                            ->join("group_types","group_types.id","=","groups.groupType_id")
-                            ->where("groups.groupType_id",$groupType_id)
-                            ->first();
-        //$result["group_count"] = $groupMemebrCount->group_count;
-
-        //print_r($result); exit();
-
+                            ->where("groups.groupType_id",$groupType_id);
+                            
         //dd(DB::getQueryLog($groupMemebrCount->get()));
 
         return $groupMemebrCount;
