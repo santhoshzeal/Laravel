@@ -805,3 +805,191 @@ CREATE TABLE IF NOT EXISTS `giving` (
   `user_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+--
+-- Table structure for table `payment_gateways`
+--
+
+CREATE TABLE IF NOT EXISTS `payment_gateways` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key',
+  `gateway_name` varchar(50) NOT NULL COMMENT 'name of the gateway',
+  `active` varchar(1) NOT NULL COMMENT 'Status of the gateway',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+INSERT INTO `payment_gateways` (`id`, `gateway_name`, `active`) VALUES
+(1, 'Stripe', '1'),
+(2, 'Paypal', '1'),
+(3, 'Others', '1');
+
+
+CREATE TABLE IF NOT EXISTS `payment_gateway_parameters` (
+  `parameter_id` int(11) NOT NULL AUTO_INCREMENT,
+  `payment_gateway_id` int(11) NOT NULL,
+  `parameter_name` varchar(50) NOT NULL,
+  `validation_type` varchar(100) DEFAULT NULL COMMENT 'enter if specific validation is required except "required" validation',
+  PRIMARY KEY (`parameter_id`),
+  KEY `payment_gateways_payment_gateway_parameters_FK1` (`payment_gateway_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `payment_gateway_parameters`
+--
+
+INSERT INTO `payment_gateway_parameters` (`parameter_id`, `payment_gateway_id`, `parameter_name`, `validation_type`) VALUES
+(1, 1, 'Public Key', 'text'),
+(2, 1, 'Secret Key', 'text'),
+(3, 2, 'Client Email Id', 'email');
+
+
+
+--
+-- Table structure for table `store_payment_gateway_values`
+--
+
+CREATE TABLE `store_payment_gateway_values` (
+  `payment_values_id` int(11) NOT NULL COMMENT 'Unique ID Primary Key',
+  `orgId` bigint(20) DEFAULT NULL COMMENT 'Foreign key reference to organization',
+  `payment_gateway_id` int(11) NOT NULL,
+  `payment_gateway_parameter_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Foreign key reference to payment_gateway_parameters',
+  `payment_gateway_parameter_value` varchar(200) NOT NULL COMMENT 'Values of the parameter to be passed to payment gateway',
+  `active` varchar(1) NOT NULL DEFAULT '1' COMMENT 'Record status',
+  `preferred_payment_gateway` int(1) NOT NULL DEFAULT '0' COMMENT '0 -> inactive, 1 - active',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `store_payment_gateway_values`
+--
+ALTER TABLE `store_payment_gateway_values`
+  ADD PRIMARY KEY (`payment_values_id`),
+  ADD KEY `orgId` (`orgId`) USING BTREE;
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `store_payment_gateway_values`
+--
+ALTER TABLE `store_payment_gateway_values`
+  MODIFY `payment_values_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key';
+
+
+--
+-- Table structure for table `other_payment_methods`
+--
+
+CREATE TABLE `other_payment_methods` (
+  `other_payment_method_id` int(11) NOT NULL,
+  `orgId` bigint(20) DEFAULT NULL,
+  `payment_method` varchar(100) NOT NULL,
+  `payment_method_notes` text,
+  `confirm_payment_method` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=Deactive,1=Active  (When a student submits the registration fee method with flag 1 , the payment status will be marked as confirmed )',
+  `status` int(1) NOT NULL DEFAULT '1' COMMENT '0=Inactive,1=Active',
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `other_payment_methods`
+--
+
+INSERT INTO `other_payment_methods` (`other_payment_method_id`, `orgId`, `payment_method`, `payment_method_notes`, `confirm_payment_method`, `status`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, NULL, 'Cash', 'other_payment_methods', 0, 1, NULL, '2019-12-13 03:57:02', NULL, '0000-00-00 00:00:00', NULL, NULL),
+(2, NULL, 'Cheque', 'Cheque', 0, 1, NULL, '2019-12-13 03:57:02', NULL, '0000-00-00 00:00:00', NULL, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `other_payment_methods`
+--
+ALTER TABLE `other_payment_methods`
+  ADD PRIMARY KEY (`other_payment_method_id`),
+  ADD KEY `orgId` (`orgId`) USING BTREE;
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `other_payment_methods`
+--
+ALTER TABLE `other_payment_methods`
+  MODIFY `other_payment_method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+
+--
+-- Table structure for table `store_payment_transactions`
+--
+
+CREATE TABLE `store_payment_transactions` (
+  `id` int(11) NOT NULL COMMENT 'Unique ID Primary Key',
+  `orgId` bigint(20) DEFAULT NULL COMMENT 'Foreign key reference to organization',
+  `student_id` int(11) NOT NULL COMMENT 'Foreign key reference to student_id for which students the dues are paid',
+  `student_personal_info_id` int(11) NOT NULL COMMENT 'student personal info id to track payments for each student',
+  `user_type` int(11) NOT NULL DEFAULT '1' COMMENT '1=>STUDENT,2=>JUDGE',
+  `payment_fees_id` int(11) DEFAULT NULL COMMENT 'payment done for',
+  `payment_gateway_id` int(11) NOT NULL DEFAULT '0' COMMENT '0 -> none',
+  `transaction_date` datetime DEFAULT NULL COMMENT 'Date on which transaction was done',
+  `transaction_status` tinyint(1) DEFAULT NULL COMMENT 'Status of transaction 1 => submitted, 2 = > confirmed 3=> declined/error',
+  `customer_id` varchar(50) DEFAULT NULL COMMENT 'customer_id response sent from payment gateway',
+  `token_id` varchar(50) DEFAULT NULL COMMENT 'token id from payment Gateway',
+  `payment_type` int(1) DEFAULT NULL COMMENT '1 => payment gateway, 2 => Check , 3 => Cash, 4=> purchase order, 5 => other',
+  `other` varchar(250) DEFAULT NULL,
+  `note` varchar(250) DEFAULT NULL,
+  `manual_payment_details` varchar(250) DEFAULT NULL COMMENT 'if the payment is done via cash/cheque then related details will be saved here',
+  `payment_gateway_return_data` mediumtext COMMENT 'Payment gateway return/postback data',
+  `amount_paid` decimal(10,2) DEFAULT NULL COMMENT 'Amount already paid',
+  `admin_status` tinyint(1) DEFAULT NULL COMMENT 'Status of transaction 0 => none 1 => submitted, 2 = > confirmed 3=> declined/error',
+  `final_payment_flag` enum('0','1') NOT NULL DEFAULT '1' COMMENT '0=>Old payment,1=>Final payment',
+  `submit_date` datetime DEFAULT NULL,
+  `confirm_date` datetime DEFAULT NULL,
+  `modified_by` int(11) NOT NULL DEFAULT '0',
+  `modified_user_type` varchar(25) DEFAULT NULL,
+  `last_updated_datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `student_individual_payment_status` int(11) NOT NULL DEFAULT '0' COMMENT 'student individual payment status',
+  `st_type` int(11) NOT NULL DEFAULT '1' COMMENT 'Student ordering for team student, default it will be 1',
+  `rule_show_flag` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Not Shown,2=Rule Shown'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `store_payment_transactions`
+--
+ALTER TABLE `store_payment_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `region_id` (`orgId`),
+  ADD KEY `payment_fees_id` (`payment_fees_id`),
+  ADD KEY `payment_gateway_id` (`payment_gateway_id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `store_payment_transactions`
+--
+ALTER TABLE `store_payment_transactions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key';  
