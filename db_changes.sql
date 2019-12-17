@@ -993,3 +993,21 @@ ALTER TABLE `store_payment_transactions`
 --
 ALTER TABLE `store_payment_transactions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key';  
+
+ALTER TABLE `giving` ADD `orgId` BIGINT( 20 ) NULL DEFAULT NULL AFTER `user_id` ,
+ADD `event_id` BIGINT( 20 ) NULL DEFAULT NULL AFTER `orgId` ,
+ADD `email` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `event_id` ,
+ADD `first_name` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `email` ,
+ADD `middle_name` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `first_name` ,
+ADD `last_name` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `middle_name` ,
+ADD `full_name` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `last_name` ,
+ADD `mobile_no` VARCHAR( 20 ) NULL DEFAULT NULL AFTER `full_name` ,
+ADD `payment_mode_id` BIGINT( 20 ) NULL DEFAULT NULL AFTER `mobile_no` ,
+ADD `sub_payment_mode_id` BIGINT( 20 ) NULL DEFAULT NULL AFTER `payment_mode_id` ,
+ADD `amount` VARCHAR( 25 ) NULL DEFAULT NULL AFTER `sub_payment_mode_id` ;  
+
+ALTER TABLE `giving` ADD `pay_mode` VARCHAR( 100 ) NULL DEFAULT NULL COMMENT 'Credit,Debit' AFTER `amount` ,
+ADD `purpose_note` TEXT NULL DEFAULT NULL AFTER `pay_mode` ;
+
+
+ALTER TABLE `giving` ADD `createdBy` TEXT NULL DEFAULT NULL AFTER `purpose_note`, ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`, ADD `updatedBy` TEXT NULL DEFAULT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL AFTER `updatedBy`, ADD `deletedBy` TEXT NULL DEFAULT NULL AFTER `updated_at`, ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `deletedBy`; 
