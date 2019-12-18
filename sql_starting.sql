@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 18, 2019 at 08:06 AM
+-- Generation Time: Dec 18, 2019 at 06:08 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `dallas`
@@ -143,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `comm_templates` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `comm_templates`
@@ -159,17 +153,7 @@ INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, 
 (7, 'schedule_reminder', 'Schedule Remind', 'Schedule Remind', 'A Reminder that your event has been scheduled for below listed dates.', 0, NULL, '2019-09-27 14:34:53', NULL, NULL, NULL, NULL),
 (8, 'schedule_check_out_notification_to_guest', 'Schedule check out notification to guest', 'Event Schedule Notification', 'This is notify that event has been scheduled.thank_you_for_service', 0, NULL, '2019-09-27 14:34:53', NULL, NULL, NULL, NULL),
 (9, 'thank_you_for_service', 'Thanks for your service', 'Thanks for Service', 'Thanks for attending the below listed event.', 0, NULL, '2019-09-27 14:34:53', NULL, NULL, NULL, NULL),
-(10, 'schedule_cancelled', 'Schedule cancelled', 'Schedule cancelled', 'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.', 0, NULL, '2019-09-27 14:34:53', NULL, NULL, NULL, NULL),
-(11, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(12, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(13, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(14, 'schedule_auto_notify', 'Auto Scheduling Notification', 'Event scheduled', 'Your have been placed on the schedule. (Auto assigned)', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(15, 'schedule_manual_notify', 'Scheduling event', 'Event Scheduled', 'Your Event has been scheduled, please follow the below mentioned details.', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(16, 'schedule_confirmation', 'Schedule confirmation', 'Schedule Confirmation', 'You have been placed on the schedule for the following dates. To respond or simply view this schedule, click the appropriate button below.', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(17, 'schedule_reminder', 'Schedule Remind', 'Schedule Remind', 'A Reminder that your event has been scheduled for below listed dates.', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(18, 'schedule_check_out_notification_to_guest', 'Schedule check out notification to guest', 'Event Schedule Notification', 'This is notify that event has been scheduled.thank_you_for_service', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(19, 'thank_you_for_service', 'Thanks for your service', 'Thanks for Service', 'Thanks for attending the below listed event.', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL),
-(20, 'schedule_cancelled', 'Schedule cancelled', 'Schedule cancelled', 'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.', 1, NULL, '2019-12-18 01:54:50', NULL, NULL, NULL, NULL);
+(10, 'schedule_cancelled', 'Schedule cancelled', 'Schedule cancelled', 'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.', 0, NULL, '2019-09-27 14:34:53', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -516,8 +500,8 @@ CREATE TABLE IF NOT EXISTS `households` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+ 
 -- --------------------------------------------------------
 
 --
@@ -579,7 +563,7 @@ CREATE TABLE IF NOT EXISTS `master_lookup_data` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`mldId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=97 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
 -- Dumping data for table `master_lookup_data`
@@ -618,40 +602,7 @@ INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldTy
 (30, 0, 'room_group', 'Group1', 'A', 4, NULL, '2019-08-22 16:33:55', NULL, '2019-08-22 16:33:55', NULL, NULL),
 (31, 0, 'resource_category', 'Electronic', 'A', 4, NULL, '2019-08-22 16:33:55', NULL, '2019-08-22 16:33:55', NULL, NULL),
 (32, 0, 'pastor_board', 'Electronic', 'A', 1, NULL, '2019-09-11 09:35:01', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(33, 0, 'pastor_board', 'Home Care', 'A', 1, NULL, '2019-09-11 09:35:01', NULL, '0000-00-00 00:00:00', NULL, NULL),
-(34, 1, 'school_name', 'High School', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(35, 1, 'school_name', 'Middle School', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(36, 1, 'name_prefix', 'Mr.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(37, 1, 'name_prefix', 'Mrs.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(38, 1, 'name_prefix', 'Ms.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(39, 1, 'name_prefix', 'Miss', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(40, 1, 'name_prefix', 'Dr.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(41, 1, 'name_prefix', 'Rev.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(42, 1, 'name_suffix', 'Jr.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(43, 1, 'name_suffix', 'Sr.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(44, 1, 'name_suffix', 'Ph.D.', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(45, 1, 'name_suffix', 'II', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(46, 1, 'name_suffix', 'III', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(47, 1, 'membership_inactive_reason', 'Moved', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(48, 1, 'membership_inactive_reason', 'New Church', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(49, 1, 'membership_inactive_reason', 'Deceased', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(50, 1, 'marital_status', 'Single', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(51, 1, 'marital_status', 'Married', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(52, 1, 'marital_status', 'Widowed', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(53, 1, 'membership_status', 'Member', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(54, 1, 'membership_status', 'Regular Attender', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(55, 1, 'membership_status', 'Visitor', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(56, 1, 'membership_status', 'Participant', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(57, 1, 'membership_status', 'In Progress', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(58, 1, 'grade_name', 'Pre-K', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(59, 1, 'grade_name', 'K', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(60, 1, 'grade_name', '1st', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(61, 1, 'grade_name', '2nd', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(62, 1, 'grade_name', '3rd', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(63, 1, 'room_group', 'Group1', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(64, 1, 'resource_category', 'Electronic', 'A', 4, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(65, 1, 'pastor_board', 'Electronic', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(66, 1, 'pastor_board', 'Home Care', 'A', 1, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL);
+(33, 0, 'pastor_board', 'Home Care', 'A', 1, NULL, '2019-09-11 09:35:01', NULL, '0000-00-00 00:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -709,14 +660,6 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
   KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `model_has_roles`
---
-
-INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(2, 'App\\User', 1),
-(13, 'App\\User', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -736,14 +679,6 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
   PRIMARY KEY (`id`),
   KEY `oauth_access_tokens_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `oauth_access_tokens`
---
-
-INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('04b2fbfd3b5f0e1b5a1d53656cc79be95ce03509f5727cda98cbdff0e4aa2ad03fc50b3e5a3ffeb0', 1, 1, 'dollar', '[]', 0, '2019-12-18 01:55:00', '2019-12-18 01:55:00', '2020-12-18 07:25:00'),
-('edc97192d25965798f4f4908d81cff15a6687c874eb669c8d422d30d229d974144d14ad6e96d40a8', 1, 1, 'dollar', '[]', 0, '2019-12-18 01:55:08', '2019-12-18 01:55:08', '2020-12-18 07:25:08');
 
 -- --------------------------------------------------------
 
@@ -859,14 +794,8 @@ CREATE TABLE IF NOT EXISTS `organization` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `organization`
---
-
-INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `orgCity`, `orgState`, `orgPincode`, `orgPhone`, `orgLogo`, `orgTimeZone`, `orgTimeCountry`, `orgTimeFormat`, `orgDateFormat`, `orgCurrency`, `orgEmail`, `orgWebsite`, `orgTaxIdNo`, `orgDomain`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 'St Paul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Canada/Saskatchewan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stpaul', NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+ 
 
 -- --------------------------------------------------------
 
@@ -1017,7 +946,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `permissions`
@@ -1029,13 +958,7 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 (3, 0, 'Scheduling', 'web', '2019-05-05 02:51:47', '2019-05-05 03:43:48'),
 (4, 0, 'Event management', 'web', '2019-05-05 02:51:47', '2019-05-05 02:51:47'),
 (5, 0, 'Small Group', 'web', '2019-05-05 03:30:09', '2019-05-05 03:38:33'),
-(6, 0, 'Accounting', 'web', '2019-05-05 03:30:21', '2019-05-05 03:38:37'),
-(7, 1, 'Nextgen Checkin', 'web', NULL, NULL),
-(8, 1, 'Member Directory', 'web', NULL, NULL),
-(9, 1, 'Scheduling', 'web', NULL, NULL),
-(10, 1, 'Event management', 'web', NULL, NULL),
-(11, 1, 'Small Group', 'web', NULL, NULL),
-(12, 1, 'Accounting', 'web', NULL, NULL);
+(6, 0, 'Accounting', 'web', '2019-05-05 03:30:21', '2019-05-05 03:38:37');
 
 -- --------------------------------------------------------
 
@@ -1104,7 +1027,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `roles`
@@ -1122,18 +1045,7 @@ INSERT INTO `roles` (`id`, `orgId`, `name`, `guard_name`, `role_tag`, `created_a
 (9, 0, 'Event Organizer', 'web', 'EventOrganizer', '2019-08-24 16:00:12', '2019-09-12 19:52:59'),
 (10, 0, 'Production Manager', 'web', 'ProductionManager', '2019-08-24 16:00:12', '2019-09-12 19:52:59'),
 (11, 0, 'Accounts Admin', 'web', 'AccountsAdmin', '2019-08-24 16:00:29', '2019-09-12 19:52:59'),
-(12, 0, 'Visitor', 'web', 'Visitor', '2019-08-24 16:00:29', '2019-09-12 19:52:59'),
-(13, 1, 'Adminstrator', 'web', 'admin', '2019-12-18 01:54:50', NULL),
-(14, 1, 'Member', 'web', 'member', '2019-12-18 01:54:50', NULL),
-(15, 1, 'Volunteer', 'web', 'volunteer', '2019-12-18 01:54:50', NULL),
-(16, 1, 'Pastor', 'web', 'pastor', '2019-12-18 01:54:50', NULL),
-(17, 1, 'First Time Guest', 'web', 'firsttimeguest', '2019-12-18 01:54:50', NULL),
-(18, 1, 'Inactive Member', 'web', 'InactiveMember', '2019-12-18 01:54:50', NULL),
-(19, 1, 'Checkin Volunteer', 'web', 'CheckinVolunteer', '2019-12-18 01:54:50', NULL),
-(20, 1, 'Event Organizer', 'web', 'EventOrganizer', '2019-12-18 01:54:50', NULL),
-(21, 1, 'Production Manager', 'web', 'ProductionManager', '2019-12-18 01:54:50', NULL),
-(22, 1, 'Accounts Admin', 'web', 'AccountsAdmin', '2019-12-18 01:54:50', NULL),
-(23, 1, 'Visitor', 'web', 'Visitor', '2019-12-18 01:54:50', NULL);
+(12, 0, 'Visitor', 'web', 'Visitor', '2019-08-24 16:00:29', '2019-09-12 19:52:59');
 
 -- --------------------------------------------------------
 
@@ -1147,28 +1059,6 @@ CREATE TABLE IF NOT EXISTS `role_has_permissions` (
   PRIMARY KEY (`permission_id`,`role_id`),
   KEY `role_has_permissions_role_id_foreign` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `role_has_permissions`
---
-
-INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
-(7, 13),
-(8, 13),
-(9, 13),
-(10, 13),
-(11, 13),
-(12, 13),
-(7, 14),
-(7, 15),
-(7, 16),
-(7, 17),
-(7, 18),
-(7, 19),
-(7, 20),
-(7, 21),
-(7, 22),
-(7, 23);
 
 -- --------------------------------------------------------
 
@@ -1196,8 +1086,8 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+ 
 -- --------------------------------------------------------
 
 --
@@ -1255,8 +1145,8 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+ 
 -- --------------------------------------------------------
 
 --
@@ -1386,9 +1276,8 @@ CREATE TABLE IF NOT EXISTS `tag_groups` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+ 
 
 --
 -- Table structure for table `team`
@@ -1471,14 +1360,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'St Paul Admin''s household', '0000000001', NULL, NULL, 'St Paul Admin', NULL, NULL, NULL, 'St Paul Admin', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'St Paht4', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', '2019-12-18 01:54:50', NULL, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1522,7 +1404,3 @@ ALTER TABLE `model_has_roles`
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

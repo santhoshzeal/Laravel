@@ -96,3 +96,8 @@ dd($hasAllPermissions,array_column($permissions->toArray(),'name'));
         dd($permissions); //will return true, if user has role
 
         dd($user);
+
+SET FOREIGN_KEY_CHECKS = 0; 
+truncate permissions;
+SET FOREIGN_KEY_CHECKS = 1; 
+
