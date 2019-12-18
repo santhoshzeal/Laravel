@@ -346,3 +346,9 @@ Route::get('settings/location/edit/{id}', 'Settings\LocationController@editLocat
 Route::get('settings/church_settings', 'Settings\LocationController@churchSettings');
 Route::post('settings/store_church_settings', 'Settings\LocationController@storeChurchSettings')->name('church.store');
 
+
+// settings - givings
+Route::get("/settings/givings", "Settings\GivingController@givingIndex")->name('giving.list');
+Route::get('/settings/givings/list', 'Settings\GivingController@getGivingList');
+Route::get("/settings/givings/manage/{giving_id?}", 'Settings\GivingController@createOrEditPage');
+Route::post('/settings/givings/store', 'Settings\GivingController@storeOrUpdateGivings')->name('givings.store');

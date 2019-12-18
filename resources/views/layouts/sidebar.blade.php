@@ -255,6 +255,9 @@
                                     <li @if($url_segment_one == "settings") class='active' @else @endif>
                                         <a href="{{URL::asset('/settings/church_settings')}}">Church Settings</a>
                                     </li>
+                                    <li @if($url_segment_one == "settings") class='active' @else @endif>
+                                        <a href="{{URL::asset('/settings/givings')}}">Giving</a>
+                                    </li>
                                 </ul>
                             </li>
 
