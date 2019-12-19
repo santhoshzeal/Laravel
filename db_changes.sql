@@ -1011,3 +1011,9 @@ ADD `purpose_note` TEXT NULL DEFAULT NULL AFTER `pay_mode` ;
 
 
 ALTER TABLE `giving` ADD `createdBy` TEXT NULL DEFAULT NULL AFTER `purpose_note`, ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`, ADD `updatedBy` TEXT NULL DEFAULT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL AFTER `updatedBy`, ADD `deletedBy` TEXT NULL DEFAULT NULL AFTER `updated_at`, ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `deletedBy`; 
+
+--Santhosh 19 Dec 2019
+
+ALTER TABLE `giving` ADD `type` TINYINT(1) NOT NULL AFTER `id`;
+
+CREATE TABLE insights AS SELECT * FROM group_resources

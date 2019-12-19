@@ -25,10 +25,11 @@ class GivingController extends Controller
 {
     public function __construct()
     {
+		 
         $this->middleware('auth');
         $this->browserTitle = Config::get('constants.BROWSERTITLE');
         $this->userSessionData = Session::get('userSessionData');
-        $this->orgId = $this->userSessionData['umOrgId'];		
+        $this->orgId = $this->userSessionData['umOrgId'];	
         $this->authUserId = $this->userSessionData['umId'];
     }
 
@@ -38,44 +39,24 @@ class GivingController extends Controller
     }
 
     public function getGivingList(){
+		
         $result = array();
-        $schedules = Schedule::where('orgId', $this->orgId)->with(["event"=>function($query){
-                        $query->select('eventId', 'eventName');
-                    }, "volunteer"=>function($query1){
-                        $query1->select('mldId', 'mldValue');
-                    }])->select("id", "event_id", "title")->orderBy("id", "desc")->get();
-        
-        $i = 1;
-        foreach ($schedules as $schedule) {
-            $row = [$i, $schedule->title,  $schedule->event->eventName];
-            $viewLink = "";//<a href='".url("/settings/schedulling/". $schedule->id) ."'><i class='fa fa-eye'></i></a>
-            $editLink = url("/settings/schedulling/manage/". $schedule->id);
-            $row[] = "<a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
+										
+	    $givings = Giving::where('orgId', $this->orgId)->select("id", "event_id", "email")->orderBy("id", "desc")->get();
+        			
+        $i = 0;
+        foreach ($givings as $giving) {
+            $row = [$i, $giving->email, $giving->event_id];
+            $viewLink = "";
+            //$editLink = url("/settings/givings/manage/". $giving->id);
+            //$row[] = "<a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
             $result[] = $row;
             $i += 1;
         }
 
-        return Datatables::of($result)->rawColumns([3])->make(true);
+        return Datatables::of($result)->rawColumns([2])->make(true);
     }
 
-    public function schedullingDetails($schedule_id){
-        $data['title'] = $this->browserTitle . " - Schedule List";
-        
-        $schedule = Schedule::where('orgId', $this->orgId)->where("id", $schedule_id)
-                            ->with(["event"=>function($query){
-                                $query->select('eventId', 'eventName');
-                            }, "volunteer"=>function($query1){
-                                $query1->select('mldId', 'mldValue');
-                            }])->first();
-        $memberIds = unserialize($schedule->assign_ids);
-        if(isset($memberIds) && count($memberIds) > 0){
-            $schedule["members"] = User::whereIn("id", $memberIds)->select("id", "profile_pic", "email", "full_name", "mobile_no")->get();
-        }else{
-            $schedule["members"] = [];
-        }
-        $data["schedule"] = $schedule;
-        return view('settings.schedule.details', $data);
-    }
     
     public function createOrEditPage($giving_id = null){
 		
@@ -127,10 +108,6 @@ class GivingController extends Controller
         return view('givings.create', $data);
     }
 
-    public function notificationList(){
-        $data['title'] = $this->browserTitle . " - Schedule Notifications List";
-        return view('settings.schedule.notification', $data);
-    }
 
     public function storeOrUpdateGivings(Request $request){
 		
@@ -138,7 +115,7 @@ class GivingController extends Controller
 		
 		//dd($this->orgId);
 		
-        dd($payload);
+        //dd($payload);
 		
         //dd($arraySUUpdate,$request->all());
 		
@@ -159,28 +136,17 @@ class GivingController extends Controller
         //dd($giving);
         // return $payload;
 		
-        $fields = ['user_id', 'orgId', 'event_id', 'email', 'first_name', 'middle_name', 'last_name','mobile_no'];
+        $fields = ['type', 'user_id', 'orgId', 'event_id', 'email', 'first_name', 'middle_name', 'last_name','mobile_no','payment_mode_id','sub_payment_mode_id','amount','pay_mode'];
 		
         foreach($fields as $field) {
 			
             $giving[$field] = $payload[$field];
         }
 		
-        dd($giving);
+        //dd($giving);
 		
         $giving->save();
-		
-		
-        /*if($request->get('position_id_assign') != null || $request->get('position_id_assign') != ""){
-            foreach($request->get('position_id_assign') as $posids){
-
-                $arraySUUpdate = array("orgId"=>$this->orgId,"scheduling_id"=>$schedule->id,"team_id"=>$request->get('team_id'),"position_id"=>$posids,"user_id"=>$request->get('position_id_user_id_assign_'.$posids),"status"=>1);
-
-                SchedulingUser::updateOrCreate(array("orgId"=>$this->orgId,"scheduling_id"=>$schedule->id,"team_id"=>$request->get('team_id'),"position_id"=>$posids), $arraySUUpdate);
-                //echo $posids;,"user_id"=>$request->get('position_id_user_id_assign_'.$posids)
-            }    
-        }*/
-        
+		       
         return redirect('settings/givings/');
 		
         return ["message"=> "Givings has been successfully stored or updated"];

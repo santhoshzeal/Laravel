@@ -25,6 +25,13 @@ class Giving extends Model  {
      */
     protected $fillable = [ 'id', 'user_id', 'orgId', 'event_id', 'email', 'first_name', 'middle_name', 'last_name', 'full_name', 'mobile_no', 'payment_mode_id', 'sub_payment_mode_id', 'amount',
 	'pay_mode', 'purpose_note', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
+	
+	
+	public function event()
+    {
+        return $this->belongsTo('App\Models\Events', 'event_id', 'eventId');
+    }
+	
 
     /**
      * The attributes excluded from the model's JSON form.

@@ -14,13 +14,10 @@
                                 <table id="scheduleDatatable" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>S.No</th>
-                                            <th>Name</th>
-                                            <!-- <th>Volunteer</th> -->
-                                            <th>Event</th>
-                                            <!-- <th>Time</th>
-                                            <th>Date</th> -->
-                                            <th>Action</th>
+                                            <th>S.No</th>											
+                                            <th>Email</th>
+											<th>Event</th>
+                                            <!--<th>Action</th>-->
                                         </tr>
                                     </thead>
                                 </table>
