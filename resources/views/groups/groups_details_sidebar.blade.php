@@ -7,6 +7,8 @@
           <a class="nav-link {{($activeTab=="settings")?"active":""}}" id="v-pills-settings-tab" data-toggle1="pill" href="{{url('')}}/groups/details/{{$groupDetails->id}}/settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
           <!-- <a class="nav-link {{($activeTab=="overview")?"active":""}}" id="v-pills-settings-tab" data-toggle1="pill" href="{{url('')}}/groups/details/{{$groupDetails->id}}/overview" role="tab" aria-controls="v-pills-settings" aria-selected="false">Overview</a>
           <a class="nav-link {{($activeTab=="attendance")?"active":""}}" id="v-pills-settings-tab" data-toggle1="pill" href="{{url('')}}/groups/details/{{$groupDetails->id}}/attendance" role="tab" aria-controls="v-pills-settings" aria-selected="false">Attendance</a> -->
+		  
+		  <a class="nav-link {{($activeTab=="insights")?"active":""}}" id="v-pills-messages-tab" data-toggle1="pill" href="{{url('')}}/groups/details/{{$groupDetails->id}}/insights" role="tab" aria-controls="v-pills-messages" aria-selected="false">Insights</a>
 
         </div>
 

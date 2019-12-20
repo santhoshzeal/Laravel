@@ -10,6 +10,33 @@ class Insights extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['id', 'group_id', 'name', 'type', 'source', 'description', 'visibility', 'createdBy', 'created_at', 'updated_at', 'deleted_at'];
+	
+	
+	public function group(){
+        return $this->belongsTo('App\Models\Group');
+    }
+
+    public static function insightList($groupId,$search){
+        $result = self::select("insights.id",'insights.name',"insights.type","source","insights.description","insights.visibility","insights.updated_at")
+
+                  ->leftJoin("groups","groups.id","=","insights.group_id")
+        /* ->orderBy("created_at","desc") */;
+        if ($search != "") {
+            $result->where(function($query)use($search) {
+
+
+
+                return $query->where('insights.name', 'LIKE', "%$search%");
+                                //->orWhere('eventDesc', 'LIKE', "%$search%");
+
+                //echo date("d m y",(int)$search);
+            });
+        }
+        $result->where("insights.group_id",$groupId);
+        $result->where('groups.orgId', '=', Auth::user()->orgId);
+        return $result;
+    }
+	
 
     /**
      * The attributes excluded from the model's JSON form.

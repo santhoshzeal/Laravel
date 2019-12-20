@@ -1017,3 +1017,7 @@ ALTER TABLE `giving` ADD `createdBy` TEXT NULL DEFAULT NULL AFTER `purpose_note`
 ALTER TABLE `giving` ADD `type` TINYINT(1) NOT NULL AFTER `id`;
 
 CREATE TABLE insights AS SELECT * FROM group_resources
+
+ALTER TABLE `insights` CHANGE `id` `id` BIGINT(22) NOT NULL;
+
+ALTER TABLE `insights` CHANGE `id` `id` BIGINT(22) NOT NULL AUTO_INCREMENT;

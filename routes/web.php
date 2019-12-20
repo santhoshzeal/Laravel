@@ -295,6 +295,13 @@ Route::post("/groups/resources/list", "Groups\GroupController@resourcesList");
 Route::get('groups/resources/edit/{id}', 'Groups\GroupController@editResources');
 
 
+// Insights
+Route::get("/groups/insights/add","Groups\GroupController@addInsights");
+Route::post("/groups/insights/store", "Groups\GroupController@groupAddInsights")->name("group.insights.store");
+Route::post("/groups/insights/list", "Groups\GroupController@insightList");
+Route::get('groups/insights/edit/{id}', 'Groups\GroupController@editInsights');
+
+
 
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");
