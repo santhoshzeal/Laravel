@@ -23,11 +23,11 @@
                     
                     <!-- <form method="post" action="{{ route('settings.schedulling.store') }}" name="scheduleForm" id="scheduleForm" enctype="multipart/form-data" class="col-sm-12 card p-2"> -->
 					    
-						 <input type="text" id="orgId" name="orgId" value="{{$orgId}}" class="d-none">
+						<input type="text" id="orgId" name="orgId" value="{{$orgId}}" class="d-none">
 						 
                         <input type="text" id="givingId" name="givingId" value="{{$giving_id}}" class="d-none">
 						
-                        <input type="text" id="user_id" name="user_id" value="{{$user_id}}" class="d-none">
+                        <!--<input type="text" id="user_id" name="user_id" value="{{$user_id}}" class="d-none">-->
 						
                        
 						
@@ -74,7 +74,21 @@
 												</div>
 											 </div>
 										   </div>
+										   
+										   <div class="form-group row">
+											<label for="example-date-input" class="col-sm-2 col-form-label">Users</label>
+											<div class="col-sm-10">
+											<select class="form-control" name="user_id" id="user_id">
+											   <option value="">--Select--</option>
+										          @foreach($user_id as $user) 
+												     <option value="{{ $user->id }}">{{ $user->full_name }}</option>														 
+												  @endforeach												                                
+											</select>
+											</div>
+										   </div>
 										
+										
+
 										<div class="form-group row">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
@@ -119,6 +133,7 @@
 												name="mobile_no" >
                                             </div>
                                         </div>
+	
 
                                         <div class="form-group row">
 											<label for="example-date-input" class="col-sm-2 col-form-label">Payment Mode</label>
@@ -191,8 +206,7 @@ $(function () {
 		}
 	});
  });
-	
-	
+
 
  /////////
 // An array of highlighting dates ( 'dd-mm-yyyy' )

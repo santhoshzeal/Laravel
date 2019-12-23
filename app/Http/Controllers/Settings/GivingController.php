@@ -17,6 +17,7 @@ use App\Models\MasterLookupData;
 use App\Models\SchedulingUser;
 use App\Models\CommTemplate;
 use App\Models\Team;
+use App\Models\UserMaster;
 use App\User;
 use Auth;
 
@@ -44,7 +45,7 @@ class GivingController extends Controller
 										
 	    $givings = Giving::where('orgId', $this->orgId)->select("id", "event_id", "email")->orderBy("id", "desc")->get();
         			
-        $i = 0;
+        $i = 1;
         foreach ($givings as $giving) {
             $row = [$i, $giving->email, $giving->event_id];
             $viewLink = "";
@@ -64,10 +65,15 @@ class GivingController extends Controller
 		
         $data['giving_id'] =  $giving_id;
 		
-		$data['user_id'] = Auth::id();
+		//$data['user_id'] = Auth::id();
 		
 		$data['orgId'] = $this->userSessionData['umOrgId'];
 		
+		$wherArray = array('orgId'=> $this->userSessionData['umOrgId']);
+		
+		$data['user_id'] = UserMaster::crudUserMasterDetail($wherArray,null,null,null,null,null,null,'1')->get();
+		
+	
 		//dd($this->orgId);
         //$whereTeamArray=array('orgId'=>$this->orgId);		
         //$data['team_id'] = Team::selectFromTeam($whereTeamArray)->get();		
