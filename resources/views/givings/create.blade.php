@@ -88,7 +88,7 @@
 										   </div>
 										
 										
-
+                                     <div id="dvUser" style="display: block">
 										<div class="form-group row">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
@@ -133,7 +133,7 @@
 												name="mobile_no" >
                                             </div>
                                         </div>
-	
+	</div>
 
                                         <div class="form-group row">
 											<label for="example-date-input" class="col-sm-2 col-form-label">Payment Mode</label>
@@ -206,7 +206,18 @@ $(function () {
 		}
 	});
  });
-
+ 
+ $(function () {
+	$("#user_id").change(function () {
+		//alert($(this).val());
+		if ($(this).val() =="") {
+			$("#dvUser").show();
+		} else {
+			$("#dvUser").hide();
+		}
+	});
+ });
+ 
 
  /////////
 // An array of highlighting dates ( 'dd-mm-yyyy' )
