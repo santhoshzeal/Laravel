@@ -19,7 +19,7 @@
                 <h5 class="mt-0 pl-3"> {{($giving_id)? 'Edit' : "Create" }} Giving</h5>
                 <hr />
                 <div class="row p0 m-0">
-                    {!! Form::open(array('id'=>'givingsForm','name'=>'givingsForm','method' => 'post', 'url' => $formUrl, 'class' => 'col-sm-12 card p-2','files' => true)) !!}
+                    {!! Form::open(array('id'=>'givingsForm','name'=>'givingsForm','method' => 'post', 'url' => $formUrl, 'class' => 'givingsForm col-sm-12 card p-2','files' => true)) !!}
                     
                     <!-- <form method="post" action="{{ route('settings.schedulling.store') }}" name="givingsForm" id="givingsForm" enctype="multipart/form-data" class="col-sm-12 card p-2"> -->
 					    
