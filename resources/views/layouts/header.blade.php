@@ -54,7 +54,11 @@
         <script src="{{ URL:: asset('js/jquery_validation/jquery.validate.min.js')}}"></script>
 
         <link href="{{ URL::asset('assets/theme/plugins/alertify/css/alertify.css') }}" rel="stylesheet" type="text/css" />
-        
+		
+		<script type="text/javascript" src="{{ URL:: asset('assets/js/validation/validate.min.js')}}"></script>
+		
+        <script type="text/javascript" src="{{ URL:: asset('assets/js/validation/select2.min.js')}}"></script>
+		 
     </head>
 
     <body>

@@ -19,9 +19,9 @@
                 <h5 class="mt-0 pl-3"> {{($giving_id)? 'Edit' : "Create" }} Giving</h5>
                 <hr />
                 <div class="row p0 m-0">
-                    {!! Form::open(array('id'=>'scheduleForm','name'=>'scheduleForm','method' => 'post', 'url' => $formUrl, 'class' => 'col-sm-12 card p-2','files' => true)) !!}
+                    {!! Form::open(array('id'=>'givingsForm','name'=>'givingsForm','method' => 'post', 'url' => $formUrl, 'class' => 'col-sm-12 card p-2','files' => true)) !!}
                     
-                    <!-- <form method="post" action="{{ route('settings.schedulling.store') }}" name="scheduleForm" id="scheduleForm" enctype="multipart/form-data" class="col-sm-12 card p-2"> -->
+                    <!-- <form method="post" action="{{ route('settings.schedulling.store') }}" name="givingsForm" id="givingsForm" enctype="multipart/form-data" class="col-sm-12 card p-2"> -->
 					    
 						<input type="text" id="orgId" name="orgId" value="{{$orgId}}" class="d-none">
 						 
@@ -283,5 +283,7 @@ $(document).ready(function(){
 }
 
 </style>
-<script src="{{ URL:: asset('js/settings/schedule/schedule.js')}}"></script>
+
+<script type="text/javascript" src="{{ URL:: asset('js/custom/givings.js')}}"></script>
+
 @endsection

@@ -43,11 +43,18 @@ class GivingController extends Controller
 		
         $result = array();
 										
-	    $givings = Giving::where('orgId', $this->orgId)->select("id", "event_id", "email")->orderBy("id", "desc")->get();
+	    $givings = Giving::where('orgId', $this->orgId)->select("id", "type", "amount")->orderBy("id", "desc")->get();
         			
         $i = 1;
         foreach ($givings as $giving) {
-            $row = [$i, $giving->email, $giving->event_id];
+			
+			if($giving->type == 1){
+				$type = 'Donation';
+			}else{
+				$type = 'Event';
+			}
+			
+            $row = [$i, $type, $giving->amount];
             $viewLink = "";
             //$editLink = url("/settings/givings/manage/". $giving->id);
             //$row[] = "<a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
@@ -55,7 +62,7 @@ class GivingController extends Controller
             $i += 1;
         }
 
-        return Datatables::of($result)->rawColumns([2])->make(true);
+        return Datatables::of($result)->rawColumns([3])->make(true);
     }
 
     

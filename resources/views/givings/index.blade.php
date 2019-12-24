@@ -14,9 +14,9 @@
                                 <table id="scheduleDatatable" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>S.No</th>											
-                                            <th>Email</th>
-											<th>Event</th>
+                                            <th>S.No</th>				
+ 											<th>Type</th>
+											<th>Amount</th>
                                             <!--<th>Action</th>-->
                                         </tr>
                                     </thead>
