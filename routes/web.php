@@ -345,9 +345,17 @@ Route::get("/settings/team_data_delete", "Settings\TeamController@deleteTeamById
 //settings - location
 Route::get("/settings/location", "Settings\LocationController@index");
 Route::post("/settings/location/list", "Settings\LocationController@list");
-Route::get("/settings/location/addPage", "Settings\LocationController@addPage");
 Route::post("/settings/location/store", "Settings\LocationController@store")->name('location.store');
 Route::get('settings/location/edit/{id}', 'Settings\LocationController@editLocation');
+
+
+//settings - Payment Gateways
+Route::get("/settings/payment_gateways", "Settings\PaymentGatewaysController@index");
+Route::post("/settings/payment_gateways/list", "Settings\PaymentGatewaysController@list");
+Route::get("/settings/payment_gateways/addPage", "Settings\PaymentGatewaysController@addPage");
+Route::post("/settings/payment_gateways/store", "Settings\PaymentGatewaysController@storeOrUpdate")->name('payment.store');
+Route::get('settings/payment_gateways/edit/{id}', 'Settings\PaymentGatewaysController@editPaymentGateways');
+
 
 // settings - organization
 Route::get('settings/church_settings', 'Settings\LocationController@churchSettings');

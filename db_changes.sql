@@ -1028,3 +1028,18 @@ ALTER TABLE `payment_gateways` ADD `orgId` BIGINT(20) NULL DEFAULT NULL AFTER `i
 ALTER TABLE `payment_gateways` ADD `pg_id` TINYINT(1) NULL DEFAULT NULL AFTER `id`; 
 
 ALTER TABLE `payment_gateways` CHANGE `pg_id` `payment_gateway_id` TINYINT(1) NULL DEFAULT NULL; 
+
+-- Santhosh 26 Dec 2019
+
+ALTER TABLE `payment_gateways` ADD `createdBy` INT(11) NULL DEFAULT NULL AFTER `active`; 
+
+ALTER TABLE `payment_gateways` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`;
+
+ALTER TABLE `payment_gateways` ADD `updatedBy` INT(11) NULL DEFAULT NULL AFTER `created_at`; 
+
+ALTER TABLE `payment_gateways` ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `updatedBy`;
+
+ALTER TABLE `payment_gateways` ADD `deletedBy` INT(11) NULL AFTER `updated_at`, ADD `deleted_at` TIMESTAMP NULL AFTER `deletedBy`; 
+
+
+ALTER TABLE `payment_gateway_parameters` ADD `createdBy` TEXT NULL DEFAULT NULL AFTER `validation_type`, ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`, ADD `updatedBy` TEXT NULL DEFAULT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL AFTER `updatedBy`, ADD `deletedBy` TEXT NULL DEFAULT NULL AFTER `updated_at`, ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `deletedBy` 

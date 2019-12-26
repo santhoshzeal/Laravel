@@ -29,9 +29,7 @@
 						
                         <!--<input type="text" id="user_id" name="user_id" value="{{$user_id}}" class="d-none">-->
 						
-                       
-						
-                        
+ 
                         <div class="row">
                             <div class="col-12">
                                 <div class="card m-b-30">
