@@ -1021,3 +1021,10 @@ CREATE TABLE insights AS SELECT * FROM group_resources
 ALTER TABLE `insights` CHANGE `id` `id` BIGINT(22) NOT NULL;
 
 ALTER TABLE `insights` CHANGE `id` `id` BIGINT(22) NOT NULL AUTO_INCREMENT;
+
+-- Sathish - 26Dec 2019
+ALTER TABLE `payment_gateways` ADD `orgId` BIGINT(20) NULL DEFAULT NULL AFTER `id`; 
+
+ALTER TABLE `payment_gateways` ADD `pg_id` TINYINT(1) NULL DEFAULT NULL AFTER `id`; 
+
+ALTER TABLE `payment_gateways` CHANGE `pg_id` `payment_gateway_id` TINYINT(1) NULL DEFAULT NULL; 
