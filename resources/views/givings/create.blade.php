@@ -53,7 +53,7 @@
 											<div class="form-group row">
 												<label for="example-date-input" class="col-sm-2 col-form-label">Event Date</label>
 												<div class="col-sm-10">
-													<input class="form-control selecteventdate" type="text" value="{{ old('event_date', isset($crudGiving) ? $crudGiving->event_date : '') }}" name="event_date" id="example-date-input">
+													<input class="form-control selecteventdate" type="text" value="{{ old('event_date', isset($crudGiving) ? $crudGiving->event_date : '') }}" name="event_date" id="example_date_input">
 
 													<input class="form-control" type="hidden" value="{{ old('event_id_hidden', isset($crudGiving) ? $crudGiving->event_id : '') }}" name="event_id_hidden" 
 													 id="event_id_hidden">

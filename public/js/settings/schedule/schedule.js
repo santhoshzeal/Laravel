@@ -60,3 +60,66 @@ function eventDateChanged(ev) {
     //     $('#period').text("-");
     // }
 }
+
+
+$(document).ready(function () {
+    
+
+    chkScheduleValidateStatus = "";
+    chkScheduleValidateStatus = $("#scheduleForm").validate({
+        //ignore:[],// false,
+        ignore: false,
+        errorClass: "error",
+        rules: {
+            title: {
+                required: true                
+            },
+            event_date: {
+                required: true
+            },
+            event_id: {
+                required: true
+            },
+            notification_flag: {
+                required: true
+            },
+            team_id: {
+                required: true
+            },
+            is_manual_schedule: {
+                required: true
+            }
+        },
+        messages: {
+            title: {
+                required: "Please enter schedule title"
+            },
+            event_date: {
+                required: "Please select date"
+            },
+            event_id: {
+                required: "Please select event"
+            },
+            notification_flag: {
+                required: "Please select Notification Flag"
+            },
+            team_id: {
+                required: "Please select team"
+            },
+            is_manual_schedule: {
+                required: "Please select Assign Type"
+            },
+        }
+    });
+
+});
+
+//form submission
+$('#scheduleForm').submit(function(e) {
+    var errorNumbers = chkScheduleValidateStatus.numberOfInvalids();
+    if (errorNumbers == 0) {
+        return true;
+    } else {
+
+    }
+});

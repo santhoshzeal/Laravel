@@ -44,7 +44,7 @@
                                         <div class="form-group row">
                                             <label for="example-date-input" class="col-sm-2 col-form-label">Event Date</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control selecteventdate" type="text" value="{{ old('event_date', isset($crudSchedule) ? $crudSchedule->event_date : '') }}" name="event_date" id="example-date-input">
+                                                <input class="form-control selecteventdate" type="text" value="{{ old('event_date', isset($crudSchedule) ? $crudSchedule->event_date : '') }}" name="event_date" id="event_date">
 
                                                 <input class="form-control" type="hidden" value="{{ old('event_id_hidden', isset($crudSchedule) ? $crudSchedule->event_id : '') }}" name="event_id_hidden" id="event_id_hidden">
                                             </div>
@@ -57,7 +57,7 @@
                                             <div class="col-sm-10 load_events" id="load_events">
                                                 
                                                 <select  name='event_id' id='event_id' class='form-control'>
-                                                    <option>--Select--</option>                        
+                                                    <option value="">--Select--</option>                        
                                                 </select>    
                                                 
                                                 
@@ -67,7 +67,7 @@
                                             <label class="col-sm-2 col-form-label">Notification Flag</label>
                                             <div class="col-sm-10">
                                                 <select class="form-control" name="notification_flag" id="notification_flag">
-                                                    <option>Select</option>
+                                                    <option value="">--Select--</option>
                                                     <option value="1" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='1')?'selected':'':'' ?>>None</option>
                                                     <option value="2" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='2')?'selected':'':'' ?>>SMS</option>
                                                     <option value="3" <?= isset($crudSchedule)?($crudSchedule->notification_flag=='3')?'selected':'':'' ?>>Email</option>
@@ -197,6 +197,7 @@ $(document).ready(function(){
     
 
 });
+
 </script>
 
 <style type="text/css"> 
