@@ -345,6 +345,7 @@ Route::get("/settings/team_data_delete", "Settings\TeamController@deleteTeamById
 //settings - location
 Route::get("/settings/location", "Settings\LocationController@index");
 Route::post("/settings/location/list", "Settings\LocationController@list");
+Route::get("/settings/location/addPage", "Settings\LocationController@addPage");
 Route::post("/settings/location/store", "Settings\LocationController@store")->name('location.store');
 Route::get('settings/location/edit/{id}', 'Settings\LocationController@editLocation');
 
@@ -352,9 +353,16 @@ Route::get('settings/location/edit/{id}', 'Settings\LocationController@editLocat
 //settings - Payment Gateways
 Route::get("/settings/payment_gateways", "Settings\PaymentGatewaysController@index");
 Route::post("/settings/payment_gateways/list", "Settings\PaymentGatewaysController@list");
-Route::get("/settings/payment_gateways/addPage", "Settings\PaymentGatewaysController@addPage");
 Route::post("/settings/payment_gateways/store", "Settings\PaymentGatewaysController@storeOrUpdate")->name('payment.store');
 Route::get('settings/payment_gateways/edit/{id}', 'Settings\PaymentGatewaysController@editPaymentGateways');
+
+
+//settings - Payment Others
+Route::get("/settings/payment_others", "Settings\PaymentMethodOthersController@index");
+Route::post("/settings/payment_others/list", "Settings\PaymentMethodOthersController@list");
+Route::get("/settings/payment_others/addPaymentPage", "Settings\PaymentMethodOthersController@addPaymentPage");
+Route::post("/settings/payment_others/store", "Settings\PaymentMethodOthersController@store")->name('paymentothers.store');
+Route::get('settings/payment_others/edit/{id}', 'Settings\PaymentMethodOthersController@editPaymentMethodOther');
 
 
 // settings - organization

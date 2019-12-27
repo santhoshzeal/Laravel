@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentGateways;
+use App\Models\PaymentGatewayStore;
 use App\Models\Resources;
 use App\Models\Roles;
 use App\Models\Organization;
@@ -62,66 +63,63 @@ class PaymentGatewaysController extends Controller {
      */
     public function storeOrUpdate(Request $request)
     {
-        
-		$insertData = $request->all();
-		
-		$orgId = $request->orgId;
-		
-		//dd($orgId);
-		
-		dd($insertData);
-		
-		//if($orgId > 0) { //update
-		
-		  
-		//}
-        //else 
-		//{
-			$insertData = $request->except(['_token']);
+        	
+			    $insertData = $request->all();	  
 
-			$insertData['createdBy']= Auth::id();
-			
-			$insertData['orgId']= Auth::user()->orgId;
-			
-			if($request['payment_gateways'] == 1){
-				
-				$insertData['gateway_name'] = "Stripe";
-			}
-			if($request['payment_gateways'] == 2){
-				
-				$insertData['gateway_name'] = "Paypal";
-			}
-			if($request['payment_gateways'] == 3){
-				
-				$insertData['gateway_name'] = "Others";
-			}
-	
-		     PaymentGateways::create($insertData);
-		//}
-		
-		
+				$insertData = $request->except(['_token']);
 
-        return response()->json(
-                    [
-                            'success' => '1',
-                            "message" => '<div class="alert alert-success"><strong>Saved!</strong></div>'
-                    ]
-						);
+				$insertData['createdBy']= Auth::id();
+				
+				$insertData['orgId']= Auth::user()->orgId;
+				
+				$insertData['active']= 1;	
+			
+				
+			    $wherePGSArray = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'gateway_name'=> $insertData['gateway_name']);
+				
+			    $arrayPGSUpdate = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'gateway_name'=> $insertData['gateway_name']);
+				   
+                PaymentGateways::updateOrCreate($wherePGSArray, $arrayPGSUpdate);	   				
+				
+				$whereArray = array('payment_gateway_id'=> $request['payment_gateway_id']);
+				$selectFromPaymentGatewayParameters = $data['selectFromPaymentGatewayParameters']  = PaymentGatewayParameters::selectFromPaymentGatewayParameters($whereArray,null,null,null,null,null)->get();
+				
+				
+			    foreach($selectFromPaymentGatewayParameters as $selectFromPaymentGatewayParametersValues){
+										
+				    $wherePGSArray = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'payment_gateway_parameter_id'=> $selectFromPaymentGatewayParametersValues->parameter_id );
+
+                    $arrayPGSUpdate = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'payment_gateway_parameter_id'=> $selectFromPaymentGatewayParametersValues->parameter_id, 'payment_gateway_parameter_value'=>$request['payment_gateway_parameter_value_'.$selectFromPaymentGatewayParametersValues->parameter_id] );
+				   
+                   PaymentGatewayStore::updateOrCreate($wherePGSArray, $arrayPGSUpdate);	
+					
+					
+				}
+              
+				return redirect('/settings/payment_gateways');
 
     }
+	
+	
+	
 
     public function editPaymentGateways(Request $request,$orgId) {
 		
 		$data['title'] = $this->browserTitle . " - ";
-		
-		//$org = PaymentGateways::findOrFail($orgId);
-
-        //$data['org'] = $org;		
 		  
 		$data['gatewayId']  =  $request->segment(4);
 		
+		$orgId = Auth::user()->orgId;
+		
 		$whereArray = array('payment_gateway_id' => $request->segment(4));
 		
+	    $data['getPaymentGatewayParameterValues'] = PaymentGatewayStore::getPaymentGatewayParameterValues($request->segment(4), $orgId);
+		
+	    //$data['getPaymentGatewayParameterDetails'] = PaymentGatewayParameters::getPaymentGatewayParameterDetails($request->segment(4), $orgId);
+        //dd($data['getPaymentGatewayParameterValues']);		
+		
+		$data['selectFromPaymentGateways']  = PaymentGateways::selectFromPaymentGateways($whereArray,null,null,null,null,null)->get()[0];
+				
         $selectFromPaymentGatewayParameters = $data['selectFromPaymentGatewayParameters']  = PaymentGatewayParameters::selectFromPaymentGatewayParameters($whereArray,null,null,null,null,null)->get();
 			
         return view('settings.payment_gateways.create',$data);

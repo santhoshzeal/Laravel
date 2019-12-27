@@ -1055,3 +1055,8 @@ DROP TABLE `payment_mode`;
 ALTER TABLE `giving` CHANGE `payment_mode_id` `payment_gateway_id` BIGINT(20) NULL DEFAULT NULL COMMENT 'payment_gateway.payment_gateway_id', CHANGE `sub_payment_mode_id` `other_payment_method_id` BIGINT(20) NULL DEFAULT NULL COMMENT 'other_payment_methods.other_payment_method_id'; 
 
 ALTER TABLE `giving` ADD `final_status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=Submitted,2=InProgress,3=Confirmed,4=Declined/Rejected' AFTER `confirmed_date`; 
+
+
+-- Santhosh 27 Dec 2019
+
+ALTER TABLE `payment_gateways` CHANGE `active` `active` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT 'Status of the gateway'; 

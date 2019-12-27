@@ -28,24 +28,21 @@
                         <div class="card m-b-30" style="margin-bottom: 0">
                             <div class="card-body">
                                 <input name="_token" type="hidden" value="{{ csrf_token() }}">
-								 <?php $i=1;?>
-                                 @foreach($selectFromPaymentGatewayParameters as $value)
+
+                                 @foreach($getPaymentGatewayParameterValues as $value)
 									 <div class="form-group row">
 										<label for="example-date-input" class="col-sm-3 col-form-label">{{ $value->parameter_name }}</label>
 										<div class="col-sm-9">
-											<input class="form-control" required="" type="text" value="" id="name_<?php echo $i; ?>" name="name_<?php echo $i; ?>" >
+											<input class="form-control" required="" type="text" value="{{ isset($getPaymentGatewayParameterValues)?$value->payment_gateway_parameter_value:'' }}" id="payment_gateway_parameter_value_<?php echo $value->payment_gateway_parameter_id; ?>" name="payment_gateway_parameter_value_<?php echo $value->payment_gateway_parameter_id; ?>" >
 										</div>
-									 </div>
-								 <?php 
-								   $i++;
-                                 ?>								 
+									 </div>							 
 								@endforeach
                             </div>
                         </div>
                     </div> <!-- end col -->
-                </div>
-				<input type="hidden" name="orgId" value="{{ isset($org)?$org->orgId:'' }}" />
-				<input type="hidden" name="payment_gateways" value="<?php echo $gatewayId; ?>"/>
+                </div>				
+				<input type="hidden" name="gateway_name" value="<?php echo $selectFromPaymentGateways['gateway_name']; ?>"/>
+				<input type="hidden" name="payment_gateway_id" value="<?php echo $gatewayId; ?>"/>
 				<div class="form-group">
 				<div>
 					<button type="submit" class="btn btn-primary waves-effect waves-light">
