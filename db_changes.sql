@@ -1043,3 +1043,15 @@ ALTER TABLE `payment_gateways` ADD `deletedBy` INT(11) NULL AFTER `updated_at`, 
 
 
 ALTER TABLE `payment_gateway_parameters` ADD `createdBy` TEXT NULL DEFAULT NULL AFTER `validation_type`, ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `createdBy`, ADD `updatedBy` TEXT NULL DEFAULT NULL AFTER `created_at`, ADD `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL AFTER `updatedBy`, ADD `deletedBy` TEXT NULL DEFAULT NULL AFTER `updated_at`, ADD `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `deletedBy` 
+
+--Sathish 27 Dec 2019
+
+DROP TABLE `store_payment_transactions`;
+
+ALTER TABLE `giving` ADD `transaction_date` DATETIME NULL DEFAULT NULL COMMENT 'Date on which transaction was done' AFTER `purpose_note`, ADD `transaction_status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Status of transaction 1 => submitted, 2 = > confirmed 3=> declined/error' AFTER `transaction_date`, ADD `customer_id` TEXT NULL DEFAULT NULL COMMENT 'customer_id response sent from payment gateway' AFTER `transaction_status`, ADD `token_id` TEXT NULL DEFAULT NULL COMMENT 'token id from payment Gateway' AFTER `customer_id`, ADD `submited_datetime` DATETIME NULL DEFAULT NULL AFTER `token_id`, ADD `confirmed_date` DATETIME NULL DEFAULT NULL AFTER `submited_datetime`; 
+
+DROP TABLE `payment_mode`;
+
+ALTER TABLE `giving` CHANGE `payment_mode_id` `payment_gateway_id` BIGINT(20) NULL DEFAULT NULL COMMENT 'payment_gateway.payment_gateway_id', CHANGE `sub_payment_mode_id` `other_payment_method_id` BIGINT(20) NULL DEFAULT NULL COMMENT 'other_payment_methods.other_payment_method_id'; 
+
+ALTER TABLE `giving` ADD `final_status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=Submitted,2=InProgress,3=Confirmed,4=Declined/Rejected' AFTER `confirmed_date`; 
