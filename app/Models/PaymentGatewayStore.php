@@ -60,7 +60,8 @@ class PaymentGatewayStore extends Model {
 		
 		//SELECT `store_payment_gateway_values`.`payment_gateway_parameter_value`, `store_payment_gateway_values`.`payment_gateway_parameter_id` , `payment_gateway_parameters`.`parameter_name`,`payment_gateway_parameters`.`parameter_id` FROM `store_payment_gateway_values` LEFT JOIN payment_gateway_parameters on `store_payment_gateway_values`.`payment_gateway_id` = `payment_gateway_parameters`.`payment_gateway_id` where `store_payment_gateway_values`.`payment_gateway_id` = '1' group by `store_payment_gateway_values`.`payment_values_id`	
 
-		
+		//DB::enableQueryLog();
+
         $result = PaymentGatewayStore::select('payment_gateway_parameter_id','payment_gateway_parameter_value')
 		        ->addSelect("payment_gateway_parameters.parameter_id","payment_gateway_parameters.parameter_name")
                 ->leftJoin("payment_gateway_parameters", "store_payment_gateway_values.payment_gateway_id", '=', "payment_gateway_parameters.payment_gateway_id")
@@ -68,6 +69,7 @@ class PaymentGatewayStore extends Model {
                 ->where('store_payment_gateway_values.orgId', '=', $orgId)
                 ->groupBy("store_payment_gateway_values.payment_values_id")
                 ->get();
+		//dd(DB::getQueryLog($result->get()));		
 				
         return $result;
     }

@@ -27,16 +27,27 @@
                     <div class="col-12">
                         <div class="card m-b-30" style="margin-bottom: 0">
                             <div class="card-body">
-                                <input name="_token" type="hidden" value="{{ csrf_token() }}">
-
-                                 @foreach($getPaymentGatewayParameterValues as $value)
+                                <input name="_token" type="hidden" value="{{ csrf_token() }}">								
+									@foreach($selectFromPaymentGatewayParameters as $value)
 									 <div class="form-group row">
 										<label for="example-date-input" class="col-sm-3 col-form-label">{{ $value->parameter_name }}</label>
 										<div class="col-sm-9">
-											<input class="form-control" required="" type="text" value="{{ isset($getPaymentGatewayParameterValues)?$value->payment_gateway_parameter_value:'' }}" id="payment_gateway_parameter_value_<?php echo $value->payment_gateway_parameter_id; ?>" name="payment_gateway_parameter_value_<?php echo $value->payment_gateway_parameter_id; ?>" >
+											<input class="form-control" required="" type="text" value="" id="payment_gateway_parameter_value_<?php echo $value->parameter_id; ?>" name="payment_gateway_parameter_value_<?php echo $value->parameter_id; ?>" >
 										</div>
-									 </div>							 
-								@endforeach
+									 </div>						 
+									@endforeach									
+									
+									<div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">Select Status</label>
+											
+                                            <div class="col-sm-9">                                                
+                                                <select  name='active' id='active' class='form-control'>
+                                                    <option value="">--Select--</option>                        
+                                                    <option value="0">Inactive</option>                        
+                                                    <option value="1">Active</option>                        
+                                                </select>   
+                                            </div>
+                                     </div>		
                             </div>
                         </div>
                     </div> <!-- end col -->

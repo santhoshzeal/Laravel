@@ -64,7 +64,9 @@ class PaymentGatewaysController extends Controller {
     public function storeOrUpdate(Request $request)
     {
         	
-			    $insertData = $request->all();	  
+			    $insertData = $request->all();	
+                
+				//dd($insertData);				
 
 				$insertData = $request->except(['_token']);
 
@@ -72,12 +74,12 @@ class PaymentGatewaysController extends Controller {
 				
 				$insertData['orgId']= Auth::user()->orgId;
 				
-				$insertData['active']= 1;	
+				$insertData['active']= $request['active'];	
 			
 				
 			    $wherePGSArray = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'gateway_name'=> $insertData['gateway_name']);
 				
-			    $arrayPGSUpdate = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'gateway_name'=> $insertData['gateway_name']);
+			    $arrayPGSUpdate = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'gateway_name'=> $insertData['gateway_name'],'active' => $insertData['active']);
 				   
                 PaymentGateways::updateOrCreate($wherePGSArray, $arrayPGSUpdate);	   				
 				
@@ -89,7 +91,7 @@ class PaymentGatewaysController extends Controller {
 										
 				    $wherePGSArray = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'payment_gateway_parameter_id'=> $selectFromPaymentGatewayParametersValues->parameter_id );
 
-                    $arrayPGSUpdate = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'payment_gateway_parameter_id'=> $selectFromPaymentGatewayParametersValues->parameter_id, 'payment_gateway_parameter_value'=>$request['payment_gateway_parameter_value_'.$selectFromPaymentGatewayParametersValues->parameter_id] );
+                    $arrayPGSUpdate = array('orgId' => $insertData['orgId'], 'payment_gateway_id' => $request['payment_gateway_id'], 'payment_gateway_parameter_id'=> $selectFromPaymentGatewayParametersValues->parameter_id, 'payment_gateway_parameter_value'=>$request['payment_gateway_parameter_value_'.$selectFromPaymentGatewayParametersValues->parameter_id],'active' => $insertData['active']);
 				   
                    PaymentGatewayStore::updateOrCreate($wherePGSArray, $arrayPGSUpdate);	
 					

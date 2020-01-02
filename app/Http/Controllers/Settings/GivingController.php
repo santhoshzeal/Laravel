@@ -13,6 +13,8 @@ use App\Helpers\CommunicationHelper;
 use App\Models\Schedule;
 use App\Models\Giving;
 use App\Models\Events;
+use App\Models\PaymentGateways;
+use App\Models\PaymentMethodOthers;
 use App\Models\MasterLookupData;
 use App\Models\SchedulingUser;
 use App\Models\CommTemplate;
@@ -81,7 +83,16 @@ class GivingController extends Controller
 		$data['user_id'] = UserMaster::crudUserMasterDetail($wherArray,null,null,null,null,null,null,'1')->get();
 		
 	
-		//dd($this->orgId);
+	    $whereOrgArray=array('orgId'=>$this->orgId,'active'=>1);
+        $data['payment_mode'] = PaymentGateways::selectFromPaymentGateways($whereOrgArray)->get();
+		
+		
+		$whereOrgArray=array('orgId'=>$this->orgId,'status'=>1);
+        $data['other_payment_mode'] = PaymentMethodOthers::selectFromPaymentMethodOthers($whereOrgArray)->get();
+			
+		//dd($data['payment_mode']);
+		
+		
         //$whereTeamArray=array('orgId'=>$this->orgId);		
         //$data['team_id'] = Team::selectFromTeam($whereTeamArray)->get();		
 

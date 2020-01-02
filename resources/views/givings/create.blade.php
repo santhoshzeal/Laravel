@@ -136,23 +136,28 @@
                                         <div class="form-group row">
 											<label for="example-date-input" class="col-sm-2 col-form-label">Payment Mode</label>
 											<div class="col-sm-10">
-											<select class="form-control" name="payment_mode_id" id="payment_mode_id">
-											    <option value="">--Select--</option> 
-												<option {{ (isset($crudGiving) && $crudGiving->payment_mode_id==1)?'selected':''}}  value="1">1</option>                                 
+											<select class="form-control" name="payment_gateway_id" id="payment_gateway_id">
+											   <option value="">--Select--</option> 
+												@foreach($payment_mode as $value) 
+												     <option value="{{ $value->id }}">{{ $value->gateway_name }}</option>														 
+												@endforeach                                                     											
 											</select>
 											</div>
 										</div>
-
-
+										
+                                     <div id="dvSubPay" style="display: none">
                                         <div class="form-group row">
 											<label for="example-date-input" class="col-sm-2 col-form-label">Sub Payment Mode</label>
 											<div class="col-sm-10">
-											<select class="form-control" name="sub_payment_mode_id" id="sub_payment_mode_id">
+											<select class="form-control" name="other_payment_method_id" id="other_payment_method_id">
 											    <option value="">--Select--</option> 
-												<option {{ (isset($crudGiving) && $crudGiving->sub_payment_mode_id==1)?'selected':''}}  value="1">1</option>                               
+												@foreach($other_payment_mode as $value)
+												     <option value="{{ $value->id }}">{{ $value->payment_method }}</option>														 
+												@endforeach                               
 											</select>
 											</div>
-										</div>										
+										</div>	
+                                     </div>										
 										
 										<div class="form-group row">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Amount</label>
@@ -161,17 +166,7 @@
 												name="amount" >
                                             </div>
                                         </div>
-										
-										<div class="form-group row">
-											<label for="example-date-input" class="col-sm-2 col-form-label">Payment Mode</label>
-											<div class="col-sm-10">
-											<select class="form-control" name="pay_mode" id="pay_mode">
-											    <option value="">--Select--</option> 
-												<option {{ (isset($crudGiving) && $crudGiving->pay_mode=="Credit")?'selected':''}}  value="Credit">Credit</option>                                
-											</select>
-											</div>
-										</div>
-										
+																			
 
                                         <div class="form-group">
                                             <div>
@@ -181,6 +176,7 @@
                                                 <a href="{{ URL::asset('settings/givings')}}" type="reset" class="btn btn-secondary waves-effect m-l-5">Cancel</a>
                                             </div>
                                         </div>
+										
                                     </div>
                                 </div>
                             </div> <!-- end col -->
@@ -216,6 +212,18 @@ $(function () {
 	});
  });
  
+ $(function () {
+	$("#payment_gateway_id").change(function () {		
+		var selectedText = $(this).find('option:selected').text();
+		//alert(selectedText);		
+		if (selectedText == "Others") {
+			$("#dvSubPay").show();
+		} else {
+			$("#dvSubPay").hide();
+		}
+	});
+ });
+
 
  /////////
 // An array of highlighting dates ( 'dd-mm-yyyy' )
