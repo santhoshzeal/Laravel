@@ -1060,3 +1060,9 @@ ALTER TABLE `giving` ADD `final_status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 
 -- Santhosh 27 Dec 2019
 
 ALTER TABLE `payment_gateways` CHANGE `active` `active` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT 'Status of the gateway'; 
+
+-- Sathish 28 Dec 2019
+
+UPDATE `payment_gateways` SET `payment_gateway_id` = '1' WHERE `payment_gateways`.`id` =1;
+UPDATE `payment_gateways` SET `payment_gateway_id` = '2' WHERE `payment_gateways`.`id` =2;
+UPDATE `payment_gateways` SET `payment_gateway_id` = '3' WHERE `payment_gateways`.`id` =3;
