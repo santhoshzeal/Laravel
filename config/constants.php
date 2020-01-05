@@ -10,6 +10,7 @@ return [
         '403' => 'SORRY !!! ACCESS FORBIDDEN'
     ],
     'TODAYSDATE' => date('Y-m-d'),
+    'TODAYSDATETIME' => date('Y-m-d H:i:s'),
     'FILE_SIZE'=>
     [
         'PHOTOS_SIZE'=>1024, //size in kb
