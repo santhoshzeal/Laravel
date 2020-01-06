@@ -90,6 +90,7 @@ Route::post('webapp/login', 'PassportController@login');
 Route::post('site_login', 'PassportController@login');
 
 Route::get('webapp/logout/{orgDomain}', 'PassportController@logout');
+Route::get('logout/superadmin', 'PassportController@superadmin_logout');
 
 Route::get('webapp/signup', 'WebsiteController@signup');
 
