@@ -74,5 +74,32 @@ class PaymentGatewayStore extends Model {
         return $result;
     }
 	
+	
+	
+	/*
+     * Function name : getPaymentGatewayKeys 
+     * Purpose       : Get parameters for the payment gateway
+     * Added by      : Santhosh
+     * Added Date    : Jan 06 2020
+     */
+
+    public static function getPaymentGatewayKeys($org_id) {
+       
+        $paymentGatewayDetails = PaymentGatewayStore::LeftJoin('payment_gateway_parameters', function($join) {
+                    $join->on('payment_gateway_parameters.parameter_id', '=', 'store_payment_gateway_values.payment_gateway_parameter_id');
+                })
+                ->where("store_payment_gateway_values.orgId", $org_id)
+                ->where("store_payment_gateway_values.active", 1)
+                ->where("store_payment_gateway_values.preferred_payment_gateway", 1)
+                ->select('store_payment_gateway_values.payment_gateway_parameter_value','payment_gateway_parameters.parameter_name');
+            
+        if (!empty($paymentGatewayDetails)) {
+
+            return $paymentGatewayDetails;
+        } else {
+            return "failure";
+        }
+    }
+	
 
 }

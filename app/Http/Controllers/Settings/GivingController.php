@@ -14,6 +14,7 @@ use App\Models\Schedule;
 use App\Models\Giving;
 use App\Models\Events;
 use App\Models\PaymentGateways;
+use App\Models\PaymentGatewayStore;
 use App\Models\PaymentMethodOthers;
 use App\Models\MasterLookupData;
 use App\Models\SchedulingUser;
@@ -22,6 +23,10 @@ use App\Models\Team;
 use App\Models\UserMaster;
 use App\User;
 use Auth;
+
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Charge;
 
 
 class GivingController extends Controller
@@ -95,6 +100,26 @@ class GivingController extends Controller
 		//dd($data['payment_mode']);
 		
 		
+		
+		//Get stripe public key & secret key		 
+        $org_id = $this->userSessionData['umOrgId'];		
+        $stripe_keys = PaymentGatewayStore::getPaymentGatewayKeys($org_id)->get()->toArray();
+
+        if ($stripe_keys != "failure") {
+            foreach ($stripe_keys as $key => $fields) {
+
+                if ($fields['parameter_name'] == "Public Key") {
+                    $data['public_key'] = $fields['payment_gateway_parameter_value'];
+                }
+                if ($fields['parameter_name'] == "Secret Key") {
+                    $data['secret_key'] = $fields['payment_gateway_parameter_value'];
+                }
+            }
+        }
+		
+		//dd($data['public_key']);
+		
+		
         //$whereTeamArray=array('orgId'=>$this->orgId);		
         //$data['team_id'] = Team::selectFromTeam($whereTeamArray)->get();		
 
@@ -146,6 +171,39 @@ class GivingController extends Controller
 		
         //dd($arraySUUpdate,$request->all());
 		
+		$org_id = $this->userSessionData['umOrgId'];
+		
+		//Get stripe public key & secret key	
+		$stripe_keys = PaymentGatewayStore::getPaymentGatewayKeys($org_id)->get()->toArray();
+
+        if ($stripe_keys != "failure") {
+            foreach ($stripe_keys as $key => $fields) {
+
+                if ($fields['parameter_name'] == "Public Key") {
+                    $data['public_key'] = $fields['payment_gateway_parameter_value'];
+                }
+                if ($fields['parameter_name'] == "Secret Key") {
+                    $data['secret_key'] = $fields['payment_gateway_parameter_value'];
+                }
+            }
+        }
+				
+			
+		Stripe::setApiKey($data['secret_key']);
+		
+		$customer = Customer::create(array(
+            'email' => $request->stripeEmail,
+            'source'  => $request->stripeToken
+        ));
+
+        $charge = Charge::create(array(
+            'customer' => $customer->id,
+            'amount'   => $request->input('amount'),
+            'currency' => 'INR',
+			'description' => 'payment made'
+        ));
+		
+			
         $giving = null;
 		
         $isNewSchedule = true;

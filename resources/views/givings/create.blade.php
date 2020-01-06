@@ -163,7 +163,7 @@
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Amount</label>
                                             <div class="col-sm-10">
                                                 <input class="form-control" type="text" value="{{ old('amount', isset($crudGiving) ? $crudGiving->amount : '') }}" id="amount" 
-												name="amount" >
+												name="amount" onInput="edValueKeyPress()">
                                             </div>
                                         </div>
 
@@ -173,17 +173,60 @@
 		                                        <textarea name="purpose_note" id="purpose_note" class="form-control">{{ isset($crudGiving)?$crudGiving->purpose_note:'' }}</textarea>
 		                                    </div>
 		                                </div>
+										
+									<div id="dvStripe" style="display: none">	
 													
+									    <div class="form-group row">
+											<span>
+												<label id="online_payment">
+													<input class="ace" type="radio" name="rad_pay_option" id="rad_pay_option" value="1" checked />
+													<span class="lbl">&nbsp; Pay Online</span>
+												</label>
+											</span>
+                                        </div>										
+									</div>	
 																			
-
-                                        <div class="form-group">
-                                            <div>
-                                                <button type="submit" class="btn btn-primary waves-effect waves-light">
-                                                    Submit
-                                                </button>
-                                                <a href="{{ URL::asset('settings/givings')}}" type="reset" class="btn btn-secondary waves-effect m-l-5">Cancel</a>
-                                            </div>
-                                        </div>
+							  <?php
+								//if ($payment_status == 'NONE') {
+							  ?>
+						
+                              <div class="pay_btn" id="pay_btn" style="display: none">
+                                <script>
+								function getValue() {
+								  var test = document.getElementById("amount").value;
+								  return test;
+								}
+								</script>
+								 
+                                 <?php
+								 
+						             $stripe_fee = 200*100;						   
+						         ?>
+								
+                                <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button" 
+                                        data-allow-remember-me="true"
+                                        data-key=<?php echo $public_key; ?>
+                                        data-amount=<?php echo $stripe_fee; ?>
+                                        data-description="Thanks For Registering"
+                                        data-name="Org">
+                                </script>
+								
+								 							
+                         </div> 
+					   
+                        <?php //} ?>
+										
+							<div class="sub_btn" id="sub_btn" style="display: none">			
+								<div class="form-group">
+									<div>
+										<button type="submit" class="btn btn-primary waves-effect waves-light">
+											Submit
+										</button>
+										<a href="{{ URL::asset('settings/givings')}}" type="reset" class="btn btn-secondary waves-effect m-l-5">Cancel</a>
+									</div>
+								 </div>
+							</div>
+							
 										
                                     </div>
                                 </div>
@@ -199,6 +242,15 @@
 </div>
 
 <script type='text/javascript'>
+
+function edValueKeyPress() {
+    var amount = document.getElementById("amount");
+    var s = amount.value;
+	var stripeamount = parseInt(s*100);
+	//alert(stripeamount);
+    $(".stripe-button").attr("data-amount",stripeamount);	
+}
+
 $(function () {
 	$("#type").change(function () {
 		if ($(this).val() == "2") {
@@ -221,13 +273,19 @@ $(function () {
  });
  
  $(function () {
-	$("#payment_gateway_id").change(function () {		
+	$("#payment_gateway_id").change(function () {	
 		var selectedText = $(this).find('option:selected').text();
 		//alert(selectedText);		
 		if (selectedText == "Others") {
 			$("#dvSubPay").show();
+			$('#sub_btn').show();
+			$('#pay_btn').hide();
+			$('#dvStripe').hide();
 		} else {
 			$("#dvSubPay").hide();
+			$('#sub_btn').hide();
+			$('#pay_btn').show();
+			$('#dvStripe').show();
 		}
 	});
  });
