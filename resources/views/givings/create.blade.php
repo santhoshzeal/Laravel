@@ -39,7 +39,7 @@
 											<label for="example-date-input" class="col-sm-2 col-form-label">Type</label>
 											<div class="col-sm-10">
 											<select class="form-control" name="type" id="type">
-											    <option>--Select--</option> 
+											    <option value="">--Select--</option> 
 												<option {{ (isset($crudGiving) && $crudGiving->type==1)?'selected':''}}  value="1">Donation</option>
 												<option {{ (isset($crudGiving) && $crudGiving->type==2)?'selected':''}}  value="2">Event</option>                                 
 											</select>
@@ -152,7 +152,7 @@
 											<select class="form-control" name="other_payment_method_id" id="other_payment_method_id">
 											    <option value="">--Select--</option> 
 												@foreach($other_payment_mode as $value)
-												     <option value="{{ $value->id }}">{{ $value->payment_method }}</option>														 
+												     <option value="{{ $value->other_payment_method_id }}">{{ $value->payment_method }}</option>														 
 												@endforeach                               
 											</select>
 											</div>
@@ -166,6 +166,14 @@
 												name="amount" >
                                             </div>
                                         </div>
+
+                                        <div class="form-group row">
+		                                    <label for="example-date-input" class="col-sm-2 col-form-label">Description</label>
+		                                    <div class="col-sm-10">
+		                                        <textarea name="purpose_note" id="purpose_note" class="form-control">{{ isset($crudGiving)?$crudGiving->purpose_note:'' }}</textarea>
+		                                    </div>
+		                                </div>
+													
 																			
 
                                         <div class="form-group">
@@ -250,7 +258,7 @@ $(document).ready(function(){
 	var today               = new Date();
 	var today_formatted     = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+('0'+today.getDate()).slice(-2);
 	var user_busy_days      = <?php echo json_encode(array_unique((array_column($upcoming_events, 'eventCreatedDate'))));?>;//['2019-11-09','2019-11-16','2019-11-19'];
-
+	//console.log(user_busy_days);
 	$('.selecteventdate').datepicker({
 		autoclose: true,
 		format: 'yyyy-mm-dd',
@@ -258,7 +266,7 @@ $(document).ready(function(){
 		sideBySide: true,
 		beforeShowDay: function (date) {
 
-			calender_date = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+('0'+date.getDate()).slice(-2);
+			calender_date = date.getFullYear()+'-'+('0'+date.getMonth()+1).slice(-2)+'-'+('0'+date.getDate()).slice(-2);
 
 			var search_index = $.inArray(calender_date, user_busy_days);
 
@@ -277,19 +285,8 @@ $(document).ready(function(){
 });
 </script>
 
-<style type="text/css"> 
-.highlighted-cal-dates
-{
-    pointer-events: none; 
-    cursor: default; 
-}
-.non-highlighted-cal-dates
-{
-    background-color: #29f274 !important;
-}
 
-</style>
-
+<link href="{{ URL::asset('css/custom_page.css') }}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{{ URL:: asset('js/custom/givings.js')}}"></script>
 
 @endsection
