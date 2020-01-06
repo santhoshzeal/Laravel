@@ -81,7 +81,7 @@
             },
             columns: [
                             {data: 'gateway_name', name: 'gateway_name'},
-                            {data: 'active', name: 'active'},
+                            {data: 'active_status', name: 'active'},
                             {data: 'action', name: 'action', orderable: false, searchable: false},
             ],
             "initComplete": function(settings, json) {

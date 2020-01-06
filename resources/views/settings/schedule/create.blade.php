@@ -178,10 +178,10 @@ $(document).ready(function(){
             sideBySide: true,
             beforeShowDay: function (date) {
 
-                calender_date = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+('0'+date.getDate()).slice(-2);
+                calender_date = date.getFullYear()+'-'+('0'+date.getMonth()+1).slice(-2)+'-'+('0'+date.getDate()).slice(-2);
 
                 var search_index = $.inArray(calender_date, user_busy_days);
-
+                //console.log(calender_date,"===",user_busy_days);
                 if (search_index > -1) {
                     return {classes: 'non-highlighted-cal-dates', tooltip: 'User available on this day.'};
                 }else{
@@ -201,16 +201,10 @@ $(document).ready(function(){
 </script>
 
 <style type="text/css"> 
-.highlighted-cal-dates
-{
-    pointer-events: none; 
-    cursor: default; 
-}
-.non-highlighted-cal-dates
-{
-    background-color: #29f274 !important;
-}
+
 
 </style>
+<link href="{{ URL::asset('css/custom_page.css') }}" rel="stylesheet" type="text/css" />
+
 <script src="{{ URL:: asset('js/settings/schedule/schedule.js')}}"></script>
 @endsection

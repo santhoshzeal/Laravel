@@ -104,8 +104,8 @@ class PassportController extends Controller {
             //return response()->json(['userData' => $userData->only(['id', 'name', 'email'])], 200);
             $token = auth()->user()->createToken('dollar')->accessToken;
             $resultSetSessionArray["umId"] = $userData['id'];
-            $resultSetSessionArray["umName"] = $userData['name'];
-            $resultSetSessionArray["umEmail"] = $userData['email'];
+            $resultSetSessionArray["umName"] = $selectFromUserCustom[0]['user_name'];
+            $resultSetSessionArray["umEmail"] = $selectFromUserCustom[0]['user_email'];
             $resultSetSessionArray["umUserRoleId"] = $selectFromUserCustom[0]['user_role_id'];
             $resultSetSessionArray["umUserRoleName"] = $selectFromUserCustom[0]['user_role_name'];
             $resultSetSessionArray["umUserRoleTag"] = $selectFromUserCustom[0]['user_role_tag'];
@@ -303,6 +303,18 @@ class PassportController extends Controller {
         }
 
         return response()->json(['status' => 'Logout'], 200);
+        
+    }
+
+    /**
+     * Display Logout Page
+     *
+     * @return View
+     */
+    public function superadmin_logout(Request $request) {
+        Auth::logout();
+        Session::flush();
+        return redirect('/');
         
     }
     

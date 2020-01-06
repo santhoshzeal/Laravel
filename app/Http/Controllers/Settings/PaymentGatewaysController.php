@@ -27,6 +27,8 @@ class PaymentGatewaysController extends Controller {
         $this->common_file_upload_path = Config::get('constants.FILE_UPLOAD_PATH');
         $this->common_file_download_path = Config::get('constants.FILE_DOWNLOAD_PATH');
         $this->userSessionData = Session::get('userSessionData');
+
+        $this->orgId = $this->userSessionData['umOrgId'];
     }
 
     public function index() {
@@ -39,9 +41,8 @@ class PaymentGatewaysController extends Controller {
 
     public function list(Request $request){
 		
-		$orgId = Auth::user()->orgId;
 		
-        $payment_gateways = PaymentGateways::listPaymentGatewaysValues($orgId);
+        $payment_gateways = PaymentGateways::listPaymentGatewaysValues($this->orgId);
 
         return DataTables::of($payment_gateways)
 		
@@ -72,7 +73,7 @@ class PaymentGatewaysController extends Controller {
 
 				$insertData['createdBy']= Auth::id();
 				
-				$insertData['orgId']= Auth::user()->orgId;
+				$insertData['orgId']= $this->orgId;
 				
 				$insertData['active']= $request['active'];	
 			
@@ -105,13 +106,13 @@ class PaymentGatewaysController extends Controller {
 	
 	
 
-    public function editPaymentGateways(Request $request,$orgId) {
+    public function editPaymentGateways(Request $request) {
 		
 		$data['title'] = $this->browserTitle . " - ";
 		  
 		$data['gatewayId']  =  $request->segment(4);
 		
-		$orgId = Auth::user()->orgId;
+		$orgId = $this->orgId;
 		
 		$whereArray = array('payment_gateway_id' => $request->segment(4));
 		

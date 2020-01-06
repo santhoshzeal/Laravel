@@ -1,4 +1,38 @@
 
+function eventDateChanged(ev) {
+
+    //alert("selecteventdate2"+ev.target.value);
+    var datastring = "event_date="+ev.target.value;
+    //alert(datastring+"--"+siteUrl);
+    $.ajax({
+        url: siteUrl + '/events/get_events_upon_date/'+ev.target.value,
+        async: true,
+        type: "GET",
+        data: datastring,
+        dataType: "html",
+        // contentType: false,
+        // cache: false,
+        // processData: false,
+        success: function (data)
+        {
+            //alert("s");
+            console.log(data);
+            $("#load_events").html(data);
+
+            $("#event_id").val($("#event_id_hidden").val()).change();
+        }
+
+    }); 
+    // $(this).datepicker('hide');
+    // if ($('#startdate').val() != '' && $('#enddate').val() != '') {
+    //     $('#period').text(diffInDays() + ' d.');
+    // } else {
+    //     $('#period').text("-");
+    // }
+}
+
+
+/*
 // Setup validation
     // ------------------------------
 
@@ -47,7 +81,7 @@
         },
         validClass: "validation-valid-label",
         success: function(label) {
-            label.addClass("validation-valid-label").text("Success.")
+            label.addClass("validation-valid-label").text("")
         },
         rules: {
             //vali: "required",
@@ -59,10 +93,12 @@
             }
         },
         messages: {
-            custom: {
-                required: "This is a custom error message",
+            type: {
+                required: "Please select payment type",
             },
-            agree: "Please accept our policy"
+            amount: {
+                required: "Please enter Amount",
+            },
         }
     });
 
@@ -71,3 +107,51 @@
     $('#reset').on('click', function() {
         validator.resetForm();
     });
+
+
+*/
+
+
+$(document).ready(function () {
+    
+
+    chkGivingCreateValidateStatus = "";
+    chkGivingCreateValidateStatus = $("#givingsForm").validate({
+        //ignore:[],// false,
+        ignore: false,
+        errorClass: "error",
+        rules: {
+            type: {
+                required: true                
+            },
+            amount: {
+                required: true
+            },
+            payment_gateway_id: {
+                required: true
+            }
+        },
+        messages: {
+            type: {
+                required: "Please select type"
+            },
+            amount: {
+                required: "Please enter amount"
+            },
+            payment_gateway_id: {
+                required: "Please select payment mode"
+            }
+        }
+    });
+
+});
+
+//form submission
+$('#givingsForm').submit(function(e) {
+    var errorNumbers = chkGivingCreateValidateStatus.numberOfInvalids();
+    if (errorNumbers == 0) {
+        return true;
+    } else {
+
+    }
+});

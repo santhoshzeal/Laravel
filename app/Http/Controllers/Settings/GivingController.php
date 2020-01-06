@@ -34,6 +34,8 @@ class GivingController extends Controller
         $this->userSessionData = Session::get('userSessionData');
         $this->orgId = $this->userSessionData['umOrgId'];	
         $this->authUserId = $this->userSessionData['umId'];
+        $this->todays_date = Config::get('constants.TODAYSDATE');
+        $this->todays_date_time = Config::get('constants.TODAYSDATETIME');
     }
 
     public function givingIndex(){
@@ -113,6 +115,7 @@ class GivingController extends Controller
         }
         //dd(count($eventsData));
         $data['upcoming_events']=$eventsData;
+        //dd($data['upcoming_events']);
         //dd($data['team_id']->get()->toArray(),$whereTeamArray);
         
         if($giving_id){
@@ -155,16 +158,22 @@ class GivingController extends Controller
 		{
             $giving = new Giving();
             $giving->orgId = $this->orgId;
+            $giving->createdBy = $this->userSessionData['umId'];
+            $giving->pay_mode = "Credit";
+            $giving->transaction_date = $this->todays_date_time;
+            $giving->transaction_status = "1";
         }
 		
         //dd($giving);
         // return $payload;
-		
-        $fields = ['type', 'user_id', 'orgId', 'event_id', 'email', 'first_name', 'middle_name', 'last_name','mobile_no','payment_mode_id','sub_payment_mode_id','amount','pay_mode'];
+		//'pay_mode', 'purpose_note', 'transaction_date',
+        $fields = [ 'type', 'user_id', 'orgId', 'event_id', 'email', 'first_name', 
+                    'middle_name', 'last_name', 'mobile_no', 'payment_gateway_id', 
+                    'other_payment_method_id', 'amount'
+        ];
 		
         foreach($fields as $field) {
-			
-            $giving[$field] = $payload[$field];
+			 $giving[$field] = $payload[$field];            
         }
 		
         //dd($giving);
