@@ -376,3 +376,12 @@ Route::get("/settings/givings", "Settings\GivingController@givingIndex")->name('
 Route::get('/settings/givings/list', 'Settings\GivingController@getGivingList');
 Route::get("/settings/givings/manage/{giving_id?}", 'Settings\GivingController@createOrEditPage');
 Route::post('/settings/givings/store', 'Settings\GivingController@storeOrUpdateGivings')->name('givings.store');
+
+
+//settings - Organization Listing
+Route::get("/settings/organization", "Settings\OrganizationController@index")->name('organization.list');
+Route::get("/settings/organization/list", "Settings\OrganizationController@getOrganizationList");
+Route::get("/settings/organization/manage/{org_id?}", 'Settings\OrganizationController@createOrEditPage');
+Route::post("/settings/organization/store", "Settings\OrganizationController@organizationRegister")->name('organization.store');
+Route::post('settings/organization/save/{org_id}', 'Settings\OrganizationController@store');
+

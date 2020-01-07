@@ -121,4 +121,55 @@ class Organization extends Model  {
             return $query;
         }
     }
+	
+	
+	/**
+    * @Function name : listOrganization
+    * @Purpose : crud account heads based on  array
+    * @Added by : Santhosh
+    * @Added Date : Jan 07, 2020
+    */
+	
+	public static function listOrganization($search) {
+		
+        $result = self::select('orgId', 'orgName');
+		
+        if ($search != "") {
+            $result->where(function($query)use($search) {
+                return $query->where('orgName', 'LIKE', "%$search%");
+
+            });
+        }
+
+        return $result;
+    }
+		
+	
+	/**
+    * @Function name : getOrganizationUserValues
+    * @Purpose : getOrganizationUserValues heads based on  array
+    * @Added by : Santhosh
+    * @Added Date : Jan 07, 2020
+    */
+	
+	public static function getOrganizationUserValues($orgId) {
+		
+		//SELECT `users`.`first_name`, `users`.`email`, `organization`.`orgName`, `organization`.`orgDomain`  FROM `users` LEFT JOIN  organization on `organization`.`orgId` = `users`.`orgId` where `organization`.`orgId` = 3 group by `organization`.`orgId`	
+         
+		//DB::enableQueryLog();
+		
+        $result = Organization::select('orgName','orgDomain')
+		        ->addSelect("users.first_name","users.email","users.id")
+                ->leftJoin("users", "users.orgId", '=', "organization.orgId")
+                ->where('organization.orgId', '=', $orgId)                
+                ->groupBy("organization.orgId")
+                ->get()[0];
+				
+	    //dd(DB::getQueryLog($result->get()));
+		
+        return $result;
+    }
+	
+	
+	
 }

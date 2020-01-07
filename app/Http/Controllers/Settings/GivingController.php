@@ -231,7 +231,7 @@ class GivingController extends Controller
         ];
 		
         foreach($fields as $field) {
-			 $giving[$field] = $payload[$field];            
+			 $giving[$field] = $payload[$field];          
         }
 		
         //dd($giving);

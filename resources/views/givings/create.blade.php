@@ -198,10 +198,9 @@
 								}
 								</script>
 								 
-                                 <?php
-								 
+                                <?php
 						             $stripe_fee = 200*100;						   
-						         ?>
+						        ?>
 								
                                 <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button" 
                                         data-allow-remember-me="true"
