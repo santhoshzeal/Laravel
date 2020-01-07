@@ -1070,3 +1070,7 @@ UPDATE `payment_gateways` SET `payment_gateway_id` = '3' WHERE `payment_gateways
 -- Sathish 05 Jan 2020
 
 ALTER TABLE `payment_gateways` CHANGE `active` `active` VARCHAR( 1 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '1' COMMENT 'Status of the gateway, 1=Active,2=InActive';
+
+-- Sathish 07 Jan 2020
+
+ALTER TABLE `store_payment_gateway_values` CHANGE `preferred_payment_gateway` `preferred_payment_gateway` INT( 1 ) NOT NULL DEFAULT '1' COMMENT '0 -> inactive, 1 - active';
