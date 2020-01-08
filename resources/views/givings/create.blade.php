@@ -139,7 +139,7 @@
 											<select class="form-control" name="payment_gateway_id" id="payment_gateway_id">
 											   <option value="">--Select--</option> 
 												@foreach($payment_mode as $value) 
-												     <option value="{{ $value->id }}">{{ $value->gateway_name }}</option>														 
+												     <option value="{{ $value->payment_gateway_id }}">{{ $value->gateway_name }}</option>														 
 												@endforeach                                                     											
 											</select>
 											</div>

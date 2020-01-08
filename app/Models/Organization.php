@@ -161,7 +161,7 @@ class Organization extends Model  {
         $result = Organization::select('orgName','orgDomain')
 		        ->addSelect("users.first_name","users.email","users.id")
                 ->leftJoin("users", "users.orgId", '=', "organization.orgId")
-                ->where('organization.orgId', '=', $orgId)                
+				->where('organization.orgId', '=', $orgId)                
                 ->groupBy("organization.orgId")
                 ->get()[0];
 				

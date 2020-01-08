@@ -24,8 +24,8 @@
                 <div class="row p0 m-0">
                     {!! Form::open(array('id'=>'organizationForm','name'=>'organizationForm','method' => 'post', 'url' => $formUrl, 'class' => 'organizationForm col-sm-12 card p-2','files' => true)) !!}
 		    					 
-                        <input type="text" id="orgId" name="orgId" value="{{$org_id}}" class="d-none">
-                        <input type="text" id="userId" name="userId" value="{{$user_Id}}" class="d-none">
+                        <input type="text" id="orgId" name="orgId" value="{{isset($org_id)? $org_id : ''}}" class="d-none">
+                        <input type="text" id="userId" name="userId" value="{{isset($user_Id)? $user_Id : ''}}" class="d-none">
 
  
                         <div class="row">
@@ -69,27 +69,27 @@
 										<?php
 										if($org_id == ""){
 										?>
-										<div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Password</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" name="password" id="password" type="password" value="" placeholder="Password" required>
-                                            </div>
-                                        </div>
+											<div class="form-group row">
+												<label for="example-text-input" class="col-sm-2 col-form-label">Password</label>
+												<div class="col-sm-10">
+													<input class="form-control" name="password" id="password" type="password" value="" placeholder="Password" required>
+												</div>
+											</div>
 
-                                        								
-										<div class="form-group row">
-                                            <label for="example-text-input" class="col-sm-2 col-form-label">Confirm Password</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" name="confirm_password" id="confirm_password" type="password" value="" placeholder="Confirm Password" required>
-                                            </div>
-                                        </div>
-                
-                                        <div class="form-group row">
-		                                    <label for="example-date-input" class="col-sm-2 col-form-label">Timezone</label>
-		                                    <div class="col-sm-10">
-		                                        {!! $dateTimezone !!}
-		                                    </div>
-		                                </div>
+																			
+											<div class="form-group row">
+												<label for="example-text-input" class="col-sm-2 col-form-label">Confirm Password</label>
+												<div class="col-sm-10">
+													<input class="form-control" name="confirm_password" id="confirm_password" type="password" value="" placeholder="Confirm Password" required>
+												</div>
+											</div>
+					
+											<div class="form-group row">
+												<label for="example-date-input" class="col-sm-2 col-form-label">Timezone</label>
+												<div class="col-sm-10">
+													{!! $dateTimezone !!}
+												</div>
+											</div>
 										<?php
 										}
 										?>

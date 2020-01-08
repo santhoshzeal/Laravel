@@ -1074,3 +1074,7 @@ ALTER TABLE `payment_gateways` CHANGE `active` `active` VARCHAR( 1 ) CHARACTER S
 -- Sathish 07 Jan 2020
 
 ALTER TABLE `store_payment_gateway_values` CHANGE `preferred_payment_gateway` `preferred_payment_gateway` INT( 1 ) NOT NULL DEFAULT '1' COMMENT '0 -> inactive, 1 - active';
+
+-- Santhosh 08 Jan 2020
+
+ALTER TABLE `users` ADD `updatedBy` INT(11) NULL DEFAULT NULL AFTER `created_at`;

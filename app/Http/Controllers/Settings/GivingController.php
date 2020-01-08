@@ -52,26 +52,22 @@ class GivingController extends Controller
 		
         $result = array();
 										
-	    $givings = Giving::where('orgId', $this->orgId)->select("id", "type", "amount")->orderBy("id", "desc")->get();
+	    $givings = Giving::getGivingList()->get();
+		
+	    //$givings = Giving::getGivingList();
+		//dd($givings);	
+		
+	    //$givings = Giving::where('orgId', $this->orgId)->select("id", "type", "amount")->orderBy("id", "desc")->get();
         			
         $i = 1;
         foreach ($givings as $giving) {
 			
-			if($giving->type == 1){
-				$type = 'Donation';
-			}else{
-				$type = 'Event';
-			}
-			
-            $row = [$i, $type, $giving->amount];
-            $viewLink = "";
-            //$editLink = url("/settings/givings/manage/". $giving->id);
-            //$row[] = "<a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
+            $row = [$i, $giving->orgName, $giving->gateway_name, $giving->payment_method, $giving->amount, $giving->pay_mode, $giving->type, $giving->eventName, $giving->userfullname, $giving->transaction_status, $giving->final_status, $giving->transDate];
             $result[] = $row;
             $i += 1;
         }
 
-        return Datatables::of($result)->rawColumns([3])->make(true);
+        return Datatables::of($result)->rawColumns([11])->make(true);
     }
 
     
@@ -167,6 +163,8 @@ class GivingController extends Controller
 		
 		//dd($this->orgId);
 		
+		//$payload = $request->except(['_token']);
+		
         //dd($payload);
 		
         //dd($arraySUUpdate,$request->all());
@@ -203,8 +201,9 @@ class GivingController extends Controller
 			'description' => 'payment made'
         ));
 		
-			
-        $giving = null;
+		
+
+		$giving = null;
 		
         $isNewSchedule = true;
 		
@@ -220,23 +219,26 @@ class GivingController extends Controller
             $giving->pay_mode = "Credit";
             $giving->transaction_date = $this->todays_date_time;
             $giving->transaction_status = "1";
+            $giving->customer_id  = $customer->id;
         }
 		
+		
+		
         //dd($giving);
+		
         // return $payload;
 		//'pay_mode', 'purpose_note', 'transaction_date',
         $fields = [ 'type', 'user_id', 'orgId', 'event_id', 'email', 'first_name', 
                     'middle_name', 'last_name', 'mobile_no', 'payment_gateway_id', 
-                    'other_payment_method_id', 'amount'
-        ];
+                    'other_payment_method_id', 'amount'];
 		
         foreach($fields as $field) {
 			 $giving[$field] = $payload[$field];          
         }
 		
-        //dd($giving);
-		
         $giving->save();
+		
+		//dd($giving);
 		       
         return redirect('settings/givings/');
 		

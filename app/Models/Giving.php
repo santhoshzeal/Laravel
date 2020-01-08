@@ -24,7 +24,7 @@ class Giving extends Model  {
      * @var array
      */
     protected $fillable = [ 'id', 'user_id', 'orgId', 'event_id', 'email', 'first_name', 'middle_name', 'last_name', 'full_name', 'mobile_no', 'payment_gateway_id', 'other_payment_method_id', 'amount',
-	'pay_mode', 'purpose_note', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
+	'pay_mode', 'purpose_note', 'transaction_date', 'transaction_status', 'customer_id', 'token_id', 'createdBy', 'created_at', 'updatedBy', 'updated_at', 'deletedBy', 'deleted_at'];
 	
 	
 	public function event()
@@ -128,4 +128,39 @@ class Giving extends Model  {
             return $query;
         }
     }
+	
+	
+	/**
+    * @Function name : getGivingList
+    * @Purpose : getGivingList heads based on  array
+    * @Added by : Santhosh
+    * @Added Date : Jan 08, 2020
+    */
+	
+	public static function getGivingList(){
+		
+		//DB::enableQueryLog();
+		
+        $result = self::select('payment_gateways.gateway_name','giving.amount','giving.pay_mode','events.eventName','other_payment_methods.payment_method','organization.orgName',
+		          DB::raw("(CASE WHEN giving.user_id IS NULL THEN giving.first_name ELSE users.first_name END) as userfullname"))
+                  ->addSelect(DB::raw(" CASE giving.transaction_status WHEN '1' THEN 'Submitted' WHEN '2' THEN 'Confirmed' WHEN '3' THEN 'Declined/Error' END AS transaction_status"))
+                  ->addSelect(DB::raw(" CASE giving.final_status WHEN '1' THEN 'Submitted' WHEN '2' THEN 'InProgress' WHEN '3' THEN 'Confirmed'  WHEN '4' THEN 'Declined/Rejected' END AS final_status"))	
+                  ->addSelect(DB::raw("DATE_FORMAT(giving.transaction_date, '%m-%d-%Y %h:%i:%S') AS transDate"))
+                  ->addSelect(DB::raw(" CASE giving.type WHEN '1' THEN 'Donation' WHEN '2' THEN 'Event' END AS type"))				  
+                  ->leftJoin("events","events.eventId","=","giving.event_id")                 
+                  ->leftJoin("organization","organization.orgId","=","giving.orgId")                 
+                  ->leftJoin("users","users.id","=","giving.user_id")                 
+                  ->leftJoin("other_payment_methods","other_payment_methods.other_payment_method_id","=","giving.other_payment_method_id")
+				  ->leftJoin('payment_gateways', function($join)
+                  {
+                      $join->on('payment_gateways.payment_gateway_id', '=', 'giving.payment_gateway_id');                     
+                      $join->on('payment_gateways.orgId', '=', 'giving.orgId');                     
+                  });
+
+        //dd(DB::getQueryLog($result->get()));
+		
+        return $result;
+    }
+	
+	
 }

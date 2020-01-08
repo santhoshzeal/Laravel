@@ -240,7 +240,15 @@ class OrganizationController extends Controller {
 		
 		$orgId = $request->segment(4);
 		
-		//dd($orgId);
+		if(isset($orgId)){
+			
+			$org_Id = $orgId;
+		}
+		else 
+		{
+			$org_Id = "";
+		}
+		
 
         $data['dateTimezone'] = Timezone::selectForm(
         '', 
@@ -248,9 +256,18 @@ class OrganizationController extends Controller {
         ['class' => 'form-control', 'name' => 'orgTimeZone', 'id' => 'orgTimeZone']
         );
 
-        $data['getOrganizationUserValues'] = $getOrganizationUserValues = Organization::getOrganizationUserValues($orgId);
+        //dd($org_Id);
 		
-		$data['user_Id'] = $data['getOrganizationUserValues']->id;
+        if(isset($orgId)){
+        
+		    $data['getOrganizationUserValues'] = $getOrganizationUserValues = Organization::getOrganizationUserValues($org_Id);
+		    $data['user_Id'] = $data['getOrganizationUserValues']->id;
+		}
+		else {
+			
+			$getOrganizationUserValues = "";
+			$user_Id = "";
+		}
 		
         return view('settings.organization.create', $data);
 		
@@ -272,11 +289,10 @@ class OrganizationController extends Controller {
 		
         $userId = $request->userId;
 		
-		dd($updateData);
-		
+		//dd($updateData);
         //validation rules
 		
-        $updateData = $request->except(['orgId','_token']);
+        $updateData = $request->except(['orgName','orgDomain','userId','email','first_name','orgId','_token']);
 
         if($orgId > 0) {
 			
@@ -288,13 +304,7 @@ class OrganizationController extends Controller {
             UserMaster::where("id",$userId)->update($updateData);
 			
         }
-        
-        return response()->json(
-                    [
-                            'success' => '1',
-                            "message" => '<div class="alert alert-success"><strong>Saved!</strong></div>'
-					]
-						);
-
+        //return response()->json([ 'success' => '1',"message" => '<div class="alert alert-success"><strong>Saved!</strong></div>']);			
+        return redirect('settings/organization');
     }  
 }

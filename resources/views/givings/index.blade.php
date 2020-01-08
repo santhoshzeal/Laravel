@@ -15,9 +15,17 @@
                                     <thead>
                                         <tr>
                                             <th>S.No</th>				
- 											<th>Type</th>
-											<th>Amount</th>
-                                            <!--<th>Action</th>-->
+                                            <th>Org Name</th>				
+ 											<th>GateWayName</th>
+ 											<th>OtherPayment</th>
+											<th>Amount</th> 
+											<th>PayMode</th>											
+											<th>Type</th>											
+											<th>Events</th>											
+											<th>UserFullName</th>                                                                                    
+											<th>Transaction Status</th>                                          
+											<th>Final Status</th>                                         
+											<th>Transaction Date</th> 
                                         </tr>
                                     </thead>
                                 </table>
