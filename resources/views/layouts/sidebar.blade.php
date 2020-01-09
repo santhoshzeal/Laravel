@@ -159,12 +159,12 @@
                             <li @if($url_segment_one == "home") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('home')}}"><i class="ti-home"></i>Dashboard</a></li>
 
 
-                            <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('organizations/manage')}}"> <i class="ti-crown"></i> Organizations</a></li>
+                            <!--<li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('organizations/manage')}}"> <i class="ti-crown"></i> Organizations</a></li>-->
 
                             
                             <li @if($url_segment_one == "paster_board") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('insights/list')}}"> <i class="ti-crown"></i> Insights</a></li>
 
-                             
+                             <li @if($url_segment_one == "settings") class='active' @else @endif> <a href="{{URL::asset('/settings/organization')}}"><i class="ti-crown"></i>Organizations</a> </li>
 
 
                         </ul>
@@ -420,7 +420,9 @@
                             </li> -->
                             <!-- <li @if($url_segment_one == "communication") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('communication')}}"> Communication</a></li> -->
                             <li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('events')}}"> <i class="ti-crown"></i> Events</a></li>
+							
                             <li @if($url_segment_one == "paster_board") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('pastor_board')}}"> <i class="ti-crown"></i> Pastor Board</a></li>
+                            <li @if($url_segment_one == "attendance") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('attendance')}}"> <i class="ti-crown"></i> Attendance</a></li>
 
                             <li class="has-submenu">
                                 <a href="#"><i class="ti-settings"></i>Settings</a>

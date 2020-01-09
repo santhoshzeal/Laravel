@@ -1103,3 +1103,7 @@ CREATE TABLE IF NOT EXISTS `event_attedance` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+-- Santhosh 08 Jan 2020
+
+ALTER TABLE `event_attedance` ADD `event_date` date NULL DEFAULT NULL AFTER `event_id`;

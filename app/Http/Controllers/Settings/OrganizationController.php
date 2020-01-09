@@ -292,16 +292,18 @@ class OrganizationController extends Controller {
 		//dd($updateData);
         //validation rules
 		
-        $updateData = $request->except(['orgName','orgDomain','userId','email','first_name','orgId','_token']);
+        $updateOrgData = $request->except(['userId','email','first_name','orgId','_token']);
+		
+        $updateUserData = $request->except(['userId','orgName','orgDomain','_token']);
 
         if($orgId > 0) {
 			
 		     //update
             $updateData['updatedBy']= Auth::id();
 			
-            Organization::where("orgId",$orgId)->update($updateData);
+            Organization::where("orgId",$orgId)->update($updateOrgData);
 			
-            UserMaster::where("id",$userId)->update($updateData);
+            UserMaster::where("id",$userId)->update($updateUserData);
 			
         }
         //return response()->json([ 'success' => '1',"message" => '<div class="alert alert-success"><strong>Saved!</strong></div>']);			

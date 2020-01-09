@@ -157,6 +157,7 @@ class Giving extends Model  {
                       $join->on('payment_gateways.orgId', '=', 'giving.orgId');                     
                   });
 
+
         //dd(DB::getQueryLog($result->get()));
 		
         return $result;

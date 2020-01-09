@@ -127,8 +127,6 @@ Route::post('store_update', 'UserController@storeUserProfile')->name('profile.st
 Route::post('store', 'UserController@userMasterStore');
 
 
-
-
 // Members Directory
 Route::get('/people/member/management/{personal_id?}', 'MemberController@createOrEdit');
 Route::post('/people/member/management/{personal_id?}', 'MemberController@storeOrUpdate');
@@ -384,4 +382,15 @@ Route::get("/settings/organization/list", "Settings\OrganizationController@getOr
 Route::get("/settings/organization/manage/{org_id?}", 'Settings\OrganizationController@createOrEditPage');
 Route::post("/settings/organization/store", "Settings\OrganizationController@organizationRegister")->name('organization.store');
 Route::post('settings/organization/save/{org_id}', 'Settings\OrganizationController@store');
+
+
+//attendance
+Route::get("/attendance", "EventAttendanceController@attendanceIndex")->name('attendance.list');
+Route::get('/attendance/list', 'EventAttendanceController@getAttendanceList');
+Route::get("/attendance/manage/{attend_id?}", 'EventAttendanceController@createOrEditPage');
+Route::post('/attendance/store', 'EventAttendanceController@store')->name('attendance.store');
+Route::get('/attendance/edit/{attend_id?}', 'EventAttendanceController@editEvent');
+
+
+
 
