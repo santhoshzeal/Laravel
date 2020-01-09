@@ -1078,3 +1078,28 @@ ALTER TABLE `store_payment_gateway_values` CHANGE `preferred_payment_gateway` `p
 -- Santhosh 08 Jan 2020
 
 ALTER TABLE `users` ADD `updatedBy` INT(11) NULL DEFAULT NULL AFTER `created_at`;
+
+-- Sathish 09 Jan 2020
+
+
+--
+-- Table structure for table `event_attedance`
+--
+
+CREATE TABLE IF NOT EXISTS `event_attedance` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `user_id` bigint(22) DEFAULT NULL,
+  `event_id` bigint(22) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `gender` varchar(150) DEFAULT NULL,
+  `attendance_date` date DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
