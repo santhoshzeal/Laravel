@@ -386,7 +386,8 @@ Route::post('settings/organization/save/{org_id}', 'Settings\OrganizationControl
 
 //attendance
 Route::get("/attendance", "EventAttendanceController@attendanceIndex")->name('attendance.list');
-Route::get('/attendance/list', 'EventAttendanceController@getAttendanceList');
+//Route::get('/attendance/list', 'EventAttendanceController@getAttendanceList');
+Route::get('/attendance/list/{start_date?}/{end_date?}/{event_id?}', 'EventAttendanceController@getAttendanceList');
 Route::get("/attendance/manage/{attend_id?}", 'EventAttendanceController@createOrEditPage');
 Route::post('/attendance/store', 'EventAttendanceController@store')->name('attendance.store');
 Route::get('/attendance/edit/{attend_id?}', 'EventAttendanceController@editEvent');

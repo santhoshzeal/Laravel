@@ -35,45 +35,42 @@ class EventAttendanceController extends Controller {
     public function attendanceIndex() {
 
         $data['title'] = $this->browserTitle . " - Event Attendance Management";
-		
-		$whereUEArray=array('orgId'=>$this->orgId);		
-		$data['crudEvents'] =  $crudEvents = Events::crudEvents($whereUEArray,null,null,null,null,null,null,'1')->get();
-		
         return view('attendance.index', $data);
     }
 
     
     public function getAttendanceList(Request $request){
 
-        $result = array();
+        //print_r($request);
+		//exit();
+		print "Eddddd111...............".$request->start_date;
+		print "Eddddd111222...............".$request->end_date;
+		if($request->start_date != "" && $request->end_date !=""){
+		$start_date = date('Y-m-d',strtotime($request->start_date));
+		print "Eddddd...............".$start_date;
 		
-		if(isset($request->start_date) && isset($request->end_date)) {
-			
-		  $start_date = date('Y-m-d',strtotime($request->start_date));
-		  $end_date = date('Y-m-d',strtotime($request->end_date));
-		  
-		}
-		else
-		{
-			$start_date ="";
-			$end_date ="";
-		}
+		//dd($request);exit();
 		
-		if(isset($request->event_id)){
-			
-			$event_id = $request->event_id;
-		}
-		else {
-			 
-			$event_id = "";
-			
-		}
+		//$start_date = "01-09-2020";
 		
-	      $eventAttendance = EventAttendance::getAttendanceList($start_date, $end_date, $event_id)->get();		
-		//$eventAttendance = EventAttendance::getAttendanceList($start_date, $end_date, $event_id);  // For Testing Query
+		$end_date = date('Y-m-d',strtotime($request->end_date));
+		print "Ed...............".$end_date;
+		}
+		//$end_date = "01-13-2020";
+				
+	    $eventAttendance = EventAttendance::getAttendanceList($start_date, $end_date)->get();
+print '<pre>';
+print_r($eventAttendance);
+exit;		
+		//$eventAttendance = EventAttendance::getAttendanceList($start_date = null, $end_date = null);  // For Testing Query
 			
+	    //$eventAttendance = EventAttendance::getAttendanceList()->get(); 	
+	    //$eventAttendance = EventAttendance::getAttendanceList();  // For Testing Query
+
 		//dd($eventAttendance);
-        			
+        
+		$result = array();
+		
         $i = 1;
         foreach ($eventAttendance as $event) {
 			

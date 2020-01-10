@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-
+<?php //echo "sssss".date('Y-m-d',strtotime("05/22/2020")); exit; ?>
     <div style="width:100vw">
         @include('attendance.header')
         <div class="row m-5 pl-4 pr-4">
@@ -10,7 +10,41 @@
                     <div class="card-body">
                         <h5 class="mt-0">Attendance Events List<a href="{{ URL:: asset('attendance/manage/')}}" class="btn btn-sm btn-success pull-right text-white"><i class="fa fa-plus"></i> Create New</a></h5>
                         <hr/>
-                        <div class="tab-content">
+						<div class="row" style="margin-left: 85px;">
+							<div class="form-group row">
+								<label for="example-text-input" class="col-sm-6 col-form-label">Start Date</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control datepicker-autoclose" name="start_date" id="start_date" placeholder="mm/dd/yyyy" value="">
+									  <!--<div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>-->
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="example-text-input" class="col-sm-6 col-form-label">End Date</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control datepicker-autoclose" name="end_date" id="end_date" placeholder="mm/dd/yyyy" value="">
+									 <!--<div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>-->
+								</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="example-date-input" class="col-sm-6 col-form-label">Events</label>
+								<div class="col-sm-6">
+								<select class="form-control" name="event_id" id="event_id">
+								   <option value="">--Select--</option>
+									  @foreach($crudEvents as $events) 
+										 <option value="{{ $events->eventId }}">{{ $events->eventName }}</option>														 
+									  @endforeach												                                
+								</select>
+								</div>
+							</div>
+										   
+							
+							<div class="text-left" style="margin-left: 15px;"><button type="text" id="btnFiterSubmitSearch" class="btn btn-info">Submit</button></div>
+	
+						</div>
+                        
+						<div class="tab-content">
                             <div class="tab-pane active p-3">
                                 <table id="scheduleDatatable" class="table table-bordered">
                                     <thead>

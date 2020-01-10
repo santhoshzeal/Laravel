@@ -137,18 +137,33 @@ class EventAttendance extends Model  {
     * @Added Date : Jan 09, 2020
     */
 	
-	public static function getAttendanceList() {
-		
-		
+	public static function getAttendanceList($start_date = null, $end_date = null, $event_id = null) {
+				
 		//DB::enableQueryLog();
+			
 		
-        $result = self::select('event_attedance.id','event_attedance.gender','events.eventName','organization.orgName',
+        $result = self::select('event_attedance.id','event_attedance.gender','event_attedance.attendance_date','event_attedance.event_id','events.eventName','organization.orgName',
 		           DB::raw("(CASE WHEN event_attedance.user_id IS NULL THEN event_attedance.first_name ELSE users.first_name END) as userfullname"))
-                  ->addSelect(DB::raw("DATE_FORMAT(event_attedance.attendance_date, '%m-%d-%Y %h:%i:%S') AS attendDate"))  
+                  ->addSelect(DB::raw("DATE_FORMAT(event_attedance.attendance_date, '%m-%d-%Y') AS attendDate"))  
                   ->leftJoin("events","events.eventId","=","event_attedance.event_id")                 
                   ->leftJoin("organization","organization.orgId","=","event_attedance.orgId")                 
                   ->leftJoin("users","users.id","=","event_attedance.user_id");
 				  
+	    if($start_date!= null && $end_date!= null) {
+			$result->whereRaw("date(event_attedance.attendance_date) >= '" . $start_date . "' AND date(event_attedance.attendance_date) <= '" . $end_date . "'");
+		}		
+		
+		if($event_id!= null || $event_id!= "") {
+			$result->where('event_attedance.event_id','=', $event_id);
+		}
+		
+		if($start_date!= null && $end_date!= null && $event_id!= null) {
+			
+         $result->whereRaw("date(event_attedance.attendance_date) >= '" . $start_date . "' AND date(event_attedance.attendance_date) <= '" .$end_date. "'")->where('event_attedance.event_id',$event_id);
+          		   		
+		}
+		
+	
         //dd(DB::getQueryLog($result->get()));
 		
         return $result;
