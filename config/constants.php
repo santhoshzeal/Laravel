@@ -23,12 +23,14 @@ return [
     'REFERAL_COINS_DEFAULT'=> 50,
     'FILE_UPLOAD_PATH' =>[
         'PROFILE_PIC_UPLOAD_PATH' => public_path() . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "organizations",
+        'INSIGHTS_UPLOAD_PATH' => public_path() . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . "insights",
     ],
     'FILE_UPLOAD_NAME' =>[
         'ORG_LOGO_DEFAULT_FILE_NAME'=>"bible-cross-logo1.png"
     ],
     'FILE_DOWNLOAD_PATH' =>[
          'PROFILE_PIC_DOWNLOAD_PATH' => url('assets/uploads/organizations'),
+         'INSIGHTS_DOWNLOAD_PATH' => url('assets/uploads/insights'),
     ],
     "ATTEDENCE_LOCK" => [
         "BEFORE" => 15, // in minutes

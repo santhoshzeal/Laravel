@@ -137,7 +137,7 @@ class EventAttendance extends Model  {
     * @Added Date : Jan 09, 2020
     */
 	
-	public static function getAttendanceList($start_date = null, $end_date = null, $event_id = null) {
+	public static function getAttendanceList($start_date = null, $end_date = null, $event_id = null, $orgId = null) {
 				
 		//DB::enableQueryLog();
 			
@@ -156,7 +156,9 @@ class EventAttendance extends Model  {
 		if($event_id!= null || $event_id!= "") {
 			$result->where('event_attedance.event_id','=', $event_id);
 		}
-		
+		//if($orgId!= null || $orgId!= "") {
+            $result->where('event_attedance.orgId','=', $orgId);
+        //}
 		if($start_date!= null && $end_date!= null && $event_id!= null) {
 			
          $result->whereRaw("date(event_attedance.attendance_date) >= '" . $start_date . "' AND date(event_attedance.attendance_date) <= '" .$end_date. "'")->where('event_attedance.event_id',$event_id);

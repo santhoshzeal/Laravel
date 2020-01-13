@@ -126,4 +126,8 @@ After event
 9. Communication templates details documented
 			
 
-
+13 Jan 2020
+1. Church Size dd in signup
+2. Only stripe and other payment
+3. Only event giving needed for attendance log, donation no need of attedance log
+4. Admin add an attendance with display attnadence event wise, only count update 

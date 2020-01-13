@@ -162,7 +162,7 @@
                             <!--<li @if($url_segment_one == "events") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('organizations/manage')}}"> <i class="ti-crown"></i> Organizations</a></li>-->
 
                             
-                            <li @if($url_segment_one == "paster_board") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('insights/list')}}"> <i class="ti-crown"></i> Insights</a></li>
+                            <li @if($url_segment_one == "paster_board") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('insights/manage')}}"> <i class="ti-crown"></i> Insights</a></li>
 
                              <li @if($url_segment_one == "settings") class='active' @else @endif> <a href="{{URL::asset('/settings/organization')}}"><i class="ti-crown"></i>Organizations</a> </li>
 

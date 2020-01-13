@@ -68,8 +68,8 @@ class EventAttendanceController extends Controller {
 			$event_id = "";
 			
 		}
-		
-	      $eventAttendance = EventAttendance::getAttendanceList($start_date, $end_date, $event_id)->get();		
+		//dd($this->orgId);
+	      $eventAttendance = EventAttendance::getAttendanceList($start_date, $end_date, $event_id, $this->orgId)->get();		
 		//$eventAttendance = EventAttendance::getAttendanceList($start_date, $end_date, $event_id);  // For Testing Query
 			
 		//dd($eventAttendance);

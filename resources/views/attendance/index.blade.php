@@ -8,11 +8,11 @@
             <div class="col-12">
                 <div class="card m-b-30">
                     <div class="card-body">
-                        <h5 class="mt-0">Attendance Events List<a href="{{ URL:: asset('attendance/manage/')}}" class="btn btn-sm btn-success pull-right text-white"><i class="fa fa-plus"></i> Create New</a></h5>
+                        <h5 class="mt-0">Events Attendance List<a href="{{ URL:: asset('attendance/manage/')}}" class="btn btn-sm btn-success pull-right text-white"><i class="fa fa-plus"></i> Create New</a></h5>
                         <hr/>
 						<div class="row" style="margin-left: 85px;">
 							<div class="form-group row">
-								<label for="example-text-input" class="col-sm-6 col-form-label">Start Date</label>
+								<label for="example-text-input" class="col-sm-4 col-form-label">Start Date</label>
 								<div class="col-sm-5">
 									<input type="text" class="form-control datepicker-autoclose" name="start_date" id="start_date" placeholder="mm/dd/yyyy" value="">
 									  <!--<div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>-->
@@ -20,7 +20,7 @@
 							</div>
 							
 							<div class="form-group row">
-								<label for="example-text-input" class="col-sm-6 col-form-label">End Date</label>
+								<label for="example-text-input" class="col-sm-4 col-form-label">End Date</label>
 								<div class="col-sm-5">
 									<input type="text" class="form-control datepicker-autoclose" name="end_date" id="end_date" placeholder="mm/dd/yyyy" value="">
 									 <!--<div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>-->
@@ -28,8 +28,8 @@
 							</div>
 							
 							<div class="form-group row">
-								<label for="example-date-input" class="col-sm-6 col-form-label">Events</label>
-								<div class="col-sm-6">
+								<label for="example-date-input" class="col-sm-4 col-form-label">Events</label>
+								<div class="col-sm-8">
 								<select class="form-control" name="event_id" id="event_id">
 								   <option value="">--Select--</option>
 									  @foreach($crudEvents as $events) 

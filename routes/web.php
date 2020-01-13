@@ -302,6 +302,7 @@ Route::get('groups/insights/edit/{id}', 'Groups\GroupController@editInsights');
 
 
 
+
 //groupTypes
 Route::post("/groups/types/groupTypesList", "Groups\GroupTypesController@groupTypesList");
 Route::get("/groups/types/create_group_types_page", "Groups\GroupTypesController@createGroupTypesPage");
@@ -395,3 +396,17 @@ Route::get('/attendance/edit/{attend_id?}', 'EventAttendanceController@editEvent
 
 
 
+
+
+// Insights
+// Route::get("/settings/givings", "Settings\GivingController@givingIndex")->name('giving.list');
+// Route::get('/settings/givings/list', 'Settings\GivingController@getGivingList');
+// Route::get("/settings/givings/manage/{giving_id?}", 'Settings\GivingController@createOrEditPage');
+// Route::post('/settings/givings/store', 'Settings\GivingController@storeOrUpdateGivings')->name('givings.store');
+
+
+Route::get("/insights/manage", "InsightsController@index")->name('insights.manage');
+Route::get("insights/add","InsightsController@addInsights");
+Route::post("insights/store", "InsightsController@store")->name("insights.store");
+Route::get("/insights/list", "InsightsController@insightList");
+Route::get('insights/edit/{id}', 'InsightsController@editInsights');

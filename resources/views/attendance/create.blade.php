@@ -16,7 +16,7 @@
         <div class="col-sm-12 col-md-10 col-lg-8 card">
             <!-- <div class="card m-b-30"> -->
             <div class="card-body pl-0 pr-0">
-                <h5 class="mt-0 pl-3"> {{($event_attedance_id)? 'Edit' : "Create" }} Attendance Events</h5>
+                <h5 class="mt-0 pl-3"> {{($event_attedance_id)? 'Edit' : "Create" }} Attendance </h5>
                 <hr />
                 <div class="row p0 m-0">
          {!! Form::open(array('id'=>'eventsAttendanceForm','name'=>'eventsAttendanceForm','method' => 'post', 'url' => $formUrl, 'class' => 'eventsAttendanceForm col-sm-12 card p-2','files' => true)) !!}
@@ -71,9 +71,8 @@
 													name="first_name" >
 												</div>
                                            </div>
-                                          </div>
-										  
-                         					<div class="form-group row">
+
+                                           <div class="form-group row">
 												<label for="example-text-input" class="col-sm-2 col-form-label">Gender</label>
 												<div class="col-sm-10">
 													<select class="form-control" name="gender" id="gender">
@@ -82,12 +81,15 @@
 												   </select>
 												</div>
                                            </div>					   
+                                          </div>
+										  
+                         					
 										   
 										   <div class="form-group row">
 												<label for="example-text-input" class="col-sm-2 col-form-label">Attendance</label>
 												<div class="col-sm-10">
 													<input type="text" class="form-control datepicker-autoclose" name="attendance_date" id="attendance_date" placeholder="mm/dd/yyyy" value="{{ old('attendance_date', isset($crudEventAttendance) ? $crudEventAttendance->attendance_date : '') }}">
-                                                     <div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div>
+                                                     <!-- <div class="input-group-append bg-custom b-0"><span class="input-group-text"><i class="mdi mdi-calendar"></i></span></div> -->
 												</div>
                                            </div>
 										   
