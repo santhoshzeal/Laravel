@@ -3,9 +3,12 @@
 namespace App\Models;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 class Insights extends Model
 {
+	use SoftDeletes;
     protected $table = 'insights';
     protected $primaryKey = 'id';
 
@@ -90,6 +93,47 @@ class Insights extends Model
         Insights::where($whereArray)->delete();
     }
      
+	 
+	 
+	/**
+    * @Function name : selectInsightDetail
+    * @Purpose : crud account heads based on  array
+    * @Added by : Santhosh
+    * @Added Date : Jan 13, 2020
+    */
+    public static function selectInsightDetail($whereArray=null,$whereInArray=null,$whereNotInArray=null,$whereNotNullArray=null,$whereNullArray=null,$data=null) {
+        $query = Insights::select('insights.id','insights.name','insights.type','insights.source','insights.description','insights.updated_at as upddate',DB::raw("(CASE insights.type WHEN '1' THEN 'File' ELSE 'URL' END) AS typename"));
+
+        if($whereArray){
+            $query->where($whereArray);
+        }
+        if($whereInArray){
+            foreach($whereInArray as $key=>$value){
+                $whereInFiltered = array_filter($value);
+                $query->whereIn($key,$whereInFiltered);
+            }
+        }
+        if($whereNotInArray){
+            foreach($whereNotInArray as $key=>$value){
+                $whereNotInFiltered = array_filter($value);
+                $query->whereNotIn($key,$whereNotInFiltered);
+            }
+        }
+        if($whereNotNullArray){
+            foreach($whereNotNullArray as $value){
+                $query->whereNotNull($value);
+            }
+        }
+        if($whereNullArray){
+            foreach($whereNullArray as $value){
+                $query->whereNull($value);
+            }
+        }
+ 
+        return $query;
+    }
+
+	
     
     /**
     * @Function name : crudInsights

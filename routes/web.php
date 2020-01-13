@@ -394,10 +394,6 @@ Route::post('/attendance/store', 'EventAttendanceController@store')->name('atten
 Route::get('/attendance/edit/{attend_id?}', 'EventAttendanceController@editEvent');
 
 
-
-
-
-
 // Insights
 // Route::get("/settings/givings", "Settings\GivingController@givingIndex")->name('giving.list');
 // Route::get('/settings/givings/list', 'Settings\GivingController@getGivingList');
@@ -405,8 +401,17 @@ Route::get('/attendance/edit/{attend_id?}', 'EventAttendanceController@editEvent
 // Route::post('/settings/givings/store', 'Settings\GivingController@storeOrUpdateGivings')->name('givings.store');
 
 
-Route::get("/insights/manage", "InsightsController@index")->name('insights.manage');
-Route::get("insights/add","InsightsController@addInsights");
-Route::post("insights/store", "InsightsController@store")->name("insights.store");
-Route::get("/insights/list", "InsightsController@insightList");
-Route::get('insights/edit/{id}', 'InsightsController@editInsights');
+//Route::get("/insights/manage", "InsightsController@index")->name('insights.manage');
+//Route::get("insights/add","InsightsController@addInsights");
+//Route::post("insights/store", "InsightsController@store")->name("insights.store");
+//Route::get("/insights/list", "InsightsController@insightList");
+//Route::get('insights/edit/{id}', 'InsightsController@editInsights');
+
+
+//Insights
+Route::get("/insights/manage", "InsightsController@insightIndex");
+Route::post("/insights/list", "InsightsController@getInsightList");
+Route::get("/insights/get_insight_by_id", "InsightsController@getInsightById");
+Route::post("/insight_data_insert", "InsightsController@storeOrUpdateInsight");
+Route::get("/insights/insight_data_delete", "InsightsController@deleteInsightById");
+
