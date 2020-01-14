@@ -69,8 +69,14 @@ class Insights extends Model
      * @Added Date : Dec 19, 2019
      */
     public static function selectFromInsights($whereArray) {
+		 
+		//DB::enableQueryLog();
+		 
         $query = Insights::where($whereArray);
-        return $query;
+        
+		//dd(DB::getQueryLog($query->get()));
+		
+		return $query;
     }
 
     /**

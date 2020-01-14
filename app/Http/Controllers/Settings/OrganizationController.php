@@ -33,6 +33,7 @@ class OrganizationController extends Controller {
         $this->common_file_upload_path = Config::get('constants.FILE_UPLOAD_PATH');
         $this->common_file_download_path = Config::get('constants.FILE_DOWNLOAD_PATH');
         $this->userSessionData = Session::get('userSessionData');
+		$this->authUserId = $this->userSessionData['umId'];
     }
 
     public function index() {
@@ -55,7 +56,8 @@ class OrganizationController extends Controller {
             $row = [$i, $org->orgName, $org->orgDomain];
 			$viewLink = "";
             $editLink = url("/settings/organization/manage/".$org->orgId);
-            $row[] = "<a href='".$editLink."'><i class='fa fa-pencil-square-o'></i></a>";
+            //$row[] = "<a href='".$editLink."'><i class='fa fa-pencil-square-o'></i></a>";
+			$row[] = '<a href='.$editLink.'> <i class="fa fa-pencil-square-o"></i></a> <a onclick="organization_data_delete('.$org->orgId.')"> <i class="fa fa-trash"></i></a>';
             $result[] = $row;
             $i += 1;
         }
@@ -308,5 +310,15 @@ class OrganizationController extends Controller {
         }
         //return response()->json([ 'success' => '1',"message" => '<div class="alert alert-success"><strong>Saved!</strong></div>']);			
         return redirect('settings/organization');
-    }  
+    }
+
+
+    public function deleteOrganizationById(Request $request)
+    {
+
+        $whereArray = array('orgId' => $request->get('orgId'));
+        $updateAHDeletedStatus = array('deleted_at' => now(), 'deletedBy' => $this->authUserId);
+        Organization::crudOrganization($whereArray, null, null, null, null, $updateAHDeletedStatus, null, null);
+    }
+	
 }

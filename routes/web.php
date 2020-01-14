@@ -383,7 +383,7 @@ Route::get("/settings/organization/list", "Settings\OrganizationController@getOr
 Route::get("/settings/organization/manage/{org_id?}", 'Settings\OrganizationController@createOrEditPage');
 Route::post("/settings/organization/store", "Settings\OrganizationController@organizationRegister")->name('organization.store');
 Route::post('settings/organization/save/{org_id}', 'Settings\OrganizationController@store');
-
+Route::get("/settings/organization_data_delete", "Settings\OrganizationController@deleteOrganizationById");
 
 //attendance
 Route::get("/attendance", "EventAttendanceController@attendanceIndex")->name('attendance.list');
@@ -392,7 +392,7 @@ Route::get('/attendance/list/{start_date?}/{end_date?}/{event_id?}', 'EventAtten
 Route::get("/attendance/manage/{attend_id?}", 'EventAttendanceController@createOrEditPage');
 Route::post('/attendance/store', 'EventAttendanceController@store')->name('attendance.store');
 Route::get('/attendance/edit/{attend_id?}', 'EventAttendanceController@editEvent');
-
+Route::get("/attendance/eventattedance_data_delete", "EventAttendanceController@deleteEventAttendanceById");
 
 // Insights
 // Route::get("/settings/givings", "Settings\GivingController@givingIndex")->name('giving.list');

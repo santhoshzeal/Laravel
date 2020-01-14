@@ -55,10 +55,10 @@
     {!! Form::open(array('id'=>'insightCreateForm','name'=>'insightCreateForm','method' => 'post', 'url' => url('insight_data_insert'), 'class' => '')) !!}
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title position_modal_title">Add Insights</h4>
+                <h4 class="modal-title insight_modal_title">Add Insights</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <div class="modal-body form-horizontal positionbody">			
+            <div class="modal-body form-horizontal insightbody">			
 			
                 <div class="form-group no-bg">
                     <label for="" class="col-sm-10 control-label text_align_right" style="text-align: left !important;">Type</label>
@@ -170,10 +170,10 @@ $("#type").change(function () {
 
 
     $('#modal-insight').on('hidden.bs.modal', function() {
-        $(".position_modal_title").html('');
-        $(".position_modal_title").html('Add Insights');
-        $('.positionbody').find('select').val('');
-        $('.positionbody').find('input').val('');
+        $(".insight_modal_title").html('');
+        $(".insight_modal_title").html('Add Insights');
+        $('.insightbody').find('select').val('');
+        $('.insightbody').find('input').val('');
 
         var $alertas = $('#insightCreateForm');
         $alertas.validate().resetForm();
@@ -228,6 +228,8 @@ $("#type").change(function () {
                 cache: false,
                 processData: false,
                 success: function(data) {
+					console.log(data);
+					
                     $('#modal-insight').modal('hide');
                     if (data == "updated") {
                         //alert("Insight Updated");
@@ -267,8 +269,8 @@ $("#type").change(function () {
 		
         //alert(insightID);
 		
-        $(".position_modal_title").html('');
-        $(".position_modal_title").html('Edit Insights');
+        $(".insight_modal_title").html('');
+        $(".insight_modal_title").html('Edit Insights');
         var dataString = 'insightID=' + insightID;
 
         $.ajax({
@@ -294,6 +296,7 @@ $("#type").change(function () {
 				if(type =="1")
 				{ 
 					$("#dvFile").show();
+					$("#source").val('');
 					
 				} else 
 				{
@@ -303,7 +306,7 @@ $("#type").change(function () {
 				if(type =="2")
 				{ 
 					$("#dvLink").show();
-					
+										
 				} else 
 				{
 					$("#dvLink").hide();

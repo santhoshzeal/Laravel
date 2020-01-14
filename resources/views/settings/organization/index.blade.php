@@ -30,4 +30,39 @@
     </div>
     
     <script src="{{ URL:: asset('js/settings/organization/index.js')}}"></script>
+	
+	
+<script>
+	//Delete the data
+function organization_data_delete(orgId)
+{	
+
+    alertify.confirm("Are you sure you want to delete?", function (asc) {
+         if (asc) {
+             //ajax call for delete    
+             var dataString = 'orgId=' + orgId;
+             $.ajax({
+                url: siteUrl + '/settings/organization_data_delete',
+                async: true,
+                type: "GET",
+                data: dataString,
+                dataType: "html",
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (data)
+                {
+                    location.reload();
+                }
+            });   
+             alertify.success("Record is deleted.");
+
+         } else {
+             alertify.error("You've clicked cancel");
+         }
+     },"Default Value");
+}
+</script>
+
+
 @endsection

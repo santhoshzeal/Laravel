@@ -79,7 +79,8 @@ class EventAttendanceController extends Controller {
 			
             $row = [$i, $event->orgName, $event->eventName, $event->userfullname, $event->gender, $event->attendDate];
 			$editLink = url("/attendance/edit/". $event->id);
-            $row[] = "<a href='".$editLink ."'>  <i class='fa fa-pencil-square-o'></i></a>";
+            $row[] = '<a href='.$editLink.'> <i class="fa fa-pencil-square-o"></i></a> <a onclick="attendance_data_delete('.$event->id.')"> <i class="fa fa-trash"></i></a>';
+							
             $result[] = $row;
             $i += 1;
         }
@@ -219,6 +220,17 @@ class EventAttendanceController extends Controller {
         return view('attendance.create',$data);
 		
     }
+	
+	
+	public function deleteEventAttendanceById(Request $request)
+    {
+
+        $whereArray = array('id' => $request->get('eventattedanceId'));
+        $updateAHDeletedStatus = array('deleted_at' => now(), 'deletedBy' => $this->authUserId);
+        EventAttendance::crudEventAttendance($whereArray, null, null, null, null, $updateAHDeletedStatus, null, null);
+    }
+	
+	
 
 	
 }

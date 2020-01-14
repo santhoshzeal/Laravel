@@ -86,23 +86,27 @@ class InsightsController extends Controller
 	public function storeOrUpdateInsight(Request $request)
     {
 		
-		$insightFormData = $request->all();
-		
-		//dd($insightFormData);
-		
 		$file = "";
         if (isset($request->file) && $request->file != "") {
 			
             $file = $this->insightsFileUpload($request->file);
         }
+		else{
+			
+			
+		}
 		
-        $insightFormData = $request->except('hidden_insightID');
+        $insightFormData = $request->except('hidden_insightID','file');
         $insightFormData['createdBy'] = $this->authUserId;
 
         unset($insightFormData['hidden_insightID'], $insightFormData['_token']);
 		
 		
 		if ($file == "") {
+			
+			$insightId = $request->get('hidden_insightID');
+		    $source = DB::table('insights')->where('id', $insightId)->value('source');
+			$insightFormData['source'] = $source;
             
         } else	{
             $insightFormData['source'] = $file;
@@ -127,7 +131,7 @@ class InsightsController extends Controller
 	public function deleteInsightById(Request $request)
     {
 
-        $whereArray = array('id' => $request->get('insightId'));
+        $whereArray = array('id' => $request->get('eventattedanceId'));
         $updateAHDeletedStatus = array('deleted_at' => now(), 'deletedBy' => $this->authUserId);
         Insights::crudInsights($whereArray, null, null, null, null, $updateAHDeletedStatus, null, null);
     }
