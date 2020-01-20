@@ -35,6 +35,7 @@ return [
     "ATTEDENCE_LOCK" => [
         "BEFORE" => 15, // in minutes
         "AFTER" => 5 // in minutes
-    ]
+    ],
+    'CURRENCYCODE' => 'USD'    
 
 ];

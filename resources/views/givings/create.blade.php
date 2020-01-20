@@ -18,6 +18,11 @@
             <div class="card-body pl-0 pr-0">
                 <h5 class="mt-0 pl-3"> {{($giving_id)? 'Edit' : "Create" }} Giving</h5>
                 <hr />
+                <span id="pay_conf_msg" style="font-size: 15px;font-weight: bold;">
+				    @if (Session::has('payment_msg'))
+				    {{ Session::get('payment_msg') }}<br/><br/>
+				    @endif
+				</span>
                 <div class="row p0 m-0">
                     {!! Form::open(array('id'=>'givingsForm','name'=>'givingsForm','method' => 'post', 'url' => $formUrl, 'class' => 'givingsForm col-sm-12 card p-2','files' => true)) !!}
                     
@@ -194,21 +199,23 @@
                                 <script>
 								function getValue() {
 								  var test = document.getElementById("amount").value;
-								  return test;
+								  $('.stripe-button').attr('data-amount', test);
+								  //return test;
 								}
 								</script>
 								 
                                 <?php
 						             $stripe_fee = 200*100;						   
 						        ?>
-								
-                                <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button" 
+								<input type="hidden" name="stripe_public_key" id="stripe_public_key" value="<?php echo $public_key; ?>">
+
+                                <!-- <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button" 
                                         data-allow-remember-me="true"
                                         data-key=<?php echo $public_key; ?>
                                         data-amount=<?php echo $stripe_fee; ?>
                                         data-description="Thanks For Registering"
                                         data-name="Org">
-                                </script>
+                                </script> -->
 								
 								 							
                          </div> 
@@ -218,7 +225,7 @@
 							<div class="sub_btn" id="sub_btn" style="display: none">			
 								<div class="form-group">
 									<div>
-										<button type="submit" class="btn btn-primary waves-effect waves-light">
+										<button type="button" onclick="return submit_payment('1');"  class="btn btn-primary waves-effect waves-light">
 											Submit
 										</button>
 										<a href="{{ URL::asset('settings/givings')}}" type="reset" class="btn btn-secondary waves-effect m-l-5">Cancel</a>
@@ -239,9 +246,49 @@
     </div>
     
 </div>
+<script type="text/javascript" src="{{ URL:: asset('js/custom/givings.js')}}"></script>
+
+<script src="https://checkout.stripe.com/v2/checkout.js"></script>
 
 <script type='text/javascript'>
 
+var handler = StripeCheckout.configure({
+    key: $("#stripe_public_key").val(),
+    image: '/square-image.png',
+    token: function(token) {
+        // $("#stripeToken").val(token.id);
+        // $("#stripeEmail").val(token.email);
+        $("#givingsForm").submit();
+    }
+  });
+
+  $('#customButton').on('click', function(e) {
+    var amount = $("#amount").val() *100;
+    // Open Checkout with further options
+    handler.open({
+      name: 'Demo Site',
+      description: '2 widgets ($20.00)',
+      amount: amount
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation
+  $(window).on('popstate', function() {
+    handler.close();
+  });
+
+function submit_payment(counter) {
+	//alert("givingsForm");
+	var errorNumbers = chkGivingCreateValidateStatus.numberOfInvalids();
+    if (errorNumbers == 0) {
+        $('#givingsForm').submit();
+    	return true;
+    } else {
+
+    }
+
+}
 function edValueKeyPress() {
     var amount = document.getElementById("amount");
     var s = amount.value;
@@ -274,6 +321,14 @@ $(function () {
  $(function () {
 	$("#payment_gateway_id").change(function () {	
 		var selectedText = $(this).find('option:selected').text();
+
+		var payment_gateway_id = $("#payment_gateway_id").val();
+
+		if(payment_gateway_id == 3){
+			//$("form").attr('id', 'givingsForm');
+		}
+		
+
 		//alert(selectedText);		
 		if (selectedText == "Others") {
 			$("#dvSubPay").show();
@@ -344,6 +399,6 @@ $(document).ready(function(){
 
 
 <link href="{{ URL::asset('css/custom_page.css') }}" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{{ URL:: asset('js/custom/givings.js')}}"></script>
+
 
 @endsection

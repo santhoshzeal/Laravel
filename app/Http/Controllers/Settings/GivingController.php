@@ -59,15 +59,17 @@ class GivingController extends Controller
 		
 	    //$givings = Giving::where('orgId', $this->orgId)->select("id", "type", "amount")->orderBy("id", "desc")->get();
         			
-        $i = 1;
+        //$i = 1;
         foreach ($givings as $giving) {
 			
-            $row = [$i, $giving->orgName, $giving->gateway_name, $giving->payment_method, $giving->amount, $giving->pay_mode, $giving->type, $giving->eventName, $giving->userfullname, $giving->transaction_status, $giving->final_status, $giving->transDate];
+            // $row = [$i, $giving->orgName, $giving->gateway_name, $giving->payment_method, $giving->amount, $giving->pay_mode, $giving->type, $giving->eventName, $giving->userfullname, $giving->transaction_status, $giving->final_status, $giving->transDate];
+
+            $row = [$giving->gateway_name, $giving->amount, $giving->type, $giving->eventName, $giving->userfullname, $giving->transaction_status, $giving->transDate];
             $result[] = $row;
-            $i += 1;
+            //$i += 1;
         }
 
-        return Datatables::of($result)->rawColumns([11])->make(true);
+        return Datatables::of($result)->rawColumns([6])->make(true);
     }
 
     
@@ -160,49 +162,79 @@ class GivingController extends Controller
     public function storeOrUpdateGivings(Request $request){
 		
         $payload = $request->all();
-		
-		//dd($this->orgId);
-		
-		//$payload = $request->except(['_token']);
-		
-        //dd($payload);
-		
-        //dd($arraySUUpdate,$request->all());
-		
-		$org_id = $this->userSessionData['umOrgId'];
-		
-		//Get stripe public key & secret key	
-		$stripe_keys = PaymentGatewayStore::getPaymentGatewayKeys($org_id)->get()->toArray();
 
-        if ($stripe_keys != "failure") {
-            foreach ($stripe_keys as $key => $fields) {
+        $org_id = $this->userSessionData['umOrgId'];
 
-                if ($fields['parameter_name'] == "Public Key") {
-                    $data['public_key'] = $fields['payment_gateway_parameter_value'];
-                }
-                if ($fields['parameter_name'] == "Secret Key") {
-                    $data['secret_key'] = $fields['payment_gateway_parameter_value'];
+        $customer_id = null;
+        $final_status=1;
+        $transaction_status=1;
+        $submited_datetime = null;
+        $confirmed_date = null;
+        if($request->payment_gateway_id == 1){
+            //stripe payment
+
+            //Get stripe public key & secret key    
+            $stripe_keys = PaymentGatewayStore::getPaymentGatewayKeys($org_id)->get()->toArray();
+
+            if ($stripe_keys != "failure") {
+                foreach ($stripe_keys as $key => $fields) {
+
+                    if ($fields['parameter_name'] == "Public Key") {
+                        $data['public_key'] = $fields['payment_gateway_parameter_value'];
+                    }
+                    if ($fields['parameter_name'] == "Secret Key") {
+                        $data['secret_key'] = $fields['payment_gateway_parameter_value'];
+                    }
                 }
             }
+
+            Stripe::setApiKey($data['secret_key']);
+        
+            $customer = Customer::create(array(
+                'email' => $request->stripeEmail,
+                'source'  => $request->stripeToken,
+                'description' => $request->type
+            ));
+            //dd($customer);
+            if (!($customer->id)) {
+                //$response = $customer->getResponse(); 
+                $response = $customer->getResponse();
+                $statusCode = $response->getStatusCode();
+                $rawOutput = json_decode($response->getBody(true), true);
+                $error = isset($rawOutput['error']) ? $rawOutput['error'] : [];
+                $errorCode = isset($error['code']) ? $error['code'] : null;
+                $errorType = isset($error['type']) ? $error['type'] : null;
+                $message = isset($error['message']) ? $error['message'] : null;
+                //Session::flash('rule_based_msg_alert', 'Error');
+                Session::flash('payment_msg', $message . " Please try later.");
+                return redirect('/settings/givings/manage/');
+            }
+
+            $charge = Charge::create(array(
+                'customer' => $customer->id,
+                'amount'   => $request->input('amount'),
+                'currency' => Config::get('constants.CURRENCYCODE'),
+                'description' => $request->type
+            ));
+
+            $transaction_status=2;
+            $customer_id = $customer->id;
+            $final_status=3;
+            $submited_datetime = null;
+            $confirmed_date = $this->todays_date_time;
+        }elseif($request->payment_gateway_id == 2){
+
+
+        }elseif($request->payment_gateway_id == 3){
+            //other payment
+            $transaction_status=1;
+            $submited_datetime = $this->todays_date_time;
+            $confirmed_date = null;
+
         }
-				
-			
-		Stripe::setApiKey($data['secret_key']);
-		
-		$customer = Customer::create(array(
-            'email' => $request->stripeEmail,
-            'source'  => $request->stripeToken
-        ));
-
-        $charge = Charge::create(array(
-            'customer' => $customer->id,
-            'amount'   => $request->input('amount'),
-            'currency' => 'INR',
-			'description' => 'payment made'
-        ));
 		
 		
-
+		
 		$giving = null;
 		
         $isNewSchedule = true;
@@ -218,8 +250,12 @@ class GivingController extends Controller
             $giving->createdBy = $this->userSessionData['umId'];
             $giving->pay_mode = "Credit";
             $giving->transaction_date = $this->todays_date_time;
-            $giving->transaction_status = "1";
-            $giving->customer_id  = $customer->id;
+            $giving->transaction_status = $transaction_status;
+            $giving->customer_id  = $customer_id;
+            $giving->final_status  = $final_status;
+            $giving->submited_datetime  = $submited_datetime;
+            $giving->confirmed_date  = $confirmed_date;
+
         }
 		
 		

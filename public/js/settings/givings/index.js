@@ -25,9 +25,9 @@ function updateDatatable() {
             "orderable": false
         }]
     });
-    dt.on('order search', function () {
-        dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            cell.innerHTML = i + 1;
-        });
-    }).draw();
+    // dt.on('order search', function () {
+    //     dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+    //         cell.innerHTML = i + 1;
+    //     });
+    // }).draw();
 }
