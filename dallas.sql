@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 06, 2020 at 10:04 AM
+-- Generation Time: Jan 20, 2020 at 07:09 AM
 -- Server version: 5.6.33-0ubuntu0.14.04.1
 -- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
 
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `comm_templates` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
 
 --
 -- Dumping data for table `comm_templates`
@@ -205,7 +205,17 @@ INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, 
 (42, 'schedule_reminder', 'Schedule Remind', 'Schedule Remind', 'A Reminder that your event has been scheduled for below listed dates.', 3, NULL, '2020-01-05 01:17:10', NULL, NULL, NULL, NULL),
 (43, 'schedule_check_out_notification_to_guest', 'Schedule check out notification to guest', 'Event Schedule Notification', 'This is notify that event has been scheduled.thank_you_for_service', 3, NULL, '2020-01-05 01:17:10', NULL, NULL, NULL, NULL),
 (44, 'thank_you_for_service', 'Thanks for your service', 'Thanks for Service', 'Thanks for attending the below listed event.', 3, NULL, '2020-01-05 01:17:10', NULL, NULL, NULL, NULL),
-(45, 'schedule_cancelled', 'Schedule cancelled', 'Schedule cancelled', 'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.', 3, NULL, '2020-01-05 01:17:10', NULL, NULL, NULL, NULL);
+(45, 'schedule_cancelled', 'Schedule cancelled', 'Schedule cancelled', 'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.', 3, NULL, '2020-01-05 01:17:10', NULL, NULL, NULL, NULL),
+(46, 'welcome', 'Welcome Email', 'Welcome Email Sujbect', 'Welcome Email Body', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(47, 'household_added', 'household_added name', 'household_added subj', 'household_added body', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(48, 'event_added', 'event_added name', 'event_added sub ', 'event_added body', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(49, 'schedule_auto_notify', 'Auto Scheduling Notification', 'Event scheduled', 'Your have been placed on the schedule. (Auto assigned)', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(50, 'schedule_manual_notify', 'Scheduling event', 'Event Scheduled', 'Your Event has been scheduled, please follow the below mentioned details.', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(51, 'schedule_confirmation', 'Schedule confirmation', 'Schedule Confirmation', 'You have been placed on the schedule for the following dates. To respond or simply view this schedule, click the appropriate button below.', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(52, 'schedule_reminder', 'Schedule Remind', 'Schedule Remind', 'A Reminder that your event has been scheduled for below listed dates.', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(53, 'schedule_check_out_notification_to_guest', 'Schedule check out notification to guest', 'Event Schedule Notification', 'This is notify that event has been scheduled.thank_you_for_service', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(54, 'thank_you_for_service', 'Thanks for your service', 'Thanks for Service', 'Thanks for attending the below listed event.', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL),
+(55, 'schedule_cancelled', 'Schedule cancelled', 'Schedule cancelled', 'sorry to inform you that. Your scheduled event has been canceled. For further information contact administrator.', 4, NULL, '2020-01-13 02:58:02', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -245,6 +255,40 @@ INSERT INTO `events` (`eventId`, `orgId`, `eventName`, `eventFreq`, `eventDesc`,
 (2, 3, 'Jan 10 Event', 'Daily', 'asda', '2020-01-10', NULL, '06:00:00', '03:00:00', '07:00:00', '1', NULL, NULL, '3', '2020-01-05 01:38:07', NULL, '2020-01-05 01:38:07', NULL, NULL),
 (3, 1, 'Jan 10 Event Paul', 'Daily', 'Jan 10 Event Paul', '2020-01-10', NULL, '11:00:00', '14:00:00', '17:00:00', '2', NULL, NULL, '1', '2020-01-05 06:57:01', NULL, '2020-01-05 06:57:01', NULL, NULL),
 (4, 1, 'Jan 22 Event Paul', 'Daily', 'Jan 22 Event Paul', '2020-01-22', NULL, '09:00:00', '15:00:00', '23:00:00', '2', NULL, NULL, '1', '2020-01-05 06:57:28', NULL, '2020-01-05 06:57:28', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_attedance`
+--
+
+CREATE TABLE IF NOT EXISTS `event_attedance` (
+  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+  `orgId` bigint(22) DEFAULT NULL,
+  `user_id` bigint(22) DEFAULT NULL,
+  `event_id` bigint(22) DEFAULT NULL,
+  `event_date` date DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `gender` varchar(150) DEFAULT NULL,
+  `attendance_date` date DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `event_attedance`
+--
+
+INSERT INTO `event_attedance` (`id`, `orgId`, `user_id`, `event_id`, `event_date`, `first_name`, `gender`, `attendance_date`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 5, 4, '2020-01-22', 'Somesh', 'Male', '2020-01-12', '1', '2020-01-12 15:11:18', '1', '2020-01-12 15:22:22', NULL, NULL),
+(2, 1, NULL, 4, '2020-01-22', 'Renita', 'Female', '2020-01-11', '1', '2020-01-12 15:22:51', NULL, '2020-01-12 15:22:51', NULL, NULL),
+(3, 1, 6, 4, '2020-01-22', NULL, 'Male', '2020-01-13', '1', '2020-01-12 15:23:12', NULL, '2020-01-12 15:23:12', NULL, NULL),
+(4, 1, 1, 4, '2020-01-22', NULL, 'Male', '2020-01-14', '1', '2020-01-13 03:20:48', NULL, '2020-01-13 03:20:48', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -320,18 +364,16 @@ CREATE TABLE IF NOT EXISTS `giving` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `giving`
 --
 
 INSERT INTO `giving` (`id`, `type`, `user_id`, `orgId`, `event_id`, `email`, `first_name`, `middle_name`, `last_name`, `full_name`, `mobile_no`, `payment_gateway_id`, `other_payment_method_id`, `amount`, `pay_mode`, `purpose_note`, `transaction_date`, `transaction_status`, `customer_id`, `token_id`, `submited_datetime`, `confirmed_date`, `final_status`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 2, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, NULL, '2019-12-22 09:41:20', NULL, '2019-12-22 09:41:20', NULL, NULL),
-(2, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL, '2', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, NULL, '2020-01-05 05:56:14', NULL, '2020-01-05 05:56:14', NULL, NULL),
-(3, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL, '22', 'Credit', NULL, '2020-01-05 11:54:28', 1, NULL, NULL, NULL, NULL, 1, '1', '2020-01-05 06:24:28', NULL, '2020-01-05 06:24:28', NULL, NULL),
-(4, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL, '33', 'Credit', NULL, '2020-01-05 11:55:48', 1, NULL, NULL, NULL, NULL, 1, '1', '2020-01-05 06:25:48', NULL, '2020-01-05 06:25:48', NULL, NULL),
-(5, 2, 1, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, 6, NULL, '2121', 'Credit', NULL, '2020-01-05 13:05:20', 1, NULL, NULL, NULL, NULL, 1, '1', '2020-01-05 07:35:20', NULL, '2020-01-05 07:35:20', NULL, NULL);
+(1, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '20000', 'Credit', NULL, '2020-01-19 15:54:17', 1, 'cus_GZkRVJQAiI6u17', NULL, NULL, NULL, 1, '1', '2020-01-19 10:24:19', NULL, '2020-01-19 10:24:19', NULL, NULL),
+(2, 1, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 5, '2500', 'Credit', NULL, '2020-01-20 06:13:20', 1, NULL, NULL, NULL, NULL, 1, '1', '2020-01-20 00:43:20', NULL, '2020-01-20 00:43:20', NULL, NULL),
+(3, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '212121', 'Credit', NULL, '2020-01-20 06:17:47', 2, 'cus_GZyNchN2ORYEgm', NULL, NULL, NULL, 1, '1', '2020-01-20 00:47:50', NULL, '2020-01-20 00:47:50', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -638,7 +680,15 @@ CREATE TABLE IF NOT EXISTS `insights` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `insights`
+--
+
+INSERT INTO `insights` (`id`, `group_id`, `name`, `type`, `source`, `description`, `visibility`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(4, NULL, 'Test21', 1, 's:293:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/insights","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/insights\\/","uploaded_file_name":"frid_1579428629.jpeg","original_filename":"frid_1579428629.jpeg","upload_file_extension":"jpeg","file_size":0}";', 'Test123', 1, '4', '2020-01-19 10:10:29', '4', '2020-01-19 10:11:05', NULL, NULL),
+(5, NULL, 'asddasd', 2, NULL, 'wewerwer', 1, '4', '2020-01-19 10:11:23', NULL, '2020-01-19 10:11:23', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -689,7 +739,7 @@ CREATE TABLE IF NOT EXISTS `master_lookup_data` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`mldId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=163 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=196 ;
 
 --
 -- Dumping data for table `master_lookup_data`
@@ -827,7 +877,40 @@ INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldTy
 (159, 3, 'room_group', 'Group1', 'A', 4, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
 (160, 3, 'resource_category', 'Electronic', 'A', 4, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
 (161, 3, 'pastor_board', 'Electronic', 'A', 1, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
-(162, 3, 'pastor_board', 'Home Care', 'A', 1, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL);
+(162, 3, 'pastor_board', 'Home Care', 'A', 1, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
+(163, 4, 'school_name', 'High School', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(164, 4, 'school_name', 'Middle School', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(165, 4, 'name_prefix', 'Mr.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(166, 4, 'name_prefix', 'Mrs.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(167, 4, 'name_prefix', 'Ms.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(168, 4, 'name_prefix', 'Miss', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(169, 4, 'name_prefix', 'Dr.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(170, 4, 'name_prefix', 'Rev.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(171, 4, 'name_suffix', 'Jr.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(172, 4, 'name_suffix', 'Sr.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(173, 4, 'name_suffix', 'Ph.D.', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(174, 4, 'name_suffix', 'II', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(175, 4, 'name_suffix', 'III', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(176, 4, 'membership_inactive_reason', 'Moved', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(177, 4, 'membership_inactive_reason', 'New Church', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(178, 4, 'membership_inactive_reason', 'Deceased', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(179, 4, 'marital_status', 'Single', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(180, 4, 'marital_status', 'Married', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(181, 4, 'marital_status', 'Widowed', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(182, 4, 'membership_status', 'Member', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(183, 4, 'membership_status', 'Regular Attender', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(184, 4, 'membership_status', 'Visitor', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(185, 4, 'membership_status', 'Participant', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(186, 4, 'membership_status', 'In Progress', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(187, 4, 'grade_name', 'Pre-K', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(188, 4, 'grade_name', 'K', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(189, 4, 'grade_name', '1st', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(190, 4, 'grade_name', '2nd', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(191, 4, 'grade_name', '3rd', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(192, 4, 'room_group', 'Group1', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(193, 4, 'resource_category', 'Electronic', 'A', 4, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(194, 4, 'pastor_board', 'Electronic', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL),
+(195, 4, 'pastor_board', 'Home Care', 'A', 1, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -898,7 +981,9 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (39, 'App\\User', 3),
 (1, 'App\\User', 4),
 (14, 'App\\User', 5),
-(16, 'App\\User', 6);
+(16, 'App\\User', 6),
+(2, 'App\\User', 7),
+(50, 'App\\User', 7);
 
 -- --------------------------------------------------------
 
@@ -929,24 +1014,46 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('08118bc7f54f19a16fe656e4fe3ec4ad4507576256a6e75069275423ca5843c75f260b5a957de6ee', 1, 1, 'dollar', '[]', 0, '2019-12-28 00:34:18', '2019-12-28 00:34:18', '2020-12-28 06:04:18'),
 ('0ae5b4f523fadce09ad5ececd8f6c36e78e9a1089d1e66099da5b94956443664539b92d53f3fa05e', 4, 1, 'dollar', '[]', 0, '2020-01-06 00:05:21', '2020-01-06 00:05:21', '2021-01-06 05:35:21'),
 ('0b0de77e4e3d53612ef030415f976a8f839cbc42800faf05558794709099096152f9e0c3cc70e919', 1, 1, 'dollar', '[]', 0, '2020-01-05 05:47:06', '2020-01-05 05:47:06', '2021-01-05 11:17:06'),
+('13ed67066c1b0da0fbd74ef1cc08584bc4b55fc8c29fe92f30a9740bf6efb2adbecc4415d602616e', 4, 1, 'dollar', '[]', 0, '2020-01-13 02:55:38', '2020-01-13 02:55:38', '2021-01-13 08:25:38'),
+('20e98543a23507e6509d46cfc091b2ef857d86184618711299db44638c37f0f1745a062d79e135af', 1, 1, 'dollar', '[]', 0, '2020-01-13 03:13:07', '2020-01-13 03:13:07', '2021-01-13 08:43:07'),
 ('27a7d90ac92b4476ad11d870ab07e19ba18bea8775e0146f8219f026b3249d452212394f333813ca', 4, 1, 'dollar', '[]', 0, '2020-01-06 00:04:51', '2020-01-06 00:04:51', '2021-01-06 05:34:51'),
+('310093629747e822be60c06601f94de877b2f2041b45c495c929817f81093bc862866caa0a7bab40', 1, 1, 'dollar', '[]', 0, '2020-01-12 15:10:32', '2020-01-12 15:10:32', '2021-01-12 20:40:32'),
+('35a6b4fa1bc13cffa1de5145d24ad7b8aab2f643985fb82937051e5e90294f2615297d464ff5bc52', 1, 1, 'dollar', '[]', 0, '2020-01-19 12:27:28', '2020-01-19 12:27:28', '2021-01-19 17:57:28'),
 ('36ebd74638d15c97baee4a12bd6c479999eb50653d02aacd75f1a3c96099b30c62971b24f7a71b93', 1, 1, 'dollar', '[]', 0, '2020-01-05 01:11:42', '2020-01-05 01:11:42', '2021-01-05 06:41:42'),
+('3fc3121a933092d15fa2963a9a8eb405527200041901df4ab22f55a83865733dd2ecfde9c93923b0', 4, 1, 'dollar', '[]', 0, '2020-01-13 02:57:23', '2020-01-13 02:57:23', '2021-01-13 08:27:23'),
 ('407d15f6018626545c9e5026928e55f82620d35291620023911db5ebb804c8f1da6295c12c924d4d', 6, 1, 'dollar', '[]', 0, '2020-01-06 01:15:42', '2020-01-06 01:15:42', '2021-01-06 06:45:42'),
+('40a77c817be88776eec4f66aef869738175f3c347286b54b13e0a7d647acffa8e5a2f9de7a04662f', 4, 1, 'dollar', '[]', 0, '2020-01-13 00:45:05', '2020-01-13 00:45:05', '2021-01-13 06:15:05'),
 ('42765866277b0d5c7609854b316043830c18e860d36cf67e32e77a9958d15065fb51c5924908bbb0', 3, 1, 'dollar', '[]', 0, '2020-01-05 01:17:45', '2020-01-05 01:17:45', '2021-01-05 06:47:45'),
+('456316c9e06390bbe14b2b585d25c2049ac6b026d2602dd86db4597fd2785882f1d2ebefc93b6ab7', 1, 1, 'dollar', '[]', 0, '2020-01-19 10:18:41', '2020-01-19 10:18:41', '2021-01-19 15:48:41'),
 ('4933ce77ac2ee4613956324b8e9beacd1c4cd3a12c0f5329aea35d81c18ffc8790836f166fddcb0e', 6, 1, 'dollar', '[]', 0, '2020-01-06 00:40:18', '2020-01-06 00:40:18', '2021-01-06 06:10:18'),
 ('4f274098423f0f44befb3a88cc54e1ed0c675da6987499fea2b6e563b805e3f13673792a6b5717de', 1, 1, 'dollar', '[]', 0, '2020-01-06 02:35:27', '2020-01-06 02:35:27', '2021-01-06 08:05:27'),
+('54fe60ac61c36ceaffba1fc3cb90d210000fba52a25b5b3dca2f180c7ba83c15ecd464d93e2909d7', 4, 1, 'dollar', '[]', 0, '2020-01-13 03:07:15', '2020-01-13 03:07:15', '2021-01-13 08:37:15'),
+('6760dc09933309d1bea91b00a89d548dfbe45cf29a66ccf1c7453c9273a812e2e89fe9ce24a80492', 1, 1, 'dollar', '[]', 0, '2020-01-13 03:20:17', '2020-01-13 03:20:17', '2021-01-13 08:50:17'),
+('6dde92c1ed614f797350dda92c6393ce6818c47603abf06dde8e32d819f8dd89916c393b70eab9e7', 1, 1, 'dollar', '[]', 0, '2020-01-19 10:12:10', '2020-01-19 10:12:10', '2021-01-19 15:42:10'),
 ('7f79f1d436942da14c412dd8287df751132d612b73e0b9615280693be0d117d180aae97e8faf264a', 5, 1, 'dollar', '[]', 0, '2020-01-06 00:47:33', '2020-01-06 00:47:33', '2021-01-06 06:17:33'),
 ('833bab0783d66bddfff79a42210e95a7b4df4d4cfc618490728a5bbcf893c9b7a168cc26ac0e5e66', 6, 1, 'dollar', '[]', 0, '2020-01-06 03:08:37', '2020-01-06 03:08:37', '2021-01-06 08:38:37'),
+('8714fec4f8780bb9595e6e392cceb4b362f996cf4c4921e6a2334d674fd0e7b0afd512ece8b01500', 1, 1, 'dollar', '[]', 0, '2020-01-10 03:11:03', '2020-01-10 03:11:03', '2021-01-10 08:41:03'),
+('95b19d42db8f600fe0b8100b11b3b420f0bb04e4236f64cc6be70bb79aaf2ae71e9b1c46898a3a66', 4, 1, 'dollar', '[]', 0, '2020-01-13 00:25:00', '2020-01-13 00:25:00', '2021-01-13 05:55:00'),
+('9c2adb585449e62a9025924c6800727424b21ce2b9748375ac419166b2912d0393b7c245d3fb50a3', 4, 1, 'dollar', '[]', 0, '2020-01-19 10:08:28', '2020-01-19 10:08:28', '2021-01-19 15:38:28'),
+('a8ec4b0cfe8ebef053645a77c2a297bf1de8f1e903b23f620b373455c771eee2999fbae8cca29911', 7, 1, 'dollar', '[]', 0, '2020-01-13 02:58:17', '2020-01-13 02:58:17', '2021-01-13 08:28:17'),
+('aa44646e6c7fe41e8b133c6cee304f464a206d7a2d3829eefdee73f9316a03252929e62815a94e25', 1, 1, 'dollar', '[]', 0, '2020-01-19 10:08:02', '2020-01-19 10:08:02', '2021-01-19 15:38:02'),
 ('b3664943194a8084c436f72cc3f0ecd2b0975fb0b963e4734491d9e2c390f8ee2de2331da8bac5b7', 1, 1, 'dollar', '[]', 0, '2019-12-22 09:40:13', '2019-12-22 09:40:13', '2020-12-22 15:10:13'),
 ('bf4e0d883c83bd37e139012b14198a7d059bc6089a5f2f7261c2472c760f17c427b75aebfa6ae68c', 2, 1, 'dollar', '[]', 0, '2020-01-05 05:46:30', '2020-01-05 05:46:30', '2021-01-05 11:16:30'),
 ('c67dd3190970555c9fd1cb5855591a8380429c5e1a1f5bd14a33fe3ba3a7da309d91113d0ce62515', 1, 1, 'dollar', '[]', 0, '2020-01-05 05:46:54', '2020-01-05 05:46:54', '2021-01-05 11:16:54'),
+('c69e423efac5ebc69766f4ee53493ae0b1cc31c0df5c382815d88d1c8db72b1fbddf6d3d1d5fe1c7', 1, 1, 'dollar', '[]', 0, '2020-01-13 15:54:54', '2020-01-13 15:54:54', '2021-01-13 21:24:54'),
+('cc81350ae6eb3755662c5885b4055ceceee01a5393416e6d97bc50092dca32e334814398aef4043e', 1, 1, 'dollar', '[]', 0, '2020-01-20 00:04:47', '2020-01-20 00:04:47', '2021-01-20 05:34:47'),
+('d91cf34a32fabe2a856c776f8647f4ef3ddd1a400cee5c0f1a7f005f58ce0603f616e94c9290eef4', 1, 1, 'dollar', '[]', 0, '2020-01-07 01:27:27', '2020-01-07 01:27:27', '2021-01-07 06:57:27'),
 ('d9a95bcce49d7c05d8776e89e68be2f88a782625819d3937a757b58c0bc4d714b346aa9c2a973c55', 1, 1, 'dollar', '[]', 0, '2019-12-27 01:02:11', '2019-12-27 01:02:11', '2020-12-27 06:32:11'),
 ('df186275b245d956918fadd1bc20fd6e5a11d09a3c6b06b26f5deeb65baf98cb598ff6459e53741a', 6, 1, 'dollar', '[]', 0, '2020-01-06 00:44:18', '2020-01-06 00:44:18', '2021-01-06 06:14:18'),
+('e241b0f00534e47533de9216546deaba933a76fb56f54e312e7435c2ce3ad208c80b5e4433b54745', 1, 1, 'dollar', '[]', 0, '2020-01-19 13:05:33', '2020-01-19 13:05:33', '2021-01-19 18:35:33'),
 ('ebcec3b7d62afc3e317abfe9736d3e4386c2cc9821806402c192d651f8775189c21e2a1311f30f21', 1, 1, 'dollar', '[]', 0, '2020-01-06 00:37:43', '2020-01-06 00:37:43', '2021-01-06 06:07:43'),
 ('ec6570d2740b133391cbc2710c9211e9825d8aed8568c2415689ce1bb595689babca949a62e658cf', 1, 1, 'dollar', '[]', 0, '2020-01-05 13:48:49', '2020-01-05 13:48:49', '2021-01-05 19:18:49'),
 ('edc97192d25965798f4f4908d81cff15a6687c874eb669c8d422d30d229d974144d14ad6e96d40a8', 1, 1, 'dollar', '[]', 0, '2019-12-18 01:55:08', '2019-12-18 01:55:08', '2020-12-18 07:25:08'),
+('ee3ef2f2c600456a39176816faeab72855ec226a59cb249caca5c6939ebe1cca0e4972212911412b', 1, 1, 'dollar', '[]', 0, '2020-01-06 15:39:54', '2020-01-06 15:39:54', '2021-01-06 21:09:54'),
 ('f0dbb2a89ef4dead1186c258cd6c2c911b31ef4be53495b2c5d365ba932df509cb1cf5933f872728', 5, 1, 'dollar', '[]', 0, '2020-01-06 04:22:49', '2020-01-06 04:22:49', '2021-01-06 09:52:49'),
-('f16a1a9c81f83ee68bc6a964f2dcd307574cc3a5fa99e3c603dcb6496ff96dd98736776b3015070b', 1, 1, 'dollar', '[]', 0, '2020-01-06 00:48:06', '2020-01-06 00:48:06', '2021-01-06 06:18:06');
+('f16a1a9c81f83ee68bc6a964f2dcd307574cc3a5fa99e3c603dcb6496ff96dd98736776b3015070b', 1, 1, 'dollar', '[]', 0, '2020-01-06 00:48:06', '2020-01-06 00:48:06', '2021-01-06 06:18:06'),
+('f38c3be03218bb0ef9c115ee34bddbc781b49257fa2d049922a930dacf40687e390c64b1411c28dd', 1, 1, 'dollar', '[]', 0, '2020-01-13 00:43:03', '2020-01-13 00:43:03', '2021-01-13 06:13:03'),
+('f82f77452473c63d4825b9a8ffccafb1e0f9d2814315e3dce3a8a6da06dcd608fbbf3a9f24ee7b5e', 4, 1, 'dollar', '[]', 0, '2020-01-13 00:25:25', '2020-01-13 00:25:25', '2021-01-13 05:55:25');
 
 -- --------------------------------------------------------
 
@@ -1062,7 +1169,7 @@ CREATE TABLE IF NOT EXISTS `organization` (
   `deletedBy` text,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `organization`
@@ -1071,7 +1178,8 @@ CREATE TABLE IF NOT EXISTS `organization` (
 INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `orgCity`, `orgState`, `orgPincode`, `orgPhone`, `orgLogo`, `orgTimeZone`, `orgTimeCountry`, `orgTimeFormat`, `orgDateFormat`, `orgCurrency`, `orgEmail`, `orgWebsite`, `orgTaxIdNo`, `orgDomain`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
 (1, 'St Paul', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Canada/Saskatchewan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stpaul', NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
 (2, 'stpeter church', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'America/Los_Angeles', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stpeter', NULL, '2020-01-05 01:13:00', NULL, '2020-01-05 01:13:00', NULL, NULL),
-(3, 'stantony church', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pacific/Samoa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stantony', NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL);
+(3, 'stantony church', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pacific/Samoa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'stantony', NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
+(4, 'Karkal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'America/Mexico_City', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'karkal', NULL, '2020-01-13 02:58:01', NULL, '2020-01-13 02:58:01', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1094,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS `other_payment_methods` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`other_payment_method_id`),
   KEY `orgId` (`orgId`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `other_payment_methods`
@@ -1104,7 +1212,8 @@ INSERT INTO `other_payment_methods` (`other_payment_method_id`, `orgId`, `paymen
 (1, NULL, 'Cash', 'other_payment_methods', 0, 1, NULL, '2019-12-13 03:57:02', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (2, NULL, 'Cheque', 'Cheque', 0, 1, NULL, '2019-12-13 03:57:02', NULL, '0000-00-00 00:00:00', NULL, NULL),
 (3, 3, 'C-Pay', 'C-Pay Npte hellpo', 0, 1, '3', '2020-01-05 01:19:50', NULL, '2020-01-05 01:19:50', NULL, NULL),
-(4, 1, 'C-Pay', 'C-Pay Npte hellpo', 0, 1, '1', '2020-01-05 06:25:33', NULL, '2020-01-05 06:25:33', NULL, NULL);
+(4, 1, 'C-Pay', 'C-Pay Npte hellpo', 0, 1, '1', '2020-01-05 06:25:33', NULL, '2020-01-05 06:25:33', NULL, NULL),
+(5, 1, 'Cash Coupon', 'Cash Coupon', 0, 1, '1', '2020-01-13 03:18:13', NULL, '2020-01-13 03:18:13', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1228,7 +1337,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data for table `permissions`
@@ -1258,7 +1367,13 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 (22, 3, 'Scheduling', 'web', NULL, NULL),
 (23, 3, 'Event management', 'web', NULL, NULL),
 (24, 3, 'Small Group', 'web', NULL, NULL),
-(25, 3, 'Accounting', 'web', NULL, NULL);
+(25, 3, 'Accounting', 'web', NULL, NULL),
+(26, 4, 'Nextgen Checkin', 'web', NULL, NULL),
+(27, 4, 'Member Directory', 'web', NULL, NULL),
+(28, 4, 'Scheduling', 'web', NULL, NULL),
+(29, 4, 'Event management', 'web', NULL, NULL),
+(30, 4, 'Small Group', 'web', NULL, NULL),
+(31, 4, 'Accounting', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1327,7 +1442,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data for table `roles`
@@ -1378,7 +1493,18 @@ INSERT INTO `roles` (`id`, `orgId`, `name`, `guard_name`, `role_tag`, `created_a
 (46, 3, 'Event Organizer', 'web', 'EventOrganizer', '2020-01-05 01:17:10', NULL),
 (47, 3, 'Production Manager', 'web', 'ProductionManager', '2020-01-05 01:17:10', NULL),
 (48, 3, 'Accounts Admin', 'web', 'AccountsAdmin', '2020-01-05 01:17:10', NULL),
-(49, 3, 'Visitor', 'web', 'Visitor', '2020-01-05 01:17:10', NULL);
+(49, 3, 'Visitor', 'web', 'Visitor', '2020-01-05 01:17:10', NULL),
+(50, 4, 'Adminstrator', 'web', 'admin', '2020-01-13 02:58:01', NULL),
+(51, 4, 'Member', 'web', 'member', '2020-01-13 02:58:01', NULL),
+(52, 4, 'Volunteer', 'web', 'volunteer', '2020-01-13 02:58:01', NULL),
+(53, 4, 'Pastor', 'web', 'pastor', '2020-01-13 02:58:01', NULL),
+(54, 4, 'First Time Guest', 'web', 'firsttimeguest', '2020-01-13 02:58:01', NULL),
+(55, 4, 'Inactive Member', 'web', 'InactiveMember', '2020-01-13 02:58:01', NULL),
+(56, 4, 'Checkin Volunteer', 'web', 'CheckinVolunteer', '2020-01-13 02:58:01', NULL),
+(57, 4, 'Event Organizer', 'web', 'EventOrganizer', '2020-01-13 02:58:01', NULL),
+(58, 4, 'Production Manager', 'web', 'ProductionManager', '2020-01-13 02:58:01', NULL),
+(59, 4, 'Accounts Admin', 'web', 'AccountsAdmin', '2020-01-13 02:58:01', NULL),
+(60, 4, 'Visitor', 'web', 'Visitor', '2020-01-13 02:58:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -1450,7 +1576,23 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (20, 46),
 (20, 47),
 (20, 48),
-(20, 49);
+(20, 49),
+(26, 50),
+(27, 50),
+(28, 50),
+(29, 50),
+(30, 50),
+(31, 50),
+(26, 51),
+(26, 52),
+(26, 53),
+(26, 54),
+(26, 55),
+(26, 56),
+(26, 57),
+(26, 58),
+(26, 59),
+(26, 60);
 
 -- --------------------------------------------------------
 
@@ -1576,7 +1718,7 @@ CREATE TABLE IF NOT EXISTS `store_payment_gateway_values` (
   `payment_gateway_parameter_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Foreign key reference to payment_gateway_parameters',
   `payment_gateway_parameter_value` varchar(200) NOT NULL COMMENT 'Values of the parameter to be passed to payment gateway',
   `active` varchar(1) NOT NULL DEFAULT '1' COMMENT 'Record status',
-  `preferred_payment_gateway` int(1) NOT NULL DEFAULT '0' COMMENT '0 -> inactive, 1 - active',
+  `preferred_payment_gateway` int(1) NOT NULL DEFAULT '1' COMMENT '0 -> inactive, 1 - active',
   `createdBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedBy` text,
@@ -1592,10 +1734,10 @@ CREATE TABLE IF NOT EXISTS `store_payment_gateway_values` (
 --
 
 INSERT INTO `store_payment_gateway_values` (`payment_values_id`, `orgId`, `payment_gateway_id`, `payment_gateway_parameter_id`, `payment_gateway_parameter_value`, `active`, `preferred_payment_gateway`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 3, 1, 1, 'test', '1', 0, NULL, '2020-01-05 01:18:35', NULL, '2020-01-05 01:18:35', NULL, NULL),
-(2, 3, 1, 2, 'test', '1', 0, NULL, '2020-01-05 01:18:35', NULL, '2020-01-05 01:18:35', NULL, NULL),
-(3, 1, 1, 1, 'test', '1', 0, NULL, '2020-01-05 05:47:34', NULL, '2020-01-05 05:47:34', NULL, NULL),
-(4, 1, 1, 2, 'test', '1', 0, NULL, '2020-01-05 05:47:34', NULL, '2020-01-05 05:47:34', NULL, NULL);
+(1, 3, 1, 1, 'test', '1', 1, NULL, '2020-01-05 01:18:35', NULL, '2020-01-07 01:35:07', NULL, NULL),
+(2, 3, 1, 2, 'test', '1', 1, NULL, '2020-01-05 01:18:35', NULL, '2020-01-07 01:35:08', NULL, NULL),
+(3, 1, 1, 1, 'pk_test_ABtwzuVrHYZusP90hjjEHDur', '1', 1, NULL, '2020-01-05 05:47:34', NULL, '2020-01-13 03:15:26', NULL, NULL),
+(4, 1, 1, 2, 'sk_test_JpFi9kNRPYH0bUJeQmxbIqFr', '1', 1, NULL, '2020-01-05 05:47:34', NULL, '2020-01-13 03:15:26', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1718,23 +1860,25 @@ CREATE TABLE IF NOT EXISTS `users` (
   `medical_note` text COLLATE utf8mb4_unicode_ci,
   `congregration_status` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
+  `updatedBy` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'St Paul Admin''s household', '0000000001', NULL, NULL, 'St Paul Admin', NULL, NULL, NULL, 'St Paul Admin', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'St Paht4', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', '2019-12-18 01:54:50', NULL, NULL),
-(2, 2, 'stpeter name''s household', '0000000002', NULL, NULL, 'stpeter name', NULL, NULL, NULL, 'stpeter name', NULL, 'stpeter@stpeter.com', NULL, NULL, '$2y$10$ylQn5OiWe6DDgmp0bAD.Z.bgnyuQJ0OC6RbzuzocANiyBdb7Lhc32', NULL, 'stpehine', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:13:01', '2020-01-05 01:13:01', NULL, NULL),
-(3, 3, 'stantony name''s household', '0000000003', NULL, NULL, 'stantony name', NULL, NULL, NULL, 'stantony name', NULL, 'stantony@stantony.com', NULL, NULL, '$2y$10$7SUh6ZRp9g/JLVWiepNxaOA99ciQSFkXDYmslR34q9wksNLfLpnAe', NULL, 'stanpzdi', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:17:10', '2020-01-05 01:17:10', NULL, NULL),
-(4, NULL, 'Superadmin', '0000000000', NULL, NULL, 'Superadmin', NULL, NULL, NULL, 'Superadmin', NULL, 'superadmin@superadmin.com', 'superadmin', NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'superadmin', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', '2019-12-18 01:54:50', NULL, NULL),
-(5, 1, 'Somesh''s household', '0000000005', '40', 'somesh', 'Somesh', 'L', 'S', 'somesh', 'Somesh S L', NULL, 'somesh@somesh.com', NULL, NULL, '$2y$10$8U4KBJQM00q0K2cuP0InheVn1cD6jC5h.xa7mx55qh5dCV.pQvt8.', NULL, 'Somefn4v', '45', NULL, '1980-01-23', '1970-01-01', '34', 60, 'Adult', '123', NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:00', '2020-01-06 00:39:00', NULL, NULL),
-(6, 1, 'Manish''s household', '0000000006', '40', 'Manish', 'Manish', 't', 'r', 'Manish', 'Manish r t', NULL, 'manish@manish.com', NULL, NULL, '$2y$10$CQGnOSibgcmVAUh6uw/WHuawtpS7y8NaZ96P0qdSFrJtPIKLqE7ZW', NULL, 'Manixhzh', '45', NULL, '1970-01-01', '1970-01-01', '34', 60, 'Adult', NULL, NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:42', '2020-01-06 00:39:42', NULL, NULL);
+INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
+(1, 1, 'St Paul Admin''s household', '0000000001', NULL, NULL, 'St Paul Admin', NULL, NULL, NULL, 'St Paul Admin', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'St Paht4', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
+(2, 2, 'stpeter name''s household', '0000000002', NULL, NULL, 'stpeter name', NULL, NULL, NULL, 'stpeter name', NULL, 'stpeter@stpeter.com', NULL, NULL, '$2y$10$ylQn5OiWe6DDgmp0bAD.Z.bgnyuQJ0OC6RbzuzocANiyBdb7Lhc32', NULL, 'stpehine', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:13:01', NULL, '2020-01-05 01:13:01', NULL, NULL),
+(3, 3, 'stantony name''s household', '0000000003', NULL, NULL, 'stantony name', NULL, NULL, NULL, 'stantony name', NULL, 'stantony@stantony.com', NULL, NULL, '$2y$10$7SUh6ZRp9g/JLVWiepNxaOA99ciQSFkXDYmslR34q9wksNLfLpnAe', NULL, 'stanpzdi', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
+(4, NULL, 'Superadmin', '0000000000', NULL, NULL, 'Superadmin', NULL, NULL, NULL, 'Superadmin', NULL, 'superadmin@superadmin.com', 'superadmin', NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'superadmin', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
+(5, 1, 'Somesh''s household', '0000000005', '40', 'somesh', 'Somesh', 'L', 'S', 'somesh', 'Somesh S L', NULL, 'somesh@somesh.com', NULL, NULL, '$2y$10$8U4KBJQM00q0K2cuP0InheVn1cD6jC5h.xa7mx55qh5dCV.pQvt8.', NULL, 'Somefn4v', '45', NULL, '1980-01-23', '1970-01-01', '34', 60, 'Adult', '123', NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:00', NULL, '2020-01-06 00:39:00', NULL, NULL),
+(6, 1, 'Manish''s household', '0000000006', '40', 'Manish', 'Manish', 't', 'r', 'Manish', 'Manish r t', NULL, 'manish@manish.com', NULL, NULL, '$2y$10$CQGnOSibgcmVAUh6uw/WHuawtpS7y8NaZ96P0qdSFrJtPIKLqE7ZW', NULL, 'Manixhzh', '45', NULL, '1970-01-01', '1970-01-01', '34', 60, 'Adult', NULL, NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:42', NULL, '2020-01-06 00:39:42', NULL, NULL),
+(7, 4, 'Karkal name''s household', '0000000007', NULL, NULL, 'Karkal name', NULL, NULL, NULL, 'Karkal name', NULL, 'karkal@karkal.com', NULL, NULL, '$2y$10$xJJ8QhLyuk1XWGlGN.Z/gOMTSyL40OGQRo/CkcWSy3ehbGhRyBAUy', NULL, 'Karkryr6', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL);
 
 -- --------------------------------------------------------
 
