@@ -408,6 +408,7 @@ Route::get("/attendance/eventattedance_data_delete", "EventAttendanceController@
 //Route::get('insights/edit/{id}', 'InsightsController@editInsights');
 
 
+
 //Insights
 Route::get("/insights/manage", "InsightsController@insightIndex");
 Route::post("/insights/list", "InsightsController@getInsightList");
@@ -415,3 +416,11 @@ Route::get("/insights/get_insight_by_id", "InsightsController@getInsightById");
 Route::post("/insight_data_insert", "InsightsController@storeOrUpdateInsight");
 Route::get("/insights/insight_data_delete", "InsightsController@deleteInsightById");
 
+
+//EventAttendance
+
+Route::get("/eventattendance/manage", "EventAttendanceController@eventattendanceIndex");
+Route::post("/eventattendance/list", "EventAttendanceController@getEventAttendanceCountList");
+Route::get("/eventattendance/get_event_attendance_by_id", "EventAttendanceController@getAttendanceCountById");
+Route::post("/eventattendance_data_insert", "EventAttendanceController@storeOrUpdateAttendanceCount");
+Route::get("/eventattendance/eventattendance_data_delete", "EventAttendanceController@deleteAttendanceCountById");

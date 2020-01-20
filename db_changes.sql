@@ -1150,3 +1150,8 @@ ALTER TABLE `attendance_count`
 --
 ALTER TABLE `attendance_count`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  
+
+-- Santhosh 20 Jan 2020
+  
+ALTER TABLE `attendance_count` ADD `event_date` DATE NULL AFTER `event_id`; 

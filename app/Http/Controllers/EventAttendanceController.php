@@ -19,6 +19,7 @@ use App\Models\Organization;
 use App\Models\EventAttendance;
 use App\Models\UserMaster;
 use App\Models\Events;
+use App\Models\AttendanceCount;
 
 class EventAttendanceController extends Controller {
 
@@ -231,6 +232,112 @@ class EventAttendanceController extends Controller {
     }
 	
 	
-
 	
+	public function eventattendanceIndex()
+    {
+        $data['title'] = $this->browserTitle . " - Event Attendance List";
+		
+		$whereUEArray=array('orgId'=>$this->orgId);
+		
+        $eventsData = array();
+		
+        $crudEvents = Events::crudEvents($whereUEArray,null,null,null,null,null,null,'1')->get();
+		
+        //dd($crudEvents);
+        foreach ($crudEvents as $key=>$crudEventsvalue) {
+            if(strtotime($crudEventsvalue->eventCreatedDate) >= strtotime(date('Y-m-d')))
+            {
+                //dd($crudEventsvalue->eventCreatedDate);$key=>
+                $eventsData[] = $crudEventsvalue;
+            }
+            
+        }
+        $data['upcoming_events']=$eventsData;
+
+        return view('eventattendance.index', $data);
+    }
+	
+	
+	public function getEventAttendanceCountList()
+    {
+        $result = array();  
+		
+        $eventattendance = AttendanceCount::selectEventAttendanceCountList()->get();
+
+        $i = 1;
+        foreach ($eventattendance as $event) {
+			
+            $row = array();
+			
+            $row[] = $event->id;
+			$row[] = $event->eventName;
+            $row[] = $event->orgName;
+            $row[] = $event->male_count;
+            $row[] = $event->female_count;
+
+            //showConfirm
+            $button_html = '<a onclick="edit_attendance_count(' . $event->id . ')"  data-toggle="tooltip"   href="#"  data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                            <a onclick="attendance_count_data_delete(' . $event->id . ')"   href="#"><i class="fa fa-trash"></i></a>';
+
+            $row[] = $button_html;
+            $result[] = $row;
+        }
+
+        //return Datatables::of($result)->rawColumns([6])->make(true);
+        return Datatables::of($result)->escapeColumns(['id'])->make(true);
+    }
+	
+	
+	public function getAttendanceCountById(Request $request)
+    {
+        $getAttendanceCountById = AttendanceCount::find($request->get('attendanceCountID'));
+        return $getAttendanceCountById;
+    }
+	
+	
+	public function storeOrUpdateAttendanceCount(Request $request)
+    {
+				
+        $insightFormData = $request->except('hidden_attendanceCountID');
+        $insightFormData['createdBy'] = $this->authUserId;
+
+        unset($insightFormData['hidden_attendanceCountID'], $insightFormData['_token'], $insightFormData['event_id_hidden']);
+		
+		$whereSchArray = array('id'=>$request->get('hidden_attendanceCountID'));
+		
+		$crudAttendanceCount = AttendanceCount::crudAttendanceCount($whereSchArray,null,null,null,null,null,null,'1')->get();
+		
+		if($crudAttendanceCount->count() > 0){
+			$data['crudAttendanceCount'] = $crudAttendanceCount[0];
+		}
+			
+        if ($request->get('hidden_attendanceCountID') > 0) {
+            unset($insightFormData['createdBy']);
+            $insightFormData['updatedBy'] = $this->authUserId;
+            $whereArray = array('id' => $request->get('hidden_attendanceCountID'));
+            $updateDetails = AttendanceCount::updateAttendanceCount($insightFormData, $whereArray);
+            return "updated";
+        } else {
+			
+			$insightFormData['orgId'] = Auth::user()->orgId;
+            $insertDetails = AttendanceCount::create($insightFormData);
+            if ($insertDetails->id > 0) {
+                return "inserted";
+            } else {
+                return 0;
+            }
+        }
+		
+		
+    }
+	
+	public function deleteAttendanceCountById(Request $request)
+    {
+
+        $whereArray = array('id' => $request->get('attendanceCountId'));
+        $updateAHDeletedStatus = array('deleted_at' => now(), 'deletedBy' => $this->authUserId);
+        AttendanceCount::crudAttendanceCount($whereArray, null, null, null, null, $updateAHDeletedStatus, null, null);
+    }
+	
+		
 }
