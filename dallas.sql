@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1ubuntu0.1
--- http://www.phpmyadmin.net
+-- version 4.8.1
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Jan 20, 2020 at 07:09 AM
--- Server version: 5.6.33-0ubuntu0.14.04.1
--- PHP Version: 7.1.20-1+ubuntu14.04.1+deb.sury.org+1
+-- Host: 127.0.0.1
+-- Generation Time: Jan 20, 2020 at 03:58 AM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.1.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `dallas`
@@ -26,8 +28,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `apps`
 --
 
-CREATE TABLE IF NOT EXISTS `apps` (
-  `appId` int(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `apps` (
+  `appId` int(20) NOT NULL,
   `appName` varchar(250) DEFAULT NULL,
   `appPath` varchar(255) DEFAULT NULL,
   `appStatus` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Active,2=Inactive',
@@ -36,9 +38,8 @@ CREATE TABLE IF NOT EXISTS `apps` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`appId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `apps`
@@ -57,11 +58,31 @@ INSERT INTO `apps` (`appId`, `appName`, `appPath`, `appStatus`, `createdBy`, `cr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `attendance_count`
+--
+
+CREATE TABLE `attendance_count` (
+  `id` bigint(20) NOT NULL,
+  `orgId` bigint(22) DEFAULT NULL,
+  `event_id` bigint(20) DEFAULT NULL,
+  `male_count` int(10) DEFAULT NULL,
+  `female_count` int(10) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `checkins`
 --
 
-CREATE TABLE IF NOT EXISTS `checkins` (
-  `chId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `checkins` (
+  `chId` bigint(20) NOT NULL,
   `eventId` bigint(20) NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `chINDateTime` timestamp NULL DEFAULT NULL,
@@ -72,9 +93,8 @@ CREATE TABLE IF NOT EXISTS `checkins` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`chId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -82,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `checkins` (
 -- Table structure for table `comm_details`
 --
 
-CREATE TABLE IF NOT EXISTS `comm_details` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `comm_details` (
+  `id` bigint(20) NOT NULL,
   `comm_master_id` bigint(20) NOT NULL,
   `to_user_id` bigint(20) NOT NULL,
   `read_status` varchar(255) NOT NULL DEFAULT 'UNREAD' COMMENT 'Read status:READ,UNREAD',
@@ -93,9 +113,8 @@ CREATE TABLE IF NOT EXISTS `comm_details` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comm_details`
@@ -111,8 +130,8 @@ INSERT INTO `comm_details` (`id`, `comm_master_id`, `to_user_id`, `read_status`,
 -- Table structure for table `comm_masters`
 --
 
-CREATE TABLE IF NOT EXISTS `comm_masters` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `comm_masters` (
+  `id` bigint(20) NOT NULL,
   `comm_template_id` bigint(20) DEFAULT NULL,
   `org_id` bigint(20) NOT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Email,2=Notification',
@@ -127,9 +146,8 @@ CREATE TABLE IF NOT EXISTS `comm_masters` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `comm_masters`
@@ -145,8 +163,8 @@ INSERT INTO `comm_masters` (`id`, `comm_template_id`, `org_id`, `type`, `tag`, `
 -- Table structure for table `comm_templates`
 --
 
-CREATE TABLE IF NOT EXISTS `comm_templates` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `comm_templates` (
+  `id` bigint(20) NOT NULL,
   `tag` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `subject` text,
@@ -157,9 +175,8 @@ CREATE TABLE IF NOT EXISTS `comm_templates` (
   `updatedBy` text,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `comm_templates`
@@ -223,8 +240,8 @@ INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, 
 -- Table structure for table `events`
 --
 
-CREATE TABLE IF NOT EXISTS `events` (
-  `eventId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `events` (
+  `eventId` bigint(20) NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `eventName` varchar(250) DEFAULT NULL,
   `eventFreq` varchar(250) DEFAULT NULL COMMENT 'Daily,Weekly,None',
@@ -242,9 +259,8 @@ CREATE TABLE IF NOT EXISTS `events` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`eventId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `events`
@@ -262,8 +278,8 @@ INSERT INTO `events` (`eventId`, `orgId`, `eventName`, `eventFreq`, `eventDesc`,
 -- Table structure for table `event_attedance`
 --
 
-CREATE TABLE IF NOT EXISTS `event_attedance` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `event_attedance` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `user_id` bigint(22) DEFAULT NULL,
   `event_id` bigint(22) DEFAULT NULL,
@@ -276,9 +292,8 @@ CREATE TABLE IF NOT EXISTS `event_attedance` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `event_attedance`
@@ -296,8 +311,8 @@ INSERT INTO `event_attedance` (`id`, `orgId`, `user_id`, `event_id`, `event_date
 -- Table structure for table `forms`
 --
 
-CREATE TABLE IF NOT EXISTS `forms` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `forms` (
+  `id` bigint(20) NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `title` varchar(250) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
@@ -306,9 +321,8 @@ CREATE TABLE IF NOT EXISTS `forms` (
   `general_fields` varchar(500) DEFAULT NULL,
   `is_active` int(11) NOT NULL DEFAULT '1' COMMENT '1 - active, 2 - deactive',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -316,16 +330,15 @@ CREATE TABLE IF NOT EXISTS `forms` (
 -- Table structure for table `form_submissions`
 --
 
-CREATE TABLE IF NOT EXISTS `form_submissions` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `form_submissions` (
+  `id` bigint(20) NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `form_id` bigint(20) DEFAULT NULL,
   `profile_fields` varchar(1000) DEFAULT NULL,
   `general_fields` varchar(1000) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -333,8 +346,8 @@ CREATE TABLE IF NOT EXISTS `form_submissions` (
 -- Table structure for table `giving`
 --
 
-CREATE TABLE IF NOT EXISTS `giving` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `giving` (
+  `id` bigint(20) NOT NULL,
   `type` tinyint(1) NOT NULL,
   `user_id` bigint(20) DEFAULT NULL,
   `orgId` bigint(20) DEFAULT NULL,
@@ -362,9 +375,8 @@ CREATE TABLE IF NOT EXISTS `giving` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `giving`
@@ -381,8 +393,8 @@ INSERT INTO `giving` (`id`, `type`, `user_id`, `orgId`, `event_id`, `email`, `fi
 -- Table structure for table `groups`
 --
 
-CREATE TABLE IF NOT EXISTS `groups` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `groups` (
+  `id` bigint(20) NOT NULL,
   `orgId` bigint(20) NOT NULL,
   `groupType_id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -414,9 +426,8 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `updatedBy` text,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `groups`
@@ -431,8 +442,8 @@ INSERT INTO `groups` (`id`, `orgId`, `groupType_id`, `name`, `description`, `not
 -- Table structure for table `group_enrolls`
 --
 
-CREATE TABLE IF NOT EXISTS `group_enrolls` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_enrolls` (
+  `id` bigint(22) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `first_name` varchar(100) DEFAULT NULL,
@@ -446,9 +457,8 @@ CREATE TABLE IF NOT EXISTS `group_enrolls` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -456,8 +466,8 @@ CREATE TABLE IF NOT EXISTS `group_enrolls` (
 -- Table structure for table `group_events`
 --
 
-CREATE TABLE IF NOT EXISTS `group_events` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_events` (
+  `id` bigint(22) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
   `title` varchar(150) NOT NULL,
   `isMutiDay_event` tinyint(1) NOT NULL DEFAULT '1',
@@ -475,9 +485,8 @@ CREATE TABLE IF NOT EXISTS `group_events` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -485,8 +494,8 @@ CREATE TABLE IF NOT EXISTS `group_events` (
 -- Table structure for table `group_events_attendance`
 --
 
-CREATE TABLE IF NOT EXISTS `group_events_attendance` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_events_attendance` (
+  `id` bigint(22) NOT NULL,
   `event_id` bigint(22) DEFAULT NULL,
   `group_member_id` bigint(22) DEFAULT NULL,
   `createdBy` text,
@@ -494,9 +503,8 @@ CREATE TABLE IF NOT EXISTS `group_events_attendance` (
   `updatedBy` text,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -504,8 +512,8 @@ CREATE TABLE IF NOT EXISTS `group_events_attendance` (
 -- Table structure for table `group_members`
 --
 
-CREATE TABLE IF NOT EXISTS `group_members` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_members` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(20) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
   `isUser` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=User, 2=Enrolled User',
@@ -524,9 +532,8 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -534,8 +541,8 @@ CREATE TABLE IF NOT EXISTS `group_members` (
 -- Table structure for table `group_resources`
 --
 
-CREATE TABLE IF NOT EXISTS `group_resources` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_resources` (
+  `id` bigint(22) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=File, 2=URL Path',
@@ -547,9 +554,8 @@ CREATE TABLE IF NOT EXISTS `group_resources` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -557,8 +563,8 @@ CREATE TABLE IF NOT EXISTS `group_resources` (
 -- Table structure for table `group_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `group_tags` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_tags` (
+  `id` bigint(22) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
   `tag_id` bigint(22) DEFAULT NULL,
   `createdBy` text,
@@ -566,9 +572,8 @@ CREATE TABLE IF NOT EXISTS `group_tags` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -576,8 +581,8 @@ CREATE TABLE IF NOT EXISTS `group_tags` (
 -- Table structure for table `group_types`
 --
 
-CREATE TABLE IF NOT EXISTS `group_types` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `group_types` (
+  `id` bigint(20) NOT NULL,
   `orgId` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text,
@@ -608,16 +613,15 @@ CREATE TABLE IF NOT EXISTS `group_types` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `group_types`
 --
 
 INSERT INTO `group_types` (`id`, `orgId`, `name`, `description`, `isPublic`, `d_isPublic`, `d_meeting_schedule`, `d_description`, `d_location`, `d_contact_email`, `d_visible_leaders_fields`, `d_visible_members_fields`, `d_is_enroll_autoClose`, `d_enroll_autoClose_on`, `d_is_enroll_autoClose_count`, `d_enroll_autoClose_count`, `d_is_enroll_notify_count`, `d_enroll_notify_count`, `d_can_leaders_search_people`, `d_is_event_public`, `d_is_event_remind`, `d_event_remind_before`, `d_can_leaders_take_attendance`, `d_enroll_status`, `d_enroll_msg`, `d_leader_visibility_publicly`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'Small groups', 'Small groups are a key aspect of our church community. Most meet weekly in the home of a group member (usually the leader''s home). We try to keep them limited to about 12 people. If you can''t find an open group, please let us know!', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-12-28 00:35:22', NULL, '2019-12-28 00:35:22', NULL, NULL);
+(1, 1, 'Small groups', 'Small groups are a key aspect of our church community. Most meet weekly in the home of a group member (usually the leader\'s home). We try to keep them limited to about 12 people. If you can\'t find an open group, please let us know!', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 1, 1, 1, NULL, 1, 1, NULL, 1, NULL, '2019-12-28 00:35:22', NULL, '2019-12-28 00:35:22', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -625,8 +629,8 @@ INSERT INTO `group_types` (`id`, `orgId`, `name`, `description`, `isPublic`, `d_
 -- Table structure for table `households`
 --
 
-CREATE TABLE IF NOT EXISTS `households` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `households` (
+  `id` bigint(20) NOT NULL,
   `orgId` bigint(20) NOT NULL,
   `hhPrimaryUserId` bigint(20) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -635,9 +639,8 @@ CREATE TABLE IF NOT EXISTS `households` (
   `updatedBy` text,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -645,8 +648,8 @@ CREATE TABLE IF NOT EXISTS `households` (
 -- Table structure for table `household_user`
 --
 
-CREATE TABLE IF NOT EXISTS `household_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `household_user` (
+  `id` int(11) NOT NULL,
   `household_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `isPrimary` tinyint(2) NOT NULL DEFAULT '2',
@@ -655,9 +658,8 @@ CREATE TABLE IF NOT EXISTS `household_user` (
   `deletedBy` text,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -665,8 +667,8 @@ CREATE TABLE IF NOT EXISTS `household_user` (
 -- Table structure for table `insights`
 --
 
-CREATE TABLE IF NOT EXISTS `insights` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `insights` (
+  `id` bigint(22) NOT NULL,
   `group_id` bigint(22) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=File, 2=URL Path',
@@ -678,16 +680,15 @@ CREATE TABLE IF NOT EXISTS `insights` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `insights`
 --
 
 INSERT INTO `insights` (`id`, `group_id`, `name`, `type`, `source`, `description`, `visibility`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(4, NULL, 'Test21', 1, 's:293:"{"uploaded_path":"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/insights","download_path":"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/insights\\/","uploaded_file_name":"frid_1579428629.jpeg","original_filename":"frid_1579428629.jpeg","upload_file_extension":"jpeg","file_size":0}";', 'Test123', 1, '4', '2020-01-19 10:10:29', '4', '2020-01-19 10:11:05', NULL, NULL),
+(4, NULL, 'Test21', 1, 's:293:\"{\"uploaded_path\":\"\\/var\\/www\\/html\\/dallas\\/public\\/assets\\/uploads\\/insights\",\"download_path\":\"http:\\/\\/localhost\\/dallas\\/public\\/assets\\/uploads\\/insights\\/\",\"uploaded_file_name\":\"frid_1579428629.jpeg\",\"original_filename\":\"frid_1579428629.jpeg\",\"upload_file_extension\":\"jpeg\",\"file_size\":0}\";', 'Test123', 1, '4', '2020-01-19 10:10:29', '4', '2020-01-19 10:11:05', NULL, NULL),
 (5, NULL, 'asddasd', 2, NULL, 'wewerwer', 1, '4', '2020-01-19 10:11:23', NULL, '2020-01-19 10:11:23', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -696,8 +697,8 @@ INSERT INTO `insights` (`id`, `group_id`, `name`, `type`, `source`, `description
 -- Table structure for table `locations`
 --
 
-CREATE TABLE IF NOT EXISTS `locations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `locations` (
+  `id` int(11) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `name` varchar(250) NOT NULL,
   `latitude` varchar(100) NOT NULL,
@@ -707,9 +708,8 @@ CREATE TABLE IF NOT EXISTS `locations` (
   `updatedBy` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` int(11) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `locations`
@@ -725,8 +725,8 @@ INSERT INTO `locations` (`id`, `orgId`, `name`, `latitude`, `longitude`, `create
 -- Table structure for table `master_lookup_data`
 --
 
-CREATE TABLE IF NOT EXISTS `master_lookup_data` (
-  `mldId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_lookup_data` (
+  `mldId` bigint(20) NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `mldKey` varchar(150) DEFAULT NULL,
   `mldValue` varchar(200) DEFAULT NULL,
@@ -737,9 +737,8 @@ CREATE TABLE IF NOT EXISTS `master_lookup_data` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`mldId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=196 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `master_lookup_data`
@@ -918,12 +917,11 @@ INSERT INTO `master_lookup_data` (`mldId`, `orgId`, `mldKey`, `mldValue`, `mldTy
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE IF NOT EXISTS `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=14 ;
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -946,12 +944,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `model_has_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `model_has_permissions` (
-  `permission_id` int(10) unsigned NOT NULL,
+CREATE TABLE `model_has_permissions` (
+  `permission_id` int(10) UNSIGNED NOT NULL,
   `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
-  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`)
+  `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -960,12 +956,10 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
 -- Table structure for table `model_has_roles`
 --
 
-CREATE TABLE IF NOT EXISTS `model_has_roles` (
-  `role_id` int(10) unsigned NOT NULL,
+CREATE TABLE `model_has_roles` (
+  `role_id` int(10) UNSIGNED NOT NULL,
   `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_id` bigint(20) unsigned NOT NULL,
-  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
-  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`)
+  `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -973,16 +967,16 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(2, 'App\\User', 1),
-(13, 'App\\User', 1),
-(2, 'App\\User', 2),
-(24, 'App\\User', 2),
-(2, 'App\\User', 3),
-(39, 'App\\User', 3),
 (1, 'App\\User', 4),
+(2, 'App\\User', 1),
+(2, 'App\\User', 2),
+(2, 'App\\User', 3),
+(2, 'App\\User', 7),
+(13, 'App\\User', 1),
 (14, 'App\\User', 5),
 (16, 'App\\User', 6),
-(2, 'App\\User', 7),
+(24, 'App\\User', 2),
+(39, 'App\\User', 3),
 (50, 'App\\User', 7);
 
 -- --------------------------------------------------------
@@ -991,18 +985,16 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- Table structure for table `oauth_access_tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
+CREATE TABLE `oauth_access_tokens` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `client_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_access_tokens_user_id_index` (`user_id`)
+  `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1053,7 +1045,8 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('f0dbb2a89ef4dead1186c258cd6c2c911b31ef4be53495b2c5d365ba932df509cb1cf5933f872728', 5, 1, 'dollar', '[]', 0, '2020-01-06 04:22:49', '2020-01-06 04:22:49', '2021-01-06 09:52:49'),
 ('f16a1a9c81f83ee68bc6a964f2dcd307574cc3a5fa99e3c603dcb6496ff96dd98736776b3015070b', 1, 1, 'dollar', '[]', 0, '2020-01-06 00:48:06', '2020-01-06 00:48:06', '2021-01-06 06:18:06'),
 ('f38c3be03218bb0ef9c115ee34bddbc781b49257fa2d049922a930dacf40687e390c64b1411c28dd', 1, 1, 'dollar', '[]', 0, '2020-01-13 00:43:03', '2020-01-13 00:43:03', '2021-01-13 06:13:03'),
-('f82f77452473c63d4825b9a8ffccafb1e0f9d2814315e3dce3a8a6da06dcd608fbbf3a9f24ee7b5e', 4, 1, 'dollar', '[]', 0, '2020-01-13 00:25:25', '2020-01-13 00:25:25', '2021-01-13 05:55:25');
+('f82f77452473c63d4825b9a8ffccafb1e0f9d2814315e3dce3a8a6da06dcd608fbbf3a9f24ee7b5e', 4, 1, 'dollar', '[]', 0, '2020-01-13 00:25:25', '2020-01-13 00:25:25', '2021-01-13 05:55:25'),
+('ff635e7bd35308b14a60996d74f2e3294b6a5f87d2003b66f6cd71ca202a77924d65cacb9e1af4f9', 1, 1, 'dollar', '[]', 0, '2020-01-20 02:50:14', '2020-01-20 02:50:14', '2021-01-20 08:20:14');
 
 -- --------------------------------------------------------
 
@@ -1061,14 +1054,13 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 -- Table structure for table `oauth_auth_codes`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
+CREATE TABLE `oauth_auth_codes` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
-  `client_id` int(10) unsigned NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
   `scopes` text COLLATE utf8mb4_unicode_ci,
   `revoked` tinyint(1) NOT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1077,8 +1069,8 @@ CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
 -- Table structure for table `oauth_clients`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_clients` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1087,10 +1079,8 @@ CREATE TABLE IF NOT EXISTS `oauth_clients` (
   `password_client` tinyint(1) NOT NULL,
   `revoked` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_clients_user_id_index` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=3 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `oauth_clients`
@@ -1106,14 +1096,12 @@ INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `per
 -- Table structure for table `oauth_personal_access_clients`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_personal_access_clients` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `client_id` int(10) unsigned NOT NULL,
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_personal_access_clients_client_id_index` (`client_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=2 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `oauth_personal_access_clients`
@@ -1128,13 +1116,11 @@ INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `u
 -- Table structure for table `oauth_refresh_tokens`
 --
 
-CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
+CREATE TABLE `oauth_refresh_tokens` (
   `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `revoked` tinyint(1) NOT NULL,
-  `expires_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`)
+  `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1143,8 +1129,8 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
 -- Table structure for table `organization`
 --
 
-CREATE TABLE IF NOT EXISTS `organization` (
-  `orgId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `organization` (
+  `orgId` bigint(20) NOT NULL,
   `orgName` varchar(255) NOT NULL,
   `orgAddress` text,
   `orgAptUnitBox` text,
@@ -1167,9 +1153,8 @@ CREATE TABLE IF NOT EXISTS `organization` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`orgId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `organization`
@@ -1187,8 +1172,8 @@ INSERT INTO `organization` (`orgId`, `orgName`, `orgAddress`, `orgAptUnitBox`, `
 -- Table structure for table `other_payment_methods`
 --
 
-CREATE TABLE IF NOT EXISTS `other_payment_methods` (
-  `other_payment_method_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `other_payment_methods` (
+  `other_payment_method_id` int(11) NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `payment_method` varchar(100) NOT NULL,
   `payment_method_notes` text,
@@ -1199,10 +1184,8 @@ CREATE TABLE IF NOT EXISTS `other_payment_methods` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`other_payment_method_id`),
-  KEY `orgId` (`orgId`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `other_payment_methods`
@@ -1221,11 +1204,10 @@ INSERT INTO `other_payment_methods` (`other_payment_method_id`, `orgId`, `paymen
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE IF NOT EXISTS `password_resets` (
+CREATE TABLE `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1234,8 +1216,8 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 -- Table structure for table `pastor_board`
 --
 
-CREATE TABLE IF NOT EXISTS `pastor_board` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pastor_board` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `parent_type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Post,2=News,3=Ads',
   `p_title` text,
@@ -1255,9 +1237,8 @@ CREATE TABLE IF NOT EXISTS `pastor_board` (
   `updatedBy` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` int(11) DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1265,8 +1246,8 @@ CREATE TABLE IF NOT EXISTS `pastor_board` (
 -- Table structure for table `payment_gateways`
 --
 
-CREATE TABLE IF NOT EXISTS `payment_gateways` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key',
+CREATE TABLE `payment_gateways` (
+  `id` int(11) NOT NULL COMMENT 'Unique ID Primary Key',
   `payment_gateway_id` tinyint(1) DEFAULT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `gateway_name` varchar(50) NOT NULL COMMENT 'name of the gateway',
@@ -1276,9 +1257,8 @@ CREATE TABLE IF NOT EXISTS `payment_gateways` (
   `updatedBy` int(11) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` int(11) DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `payment_gateways`
@@ -1299,8 +1279,8 @@ INSERT INTO `payment_gateways` (`id`, `payment_gateway_id`, `orgId`, `gateway_na
 -- Table structure for table `payment_gateway_parameters`
 --
 
-CREATE TABLE IF NOT EXISTS `payment_gateway_parameters` (
-  `parameter_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payment_gateway_parameters` (
+  `parameter_id` int(11) NOT NULL,
   `payment_gateway_id` int(11) NOT NULL,
   `parameter_name` varchar(50) NOT NULL,
   `validation_type` varchar(100) DEFAULT NULL COMMENT 'enter if specific validation is required except "required" validation',
@@ -1309,10 +1289,8 @@ CREATE TABLE IF NOT EXISTS `payment_gateway_parameters` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`parameter_id`),
-  KEY `payment_gateways_payment_gateway_parameters_FK1` (`payment_gateway_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `payment_gateway_parameters`
@@ -1329,15 +1307,14 @@ INSERT INTO `payment_gateway_parameters` (`parameter_id`, `payment_gateway_id`, 
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `permissions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `permissions` (
+  `id` int(10) UNSIGNED NOT NULL,
   `orgId` bigint(20) NOT NULL DEFAULT '0',
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=32 ;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permissions`
@@ -1381,8 +1358,8 @@ INSERT INTO `permissions` (`id`, `orgId`, `name`, `guard_name`, `created_at`, `u
 -- Table structure for table `position`
 --
 
-CREATE TABLE IF NOT EXISTS `position` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `position` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `createdBy` text,
@@ -1390,9 +1367,8 @@ CREATE TABLE IF NOT EXISTS `position` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1400,8 +1376,8 @@ CREATE TABLE IF NOT EXISTS `position` (
 -- Table structure for table `resources`
 --
 
-CREATE TABLE IF NOT EXISTS `resources` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `resources` (
+  `id` bigint(20) NOT NULL,
   `orgId` int(11) NOT NULL,
   `item_name` varchar(255) DEFAULT NULL,
   `category_id` bigint(20) DEFAULT NULL,
@@ -1423,9 +1399,8 @@ CREATE TABLE IF NOT EXISTS `resources` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1433,16 +1408,15 @@ CREATE TABLE IF NOT EXISTS `resources` (
 -- Table structure for table `roles`
 --
 
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `roles` (
+  `id` int(10) UNSIGNED NOT NULL,
   `orgId` bigint(20) DEFAULT '0',
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role_tag` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=61 ;
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `roles`
@@ -1512,11 +1486,9 @@ INSERT INTO `roles` (`id`, `orgId`, `name`, `guard_name`, `role_tag`, `created_a
 -- Table structure for table `role_has_permissions`
 --
 
-CREATE TABLE IF NOT EXISTS `role_has_permissions` (
-  `permission_id` int(10) unsigned NOT NULL,
-  `role_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`permission_id`,`role_id`),
-  KEY `role_has_permissions_role_id_foreign` (`role_id`)
+CREATE TABLE `role_has_permissions` (
+  `permission_id` int(10) UNSIGNED NOT NULL,
+  `role_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1525,19 +1497,9 @@ CREATE TABLE IF NOT EXISTS `role_has_permissions` (
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (7, 13),
-(8, 13),
-(9, 13),
-(10, 13),
-(11, 13),
-(12, 13),
 (7, 14),
-(11, 14),
 (7, 15),
 (7, 16),
-(8, 16),
-(10, 16),
-(11, 16),
-(12, 16),
 (7, 17),
 (7, 18),
 (7, 19),
@@ -1545,12 +1507,17 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (7, 21),
 (7, 22),
 (7, 23),
+(8, 13),
+(8, 16),
+(9, 13),
+(10, 13),
+(10, 16),
+(11, 13),
+(11, 14),
+(11, 16),
+(12, 13),
+(12, 16),
 (13, 24),
-(14, 24),
-(15, 24),
-(16, 24),
-(17, 24),
-(18, 24),
 (13, 25),
 (13, 26),
 (13, 27),
@@ -1561,12 +1528,12 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (13, 32),
 (13, 33),
 (13, 34),
+(14, 24),
+(15, 24),
+(16, 24),
+(17, 24),
+(18, 24),
 (20, 39),
-(21, 39),
-(22, 39),
-(23, 39),
-(24, 39),
-(25, 39),
 (20, 40),
 (20, 41),
 (20, 42),
@@ -1577,12 +1544,12 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (20, 47),
 (20, 48),
 (20, 49),
+(21, 39),
+(22, 39),
+(23, 39),
+(24, 39),
+(25, 39),
 (26, 50),
-(27, 50),
-(28, 50),
-(29, 50),
-(30, 50),
-(31, 50),
 (26, 51),
 (26, 52),
 (26, 53),
@@ -1592,7 +1559,12 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (26, 57),
 (26, 58),
 (26, 59),
-(26, 60);
+(26, 60),
+(27, 50),
+(28, 50),
+(29, 50),
+(30, 50),
+(31, 50);
 
 -- --------------------------------------------------------
 
@@ -1600,8 +1572,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- Table structure for table `rooms`
 --
 
-CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rooms` (
+  `id` bigint(20) NOT NULL,
   `orgId` int(11) NOT NULL,
   `room_name` varchar(255) DEFAULT NULL,
   `room_owner` varchar(255) DEFAULT NULL,
@@ -1618,9 +1590,8 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1628,11 +1599,10 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 -- Table structure for table `schedules`
 --
 
-CREATE TABLE IF NOT EXISTS `schedules` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
-  `s_title` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+CREATE TABLE `schedules` (
+  `id` bigint(22) NOT NULL,
+  `s_title` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1640,8 +1610,8 @@ CREATE TABLE IF NOT EXISTS `schedules` (
 -- Table structure for table `schedule_service_users_count`
 --
 
-CREATE TABLE IF NOT EXISTS `schedule_service_users_count` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `schedule_service_users_count` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `scheduling_id` bigint(22) DEFAULT NULL,
   `team_id` bigint(22) DEFAULT NULL,
@@ -1652,9 +1622,8 @@ CREATE TABLE IF NOT EXISTS `schedule_service_users_count` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1662,8 +1631,8 @@ CREATE TABLE IF NOT EXISTS `schedule_service_users_count` (
 -- Table structure for table `scheduling`
 --
 
-CREATE TABLE IF NOT EXISTS `scheduling` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `scheduling` (
+  `id` bigint(22) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `orgId` bigint(22) NOT NULL,
   `event_date` date DEFAULT NULL,
@@ -1677,9 +1646,8 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1687,8 +1655,8 @@ CREATE TABLE IF NOT EXISTS `scheduling` (
 -- Table structure for table `scheduling_user`
 --
 
-CREATE TABLE IF NOT EXISTS `scheduling_user` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `scheduling_user` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) NOT NULL,
   `scheduling_id` bigint(22) NOT NULL,
   `team_id` bigint(22) DEFAULT NULL,
@@ -1701,9 +1669,8 @@ CREATE TABLE IF NOT EXISTS `scheduling_user` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1711,8 +1678,8 @@ CREATE TABLE IF NOT EXISTS `scheduling_user` (
 -- Table structure for table `store_payment_gateway_values`
 --
 
-CREATE TABLE IF NOT EXISTS `store_payment_gateway_values` (
-  `payment_values_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key',
+CREATE TABLE `store_payment_gateway_values` (
+  `payment_values_id` int(11) NOT NULL COMMENT 'Unique ID Primary Key',
   `orgId` bigint(20) DEFAULT NULL COMMENT 'Foreign key reference to organization',
   `payment_gateway_id` int(11) NOT NULL,
   `payment_gateway_parameter_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Foreign key reference to payment_gateway_parameters',
@@ -1724,10 +1691,8 @@ CREATE TABLE IF NOT EXISTS `store_payment_gateway_values` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`payment_values_id`),
-  KEY `orgId` (`orgId`) USING BTREE
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `store_payment_gateway_values`
@@ -1745,8 +1710,8 @@ INSERT INTO `store_payment_gateway_values` (`payment_values_id`, `orgId`, `payme
 -- Table structure for table `tags`
 --
 
-CREATE TABLE IF NOT EXISTS `tags` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tags` (
+  `id` bigint(22) NOT NULL,
   `tagGroup_id` bigint(22) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `order` tinyint(10) NOT NULL DEFAULT '0' COMMENT 'Listing order number for sorting',
@@ -1755,9 +1720,8 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1765,8 +1729,8 @@ CREATE TABLE IF NOT EXISTS `tags` (
 -- Table structure for table `tag_groups`
 --
 
-CREATE TABLE IF NOT EXISTS `tag_groups` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tag_groups` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `isPublic` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=Public, 0=Restricted',
@@ -1777,9 +1741,8 @@ CREATE TABLE IF NOT EXISTS `tag_groups` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1787,8 +1750,8 @@ CREATE TABLE IF NOT EXISTS `tag_groups` (
 -- Table structure for table `team`
 --
 
-CREATE TABLE IF NOT EXISTS `team` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `team` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `createdBy` text,
@@ -1796,9 +1759,8 @@ CREATE TABLE IF NOT EXISTS `team` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1806,8 +1768,8 @@ CREATE TABLE IF NOT EXISTS `team` (
 -- Table structure for table `team_has_position`
 --
 
-CREATE TABLE IF NOT EXISTS `team_has_position` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `team_has_position` (
+  `id` bigint(22) NOT NULL,
   `team_id` bigint(22) DEFAULT NULL,
   `position_id` bigint(22) DEFAULT NULL,
   `createdBy` text,
@@ -1815,9 +1777,8 @@ CREATE TABLE IF NOT EXISTS `team_has_position` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1825,8 +1786,8 @@ CREATE TABLE IF NOT EXISTS `team_has_position` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `orgId` bigint(20) DEFAULT NULL,
   `householdName` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `personal_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1863,22 +1824,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updatedBy` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deletedBy` text COLLATE utf8mb4_unicode_ci,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=8 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix`, `given_name`, `first_name`, `last_name`, `middle_name`, `nick_name`, `full_name`, `user_full_name`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `referal_code`, `name_suffix`, `profile_pic`, `dob`, `doa`, `school_name`, `grade_id`, `life_stage`, `mobile_no`, `home_phone_no`, `gender`, `social_profile`, `marital_status`, `address`, `medical_note`, `congregration_status`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES
-(1, 1, 'St Paul Admin''s household', '0000000001', NULL, NULL, 'St Paul Admin', NULL, NULL, NULL, 'St Paul Admin', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'St Paht4', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(2, 2, 'stpeter name''s household', '0000000002', NULL, NULL, 'stpeter name', NULL, NULL, NULL, 'stpeter name', NULL, 'stpeter@stpeter.com', NULL, NULL, '$2y$10$ylQn5OiWe6DDgmp0bAD.Z.bgnyuQJ0OC6RbzuzocANiyBdb7Lhc32', NULL, 'stpehine', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:13:01', NULL, '2020-01-05 01:13:01', NULL, NULL),
-(3, 3, 'stantony name''s household', '0000000003', NULL, NULL, 'stantony name', NULL, NULL, NULL, 'stantony name', NULL, 'stantony@stantony.com', NULL, NULL, '$2y$10$7SUh6ZRp9g/JLVWiepNxaOA99ciQSFkXDYmslR34q9wksNLfLpnAe', NULL, 'stanpzdi', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
+(1, 1, 'St Paul Admin\'s household', '0000000001', NULL, NULL, 'St Paul Admin', NULL, NULL, NULL, 'St Paul Admin', NULL, 'stpaul@gmail.com', NULL, NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'St Paht4', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
+(2, 2, 'stpeter name\'s household', '0000000002', NULL, NULL, 'stpeter name', NULL, NULL, NULL, 'stpeter name', NULL, 'stpeter@stpeter.com', NULL, NULL, '$2y$10$ylQn5OiWe6DDgmp0bAD.Z.bgnyuQJ0OC6RbzuzocANiyBdb7Lhc32', NULL, 'stpehine', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:13:01', NULL, '2020-01-05 01:13:01', NULL, NULL),
+(3, 3, 'stantony name\'s household', '0000000003', NULL, NULL, 'stantony name', NULL, NULL, NULL, 'stantony name', NULL, 'stantony@stantony.com', NULL, NULL, '$2y$10$7SUh6ZRp9g/JLVWiepNxaOA99ciQSFkXDYmslR34q9wksNLfLpnAe', NULL, 'stanpzdi', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-05 01:17:10', NULL, '2020-01-05 01:17:10', NULL, NULL),
 (4, NULL, 'Superadmin', '0000000000', NULL, NULL, 'Superadmin', NULL, NULL, NULL, 'Superadmin', NULL, 'superadmin@superadmin.com', 'superadmin', NULL, '$2y$10$j81Uj33DWeh6SoXbuqFdFeA2wr72bVXjV1qsGDjc11e8ZnQbyQtP6', NULL, 'superadmin', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-12-18 01:54:50', NULL, '2019-12-18 01:54:50', NULL, NULL),
-(5, 1, 'Somesh''s household', '0000000005', '40', 'somesh', 'Somesh', 'L', 'S', 'somesh', 'Somesh S L', NULL, 'somesh@somesh.com', NULL, NULL, '$2y$10$8U4KBJQM00q0K2cuP0InheVn1cD6jC5h.xa7mx55qh5dCV.pQvt8.', NULL, 'Somefn4v', '45', NULL, '1980-01-23', '1970-01-01', '34', 60, 'Adult', '123', NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:00', NULL, '2020-01-06 00:39:00', NULL, NULL),
-(6, 1, 'Manish''s household', '0000000006', '40', 'Manish', 'Manish', 't', 'r', 'Manish', 'Manish r t', NULL, 'manish@manish.com', NULL, NULL, '$2y$10$CQGnOSibgcmVAUh6uw/WHuawtpS7y8NaZ96P0qdSFrJtPIKLqE7ZW', NULL, 'Manixhzh', '45', NULL, '1970-01-01', '1970-01-01', '34', 60, 'Adult', NULL, NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:42', NULL, '2020-01-06 00:39:42', NULL, NULL),
-(7, 4, 'Karkal name''s household', '0000000007', NULL, NULL, 'Karkal name', NULL, NULL, NULL, 'Karkal name', NULL, 'karkal@karkal.com', NULL, NULL, '$2y$10$xJJ8QhLyuk1XWGlGN.Z/gOMTSyL40OGQRo/CkcWSy3ehbGhRyBAUy', NULL, 'Karkryr6', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL);
+(5, 1, 'Somesh\'s household', '0000000005', '40', 'somesh', 'Somesh', 'L', 'S', 'somesh', 'Somesh S L', NULL, 'somesh@somesh.com', NULL, NULL, '$2y$10$8U4KBJQM00q0K2cuP0InheVn1cD6jC5h.xa7mx55qh5dCV.pQvt8.', NULL, 'Somefn4v', '45', NULL, '1980-01-23', '1970-01-01', '34', 60, 'Adult', '123', NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:00', NULL, '2020-01-06 00:39:00', NULL, NULL),
+(6, 1, 'Manish\'s household', '0000000006', '40', 'Manish', 'Manish', 't', 'r', 'Manish', 'Manish r t', NULL, 'manish@manish.com', NULL, NULL, '$2y$10$CQGnOSibgcmVAUh6uw/WHuawtpS7y8NaZ96P0qdSFrJtPIKLqE7ZW', NULL, 'Manixhzh', '45', NULL, '1970-01-01', '1970-01-01', '34', 60, 'Adult', NULL, NULL, 'Male', NULL, '51', '////////////', NULL, NULL, '2020-01-06 00:39:42', NULL, '2020-01-06 00:39:42', NULL, NULL),
+(7, 4, 'Karkal name\'s household', '0000000007', NULL, NULL, 'Karkal name', NULL, NULL, NULL, 'Karkal name', NULL, 'karkal@karkal.com', NULL, NULL, '$2y$10$xJJ8QhLyuk1XWGlGN.Z/gOMTSyL40OGQRo/CkcWSy3ehbGhRyBAUy', NULL, 'Karkryr6', NULL, NULL, NULL, NULL, NULL, NULL, 'Adult', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-01-13 02:58:02', NULL, '2020-01-13 02:58:02', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1886,8 +1846,8 @@ INSERT INTO `users` (`id`, `orgId`, `householdName`, `personal_id`, `name_prefix
 -- Table structure for table `user_has_position`
 --
 
-CREATE TABLE IF NOT EXISTS `user_has_position` (
-  `id` bigint(22) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_has_position` (
+  `id` bigint(22) NOT NULL,
   `orgId` bigint(22) DEFAULT NULL,
   `user_id` bigint(22) DEFAULT NULL,
   `position_id` bigint(22) DEFAULT NULL,
@@ -1896,9 +1856,644 @@ CREATE TABLE IF NOT EXISTS `user_has_position` (
   `updatedBy` text,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `deletedBy` text,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `apps`
+--
+ALTER TABLE `apps`
+  ADD PRIMARY KEY (`appId`);
+
+--
+-- Indexes for table `attendance_count`
+--
+ALTER TABLE `attendance_count`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `checkins`
+--
+ALTER TABLE `checkins`
+  ADD PRIMARY KEY (`chId`);
+
+--
+-- Indexes for table `comm_details`
+--
+ALTER TABLE `comm_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comm_masters`
+--
+ALTER TABLE `comm_masters`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `comm_templates`
+--
+ALTER TABLE `comm_templates`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`eventId`);
+
+--
+-- Indexes for table `event_attedance`
+--
+ALTER TABLE `event_attedance`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `forms`
+--
+ALTER TABLE `forms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `form_submissions`
+--
+ALTER TABLE `form_submissions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `giving`
+--
+ALTER TABLE `giving`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_enrolls`
+--
+ALTER TABLE `group_enrolls`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_events`
+--
+ALTER TABLE `group_events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_events_attendance`
+--
+ALTER TABLE `group_events_attendance`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_members`
+--
+ALTER TABLE `group_members`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_resources`
+--
+ALTER TABLE `group_resources`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_tags`
+--
+ALTER TABLE `group_tags`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `group_types`
+--
+ALTER TABLE `group_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `households`
+--
+ALTER TABLE `households`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `household_user`
+--
+ALTER TABLE `household_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `insights`
+--
+ALTER TABLE `insights`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `master_lookup_data`
+--
+ALTER TABLE `master_lookup_data`
+  ADD PRIMARY KEY (`mldId`);
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
+
+--
+-- Indexes for table `organization`
+--
+ALTER TABLE `organization`
+  ADD PRIMARY KEY (`orgId`);
+
+--
+-- Indexes for table `other_payment_methods`
+--
+ALTER TABLE `other_payment_methods`
+  ADD PRIMARY KEY (`other_payment_method_id`),
+  ADD KEY `orgId` (`orgId`) USING BTREE;
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `pastor_board`
+--
+ALTER TABLE `pastor_board`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment_gateways`
+--
+ALTER TABLE `payment_gateways`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment_gateway_parameters`
+--
+ALTER TABLE `payment_gateway_parameters`
+  ADD PRIMARY KEY (`parameter_id`),
+  ADD KEY `payment_gateways_payment_gateway_parameters_FK1` (`payment_gateway_id`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `position`
+--
+ALTER TABLE `position`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `resources`
+--
+ALTER TABLE `resources`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `schedules`
+--
+ALTER TABLE `schedules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `schedule_service_users_count`
+--
+ALTER TABLE `schedule_service_users_count`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `scheduling`
+--
+ALTER TABLE `scheduling`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `scheduling_user`
+--
+ALTER TABLE `scheduling_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `store_payment_gateway_values`
+--
+ALTER TABLE `store_payment_gateway_values`
+  ADD PRIMARY KEY (`payment_values_id`),
+  ADD KEY `orgId` (`orgId`) USING BTREE;
+
+--
+-- Indexes for table `tags`
+--
+ALTER TABLE `tags`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tag_groups`
+--
+ALTER TABLE `tag_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `team`
+--
+ALTER TABLE `team`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `team_has_position`
+--
+ALTER TABLE `team_has_position`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_has_position`
+--
+ALTER TABLE `user_has_position`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `apps`
+--
+ALTER TABLE `apps`
+  MODIFY `appId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `attendance_count`
+--
+ALTER TABLE `attendance_count`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `checkins`
+--
+ALTER TABLE `checkins`
+  MODIFY `chId` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `comm_details`
+--
+ALTER TABLE `comm_details`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `comm_masters`
+--
+ALTER TABLE `comm_masters`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `comm_templates`
+--
+ALTER TABLE `comm_templates`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
+  MODIFY `eventId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `event_attedance`
+--
+ALTER TABLE `event_attedance`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `forms`
+--
+ALTER TABLE `forms`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `form_submissions`
+--
+ALTER TABLE `form_submissions`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `giving`
+--
+ALTER TABLE `giving`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `group_enrolls`
+--
+ALTER TABLE `group_enrolls`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_events`
+--
+ALTER TABLE `group_events`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_events_attendance`
+--
+ALTER TABLE `group_events_attendance`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_members`
+--
+ALTER TABLE `group_members`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_resources`
+--
+ALTER TABLE `group_resources`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_tags`
+--
+ALTER TABLE `group_tags`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group_types`
+--
+ALTER TABLE `group_types`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `households`
+--
+ALTER TABLE `households`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `household_user`
+--
+ALTER TABLE `household_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `insights`
+--
+ALTER TABLE `insights`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `master_lookup_data`
+--
+ALTER TABLE `master_lookup_data`
+  MODIFY `mldId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `organization`
+--
+ALTER TABLE `organization`
+  MODIFY `orgId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `other_payment_methods`
+--
+ALTER TABLE `other_payment_methods`
+  MODIFY `other_payment_method_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pastor_board`
+--
+ALTER TABLE `pastor_board`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payment_gateways`
+--
+ALTER TABLE `payment_gateways`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key', AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `payment_gateway_parameters`
+--
+ALTER TABLE `payment_gateway_parameters`
+  MODIFY `parameter_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `position`
+--
+ALTER TABLE `position`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `resources`
+--
+ALTER TABLE `resources`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `schedules`
+--
+ALTER TABLE `schedules`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `schedule_service_users_count`
+--
+ALTER TABLE `schedule_service_users_count`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `scheduling`
+--
+ALTER TABLE `scheduling`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `scheduling_user`
+--
+ALTER TABLE `scheduling_user`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `store_payment_gateway_values`
+--
+ALTER TABLE `store_payment_gateway_values`
+  MODIFY `payment_values_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Unique ID Primary Key', AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tags`
+--
+ALTER TABLE `tags`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tag_groups`
+--
+ALTER TABLE `tag_groups`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `team`
+--
+ALTER TABLE `team`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `team_has_position`
+--
+ALTER TABLE `team_has_position`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `user_has_position`
+--
+ALTER TABLE `user_has_position`
+  MODIFY `id` bigint(22) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -1922,6 +2517,7 @@ ALTER TABLE `model_has_roles`
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

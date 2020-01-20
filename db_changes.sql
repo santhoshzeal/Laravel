@@ -1107,3 +1107,46 @@ CREATE TABLE IF NOT EXISTS `event_attedance` (
 -- Santhosh 08 Jan 2020
 
 ALTER TABLE `event_attedance` ADD `event_date` date NULL DEFAULT NULL AFTER `event_id`;
+
+-- ignore above sql
+
+-- Sathish 20 Jan 2020
+
+
+--
+-- Table structure for table `attendance_count`
+--
+
+CREATE TABLE `attendance_count` (
+  `id` bigint(20) NOT NULL,
+  `orgId` bigint(22) DEFAULT NULL,
+  `event_id` bigint(20) DEFAULT NULL,
+  `male_count` int(10) DEFAULT NULL,
+  `female_count` int(10) DEFAULT NULL,
+  `createdBy` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedBy` text,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `deletedBy` text,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `attendance_count`
+--
+ALTER TABLE `attendance_count`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `attendance_count`
+--
+ALTER TABLE `attendance_count`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
