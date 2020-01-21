@@ -22,7 +22,7 @@
         <div class="card m-b-30">
             <div class="card-body">
 
-                <h4 class="mt-0 header-title">Event Attendance <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-insight">Add New</button></h4>
+                <h4 class="mt-0 header-title">Event Attendance <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-attendancecount">Add New</button></h4>
 
                 <!-- <button type="button" class="btn btn-primary waves-effect waves-light" id="alertify-labels">Click me</button> -->
                 
@@ -51,15 +51,15 @@
 </div> <!-- end row -->
 
 
-<div class="modal fade bs-example-modal-center" id="modal-insight" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-center" id="modal-attendancecount" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
     {!! Form::open(array('id'=>'attendanceCountCreateForm','name'=>'attendanceCountCreateForm','method' => 'post', 'url' => url('eventattendance_data_insert'), 'class' => '')) !!}
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title insight_modal_title">Add Event Attendance</h4>
+                <h4 class="modal-title attendancecount_modal_title">Add Event Attendance</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <div class="modal-body form-horizontal insightbody">			
+            <div class="modal-body form-horizontal attendancecountbody">			
 			
 			    <?php
 				/*$whereSchArray = array('id'=>2);
@@ -127,6 +127,9 @@
 			//alert(selecteventdate);
 			//$('.selecteventdate').datepicker().change(eventDateChanged);
 			//$('.selecteventdate').datepicker().click();
+			
+			//$(".selecteventdate").datepicker("setDate", "<?php echo isset($crudAttendanceCount) ? $crudAttendanceCount->event_date : '';?>").change(eventDateChanged);
+			
 			$(".selecteventdate").datepicker("setDate", "<?php echo isset($crudAttendanceCount) ? $crudAttendanceCount->event_date : '';?>").change(eventDateChanged);
 
 			//call team dropdown
@@ -138,7 +141,6 @@
 
 	$(document).ready(function() {
 		
-		 
 		loadAttendanceCountDatatable();
 		
 		var today               = new Date();
@@ -198,11 +200,11 @@
     }
 
 
-    $('#modal-insight').on('hidden.bs.modal', function() {
-        $(".insight_modal_title").html('');
-        $(".insight_modal_title").html('Add Event Attendance');
-        $('.insightbody').find('select').val('');
-        $('.insightbody').find('input').val('');
+    $('#modal-attendancecount').on('hidden.bs.modal', function() {
+        $(".attendancecount_modal_title").html('');
+        $(".attendancecount_modal_title").html('Add Event Attendance');
+        $('.attendancecountbody').find('select').val('');
+        $('.attendancecountbody').find('input').val('');
 
         var $alertas = $('#attendanceCountCreateForm');
         $alertas.validate().resetForm();
@@ -243,7 +245,7 @@
 
 
 
-    //Save Insight details to the database
+    //Save AttendanceCount details to the database
 
     $("#btnCreateattendanceCount").click(function() {
         
@@ -271,7 +273,7 @@
                 success: function(data) {
 					console.log(data);
 					
-                    $('#modal-insight').modal('hide');
+                    $('#modal-attendancecount').modal('hide');
                     if (data == "updated") {
                         alert("AttendanceCount Updated");
                         //location.reload();
@@ -310,8 +312,8 @@
 		
         //alert(attendanceCountID);
 		
-        $(".insight_modal_title").html('');
-        $(".insight_modal_title").html('Edit Event Attendance');
+        $(".attendancecount_modal_title").html('');
+        $(".attendancecount_modal_title").html('Edit Event Attendance');
         var dataString = 'attendanceCountID=' + attendanceCountID;
 
         $.ajax({
@@ -326,14 +328,17 @@
             success: function(data) {
                 console.log(data);
                 //location.reload();
-                $('#modal-insight').modal('show');
+				//alert(data.event_date);
+                $('#modal-attendancecount').modal('show');
                 $("#hidden_attendanceCountID").val(data.id);
                 $("#event_date").val(data.event_date);
                 $("#event_id_hidden").val(data.event_id);
                 $("#male_count").val(data.male_count);
 				$("#female_count").val(data.female_count);
-				var ev = data.event_date	
-				eventDateChanged(ev);
+				var ev = data.event_date;
+				eventDateChangedEdit(ev);
+					
+				
             }
         });
 
