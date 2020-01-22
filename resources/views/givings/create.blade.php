@@ -31,7 +31,8 @@
 						<input type="text" id="orgId" name="orgId" value="{{$orgId}}" class="d-none">
 						 
                         <input type="text" id="givingId" name="givingId" value="{{$giving_id}}" class="d-none">
-						
+						<input type="hidden" id="stripeToken" name="stripeToken" />
+  						<input type="hidden" id="stripeEmail" name="stripeEmail" />
                         <!--<input type="text" id="user_id" name="user_id" value="{{$user_id}}" class="d-none">-->
 						
  
@@ -179,7 +180,7 @@
 		                                    </div>
 		                                </div>
 										
-									<div id="dvStripe" style="display: none">	
+									<!-- <div id="dvStripe" style="display: none">	
 													
 									    <div class="form-group row">
 											<span>
@@ -189,14 +190,17 @@
 												</label>
 											</span>
                                         </div>										
-									</div>	
+									</div>	 -->
 																			
 							  <?php
 								//if ($payment_status == 'NONE') {
 							  ?>
 						
-                              <div class="pay_btn" id="pay_btn" style="display: none">
-                                <script>
+                              
+
+                        <?php //} ?>
+							<div class="pay_btn" id="pay_btn" style="display: none">	
+								<script>
 								function getValue() {
 								  var test = document.getElementById("amount").value;
 								  $('.stripe-button').attr('data-amount', test);
@@ -204,24 +208,20 @@
 								}
 								</script>
 								 
-                                <?php
-						             $stripe_fee = 200*100;						   
-						        ?>
-								<input type="hidden" name="stripe_public_key" id="stripe_public_key" value="<?php echo $public_key; ?>">
 
-                                <!-- <script src="https://checkout.stripe.com/v2/checkout.js" class="stripe-button" 
-                                        data-allow-remember-me="true"
-                                        data-key=<?php echo $public_key; ?>
-                                        data-amount=<?php echo $stripe_fee; ?>
-                                        data-description="Thanks For Registering"
-                                        data-name="Org">
-                                </script> -->
-								
-								 							
-                         </div> 
-					   
-                        <?php //} ?>
-										
+								<input type="hidden" name="stripe_public_key" id="stripe_public_key" value="<?php echo $public_key; ?>">
+ 	
+								<div class="form-group">
+									<div>
+										<button id="customButton" type="button" class="btn btn-primary waves-effect waves-light">
+											Pay
+										</button>
+										<a href="{{ URL::asset('settings/givings')}}" type="reset" class="btn btn-secondary waves-effect m-l-5">Cancel</a>
+									</div>
+								 </div>
+							</div>
+
+			
 							<div class="sub_btn" id="sub_btn" style="display: none">			
 								<div class="form-group">
 									<div>
@@ -254,20 +254,20 @@
 
 var handler = StripeCheckout.configure({
     key: $("#stripe_public_key").val(),
-    image: '/square-image.png',
+    image: '{{ URL::asset('assets/theme/images/bible-cross-logo.png')}}',
     token: function(token) {
-        // $("#stripeToken").val(token.id);
-        // $("#stripeEmail").val(token.email);
+        $("#stripeToken").val(token.id);
+        $("#stripeEmail").val(token.email);
         $("#givingsForm").submit();
     }
   });
 
   $('#customButton').on('click', function(e) {
-    var amount = $("#amount").val() *100;
+    var amount = $("#amount").val();
     // Open Checkout with further options
     handler.open({
-      name: 'Demo Site',
-      description: '2 widgets ($20.00)',
+      name: 'Organization',
+      description: 'Payment for : ' + $("#type option:selected").text()+' ($ '+amount+')',
       amount: amount
     });
     e.preventDefault();
@@ -340,6 +340,7 @@ $(function () {
 			$('#sub_btn').hide();
 			$('#pay_btn').show();
 			$('#dvStripe').show();
+		
 		}
 	});
  });
