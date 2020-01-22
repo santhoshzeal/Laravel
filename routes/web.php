@@ -117,6 +117,8 @@ Route::group( ['middleware' => ['auth','App\Http\Middleware\PermissionMiddleware
 //people
 
 Route::get('people/profile_list', 'UserController@userProfilePage');
+Route::get('people/change_password', 'UserController@userChangePassword');
+Route::post('people/change_password', 'UserController@userChangePassword');
 Route::get('people/profile_update', 'UserController@userProfileUpdate');
 Route::get('people/member_directory', 'UserController@index');
 Route::get('people/member_create', 'UserController@create');

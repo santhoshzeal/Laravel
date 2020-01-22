@@ -275,7 +275,7 @@
 					
                     $('#modal-attendancecount').modal('hide');
                     if (data == "updated") {
-                        alert("AttendanceCount Updated");
+                        //alert("AttendanceCount Updated");
                         //location.reload();
                         loadAttendanceCountDatatable();
 

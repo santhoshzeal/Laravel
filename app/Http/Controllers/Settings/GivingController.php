@@ -51,8 +51,10 @@ class GivingController extends Controller
     public function getGivingList(){
 		
         $result = array();
-										
-	    $givings = Giving::getGivingList()->get();
+					
+        $orgId = Auth::user()->orgId;
+		
+	    $givings = Giving::getGivingList($orgId)->get();
 		
 	    //$givings = Giving::getGivingList();
 		//dd($givings);	

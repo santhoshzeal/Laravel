@@ -137,11 +137,11 @@ class Giving extends Model  {
     * @Added Date : Jan 08, 2020
     */
 	
-	public static function getGivingList(){
+	public static function getGivingList($orgId){
 		
 		//DB::enableQueryLog();
 		
-        $result = self::select('payment_gateways.gateway_name','giving.amount','giving.pay_mode','events.eventName','other_payment_methods.payment_method','organization.orgName',
+        $result = self::select('payment_gateways.gateway_name','giving.amount','giving.pay_mode','giving.orgId', 'events.eventName','other_payment_methods.payment_method','organization.orgName',
 		          DB::raw("(CASE WHEN giving.user_id IS NULL THEN giving.first_name ELSE users.first_name END) as userfullname"))
                   ->addSelect(DB::raw(" CASE giving.transaction_status WHEN '1' THEN 'Submitted' WHEN '2' THEN 'Confirmed' WHEN '3' THEN 'Declined/Error' END AS transaction_status"))
                   ->addSelect(DB::raw(" CASE giving.final_status WHEN '1' THEN 'Submitted' WHEN '2' THEN 'InProgress' WHEN '3' THEN 'Confirmed'  WHEN '4' THEN 'Declined/Rejected' END AS final_status"))	
@@ -155,8 +155,8 @@ class Giving extends Model  {
                   {
                       $join->on('payment_gateways.payment_gateway_id', '=', 'giving.payment_gateway_id');                     
                       $join->on('payment_gateways.orgId', '=', 'giving.orgId');                     
-                  });
-
+                  })
+                  ->where('giving.orgId', '=', $orgId);
 
         //dd(DB::getQueryLog($result->get()));
 		

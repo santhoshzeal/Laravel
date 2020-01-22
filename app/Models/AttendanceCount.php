@@ -80,14 +80,14 @@ class AttendanceCount extends Model
     * @Added Date : Jan 20, 2020
     */
 	
-	public static function selectEventAttendanceCountList() {
+	public static function selectEventAttendanceCountList($orgId) {
 	
 		//DB::enableQueryLog();
 		
         $result = self::select('attendance_count.id','attendance_count.male_count','attendance_count.female_count','attendance_count.event_date','events.eventName','organization.orgName')
                   ->leftJoin("events","events.eventId","=","attendance_count.event_id")                 
-                  ->leftJoin("organization","organization.orgId","=","attendance_count.orgId");                
-				  //->where('attendance_count.id', '=', $eventid);
+                  ->leftJoin("organization","organization.orgId","=","attendance_count.orgId")                
+				  ->where('attendance_count.orgId', '=', $orgId);
 				  
         //dd(DB::getQueryLog($result->get()));
 		

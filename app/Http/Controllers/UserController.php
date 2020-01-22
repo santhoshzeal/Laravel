@@ -18,7 +18,8 @@ use Redirect;
 use App\Models\Households;
 use App\Models\HouseholdDetails;
 use Illuminate\Http\Response;
-
+//use Response;
+use Hash;
 
 class UserController extends Controller {
 
@@ -422,5 +423,79 @@ class UserController extends Controller {
         return $jsonformat;
    }
 
+   
+    // Created By Santhosh 
+    public function userChangePassword(Request $request) {
+
+        $form_post = $request->all();
+		
+	    $data['title'] = $this->browserTitle . " - Change Password";
+       
+        if($form_post) {
+			
+		    // setup rules for validation of user input
+            $rules = [
+                'cur_pwd' => 'required',
+                'new_pwd' => 'required|min:6|max:15',
+                'rep_pwd' => 'required|min:6|max:15|same:new_pwd',
+            ];
+            
+            $messsages = array(
+                'cur_pwd.required' => 'The Current Password field is required.<br>',
+                'new_pwd.required' => 'The New Password field is required.<br>',
+                'new_pwd.min' => 'The New Password field must be at least 6 characters in length.<br>',
+                'new_pwd.max' => 'The New Password field can not exceed 15 characters in length.<br>',
+                'rep_pwd.required' => 'The Confirm Password field is required.<br>',
+                'rep_pwd.min' => 'The Confirm Password field must be at least 6 characters in length.<br>',
+                'rep_pwd.max' => 'The Confirm Password field can not exceed 15 characters in length.<br>'
+            );
+            
+            $validator = Validator::make($request->all(), $rules, $messsages);
+			
+			if ($validator->fails()) {
+				
+            return response()->json(array(
+                'status' => false,
+                'errors' => $validator->getMessageBag()->toArray()
+                    ), 200);
+            }
+            else {
+		 
+		        $curPwd = $form_post['cur_pwd'];
+                $newPwd = $form_post['new_pwd'];            
+				$user_id= Auth::id();
+		        
+				$User = UserMaster::where('id', $user_id)->first();
+				
+				if ($User) {
+                        $oldHashedPassword = $User->password;
+                        if (Hash::check($curPwd, $oldHashedPassword)) {
+							
+                            // The passwords match...
+                            $User->password = bcrypt($newPwd);
+
+                            UserMaster::where('id', $User->id)->update(['password' => $User->password]);
+
+                            $messsages = array(
+                                'success' => 'Your Password has been changed successfully.',
+                            );
+                        }
+                        else {
+                            $messsages = array(
+                                'error' => 'Current password does not match',
+                            );
+                        }
+                        return response()->json(array(
+                            'status' => false,
+                            'errors' => $messsages
+                        ), 200);
+                } 
+			}
+		}else {   
+        
+		     return view('users.changepassword', $data);
+		}
+        
+    }
 
 }

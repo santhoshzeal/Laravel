@@ -262,7 +262,9 @@ class EventAttendanceController extends Controller {
     {
         $result = array();  
 		
-        $eventattendance = AttendanceCount::selectEventAttendanceCountList()->get();
+		$orgId = Auth::user()->orgId;
+		
+        $eventattendance = AttendanceCount::selectEventAttendanceCountList($orgId)->get();
 
         $i = 1;
         foreach ($eventattendance as $event) {
@@ -297,8 +299,13 @@ class EventAttendanceController extends Controller {
 	
 	public function storeOrUpdateAttendanceCount(Request $request)
     {
-				
+		
+        $insightFormData = $request->all();
+		
+		
+		
         $insightFormData = $request->except('hidden_attendanceCountID');
+		
         $insightFormData['createdBy'] = $this->authUserId;
 
         unset($insightFormData['hidden_attendanceCountID'], $insightFormData['_token'], $insightFormData['event_id_hidden']);
@@ -310,8 +317,21 @@ class EventAttendanceController extends Controller {
 		if($crudAttendanceCount->count() > 0){
 			$data['crudAttendanceCount'] = $crudAttendanceCount[0];
 		}
-			
-        if ($request->get('hidden_attendanceCountID') > 0) {
+		
+
+
+        $insightFormData['orgId'] = Auth::user()->orgId;
+        
+        $whereACArray = array('orgId' => $insightFormData['orgId'], 'event_id' => $insightFormData['event_id'], 'event_date'=> $insightFormData['event_date']);
+				
+	    $arrayACUpdate = array('orgId' => $insightFormData['orgId'], 'event_id' => $insightFormData['event_id'], 'event_date'=> $insightFormData['event_date'],
+		'male_count' => $insightFormData['male_count'],'female_count' => $insightFormData['female_count']);
+				
+        $updateCreateDetails = AttendanceCount::updateOrCreate($whereACArray, $arrayACUpdate);
+		return "updated";
+		
+		
+        /*if ($request->get('hidden_attendanceCountID') > 0) {
             unset($insightFormData['createdBy']);
             $insightFormData['updatedBy'] = $this->authUserId;
             $whereArray = array('id' => $request->get('hidden_attendanceCountID'));
@@ -326,7 +346,7 @@ class EventAttendanceController extends Controller {
             } else {
                 return 0;
             }
-        }
+        }*/
 		
 		
     }
