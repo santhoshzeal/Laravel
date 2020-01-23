@@ -182,11 +182,6 @@
 
                     <!-- Logo container-->
                     <div class="logo">
-                        <!-- Text Logo -->
-                        <!--<a href="index.html" class="logo">-->
-                        {{ Config::get('constants.BROWSERTITLE') }}
-                        <!--</a>-->
-                        <!-- Image Logo -->
                         <?php
 
                         // get logged-in user
@@ -202,8 +197,14 @@
                         $whereArray = array('orgId' => $userSessionData['umOrgId']);
                         // dd($whereArray);
                         $crudOrganization = \App\Models\Organization::crudOrganization($whereArray,null,null,null,null,null,null,'1')->get();
-                        //dd($userSessionData);
+                        //dd($crudOrganization);
                         ?>
+                        
+                        <!-- Text Logo -->
+                        <!--<a href="index.html" class="logo">-->
+                        {{ substr($crudOrganization[0]->orgName,0,30) }}
+                        <!--</a>-->
+                        <!-- Image Logo -->
                         @if ($crudOrganization->count() > 0)
                             @if($crudOrganization[0]->orgLogo == "")
                                 @php ($orgLogoName = "bible-cross-logo.png")
@@ -427,7 +428,7 @@
 							
                             <li @if($url_segment_one == "paster_board") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('pastor_board')}}"> <i class="ti-crown"></i> Pastor Board</a></li>
 							
-                            <li @if($url_segment_one == "attendance") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('attendance')}}"> <i class="ti-crown"></i> Attendance</a></li>
+                            <!-- <li @if($url_segment_one == "attendance") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('attendance')}}"> <i class="ti-crown"></i> Attendance</a></li> -->
 							
 							<li @if($url_segment_one == "eventattendance") class='has-submenu active' @else class='has-submenu' @endif><a href="{{URL::asset('/eventattendance/manage')}}"> <i class="ti-crown"></i> Attendance Count</a></li>
 
