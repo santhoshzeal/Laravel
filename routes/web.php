@@ -28,6 +28,10 @@ Route::get('api/login', function () {
 
 Route::post('org_register', 'PassportController@organizationRegister');
 Route::post('member_register', 'PassportController@memberRegister');
+Route::post('forgot_password', 'PassportController@userForgotPassword');
+Route::get('changecustomerpassword/{id}', 'PassportController@changeCustomerPassword');
+Route::post('customerpwdstore', 'PassportController@customerPwdStore');
+
 
 Route::post('check_unique_org_domain', 'PassportController@checkOrganizationDomain');
 Route::post('check_unique_email', 'PassportController@checkUniqueEmail');
@@ -73,6 +77,12 @@ Route::group( ['middleware' => ['get_org_detail']], function() {
 
     Route::get('/register', 'PassportController@register');
     Route::get('/register/{org_domain}', 'PassportController@register');
+	
+	Route::get('/forgotpassword', 'PassportController@forgotpassword');
+    Route::get('/forgotpassword/{org_domain}', 'PassportController@forgotpassword');
+
+	//Route::post('/forgot_password', 'PassportController@userForgotPassword');
+	//Route::post('/forgot_password/{org_domain}', 'PassportController@userForgotPassword');
 });
 
 

@@ -18,9 +18,10 @@ use App\Permission;
 use App\Models\Organization;
 use App\Models\ModelHasRoles;
 use App\Models\MasterLookupData;
-
+use Hash;
 use DB;
 use Config;
+use Mail;
 
 use App\Models\Roles;
 use Camroncade\Timezone\Facades\Timezone;
@@ -60,6 +61,222 @@ class PassportController extends Controller {
         return view('auth.login', $data);
     }
     
+	
+	
+	/*
+     * @Function name : userForgotPassword
+     * @Purpose : userForgotPassword
+     * @Added by : Santhosh    
+     * @Added Date : Jan 23, 2020
+     */
+	 
+    public function forgotpassword() {
+        
+        $data['title'] = $this->browserTitle . " - Forgot Password";
+        
+        $data['dateTimezone'] = Timezone::selectForm(
+        '', 
+        'Select Timezone', 
+        ['class' => 'form-control', 'name' => 'orgTimeZone', 'id' => 'orgTimeZone']
+        );
+        $data['crudOrganizationData'] = $this->crudOrganizationData;
+        
+        return view('auth.forgotpassword', $data);
+  
+    }
+	
+	
+	
+	
+	/**
+     * @Function name : userForgotPassword
+     * @Purpose : userForgotPassword
+     * @Added by : Santhosh    
+     * @Added Date : Jan 23, 2020
+     */
+    
+   public function userForgotPassword(Request $request)
+   {
+       DB::beginTransaction();
+
+        try {
+            
+			    $data['title'] =  "Forgot Password";
+				
+				$User = UserMaster::where('email', $request->get('email'))->first();
+			
+				if($User) {
+					
+					$id = $User->id;
+					
+					//$random_password = str_random(8);
+					
+					//$password = Hash::make($random_password);	
+					
+					//print($id).'<br>';
+					//print($password).'<br>';
+					//print($random_password).'<br>';
+					
+					
+					//DB::enableQueryLog();					 
+					// Update in DB					
+					//$updatePassword = UserMaster::where('id', $id)->update(['password' => $password]);					
+					//$query = DB::getQueryLog();
+                    //print_r($query);
+					//exit;
+					
+                    // Get Templates
+					
+					if(isset($this->orgId)){
+						           						
+						  $templates = CommTemplate::where('org_id', $this->orgId)->select("id", "tag", "name", "subject","body")->get();
+						
+					}
+					else {		
+					
+						  $templates = CommTemplate::where('org_id', 0)->select("id", "tag", "name", "subject","body")->get();
+					}
+					
+					
+                    //print"<pre>";					
+                    //print_r($templates);
+					
+                    foreach($templates as $key=>$val){
+						
+						if($val->tag == "forgot_password"){
+							
+							 $template_subject = $val->subject;
+							 $template_body = $val->body;
+						}
+						
+					}
+                  					
+					
+					// Send Mail
+					
+					$subject = $template_subject;
+					$to_email= $request->get('email');
+		            $from_email='dummyproj007@gmail.com';
+					
+					$pwd_url = url("/") . "/changecustomerpassword/".$User->id;
+					
+					$message ="<b>Password Recovery</b>"."<br><br>";
+		            $message.= "Hello,<br>";		
+					$message.= "<h3>".$template_body."</h3><br />";
+					$message.= '<a href="' . $pwd_url . '" class="btn bg-blue btn-block">Reset Password</a><br>';
+					$message.= 'Thanks!<br />';	
+		
+
+					//print_r($message);
+					//exit;				
+					
+					
+					$send_mail = Mail::send(array(), array(), function ($email) use ($subject, $to_email, $from_email, $message) {
+		            $email->to($to_email)
+				           ->from($from_email)
+					       ->subject($subject)
+					       ->setBody(nl2br($message), 'text/html');
+	             	});
+					
+				}
+				else 
+				{ 
+					return redirect()->back()->with('message', 'Email does not exists');
+						
+				}
+            
+            DB::commit();
+            //return view('auth.changepwd');
+            return redirect()->back()->with('message', 'Please check your email for instructions to reset your password.');
+            
+        }
+        catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();            
+            //return response()->json(['result_code' => 0,'message' => $e->getMessage()], 200);
+            return Redirect::back()->withErrors( $e->getMessage());
+            
+            
+           // something went wrong with the transaction, rollback
+        }  catch (\Exception $e) {
+            DB::rollback();            
+            return Redirect::back()->withErrors( $e->getMessage()); 
+        }
+   }
+	
+
+	
+	
+	/**
+     * Change password.
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function changeCustomerPassword(Request $request) {
+		
+        $this->browserTitle = Config::get('constants.BROWSERTITLE');
+        $data['title'] = $this->browserTitle . " - Change Customer Password";
+		
+		$data['getUserListsCount'] = 0;
+        $data['getUserLists'] = '';
+	  
+        if($request->segment(2) > 0) {
+			
+            $whereArray = array('id'=>$request->segment(2));			
+            $getUserLists = UserMaster::crudUserMaster($whereArray,null,null,null,null,'1')->get();
+			
+			$data['getUserListsCount'] = $getUserLists->count();
+            $data['getUserLists'] = $getUserLists[0];
+			
+		}			
+   		
+        $data['view_action'] = $request->segment(2);
+		$data['recover_pwd'] = "recovery";
+		return view('users.customer_recover_pwd', $data);
+    }
+
+
+
+    /**
+     * Change password.
+     *
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function customerPwdStore(Request $request) {
+
+        DB::beginTransaction();
+
+        try {
+			
+			$id = $request->id;
+			
+            $customerData = $request->except('submitCusPwd');
+			
+			$customerData['password'] = bcrypt($request->input('password'));
+
+            unset($customerData['_token'],$customerData['submitCusPwd'],$customerData['repeat_password']);
+						
+            if($id > 0) {
+							
+                UserMaster::updateUserMaster($customerData,array('id'=>$id));
+				
+            }
+			
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            dd("error",$e);
+            //return redirect('/banker_dashboard#tab_3/error');
+        }
+        return redirect('login');
+    }
+	
+	
+	
+	
     /**
      * Handles Registration Request
      *
@@ -430,5 +647,11 @@ class PassportController extends Controller {
             
         }
    }
+   
+   
+    
+   
+   
+   
    
 }
