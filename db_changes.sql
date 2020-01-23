@@ -1155,3 +1155,8 @@ ALTER TABLE `attendance_count`
 -- Santhosh 20 Jan 2020
   
 ALTER TABLE `attendance_count` ADD `event_date` DATE NULL AFTER `event_id`; 
+
+-- Santhosh 23 Jan 2020
+
+INSERT INTO `comm_templates` (`id`, `tag`, `name`, `subject`, `body`, `org_id`, `createdBy`, `created_at`, `updatedBy`, `updated_at`, `deletedBy`, `deleted_at`) VALUES (NULL, 'forgot_password', 'Forgot Password', 'Forgot Password', 'Click the link below and you'll be redirected to a page from which you can set a new password.', '0', NULL, CURRENT_TIMESTAMP, NULL, NULL, NULL, NULL);
+
