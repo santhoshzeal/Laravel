@@ -78,6 +78,11 @@
 												</div>
 											 </div>
 										   </div>
+										   <?php
+										   //echo $userRole;
+										   //echo $userId;
+										    if($userRole !== "member"){
+										   ?>
 										   
 										   <div class="form-group row">
 											<label for="example-date-input" class="col-sm-2 col-form-label">Users</label>
@@ -90,9 +95,26 @@
 											</select>
 											</div>
 										   </div>
+											<?php
+											 }
+											 else
+											 {
+											?>
+											
+											<div class="form-group row">
+											
+											  <input class="form-control" type="hidden" value="<?php echo $userId; ?>" id="user_id" name="user_id">
+											  
+											</div>
+									    
+										  <?php
+  										     } 
+										 
+										     if($userRole !== "member") {
+												
+										    ?>
 										
-										
-                                     <div id="dvUser" style="display: block">
+                                       <div id="dvUser" style="display: block">
 										<div class="form-group row">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
@@ -137,7 +159,22 @@
 												name="mobile_no" >
                                             </div>
                                         </div>
-	</div>
+	                                    </div>
+										
+										<?php
+										 }
+										 else
+										 {
+										?>
+                                        <input class="form-control" type="hidden" value="" id="email" name="email">
+                                        <input class="form-control" type="hidden" value="" id="first_name" name="first_name">
+                                        <input class="form-control" type="hidden" value="" id="middle_name" name="middle_name">
+                                        <input class="form-control" type="hidden" value="" id="last_name" name="last_name">
+                                        <input class="form-control" type="hidden" value="" id="mobile_no" name="mobile_no">
+										<?php										 
+										 }
+										?>
+									
 
                                         <div class="form-group row">
 											<label for="example-date-input" class="col-sm-2 col-form-label">Payment Mode</label>

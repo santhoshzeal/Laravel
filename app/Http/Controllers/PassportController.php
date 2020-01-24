@@ -160,10 +160,10 @@ class PassportController extends Controller {
 					
 					$pwd_url = url("/") . "/changecustomerpassword/".$User->id;
 					
-					$message ="<b>Password Recovery</b>"."<br><br>";
+					$message ="<h3>Password Recovery</h3>"."<br/>";
 		            $message.= "Hello,<br>";		
-					$message.= "<h3>".$template_body."</h3><br />";
-					$message.= '<a href="' . $pwd_url . '" class="btn bg-blue btn-block">Reset Password</a><br>';
+					$message.= "<h4>".$template_body."</h4><br />";
+					$message.= '<a href="' . $pwd_url . '" class="btn bg-blue btn-block">Reset Password</a><br/><br />';
 					$message.= 'Thanks!<br />';	
 		
 
@@ -214,8 +214,12 @@ class PassportController extends Controller {
      */
     public function changeCustomerPassword(Request $request) {
 		
-        $this->browserTitle = Config::get('constants.BROWSERTITLE');
+		
+		//dd($request->segment(2));
+		
         $data['title'] = $this->browserTitle . " - Change Customer Password";
+		
+		$data['crudOrganizationData'] = $this->crudOrganizationData;
 		
 		$data['getUserListsCount'] = 0;
         $data['getUserLists'] = '';
@@ -223,7 +227,9 @@ class PassportController extends Controller {
         if($request->segment(2) > 0) {
 			
             $whereArray = array('id'=>$request->segment(2));			
-            $getUserLists = UserMaster::crudUserMaster($whereArray,null,null,null,null,'1')->get();
+            $getUserLists = UserMaster::crudUserMaster($whereArray,null,null,null,null,null,null,'1')->get();
+			
+			//dd($getUserLists);
 			
 			$data['getUserListsCount'] = $getUserLists->count();
             $data['getUserLists'] = $getUserLists[0];
@@ -271,7 +277,7 @@ class PassportController extends Controller {
             dd("error",$e);
             //return redirect('/banker_dashboard#tab_3/error');
         }
-        return redirect('login');
+        return redirect('/');
     }
 	
 	

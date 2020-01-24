@@ -83,6 +83,10 @@ class GivingController extends Controller
 		
 		//$data['user_id'] = Auth::id();
 		
+		$data['userRole'] = $this->userSessionData['umUserRoleTag'];
+		
+		$data['userId'] = $this->userSessionData['umId'];
+		
 		$data['orgId'] = $this->userSessionData['umOrgId'];
 		
 		$wherArray = array('orgId'=> $this->userSessionData['umOrgId']);
